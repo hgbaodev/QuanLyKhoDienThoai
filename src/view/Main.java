@@ -33,7 +33,7 @@ public class Main extends javax.swing.JFrame {
     private NavigationBar navbar;
 
     private void initComponent() {
-        this.setSize(new Dimension(1400, 900));
+        this.setSize(new Dimension(1400, 800));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(0, 0));
 
