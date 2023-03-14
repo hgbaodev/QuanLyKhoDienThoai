@@ -36,6 +36,8 @@ public class Main extends javax.swing.JFrame {
         this.setSize(new Dimension(1400, 800));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(0, 0));
+        this.setTitle("Hệ thống quản lý kho hàng ");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         lbl = new JLabel("JAVA THẦY SANG - HỌC LÀ SỬNG SỐT, CODE LÀ GHIỀN LIỀN"
                 + "                nguyenthanhsangsgu@gmail.com");
@@ -59,12 +61,12 @@ public class Main extends javax.swing.JFrame {
         MainContent = new JPanel();
         MainContent.setBackground(MainColor);
         MainContent.setLayout(new BorderLayout(0, 0));
-
-        this.add(MainContent, BorderLayout.CENTER);
-
+        
         trangChu = new TrangChu();
         trangChu.setPreferredSize(new Dimension(1100, 850));
-        MainContent.add(trangChu);
+        JScrollPane jc = new JScrollPane(trangChu);
+        MainContent.add(jc);
+        this.add(MainContent, BorderLayout.CENTER);
 
         menuTaskbar.pnl[0].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
