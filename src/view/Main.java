@@ -68,16 +68,16 @@ public class Main extends javax.swing.JFrame {
         MainContent.add(jc);
         this.add(MainContent, BorderLayout.CENTER);
 
-        menuTaskbar.pnl[0].addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                trangChu = new TrangChu();
-                MainContent.removeAll();
-                MainContent.add(trangChu).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
-            }
-        });
+//        menuTaskbar.pnl[0].addMouseListener(new java.awt.event.MouseAdapter() {
+//            @Override
+//            public void mousePressed(java.awt.event.MouseEvent evt) {
+//                trangChu = new TrangChu();
+//                MainContent.removeAll();
+//                MainContent.add(trangChu).setVisible(true);
+//                MainContent.repaint();
+//                MainContent.validate();
+//            }
+//        });
 
         menuTaskbar.pnl[1].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
