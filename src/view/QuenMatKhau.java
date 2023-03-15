@@ -142,6 +142,7 @@ public class QuenMatKhau extends JDialog implements ActionListener {
         if(e.getSource() == btnSendMail) {    
             c.next(jpMain);
             SendEmailSMTP.sendOTP("transinh085@gmail.com", SendEmailSMTP.getOTP());
+            //Test pull github
         }
     }
 }
