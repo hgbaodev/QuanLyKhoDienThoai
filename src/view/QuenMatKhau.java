@@ -139,9 +139,9 @@ public class QuenMatKhau extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         CardLayout c = (CardLayout) jpMain.getLayout();
         c.next(jpMain);
-//        if(e.getSource() == btnSendMail) {    
-//            c.next(jpMain);
-////            SendEmailSMTP.sendOTP("transinh085@gmail.com", SendEmailSMTP.getOTP());
-//        }
+        if(e.getSource() == btnSendMail) {    
+            c.next(jpMain);
+            SendEmailSMTP.sendOTP("transinh085@gmail.com", SendEmailSMTP.getOTP());
+        }
     }
 }

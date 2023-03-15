@@ -39,7 +39,7 @@ public class Main extends javax.swing.JFrame {
         this.setTitle("Hệ thống quản lý kho hàng ");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        lbl = new JLabel("JAVA THẦY SANG - HỌC LÀ SỬNG SỐT, CODE LÀ GHIỀN LIỀN"
+        lbl = new JLabel("Quản lý kho hàng hoá"
                 + "                nguyenthanhsangsgu@gmail.com");
         lbl.setBounds(10, 10, 100, 20);
         lbl.setFont(new Font("Segoe UI", Font.BOLD, 14));
