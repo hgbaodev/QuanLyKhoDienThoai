@@ -23,6 +23,8 @@ public class SanPham extends JPanel {
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
+        // pnlTop, pnlBottom, pnlLeft, pnlRight chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
+        
         pnlTop = new JPanel();
         pnlTop.setPreferredSize(new Dimension(0, 40));
         pnlTop.setBackground(BackgroundColor);
@@ -49,6 +51,8 @@ public class SanPham extends JPanel {
         contentCenter.setLayout(new BorderLayout(20, 20));
         this.add(contentCenter, BorderLayout.CENTER);
 
+        // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
+        
         functionBar = new PanelBorderRadius();
         functionBar.setPreferredSize(new Dimension(0, 200));
         functionBar.setLayout(new FlowLayout(1, 15, 40));
@@ -61,6 +65,8 @@ public class SanPham extends JPanel {
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
+        // main là phần ở dưới để thống kê bảng biểu
+        
         main = new PanelBorderRadius();
         main.setLayout(new FlowLayout(1, 0, 15));
         contentCenter.add(main, BorderLayout.CENTER);
