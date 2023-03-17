@@ -41,11 +41,11 @@ public class MenuTaskbar extends JPanel {
         lblIcon = new JLabel[n];
 
         // bar1, bar2, bar3, bar4 là các đường kẻ mỏng giữa taskbarMenu và MainContent
-        bar1 = new JPanel();
-        bar1.setBackground(new Color(204, 214, 219));
-        bar1.setPreferredSize(new Dimension(1, 10));
-        this.add(bar1, BorderLayout.EAST);
-
+//        bar1 = new JPanel();
+//        bar1.setBackground(new Color(204, 214, 219));
+//        bar1.setPreferredSize(new Dimension(1, 10));
+//        this.add(bar1, BorderLayout.EAST);
+//
         pnlTop = new JPanel();
         pnlTop.setPreferredSize(new Dimension(250, 80));
         pnlTop.setBackground(DefaultColor);
@@ -56,15 +56,15 @@ public class MenuTaskbar extends JPanel {
         info.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/permission.png")));
         pnlTop.add(info);
 
-        bar2 = new JPanel();
-        bar2.setBackground(new Color(204, 214, 219));
-        bar2.setPreferredSize(new Dimension(1, 1));
-        pnlTop.add(bar2, BorderLayout.EAST);
-
-        bar3 = new JPanel();
-        bar3.setBackground(new Color(204, 214, 219));
-        bar3.setPreferredSize(new Dimension(1, 1));
-        pnlTop.add(bar3, BorderLayout.SOUTH);
+//        bar2 = new JPanel();
+//        bar2.setBackground(new Color(204, 214, 219));
+//        bar2.setPreferredSize(new Dimension(1, 1));
+//        pnlTop.add(bar2, BorderLayout.EAST);
+//
+//        bar3 = new JPanel();
+//        bar3.setBackground(new Color(204, 214, 219));
+//        bar3.setPreferredSize(new Dimension(1, 1));
+//        pnlTop.add(bar3, BorderLayout.SOUTH);
 
         pnlTop.add(info);
 
@@ -90,10 +90,10 @@ public class MenuTaskbar extends JPanel {
         pnlBottom.setBackground(DefaultColor);
         pnlBottom.setLayout(new BorderLayout(0, 0));
 
-        bar4 = new JPanel();
-        bar4.setBackground(new Color(204, 214, 219));
-        bar4.setPreferredSize(new Dimension(1, 1));
-        pnlBottom.add(bar4, BorderLayout.EAST);
+//        bar4 = new JPanel();
+//        bar4.setBackground(new Color(204, 214, 219));
+//        bar4.setPreferredSize(new Dimension(1, 1));
+//        pnlBottom.add(bar4, BorderLayout.EAST);
 
         this.add(pnlBottom, BorderLayout.SOUTH);
 

@@ -1,42 +1,102 @@
 package view;
 
+import component.IntegratedSearch;
+import component.MainFunction;
 import java.awt.*;
 import javax.swing.*;
 import swing.PanelBorderRadius;
 
 public class SanPham extends JPanel {
 
-    PanelBorderRadius contentTop, contentCenter;
+    PanelBorderRadius box1, box2, main, functionBar;
+    JPanel pnlTop, pnlBottom, pnlLeft, pnlRight, contentCenter;
     JTable tableSanPham;
-    
+    JScrollPane scrollTableSanPham;
+    MainFunction mainFunction;
+    IntegratedSearch search;
+    JLabel lbl1, lblImage;
+
     Color BackgroundColor = new Color(240, 247, 250);
 
     private void initComponent() {
         this.setBackground(BackgroundColor);
-        this.setLayout(new FlowLayout(1, 0, 15));
+        this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
-        contentTop = new PanelBorderRadius();
-        contentTop.setPreferredSize(new Dimension(1100, 200));
-        this.add(contentTop);
+        pnlTop = new JPanel();
+        pnlTop.setPreferredSize(new Dimension(0, 40));
+        pnlTop.setBackground(BackgroundColor);
+        this.add(pnlTop, BorderLayout.NORTH);
 
-        contentCenter = new PanelBorderRadius();
+        pnlBottom = new JPanel();
+        pnlBottom.setPreferredSize(new Dimension(0, 40));
+        pnlBottom.setBackground(BackgroundColor);
+        this.add(pnlBottom, BorderLayout.SOUTH);
+
+        pnlLeft = new JPanel();
+        pnlLeft.setPreferredSize(new Dimension(40, 0));
+        pnlLeft.setBackground(BackgroundColor);
+        this.add(pnlLeft, BorderLayout.EAST);
+
+        pnlRight = new JPanel();
+        pnlRight.setPreferredSize(new Dimension(40, 0));
+        pnlRight.setBackground(BackgroundColor);
+        this.add(pnlRight, BorderLayout.WEST);
+
+        contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
-        contentCenter.setLayout(new FlowLayout(1,20,20));
-        this.add(contentCenter);
-        
-        String[][] data = {
-            {"Hoang Gia Bao", "2003", "Binh Dinh"},
-            {"Dinh Ngoc An", "2003", "Tp HCM"}
-        };
-        
-        String[] colummNames = {"Ho Ten", "Nam Sinh", "Que Quan"};
-        JScrollPane sr = new JScrollPane();
-        
-        tableSanPham = new JTable(data, colummNames);
-        tableSanPham.setPreferredSize(new Dimension(500,500));
-        sr.add(tableSanPham);
-        contentCenter.add(sr);
+        contentCenter.setBackground(BackgroundColor);
+        contentCenter.setLayout(new BorderLayout(20, 20));
+        this.add(contentCenter, BorderLayout.CENTER);
+
+        functionBar = new PanelBorderRadius();
+        functionBar.setPreferredSize(new Dimension(0, 200));
+        functionBar.setLayout(new FlowLayout(1, 15, 40));
+
+        mainFunction = new MainFunction();
+        functionBar.add(mainFunction);
+
+        search = new IntegratedSearch();
+        functionBar.add(search);
+
+        contentCenter.add(functionBar, BorderLayout.NORTH);
+
+        main = new PanelBorderRadius();
+        main.setLayout(new FlowLayout(1, 0, 15));
+        contentCenter.add(main, BorderLayout.CENTER);
+
+        lbl1 = new JLabel("BẢNG THỐNG KÊ SẢN PHẨM");
+        lbl1.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
+        lbl1.setPreferredSize(new Dimension(600,22));
+        main.add(lbl1);
+
+        tableSanPham = new JTable();
+        scrollTableSanPham = new JScrollPane();
+
+        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
+
+        scrollTableSanPham.setPreferredSize(new Dimension(1000, 450));
+
+        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                    {"001", "Chin", "quan lý", "2003"},
+                    {"002", "Công", "nhan zien", "2001"},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String[]{
+                    "Mã số", "Họ tên", "Chức vụ", "Năm Sinh"
+                }
+        ));
+        scrollTableSanPham.setViewportView(tableSanPham);
+
+        main.add(scrollTableSanPham);
+
+        lblImage = new JLabel();
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sanPham.jpg")));
+        lblImage.setPreferredSize(new Dimension(500, 500));
+        main.add(lblImage);
+
     }
 
     public SanPham() {
