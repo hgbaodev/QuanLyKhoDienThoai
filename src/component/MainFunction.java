@@ -10,7 +10,6 @@ public class MainFunction extends JToolBar {
 
     private void initComponent() {
         this.setBackground(Color.WHITE);
-        this.setPreferredSize(new Dimension(450, 120));
         this.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14)));
         this.setRollover(true);
 
@@ -54,8 +53,8 @@ public class MainFunction extends JToolBar {
         btnDetail.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         this.add(btnDetail);
 
-        separator1 = new JSeparator(SwingConstants.VERTICAL);
-        this.add(separator1);
+//        separator1 = new JSeparator(SwingConstants.VERTICAL);
+//        this.add(separator1);
 
         btnNhapExcel = new JButton();
         btnNhapExcel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
