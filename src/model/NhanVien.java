@@ -3,10 +3,6 @@ package model;
 import java.util.Date;
 import java.util.Objects;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
 public class NhanVien {
     private int manhanvien;
     private String hoten;

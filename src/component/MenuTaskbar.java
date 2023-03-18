@@ -3,10 +3,7 @@ package component;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.*;
 import javax.swing.*;
-import swing.PanelShadow;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseAdapter;
+
 
 public class MenuTaskbar extends JPanel {
 
@@ -131,11 +128,12 @@ public class MenuTaskbar extends JPanel {
             pnl[i].addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    pnlMenuTaskbarMouseEntered(evt);
+                    
                 }
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     pnlMenuTaskbarMouseClicked(evt);
+                    pnlMenuTaskbarMouseEntered(evt);
                 }
 
             });
