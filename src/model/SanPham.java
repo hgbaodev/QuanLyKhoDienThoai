@@ -11,30 +11,25 @@ import java.util.Objects;
  * @author 84907
  */
 public class SanPham {
-    private String masp;
+    private int masp;
     private String tensp;
     private String xuatxu;
-    private float gianhap;
-    private float giaxuat;
-    private String url_img;
+    private double gianhap;
+    private double giaban;
+    private String hinhanh;
+    private int maDVT;
+    private int maloaihang;
+    private int makhuvuc;
+    
 
     public SanPham() {
     }
 
-    public SanPham(String masp, String tensp, String xuatxu, float gianhap, float giaxuat, String url_img) {
-        this.masp = masp;
-        this.tensp = tensp;
-        this.xuatxu = xuatxu;
-        this.gianhap = gianhap;
-        this.giaxuat = giaxuat;
-        this.url_img = url_img;
-    }
-
-    public String getMasp() {
+    public int getMasp() {
         return masp;
     }
 
-    public void setMasp(String masp) {
+    public void setMasp(int masp) {
         this.masp = masp;
     }
 
@@ -54,39 +49,78 @@ public class SanPham {
         this.xuatxu = xuatxu;
     }
 
-    public float getGianhap() {
+    public double getGianhap() {
         return gianhap;
     }
 
-    public void setGianhap(float gianhap) {
+    public void setGianhap(double gianhap) {
         this.gianhap = gianhap;
     }
 
-    public float getGiaxuat() {
-        return giaxuat;
+    public double getGiaban() {
+        return giaban;
     }
 
-    public void setGiaxuat(float giaxuat) {
-        this.giaxuat = giaxuat;
+    public void setGiaban(double giaban) {
+        this.giaban = giaban;
     }
 
-    public String getUrl_img() {
-        return url_img;
+    public String getHinhanh() {
+        return hinhanh;
     }
 
-    public void setUrl_img(String url_img) {
-        this.url_img = url_img;
+    public void setHinhanh(String hinhanh) {
+        this.hinhanh = hinhanh;
+    }
+
+    public int getMaDVT() {
+        return maDVT;
+    }
+
+    public void setMaDVT(int maDVT) {
+        this.maDVT = maDVT;
+    }
+
+    public int getMaloaihang() {
+        return maloaihang;
+    }
+
+    public void setMaloaihang(int maloaihang) {
+        this.maloaihang = maloaihang;
+    }
+
+    public int getMakhuvuc() {
+        return makhuvuc;
+    }
+
+    public void setMakhuvuc(int makhuvuc) {
+        this.makhuvuc = makhuvuc;
+    }
+
+    public SanPham(int masp, String tensp, String xuatxu, double gianhap, double giaban, String hinhanh, int maDVT, int maloaihang, int makhuvuc) {
+        this.masp = masp;
+        this.tensp = tensp;
+        this.xuatxu = xuatxu;
+        this.gianhap = gianhap;
+        this.giaban = giaban;
+        this.hinhanh = hinhanh;
+        this.maDVT = maDVT;
+        this.maloaihang = maloaihang;
+        this.makhuvuc = makhuvuc;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 13 * hash + Objects.hashCode(this.masp);
-        hash = 13 * hash + Objects.hashCode(this.tensp);
-        hash = 13 * hash + Objects.hashCode(this.xuatxu);
-        hash = 13 * hash + Float.floatToIntBits(this.gianhap);
-        hash = 13 * hash + Float.floatToIntBits(this.giaxuat);
-        hash = 13 * hash + Objects.hashCode(this.url_img);
+        hash = 47 * hash + this.masp;
+        hash = 47 * hash + Objects.hashCode(this.tensp);
+        hash = 47 * hash + Objects.hashCode(this.xuatxu);
+        hash = 47 * hash + (int) (Double.doubleToLongBits(this.gianhap) ^ (Double.doubleToLongBits(this.gianhap) >>> 32));
+        hash = 47 * hash + (int) (Double.doubleToLongBits(this.giaban) ^ (Double.doubleToLongBits(this.giaban) >>> 32));
+        hash = 47 * hash + Objects.hashCode(this.hinhanh);
+        hash = 47 * hash + this.maDVT;
+        hash = 47 * hash + this.maloaihang;
+        hash = 47 * hash + this.makhuvuc;
         return hash;
     }
 
@@ -107,7 +141,9 @@ public class SanPham {
 
     @Override
     public String toString() {
-        return "SanPham{" + "masp=" + masp + ", tensp=" + tensp + ", xuatxu=" + xuatxu + ", gianhap=" + gianhap + ", giaxuat=" + giaxuat + ", url_img=" + url_img + '}';
+        return "SanPham{" + "masp=" + masp + ", tensp=" + tensp + ", xuatxu=" + xuatxu + ", gianhap=" + gianhap + ", giaban=" + giaban + ", hinhanh=" + hinhanh + ", maDVT=" + maDVT + ", maloaihang=" + maloaihang + ", makhuvuc=" + makhuvuc + '}';
     }
-    
+
 }
+
+    
