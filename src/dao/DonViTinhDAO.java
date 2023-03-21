@@ -20,7 +20,6 @@ public class DonViTinhDAO implements DAOinterface<DonViTinh>{
         return new DonViTinhDAO();
     }
 
-
     @Override
     public int insert(DonViTinh t) {
       int result = 0 ;
@@ -30,7 +29,6 @@ public class DonViTinhDAO implements DAOinterface<DonViTinh>{
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMaDVT());
             pst.setString(2, t.getTenDVT());
-            
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
