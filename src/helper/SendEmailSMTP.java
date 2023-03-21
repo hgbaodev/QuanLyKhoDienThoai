@@ -1,4 +1,4 @@
-package GUI;
+package helper;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

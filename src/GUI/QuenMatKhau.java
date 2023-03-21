@@ -1,6 +1,7 @@
 
 package GUI;
 
+import helper.SendEmailSMTP;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;

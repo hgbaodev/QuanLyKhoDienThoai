@@ -6,7 +6,6 @@ import javax.swing.*;
 import component.MenuTaskbar;
 import component.NavigationBar;
 
-
 public class Main extends javax.swing.JFrame {
 
     JPanel pnlThanhDuoi, MainContent;
@@ -57,7 +56,7 @@ public class Main extends javax.swing.JFrame {
         MainContent = new JPanel();
         MainContent.setBackground(MainColor);
         MainContent.setLayout(new BorderLayout(0, 0));
-        
+
         trangChu = new TrangChu();
         trangChu.setPreferredSize(new Dimension(1100, 850));
         JScrollPane jc = new JScrollPane(trangChu);
@@ -177,11 +176,10 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        
-                menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
+
+        menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                 
 
             }
         });
