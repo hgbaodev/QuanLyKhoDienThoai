@@ -198,7 +198,6 @@ public class Main extends javax.swing.JFrame {
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
-
         Main main = new Main();
         main.setVisible(true);
     }
