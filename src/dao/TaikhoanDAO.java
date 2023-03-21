@@ -67,7 +67,7 @@ public class TaikhoanDAO implements DAOinterface<Taikhoan>{
          int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM taikhoan WHERE eamil = '?'";
+            String sql = "DELETE FROM taikhoan WHERE email = '?'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();

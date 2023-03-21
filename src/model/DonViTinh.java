@@ -1,45 +1,44 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package model;
 
 import java.util.Objects;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
 public class DonViTinh {
-
-    private int madonvi;
-    private String tendonvi;
+    private int maDVT;
+    private String tenDVT;
 
     public DonViTinh() {
     }
 
-    public DonViTinh(int madonvi, String tendonvi) {
-        this.madonvi = madonvi;
-        this.tendonvi = tendonvi;
+    public DonViTinh(int maDVT, String tenDVT) {
+        this.maDVT = maDVT;
+        this.tenDVT = tenDVT;
     }
 
-    public int getMadonvi() {
-        return madonvi;
+    public int getMaDVT() {
+        return maDVT;
     }
 
-    public void setMadonvi(int madonvi) {
-        this.madonvi = madonvi;
+    public void setMaDVT(int maDVT) {
+        this.maDVT = maDVT;
     }
 
-    public String getTendonvi() {
-        return tendonvi;
+    public String getTenDVT() {
+        return tenDVT;
     }
 
-    public void setTendonvi(String tendonvi) {
-        this.tendonvi = tendonvi;
+    public void setTenDVT(String tenDVT) {
+        this.tenDVT = tenDVT;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + this.madonvi;
-        hash = 71 * hash + Objects.hashCode(this.tendonvi);
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.maDVT);
+        hash = 47 * hash + Objects.hashCode(this.tenDVT);
         return hash;
     }
 
@@ -55,17 +54,12 @@ public class DonViTinh {
             return false;
         }
         final DonViTinh other = (DonViTinh) obj;
-        if (this.madonvi != other.madonvi) {
-            return false;
-        }
-        return Objects.equals(this.tendonvi, other.tendonvi);
+        return true;
     }
 
     @Override
     public String toString() {
-        return "DonViTinh{" + "madonvi=" + madonvi + ", tendonvi=" + tendonvi + '}';
+        return "DonViTinh{" + "maDVT=" + maDVT + ", tenDVT=" + tenDVT + '}';
     }
-
-    
     
 }
