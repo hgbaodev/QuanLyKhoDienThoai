@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -41,6 +42,8 @@ public class PhanQuyen extends JFrame {
         txtTennhomquyen.setPreferredSize(new Dimension(150,35));
         jpTop.add(lblTennhomquyen,BorderLayout.WEST);
         jpTop.add(txtTennhomquyen,BorderLayout.CENTER);
+        
+        HashMap<String, String[]> capitalCities = new HashMap<String, String[]>();
 
         this.add(jpTop,BorderLayout.NORTH);
         this.setVisible(true);
