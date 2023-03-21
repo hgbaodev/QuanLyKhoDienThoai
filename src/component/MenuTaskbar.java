@@ -29,6 +29,8 @@ public class MenuTaskbar extends JPanel {
 
     private void initComponent() {
         FlatLightLaf.setup();
+                System.setProperty("sun.java2d.uiScale", "1.0");
+
         this.setOpaque(true);
         this.setBackground(DefaultColor);
         this.setLayout(new BorderLayout(0, 0));
