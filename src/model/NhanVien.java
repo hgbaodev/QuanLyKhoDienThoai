@@ -7,38 +7,30 @@ package model;
 import java.util.Date;
 import java.util.Objects;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
 public class NhanVien {
-    private int manhanvien;
+    private int manv;
     private String hoten;
-    private Boolean gioitinh;
+    private String gioitinh;
     private Date ngaysinh;
-    private String sodienthoai;
-    private String cccd;
     private String email;
 
     public NhanVien() {
     }
 
-    public NhanVien(int manhanvien, String hoten, Boolean gioitinh, Date ngaysinh, String sodienthoai, String cccd, String email) {
-        this.manhanvien = manhanvien;
+    public NhanVien(int manv, String hoten, String gioitinh, Date ngaysinh, String email) {
+        this.manv = manv;
         this.hoten = hoten;
         this.gioitinh = gioitinh;
         this.ngaysinh = ngaysinh;
-        this.sodienthoai = sodienthoai;
-        this.cccd = cccd;
         this.email = email;
     }
 
-    public int getManhanvien() {
-        return manhanvien;
+    public int getManv() {
+        return manv;
     }
 
-    public void setManhanvien(int manhanvien) {
-        this.manhanvien = manhanvien;
+    public void setManv(int manv) {
+        this.manv = manv;
     }
 
     public String getHoten() {
@@ -49,11 +41,11 @@ public class NhanVien {
         this.hoten = hoten;
     }
 
-    public Boolean getGioitinh() {
+    public String getGioitinh() {
         return gioitinh;
     }
 
-    public void setGioitinh(Boolean gioitinh) {
+    public void setGioitinh(String gioitinh) {
         this.gioitinh = gioitinh;
     }
 
@@ -63,22 +55,6 @@ public class NhanVien {
 
     public void setNgaysinh(Date ngaysinh) {
         this.ngaysinh = ngaysinh;
-    }
-
-    public String getSodienthoai() {
-        return sodienthoai;
-    }
-
-    public void setSodienthoai(String sodienthoai) {
-        this.sodienthoai = sodienthoai;
-    }
-
-    public String getCccd() {
-        return cccd;
-    }
-
-    public void setCccd(String cccd) {
-        this.cccd = cccd;
     }
 
     public String getEmail() {
@@ -92,13 +68,11 @@ public class NhanVien {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + this.manhanvien;
-        hash = 83 * hash + Objects.hashCode(this.hoten);
-        hash = 83 * hash + Objects.hashCode(this.gioitinh);
-        hash = 83 * hash + Objects.hashCode(this.ngaysinh);
-        hash = 83 * hash + Objects.hashCode(this.sodienthoai);
-        hash = 83 * hash + Objects.hashCode(this.cccd);
-        hash = 83 * hash + Objects.hashCode(this.email);
+        hash = 17 * hash + this.manv;
+        hash = 17 * hash + Objects.hashCode(this.hoten);
+        hash = 17 * hash + Objects.hashCode(this.gioitinh);
+        hash = 17 * hash + Objects.hashCode(this.ngaysinh);
+        hash = 17 * hash + Objects.hashCode(this.email);
         return hash;
     }
 
@@ -114,29 +88,12 @@ public class NhanVien {
             return false;
         }
         final NhanVien other = (NhanVien) obj;
-        if (this.manhanvien != other.manhanvien) {
-            return false;
-        }
-        if (!Objects.equals(this.hoten, other.hoten)) {
-            return false;
-        }
-        if (!Objects.equals(this.sodienthoai, other.sodienthoai)) {
-            return false;
-        }
-        if (!Objects.equals(this.cccd, other.cccd)) {
-            return false;
-        }
-        if (!Objects.equals(this.email, other.email)) {
-            return false;
-        }
-        if (!Objects.equals(this.gioitinh, other.gioitinh)) {
-            return false;
-        }
-        return Objects.equals(this.ngaysinh, other.ngaysinh);
+        return true;
     }
 
     @Override
     public String toString() {
-        return "NhanVien{" + "manhanvien=" + manhanvien + ", hoten=" + hoten + ", gioitinh=" + gioitinh + ", ngaysinh=" + ngaysinh + ", sodienthoai=" + sodienthoai + ", cccd=" + cccd + ", email=" + email + '}';
+        return "NhanVien{" + "manv=" + manv + ", hoten=" + hoten + ", gioitinh=" + gioitinh + ", ngaysinh=" + ngaysinh + ", email=" + email + '}';
     }
+    
 }

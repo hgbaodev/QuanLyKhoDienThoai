@@ -6,43 +6,38 @@ package model;
 
 import java.util.Objects;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
 public class NhaCungCap {
-
-    private int manhacungcap;
-    private String tennhacungcap;
+    private int mancc;
+    private String tenncc;
     private String diachi;
     private String email;
-    private String sodienthoai;
+    private String sdt;
 
     public NhaCungCap() {
     }
 
-    public NhaCungCap(int manhacungcap, String tennhacungcap, String diachi, String email, String sodienthoai) {
-        this.manhacungcap = manhacungcap;
-        this.tennhacungcap = tennhacungcap;
+    public NhaCungCap(int mancc, String tenncc, String diachi, String email, String sdt) {
+        this.mancc = mancc;
+        this.tenncc = tenncc;
         this.diachi = diachi;
         this.email = email;
-        this.sodienthoai = sodienthoai;
+        this.sdt = sdt;
     }
 
-    public int getManhacungcap() {
-        return manhacungcap;
+    public int getMancc() {
+        return mancc;
     }
 
-    public void setManhacungcap(int manhacungcap) {
-        this.manhacungcap = manhacungcap;
+    public void setMancc(int mancc) {
+        this.mancc = mancc;
     }
 
-    public String getTennhacungcap() {
-        return tennhacungcap;
+    public String getTenncc() {
+        return tenncc;
     }
 
-    public void setTennhacungcap(String tennhacungcap) {
-        this.tennhacungcap = tennhacungcap;
+    public void setTenncc(String tenncc) {
+        this.tenncc = tenncc;
     }
 
     public String getDiachi() {
@@ -61,22 +56,22 @@ public class NhaCungCap {
         this.email = email;
     }
 
-    public String getSodienthoai() {
-        return sodienthoai;
+    public String getSdt() {
+        return sdt;
     }
 
-    public void setSodienthoai(String sodienthoai) {
-        this.sodienthoai = sodienthoai;
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + this.manhacungcap;
-        hash = 67 * hash + Objects.hashCode(this.tennhacungcap);
+        int hash = 3;
+        hash = 67 * hash + this.mancc;
+        hash = 67 * hash + Objects.hashCode(this.tenncc);
         hash = 67 * hash + Objects.hashCode(this.diachi);
         hash = 67 * hash + Objects.hashCode(this.email);
-        hash = 67 * hash + Objects.hashCode(this.sodienthoai);
+        hash = 67 * hash + Objects.hashCode(this.sdt);
         return hash;
     }
 
@@ -92,25 +87,12 @@ public class NhaCungCap {
             return false;
         }
         final NhaCungCap other = (NhaCungCap) obj;
-        if (this.manhacungcap != other.manhacungcap) {
-            return false;
-        }
-        if (!Objects.equals(this.tennhacungcap, other.tennhacungcap)) {
-            return false;
-        }
-        if (!Objects.equals(this.diachi, other.diachi)) {
-            return false;
-        }
-        if (!Objects.equals(this.email, other.email)) {
-            return false;
-        }
-        return Objects.equals(this.sodienthoai, other.sodienthoai);
+        return true;
     }
 
     @Override
     public String toString() {
-        return "NhaCungCap{" + "manhacungcap=" + manhacungcap + ", tennhacungcap=" + tennhacungcap + ", diachi=" + diachi + ", email=" + email + ", sodienthoai=" + sodienthoai + '}';
+        return "NhaCungCap{" + "mancc=" + mancc + ", tenncc=" + tenncc + ", diachi=" + diachi + ", email=" + email + ", sdt=" + sdt + '}';
     }
-
     
 }
