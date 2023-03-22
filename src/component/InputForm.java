@@ -34,4 +34,8 @@ public class InputForm extends JPanel {
     public String getText() {
         return txtForm.getText();
     }
+    
+    public void setText(String content) {
+        txtForm.setText(content);
+    }
 }

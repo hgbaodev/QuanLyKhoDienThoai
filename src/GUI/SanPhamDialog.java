@@ -12,9 +12,12 @@ import component.SelectForm;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -29,7 +32,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Tran Nhat Sinh
  */
-public class SanPhamDialog extends JFrame {
+public class SanPhamDialog extends JFrame{
 
     private HeaderTitle titlePage;
     private JPanel pnmain, pnbottom;
@@ -76,4 +79,5 @@ public class SanPhamDialog extends JFrame {
         UIManager.setLookAndFeel(new FlatLightLaf());
         new SanPhamDialog();
     }
+   
 }

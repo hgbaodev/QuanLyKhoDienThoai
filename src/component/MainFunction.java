@@ -1,14 +1,13 @@
 package component;
 
+import GUI.SanPham;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.*;
 
-public class MainFunction extends JToolBar implements MouseListener{
-
+public class MainFunction extends JToolBar{
+    SanPham a;
     JButton btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel;
     JSeparator separator1;
     String hanhdong;
@@ -92,9 +91,19 @@ public class MainFunction extends JToolBar implements MouseListener{
         btnNhapExcel.addMouseListener(this);
         btnXuatExcel.addMouseListener(this);
     }
+    
+    public void setupEvent() {
+        btnAdd.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                a.add();
+            }
+        });
+    }
 
-    public MainFunction() {
+    public MainFunction(SanPham a) {
         initComponent();
+        this.a = a;
+        setupEvent();      
     }
 
   

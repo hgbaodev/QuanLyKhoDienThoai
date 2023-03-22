@@ -56,7 +56,7 @@ public class SanPham extends JPanel {
         functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1,2));
 
-        mainFunction = new MainFunction();
+        mainFunction = new MainFunction(this);
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch();
@@ -100,4 +100,8 @@ public class SanPham extends JPanel {
         initComponent();
     }
 
+    
+    public void add() {
+        JOptionPane.showMessageDialog(null, "Sanr pham");
+    }
 }
