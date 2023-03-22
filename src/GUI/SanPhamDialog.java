@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -31,7 +32,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Tran Nhat Sinh
  */
-public class SanPhamDialog extends JFrame implements ActionListener{
+public class SanPhamDialog extends JFrame{
 
     private HeaderTitle titlePage;
     private JPanel pnmain, pnbottom;
@@ -78,9 +79,5 @@ public class SanPhamDialog extends JFrame implements ActionListener{
         UIManager.setLookAndFeel(new FlatLightLaf());
         new SanPhamDialog();
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
 }

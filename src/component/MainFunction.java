@@ -1,10 +1,13 @@
 package component;
 
+import GUI.SanPham;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class MainFunction extends JToolBar {
-
+public class MainFunction extends JToolBar{
+    SanPham a;
     JButton btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel;
     JSeparator separator1;
     
@@ -81,8 +84,18 @@ public class MainFunction extends JToolBar {
         this.add(btnXuatExcel);
 
     }
+    
+    public void setupEvent() {
+        btnAdd.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                a.add();
+            }
+        });
+    }
 
-    public MainFunction() {
+    public MainFunction(SanPham a) {
         initComponent();
+        this.a = a;
+        setupEvent();      
     }
 }
