@@ -12,6 +12,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -77,9 +78,12 @@ public class PhanQuyen extends JFrame implements ActionListener {
         jpTop.add(txtTennhomquyen, BorderLayout.CENTER);
 
         // Hiển thị danh mục chức năng
-        jpLeft = new JPanel(new GridLayout(dmcn.size(), 1));
+        jpLeft = new JPanel(new GridLayout(dmcn.size() + 1, 1));
         jpLeft.setBackground(Color.WHITE);
-        jpLeft.setBorder(new EmptyBorder(0, 20, 0, 20));
+        jpLeft.setBorder(new EmptyBorder(0, 20, 0, 14)); 
+        JLabel dmcnl = new JLabel("Danh mục chức năng ");
+        dmcnl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        jpLeft.add(dmcnl);
         for (DanhMucChucNang i : dmcn) {
             JLabel lblTenchucnang = new JLabel(i.getTenchucnang());
             jpLeft.add(lblTenchucnang);
@@ -87,12 +91,17 @@ public class PhanQuyen extends JFrame implements ActionListener {
         // Hiển thị chức năng CRUD        
         sizeDmCn = dmcn.size();
         sizeHanhdong = hanhdong.length;
-        jpCen = new JPanel(new GridLayout(sizeDmCn, sizeHanhdong));
+        jpCen = new JPanel(new GridLayout(sizeDmCn + 1, sizeHanhdong));
         jpCen.setBackground(Color.WHITE);
         listCheckBox = new JCheckBox[sizeDmCn][sizeHanhdong];
+        for(int i =0; i < sizeHanhdong;i++){
+            JLabel lblhanhdong = new JLabel(hanhdong[i]);
+            lblhanhdong.setHorizontalAlignment(SwingConstants.CENTER);
+            jpCen.add(lblhanhdong);
+        }
         for (int i = 0; i < sizeDmCn; i++) {
             for (int j = 0; j < sizeHanhdong; j++) {
-                listCheckBox[i][j] = new JCheckBox(hanhdong[j]);
+                listCheckBox[i][j] = new JCheckBox();
                 listCheckBox[i][j].setHorizontalAlignment(SwingConstants.CENTER);
                 jpCen.add(listCheckBox[i][j]);
             }
