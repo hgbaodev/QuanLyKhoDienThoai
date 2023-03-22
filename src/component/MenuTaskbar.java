@@ -4,12 +4,11 @@ import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.*;
 import javax.swing.*;
 
-
 public class MenuTaskbar extends JPanel {
 
     private final int n = 20;
-    String st[] = {"Trang chủ", "Sản phẩm", "Loại hàng", "Quản lý kho", "Nhập kho", "Xuất kho", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Đơn vị tính", "Đăng xuất"};
-    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/supply_chain_30px.png", "/icon/handle_with_care_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/length_30px.png", "/icon/logout_30px.png"};
+    String st[] = {"Trang chủ", "Sản phẩm", "Đơn vị tính", "Loại hàng", "Quản lý kho", "Nhập kho", "Xuất kho", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
+    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/length_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/supply_chain_30px.png", "/icon/handle_with_care_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
 
     public JPanel pnl[];
     JLabel lbl[], lblIcon[], info;
@@ -29,7 +28,7 @@ public class MenuTaskbar extends JPanel {
 
     private void initComponent() {
         FlatLightLaf.setup();
-                System.setProperty("sun.java2d.uiScale", "1.0");
+        System.setProperty("sun.java2d.uiScale", "1.0");
 
         this.setOpaque(true);
         this.setBackground(DefaultColor);
@@ -71,16 +70,10 @@ public class MenuTaskbar extends JPanel {
 
         this.add(pnlTop, BorderLayout.NORTH);
 
-        // Khi dùng scrollPane thì phải tắt các set Layout đi, scrollPane dùng Layout nào thì mình cũng chưa biết
-//        scrollPane = new JScrollPane();
-//        scrollPane.setPreferredSize(new Dimension(250, 400));
-//        scrollPane.setBorder(null);
-//        scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-//        scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-
         pnlCenter = new JPanel();
         pnlCenter.setPreferredSize(new Dimension(250, 560));
         pnlCenter.setBackground(DefaultColor);
+        pnlCenter.setLayout(new FlowLayout(0, 0, 0));
 
         this.add(pnlCenter, BorderLayout.CENTER);
 
@@ -96,12 +89,10 @@ public class MenuTaskbar extends JPanel {
 
         this.add(pnlBottom, BorderLayout.SOUTH);
 
-//        scrollPane.setViewportView(pnlCenter);
-//        this.add(scrollPane);
         // Dùng vòng lặp đẻ hiển thị, nếu đến "Đăng xuất" thì sẽ được add vào pnlBottom để nó xuống dưới cuối
         for (int i = 0; i < st.length; i++) {
             pnl[i] = new JPanel();
-            pnl[i].setLayout(new FlowLayout(1, 10, 10));
+            pnl[i].setLayout(new FlowLayout(1, 10, 5));
             pnl[i].setPreferredSize(new Dimension(250, 45));
             pnl[i].setBackground(DefaultColor);
 
@@ -130,8 +121,9 @@ public class MenuTaskbar extends JPanel {
             pnl[i].addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    
+
                 }
+
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     pnlMenuTaskbarMouseClicked(evt);
@@ -149,8 +141,7 @@ public class MenuTaskbar extends JPanel {
                 pnl[i].setBackground(HowerBackgroundColor);
                 lbl[i].setForeground(HowerFontColor);
                 lbl[i].putClientProperty("FlatLaf.style", "font: 150% $semibold.font");
-            } 
-            else {
+            } else {
                 pnl[i].setBackground(DefaultColor);
                 lbl[i].setForeground(FontColor);
                 lbl[i].putClientProperty("FlatLaf.style", "font: 150% $medium.font");
@@ -172,6 +163,5 @@ public class MenuTaskbar extends JPanel {
 
         }
     }
-
 
 }
