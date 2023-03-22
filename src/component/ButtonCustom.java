@@ -25,6 +25,9 @@ public class ButtonCustom extends JButton{
             case "danger":
                 color = "Actions.Red";
                 break;
+            case "warning":
+                color = "Actions.Yellow";
+                break;
             default:
                 throw new AssertionError();
         }

@@ -7,10 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class MainFunction extends JToolBar{
-    SanPham a;
-    JButton btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel;
-    JSeparator separator1;
-    String hanhdong;
+   public SanPham a;
+   public JButton btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel;
+   public JSeparator separator1;
     
     
     Color textButtonColor = new Color(1, 88, 155);
@@ -103,17 +102,4 @@ public class MainFunction extends JToolBar{
         this.a = a;
         setupEvent();      
     }
-
-  
-
-    public String getHanhdong() {
-        return hanhdong;
-    }
-
-    public void setHanhdong(String hanhdong) {
-        this.hanhdong = hanhdong;
-    }
-
-   
-    
 }

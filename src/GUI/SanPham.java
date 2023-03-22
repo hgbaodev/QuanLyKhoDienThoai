@@ -3,11 +3,13 @@ package GUI;
 import component.IntegratedSearch;
 import component.MainFunction;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import swing.PanelBorderRadius;
 
-public class SanPham extends JPanel {
+public class SanPham extends JPanel implements MouseListener{
 
     PanelBorderRadius box1, box2, main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -93,7 +95,6 @@ public class SanPham extends JPanel {
 
         main.add(scrollTableSanPham);
 
-
     }
 
     public SanPham() {
@@ -103,5 +104,30 @@ public class SanPham extends JPanel {
     
     public void add() {
         JOptionPane.showMessageDialog(null, "Sanr pham");
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
