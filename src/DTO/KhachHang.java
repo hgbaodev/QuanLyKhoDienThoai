@@ -7,7 +7,7 @@ package DTO;
 import java.util.Objects;
 
 public class KhachHang {
-    private String maKH;
+    private int maKH;
     private String hoten;
     private String sdt;
     private String diachi;
@@ -15,20 +15,22 @@ public class KhachHang {
     public KhachHang() {
     }
 
-    public KhachHang(String maKH, String hoten, String sdt, String diachi) {
+    public KhachHang(int maKH, String hoten, String sdt, String diachi) {
         this.maKH = maKH;
         this.hoten = hoten;
         this.sdt = sdt;
         this.diachi = diachi;
     }
 
-    public String getMaKH() {
+    public int getMaKH() {
         return maKH;
     }
 
-    public void setMaKH(String maKH) {
+    public void setMaKH(int maKH) {
         this.maKH = maKH;
     }
+
+    
 
     public String getHoten() {
         return hoten;
