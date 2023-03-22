@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import component.MenuTaskbar;
 import component.NavigationBar;
+import GUI.PhanQuyen_pnl;
 
 public class Main extends javax.swing.JFrame {
 
@@ -13,6 +14,7 @@ public class Main extends javax.swing.JFrame {
 
     TrangChu trangChu;
     SanPham sanPham;
+    DonViTinh donViTinh;
     LoaiHang loaiHang;
     QuanLyKho quanLyKho;
     NhapKho nhapKho;
@@ -21,14 +23,14 @@ public class Main extends javax.swing.JFrame {
     NhaCungCap nhacungcap;
     NhanVien nhanVien;
     TaiKhoan taiKhoan;
-    DonViTinh donViTinh;
+    PhanQuyen_pnl phanQuyen;
     JLabel lbl;
 
     private MenuTaskbar menuTaskbar;
     private NavigationBar navbar;
 
     private void initComponent() {
-        this.setSize(new Dimension(1500, 800));
+        this.setSize(new Dimension(1400, 900));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(0, 0));
         this.setTitle("Hệ thống quản lý kho hàng ");
@@ -88,6 +90,16 @@ public class Main extends javax.swing.JFrame {
         menuTaskbar.pnl[2].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                donViTinh = new DonViTinh();
+                MainContent.removeAll();
+                MainContent.add(donViTinh).setVisible(true);
+                MainContent.repaint();
+                MainContent.validate();
+            }
+        });
+        menuTaskbar.pnl[3].addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
                 loaiHang = new LoaiHang();
                 MainContent.removeAll();
                 MainContent.add(loaiHang).setVisible(true);
@@ -95,7 +107,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[3].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[4].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 quanLyKho = new QuanLyKho();
@@ -105,7 +117,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[4].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[5].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 nhapKho = new NhapKho();
@@ -115,7 +127,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[5].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[6].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 xuatKho = new XuatKho();
@@ -125,7 +137,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[6].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[7].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 khachHang = new KhachHang();
@@ -135,7 +147,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[7].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[8].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 nhacungcap = new NhaCungCap();
@@ -145,7 +157,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[8].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[9].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 nhanVien = new NhanVien();
@@ -155,7 +167,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[9].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 taiKhoan = new TaiKhoan();
@@ -165,22 +177,14 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[11].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                donViTinh = new DonViTinh();
-//                donViTinh.setBounds(300, 200, 1100, 700);
+                phanQuyen = new PhanQuyen_pnl();
                 MainContent.removeAll();
-                MainContent.add(donViTinh).setVisible(true);
+                MainContent.add(phanQuyen).setVisible(true);
                 MainContent.repaint();
                 MainContent.validate();
-            }
-        });
-
-        menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-
             }
         });
 

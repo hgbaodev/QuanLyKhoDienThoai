@@ -7,6 +7,10 @@ public class MainFunction extends JToolBar {
 
     JButton btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel;
     JSeparator separator1;
+    
+    
+    Color textButtonColor = new Color(1, 88, 155);
+    Color backgroundButtonColor = new Color(255,255,255);
 
     private void initComponent() {
         this.setBackground(Color.WHITE);
@@ -15,8 +19,8 @@ public class MainFunction extends JToolBar {
 
         btnAdd = new JButton();
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 14));
-        btnAdd.setForeground(new java.awt.Color(102, 255, 51));
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add_50px.png")));
+        btnAdd.setForeground(textButtonColor);
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add_50px(1).png")));
         btnAdd.setText("THÊM");
         btnAdd.setFocusable(false);
         btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -25,7 +29,7 @@ public class MainFunction extends JToolBar {
 
         btnDelete = new JButton();
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 14));
-        btnDelete.setForeground(new java.awt.Color(255, 0, 0));
+                btnDelete.setForeground(textButtonColor);
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete Trash_50px.png")));
         btnDelete.setText("XÓA");
         btnDelete.setFocusable(false);
@@ -35,7 +39,7 @@ public class MainFunction extends JToolBar {
 
         btnEdit = new JButton();
         btnEdit.setFont(new java.awt.Font("Segoe UI", 1, 14));
-        btnEdit.setForeground(new java.awt.Color(222, 238, 79));
+        btnEdit.setForeground(textButtonColor);
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Edit_50px.png")));
         btnEdit.setText("SỬA");
         btnEdit.setFocusable(false);
@@ -45,7 +49,7 @@ public class MainFunction extends JToolBar {
 
         btnDetail = new JButton();
         btnDetail.setFont(new java.awt.Font("Segoe UI", 1, 14));
-        btnDetail.setForeground(new java.awt.Color(0, 204, 204));
+        btnDetail.setForeground(textButtonColor);
         btnDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/View Details_50px.png")));
         btnDetail.setText("CHI TIẾT");
         btnDetail.setFocusable(false);
@@ -58,7 +62,7 @@ public class MainFunction extends JToolBar {
 
         btnNhapExcel = new JButton();
         btnNhapExcel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnNhapExcel.setForeground(new java.awt.Color(0, 153, 51));
+        btnNhapExcel.setForeground(textButtonColor);
         btnNhapExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/xls_50px.png"))); // NOI18N
         btnNhapExcel.setText("XUẤT EXCEL");
         btnNhapExcel.setFocusable(false);
@@ -68,7 +72,7 @@ public class MainFunction extends JToolBar {
 
         btnXuatExcel = new JButton();
         btnXuatExcel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnXuatExcel.setForeground(new java.awt.Color(0, 153, 0));
+        btnXuatExcel.setForeground(textButtonColor);
         btnXuatExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/import_csv_50px.png"))); // NOI18N
         btnXuatExcel.setText("NHẬP EXCEL");
         btnXuatExcel.setFocusable(false);

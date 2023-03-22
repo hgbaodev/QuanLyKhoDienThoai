@@ -1,4 +1,6 @@
+
 package GUI;
+
 
 import component.IntegratedSearch;
 import component.MainFunction;
@@ -7,12 +9,12 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import swing.PanelBorderRadius;
 
-public class SanPham extends JPanel {
+public class PhanQuyen_pnl extends JPanel {
 
     PanelBorderRadius box1, box2, main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
-    JTable tableSanPham;
-    JScrollPane scrollTableSanPham;
+    JTable table;
+    JScrollPane scrollTable;
     MainFunction mainFunction;
     IntegratedSearch search;
     JLabel lbl1, lblImage;
@@ -71,14 +73,14 @@ public class SanPham extends JPanel {
         main.setBorder(new EmptyBorder(20,20,20,20));
         contentCenter.add(main, BorderLayout.CENTER);
 
-        tableSanPham = new JTable();
-        scrollTableSanPham = new JScrollPane();
+        table = new JTable();
+        scrollTable = new JScrollPane();
 
-        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        table.setFont(new java.awt.Font("Segoe UI", 0, 14));
 
-//        scrollTableSanPham.setPreferredSize(new Dimension(1000, 0));
+//        scrollTable.setPreferredSize(new Dimension(1000, 0));
 
-        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
                     {"001", "Nồi cơm điện siêu to khổng lồ", "Việt Nam", "201000", "240000", "img", "011", "111", "141"},
                     {"002", "Công", "nhan zien", "2001"},
@@ -89,14 +91,14 @@ public class SanPham extends JPanel {
                     "Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá bán", "Hình ảnh", "Mã đơn vị tính", "Mã loại hàng", "Mã khu vực"
                 }
         ));
-        scrollTableSanPham.setViewportView(tableSanPham);
+        scrollTable.setViewportView(table);
 
-        main.add(scrollTableSanPham);
+        main.add(scrollTable);
 
 
     }
 
-    public SanPham() {
+    public PhanQuyen_pnl() {
         initComponent();
     }
 
