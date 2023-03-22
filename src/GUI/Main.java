@@ -11,7 +11,6 @@ public class Main extends javax.swing.JFrame {
 
     JPanel pnlThanhDuoi, MainContent;
     Color MainColor = new Color(250, 250, 250);
-
     TrangChu trangChu;
     SanPham sanPham;
     DonViTinh donViTinh;

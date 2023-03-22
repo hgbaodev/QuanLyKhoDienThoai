@@ -2,6 +2,7 @@ package component;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class IntegratedSearch extends JPanel {
 
@@ -14,31 +15,33 @@ public class IntegratedSearch extends JPanel {
 
         this.setBackground(Color.WHITE);
         this.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
-        this.setLayout(new FlowLayout(1, 10, 10));
+        BoxLayout bx = new BoxLayout(this, BoxLayout.Y_AXIS);
+        this.setLayout(bx);
 
+        JPanel jpSearch = new JPanel(new BorderLayout(5,10));
+        jpSearch.setBorder(new EmptyBorder(15,15,15,15));
+        jpSearch.setBackground(Color.white);
         cbxChoose = new JComboBox();
         cbxChoose.setModel(new DefaultComboBoxModel<>(str));
-        cbxChoose.setPreferredSize(new Dimension(100, 40));
+        cbxChoose.setPreferredSize(new Dimension(130, 0));
         cbxChoose.setFont(new java.awt.Font("Segoe UI", 0, 14));
-        this.add(cbxChoose);
+        jpSearch.add(cbxChoose,BorderLayout.WEST);
 
         txtSearchForm = new JTextField();
         txtSearchForm.setFont(new java.awt.Font("Segoe UI", 0, 16));
-        txtSearchForm.setPreferredSize(new Dimension(300, 40));
-        this.add(txtSearchForm);
+        jpSearch.add(txtSearchForm);
 
         btnReset = new JButton("Làm mới");
         btnReset.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 14));
         btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/reset_30px.png")));
-        btnReset.setPreferredSize(new Dimension(130, 40));
+        btnReset.setPreferredSize(new Dimension(150, 0));
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 btnResetActionPerformed(e);
             }
         });
-
-        this.add(btnReset);
-
+        jpSearch.add(btnReset,BorderLayout.EAST);
+        this.add(jpSearch);
     }
 
     public IntegratedSearch() {

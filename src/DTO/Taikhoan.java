@@ -1,5 +1,9 @@
 package DTO;
 
+/**
+ *
+ * @author robot
+ */
 public class Taikhoan {
     private String email;
     private String hoten;
