@@ -53,11 +53,10 @@ public class SanPham extends JPanel {
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new PanelBorderRadius();
-        functionBar.setPreferredSize(new Dimension(0, 180));
-        functionBar.setLayout(new FlowLayout(1, 15, 40));
+        functionBar.setPreferredSize(new Dimension(0, 100));
+        functionBar.setLayout(new GridLayout(1,2));
 
         mainFunction = new MainFunction();
-        mainFunction.setLayout(new GridLayout(1,2));
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch();
