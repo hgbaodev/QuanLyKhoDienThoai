@@ -10,6 +10,7 @@ public class MainFunction extends JToolBar{
     SanPham a;
     ButtonToolBar btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel;
     JSeparator separator1;
+    String hanhdong;
     
 
     private void initComponent() {
@@ -37,7 +38,7 @@ public class MainFunction extends JToolBar{
 
         btnXuatExcel = new ButtonToolBar("NHẬP EXCEL", "/icon/import_csv_50px.png");
         this.add(btnXuatExcel);
-
+       
     }
     
     public void setupEvent() {
@@ -58,4 +59,17 @@ public class MainFunction extends JToolBar{
         this.a = a;
     
     }
+
+  
+
+    public String getHanhdong() {
+        return hanhdong;
+    }
+
+    public void setHanhdong(String hanhdong) {
+        this.hanhdong = hanhdong;
+    }
+
+   
+    
 }
