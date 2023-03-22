@@ -46,7 +46,8 @@ public class TaikhoanDAO implements DAOinterface<Taikhoan>{
           int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `taikhoan` SET `email`='?',`hoten`='?',`matkhau`='?',`trangthai`='?',`makhohang`='?',`manhomquyen`='?' WHERE ?";
+            String sql = "UPDATE `taikhoan` SET `email`='?',`hoten`='?',`matkhau`='?',`trangthai`='?',"
+                    + "`makhohang`='?',`manhomquyen`='?' WHERE email=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getHoten());
             pst.setString(2, t.getMatkhau());
