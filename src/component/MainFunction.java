@@ -83,13 +83,7 @@ public class MainFunction extends JToolBar{
         btnXuatExcel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnXuatExcel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         this.add(btnXuatExcel);
-//        btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel
-        btnAdd.addMouseListener(this);
-        btnDelete.addMouseListener(this);
-        btnEdit.addMouseListener(this);
-        btnDetail.addMouseListener(this);
-        btnNhapExcel.addMouseListener(this);
-        btnXuatExcel.addMouseListener(this);
+       
     }
     
     public void setupEvent() {
@@ -116,41 +110,6 @@ public class MainFunction extends JToolBar{
         this.hanhdong = hanhdong;
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if(e.getSource()== btnAdd){
-            setHanhdong("btnAdd");
-        } else if(e.getSource()== btnEdit){
-            setHanhdong("btnEdit");
-        }else if(e.getSource()== btnDelete){
-            setHanhdong("btnDelete");
-        }else if(e.getSource()== btnDetail){
-            setHanhdong("btnDetail");
-        }else if(e.getSource()== btnNhapExcel){
-            setHanhdong("btnNhapExcel");
-        } else if(e.getSource()== btnXuatExcel){
-            setHanhdong("btnXuatExcel");
-        } 
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
     
 }
