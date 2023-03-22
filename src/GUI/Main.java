@@ -5,7 +5,6 @@ import java.awt.*;
 import javax.swing.*;
 import component.MenuTaskbar;
 import component.NavigationBar;
-import GUI.PhanQuyen_pnl;
 
 public class Main extends javax.swing.JFrame {
 

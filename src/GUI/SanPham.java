@@ -57,6 +57,7 @@ public class SanPham extends JPanel {
         functionBar.setLayout(new FlowLayout(1, 15, 40));
 
         mainFunction = new MainFunction();
+        mainFunction.setLayout(new GridLayout(1,2));
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch();
