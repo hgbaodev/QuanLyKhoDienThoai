@@ -111,7 +111,7 @@ public class PhanQuyen extends JFrame implements ActionListener {
         jpBottom = new JPanel(new FlowLayout());
         jpBottom.setBackground(Color.white);
         jpBottom.setBorder(new EmptyBorder(20, 0, 20, 0));
-        btnAddNhomQuyen = new ButtonCustom("Thêm nhóm quyền", "sucess", 14);
+        btnAddNhomQuyen = new ButtonCustom("Thêm nhóm quyền", "success", 14);
         btnHuybo = new ButtonCustom("Huỷ bỏ", "danger", 14);
         btnAddNhomQuyen.addActionListener(this);
         btnHuybo.addActionListener(this);

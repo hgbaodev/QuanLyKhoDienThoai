@@ -140,11 +140,11 @@ public class MenuTaskbar extends JPanel {
             if (evt.getSource() == pnl[i]) {
                 pnl[i].setBackground(HowerBackgroundColor);
                 lbl[i].setForeground(HowerFontColor);
-                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $semibold.font");
+//                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $semibold.font");
             } else {
                 pnl[i].setBackground(DefaultColor);
                 lbl[i].setForeground(FontColor);
-                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $medium.font");
+//                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $medium.font");
             }
         }
     }
@@ -154,11 +154,11 @@ public class MenuTaskbar extends JPanel {
             if (evt.getSource() == pnl[i]) {
                 pnl[i].setBackground(HowerBackgroundColor);
                 lbl[i].setForeground(HowerFontColor);
-                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $semibold.font");
+//                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $semibold.font");
             } else {
                 pnl[i].setBackground(DefaultColor);
                 lbl[i].setForeground(FontColor);
-                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $medium.font");
+//                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $medium.font");
             }
 
         }
