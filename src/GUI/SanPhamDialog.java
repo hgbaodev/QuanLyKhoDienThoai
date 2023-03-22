@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import component.HeaderTitle;
+import component.InputForm;
+import component.SelectForm;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -42,17 +44,14 @@ public class SanPhamDialog extends JFrame {
         pnmain = new JPanel(new GridLayout(2, 3, 20, 0));
         pnmain.setBackground(Color.white);
 
-        for (int i = 0; i < 6; i++) {
-            JPanel inputform = new JPanel(new GridLayout(2, 1));
-            inputform.setBackground(Color.white);
-            inputform.setBorder(new EmptyBorder(10, 10, 10, 10));
-            JLabel lbltext = new JLabel("Mã sản phẩm");
-            JTextField txtinput = new JTextField();
-            inputform.add(lbltext);
-            inputform.add(txtinput);
-            pnmain.add(inputform);
+        for (int i = 0; i < 5; i++) {
+            InputForm input = new InputForm("Mã sản phẩm");
+            pnmain.add(input);
         }
-
+        
+        String[] dvt = {"Cái","Thùng","Hộp"};
+        SelectForm slfDvt = new SelectForm("Đơn vị tính", dvt);
+        pnmain.add(slfDvt);
         pnbottom = new JPanel(new FlowLayout());
         pnbottom.setBorder(new EmptyBorder(10,0,10,0));
         pnbottom.setBackground(Color.white);
