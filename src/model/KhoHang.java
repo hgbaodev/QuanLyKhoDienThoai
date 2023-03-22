@@ -1,13 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package model;
 
 import java.util.Objects;
+import java.util.logging.Logger;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
 public class KhoHang {
-    private int makho;
+    private int makhohang;
     private String tenkhohang;
     private String diachi;
     private String mota;
@@ -15,19 +16,19 @@ public class KhoHang {
     public KhoHang() {
     }
 
-    public KhoHang(int makho, String tenkhohang, String diachi, String mota) {
-        this.makho = makho;
+    public KhoHang(int makhohang, String tenkhohang, String diachi, String mota) {
+        this.makhohang = makhohang;
         this.tenkhohang = tenkhohang;
         this.diachi = diachi;
         this.mota = mota;
     }
 
-    public int getMakho() {
-        return makho;
+    public int getMakhohang() {
+        return makhohang;
     }
 
-    public void setMakho(int makho) {
-        this.makho = makho;
+    public void setMakhohang(int makhohang) {
+        this.makhohang = makhohang;
     }
 
     public String getTenkhohang() {
@@ -56,11 +57,11 @@ public class KhoHang {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + this.makho;
-        hash = 37 * hash + Objects.hashCode(this.tenkhohang);
-        hash = 37 * hash + Objects.hashCode(this.diachi);
-        hash = 37 * hash + Objects.hashCode(this.mota);
+        int hash = 7;
+        hash = 61 * hash + this.makhohang;
+        hash = 61 * hash + Objects.hashCode(this.tenkhohang);
+        hash = 61 * hash + Objects.hashCode(this.diachi);
+        hash = 61 * hash + Objects.hashCode(this.mota);
         return hash;
     }
 
@@ -76,22 +77,13 @@ public class KhoHang {
             return false;
         }
         final KhoHang other = (KhoHang) obj;
-        if (this.makho != other.makho) {
-            return false;
-        }
-        if (!Objects.equals(this.tenkhohang, other.tenkhohang)) {
-            return false;
-        }
-        if (!Objects.equals(this.diachi, other.diachi)) {
-            return false;
-        }
-        return Objects.equals(this.mota, other.mota);
+        return true;
     }
 
     @Override
     public String toString() {
-        return "KhoHang{" + "makho=" + makho + ", tenkhohang=" + tenkhohang + ", diachi=" + diachi + ", mota=" + mota + '}';
+        return "KhoHang{" + "makhohang=" + makhohang + ", tenkhohang=" + tenkhohang + ", diachi=" + diachi + ", mota=" + mota + '}';
     }
-    
+   
     
 }
