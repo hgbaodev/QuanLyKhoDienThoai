@@ -2,6 +2,7 @@ package component;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class IntegratedSearch extends JPanel {
 
@@ -14,17 +15,21 @@ public class IntegratedSearch extends JPanel {
 
         this.setBackground(Color.WHITE);
         this.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
-        this.setLayout(new BorderLayout(5,10));
+        BoxLayout bx = new BoxLayout(this, BoxLayout.Y_AXIS);
+        this.setLayout(bx);
 
+        JPanel jpSearch = new JPanel(new BorderLayout(5,10));
+        jpSearch.setBorder(new EmptyBorder(15,15,15,15));
+        jpSearch.setBackground(Color.white);
         cbxChoose = new JComboBox();
         cbxChoose.setModel(new DefaultComboBoxModel<>(str));
         cbxChoose.setPreferredSize(new Dimension(130, 0));
         cbxChoose.setFont(new java.awt.Font("Segoe UI", 0, 14));
-        this.add(cbxChoose,BorderLayout.WEST);
+        jpSearch.add(cbxChoose,BorderLayout.WEST);
 
         txtSearchForm = new JTextField();
         txtSearchForm.setFont(new java.awt.Font("Segoe UI", 0, 16));
-        this.add(txtSearchForm);
+        jpSearch.add(txtSearchForm);
 
         btnReset = new JButton("Làm mới");
         btnReset.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 14));
@@ -35,12 +40,8 @@ public class IntegratedSearch extends JPanel {
                 btnResetActionPerformed(e);
             }
         });
-        JPanel panelN = new JPanel();
-        panelN.setSize(0,20);
-        JPanel panelS = new JPanel();
-        panelS.setSize(0,20);
-        this.add(btnReset,BorderLayout.EAST);
-
+        jpSearch.add(btnReset,BorderLayout.EAST);
+        this.add(jpSearch);
     }
 
     public IntegratedSearch() {
