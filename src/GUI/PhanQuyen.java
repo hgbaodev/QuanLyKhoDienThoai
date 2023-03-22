@@ -92,7 +92,7 @@ public class PhanQuyen extends JFrame implements ActionListener {
         listCheckBox = new JCheckBox[sizeDmCn][sizeHanhdong];
         for (int i = 0; i < sizeDmCn; i++) {
             for (int j = 0; j < sizeHanhdong; j++) {
-                listCheckBox[i][j] = new JCheckBox(hanhdong[j]);
+                listCheckBox[i][j] = new JCheckBox();
                 listCheckBox[i][j].setHorizontalAlignment(SwingConstants.CENTER);
                 jpCen.add(listCheckBox[i][j]);
             }
