@@ -82,14 +82,12 @@ public class DonViTinh extends JPanel implements MouseListener{
 //        scrollTableSanPham.setPreferredSize(new Dimension(1000, 0));
 
         tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                    {"001", "Nồi cơm điện siêu to khổng lồ", "Việt Nam", "201000", "240000", "img", "011", "111", "141"},
-                    {"002", "Công", "nhan zien", "2001"},
-                    {null, null, null, null},
-                    {null, null, null, null}
+                 new Object[][]{
+                    {"DV1", "Cái"},
+                    {"DV2","Bao"}
                 },
                 new String[]{
-                    "Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá bán", "Hình ảnh", "Mã đơn vị tính", "Mã loại hàng", "Mã khu vực"
+                    "Mã đơn vị tính", "Tên đơn vị tính",
                 }
         ));
         scrollTableSanPham.setViewportView(tableSanPham);
