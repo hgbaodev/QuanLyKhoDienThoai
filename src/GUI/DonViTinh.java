@@ -3,11 +3,15 @@ package GUI;
 import component.IntegratedSearch;
 import component.MainFunction;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import swing.PanelBorderRadius;
 
-public class DonViTinh extends JPanel {
-    PanelBorderRadius box1, box2, main, left, right;
+public class DonViTinh extends JPanel implements MouseListener{
+
+    PanelBorderRadius box1, box2, main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tableSanPham;
     JScrollPane scrollTableSanPham;
@@ -15,14 +19,14 @@ public class DonViTinh extends JPanel {
     IntegratedSearch search;
     JLabel lbl1, lblImage;
 
-    Color BackgroundColor = new Color(244, 245, 218);
-    private void initComponent() {
+    Color BackgroundColor = new Color(240, 247, 250);
 
+    private void initComponent() {
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
-         // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
+        // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
         pnlBorder1 = new JPanel();
         pnlBorder1.setPreferredSize(new Dimension(0, 20));
         pnlBorder1.setBackground(BackgroundColor);
@@ -49,48 +53,83 @@ public class DonViTinh extends JPanel {
         contentCenter.setLayout(new BorderLayout(20, 20));
         this.add(contentCenter, BorderLayout.CENTER);
 
-        left = new PanelBorderRadius();
-        left.setPreferredSize(new Dimension(300, 00));
-        left.setLayout(new FlowLayout(1, 15, 40));
-        contentCenter.add(left, BorderLayout.WEST);
+        // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
+        functionBar = new PanelBorderRadius();
+        functionBar.setPreferredSize(new Dimension(0, 100));
+        functionBar.setLayout(new GridLayout(1,2));
+        functionBar.setBorder(new EmptyBorder(2,2,2,2));
 
+        mainFunction = new MainFunction();
+        functionBar.add(mainFunction);
+        mainFunction.setupEvent();
+
+        search = new IntegratedSearch();
+        functionBar.add(search);
+
+        contentCenter.add(functionBar, BorderLayout.NORTH);
+
+        // main là phần ở dưới để thống kê bảng biểu
         main = new PanelBorderRadius();
-        main.setLayout(new FlowLayout(1, 0, 15));
+        BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
+        main.setLayout(boxly);
+        main.setBorder(new EmptyBorder(20,20,20,20));
         contentCenter.add(main, BorderLayout.CENTER);
-
-        lbl1 = new JLabel("Đơn vị tính");
-        lbl1.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
-        lbl1.setPreferredSize(new Dimension(300, 22));
-        main.add(lbl1);
 
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
 
         tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
 
-        scrollTableSanPham.setPreferredSize(new Dimension(700, 450));
+//        scrollTableSanPham.setPreferredSize(new Dimension(1000, 0));
 
         tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-                    {"001", "Nồi cơm điện siêu to khổng lồ", "Việt Nam", "201000", "240000"},
+                    {"001", "Nồi cơm điện siêu to khổng lồ", "Việt Nam", "201000", "240000", "img", "011", "111", "141"},
                     {"002", "Công", "nhan zien", "2001"},
                     {null, null, null, null},
                     {null, null, null, null}
                 },
                 new String[]{
-                    "Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá bán",
+                    "Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá bán", "Hình ảnh", "Mã đơn vị tính", "Mã loại hàng", "Mã khu vực"
                 }
         ));
         scrollTableSanPham.setViewportView(tableSanPham);
-        
-        right = new PanelBorderRadius();
-        right.setPreferredSize(new Dimension(300, 00));
-        right.setLayout(new FlowLayout(1, 15, 40));
-        contentCenter.add(right, BorderLayout.EAST);
+
+        main.add(scrollTableSanPham);
+
     }
 
     public DonViTinh() {
         initComponent();
     }
 
+    
+    public void add() {
+        JOptionPane.showMessageDialog(null, "Sanr pham");
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
