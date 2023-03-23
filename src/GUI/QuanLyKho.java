@@ -52,7 +52,8 @@ public class QuanLyKho extends JPanel {
 
         functionBar = new PanelBorderRadius();
         functionBar.setPreferredSize(new Dimension(0, 100));
-        functionBar.setLayout(new FlowLayout(1, 15, 40));
+        functionBar.setLayout(new GridLayout(1,2));
+        functionBar.setBorder(new EmptyBorder(2,2,2,2));
 
         mainFunction = new MainFunction();
         functionBar.add(mainFunction);
