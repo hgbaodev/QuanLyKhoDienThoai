@@ -59,9 +59,8 @@ public class DonViTinh extends JPanel implements MouseListener{
         functionBar.setLayout(new GridLayout(1,2));
         functionBar.setBorder(new EmptyBorder(2,2,2,2));
 
-        mainFunction = new MainFunction();
+        mainFunction = new MainFunction(this);
         functionBar.add(mainFunction);
-        mainFunction.setupEvent();
 
         search = new IntegratedSearch();
         functionBar.add(search);

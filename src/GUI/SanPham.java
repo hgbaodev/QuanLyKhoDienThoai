@@ -61,7 +61,6 @@ public class SanPham extends JPanel implements MouseListener{
 
         mainFunction = new MainFunction(this);
         functionBar.add(mainFunction);
-        mainFunction.setupEvent();
 
         search = new IntegratedSearch();
         functionBar.add(search);
