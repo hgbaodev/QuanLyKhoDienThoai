@@ -19,7 +19,7 @@ public class ButtonCustom extends JButton{
         this.setText(text);
         String color = null;
         switch (type) {
-            case "sucess":
+            case "success":
                 color = "Actions.Blue";
                 break;
             case "danger":
@@ -37,5 +37,9 @@ public class ButtonCustom extends JButton{
         this.setBorder(null);
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.setPreferredSize(new Dimension(150,35));
+    }
+    
+    public void setVisible(Boolean value) {
+        this.setVisible(value);
     }
 }

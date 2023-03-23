@@ -57,9 +57,11 @@ public class SanPham extends JPanel implements MouseListener{
         functionBar = new PanelBorderRadius();
         functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1,2));
+        functionBar.setBorder(new EmptyBorder(2,2,2,2));
 
         mainFunction = new MainFunction(this);
         functionBar.add(mainFunction);
+        mainFunction.setupEvent();
 
         search = new IntegratedSearch();
         functionBar.add(search);
