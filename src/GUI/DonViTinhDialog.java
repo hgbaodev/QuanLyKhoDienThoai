@@ -40,6 +40,14 @@ public class DonViTinhDialog extends JDialog {
         this.jpDVT = jpDVT;
         initComponents(title, type);
     }
+    
+    public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, String tenDvt, String id) {
+        super(owner, title, modal);
+        this.jpDVT = jpDVT;
+        initComponents(title, type);
+        setTenDonViTinh(tenDvt);
+        setTxtIdDVT(id);
+    }
 
     public void initComponents(String title, String type) {
         this.setSize(new Dimension(500, 270));
@@ -57,6 +65,7 @@ public class DonViTinhDialog extends JDialog {
         btnThem = new ButtonCustom("Thêm đơn vị", "success", 14);
         btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
+        txtIdDVT = new JTextField();
         
         btnThem.addActionListener(new ActionListener() {
             @Override
@@ -96,15 +105,16 @@ public class DonViTinhDialog extends JDialog {
     public void setTenDonViTinh(String name){
         txtTenDVT.setText(name);
     }
-
-    public JTextField getTxtIdDVT() {
-        return txtIdDVT;
+    
+    public String getTenDonViTinh(){
+        return txtTenDVT.getText();
     }
 
-    public void setTxtIdDVT(JTextField txtIdDVT) {
-        this.txtIdDVT = txtIdDVT;
+    public String getTxtIdDVT() {
+        return txtIdDVT.getText();
     }
-    
-    
 
+    public void setTxtIdDVT(String id) {
+        this.txtIdDVT.setText(id);
+    }
 }
