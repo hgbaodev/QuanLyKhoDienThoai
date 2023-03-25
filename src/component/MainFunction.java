@@ -1,5 +1,6 @@
 package component;
 
+import GUI.DonViTinh;
 import GUI.SanPham;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,10 +8,12 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class MainFunction extends JToolBar{
-    SanPham a;
-    ButtonToolBar btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel;
-    JSeparator separator1;
-    String hanhdong;
+    
+   public SanPham sp;
+   public DonViTinh dvt;
+   public JButton btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel;
+   public JSeparator separator1;
+
     
 
     private void initComponent() {
@@ -41,13 +44,6 @@ public class MainFunction extends JToolBar{
        
     }
     
-    public void setupEvent() {
-        btnAdd.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                a.add();
-            }
-        });
-    }
     
     public MainFunction() {
         initComponent();     
@@ -56,20 +52,16 @@ public class MainFunction extends JToolBar{
 
     public MainFunction(SanPham a) {
         initComponent();
-        this.a = a;
+        this.sp = a;
+        btnAdd.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                sp.add();
+            }
+        });
+    }
     
+    public MainFunction(DonViTinh a) {
+        initComponent();
+        this.dvt = a;
     }
-
-  
-
-    public String getHanhdong() {
-        return hanhdong;
-    }
-
-    public void setHanhdong(String hanhdong) {
-        this.hanhdong = hanhdong;
-    }
-
-   
-    
 }
