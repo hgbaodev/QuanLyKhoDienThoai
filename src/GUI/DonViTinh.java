@@ -8,8 +8,10 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class DonViTinh extends JPanel implements MouseListener{
+public class DonViTinh extends JPanel{
 
     PanelBorderRadius box1, box2, main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -18,6 +20,7 @@ public class DonViTinh extends JPanel implements MouseListener{
     MainFunction mainFunction;
     IntegratedSearch search;
     JLabel lbl1, lblImage;
+    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
 
     Color BackgroundColor = new Color(240, 247, 250);
 
@@ -60,6 +63,22 @@ public class DonViTinh extends JPanel implements MouseListener{
         functionBar.setBorder(new EmptyBorder(2,2,2,2));
 
         mainFunction = new MainFunction(this);
+        // Set sự kiện
+        mainFunction.btnAdd.addActionListener((ActionEvent evt) -> {
+            DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Thêm đơn vị tính", true, "create");
+        });
+        mainFunction.btnEdit.addActionListener((ActionEvent evt) -> {
+            DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update");
+        });
+        
+        mainFunction.btnDetail.addActionListener((ActionEvent evt) -> {
+            JOptionPane.showMessageDialog(null, "Xen chi tiết dvt");
+        });
+        
+        mainFunction.btnDelete.addActionListener((ActionEvent evt) -> {
+            JOptionPane.showMessageDialog(null, "Xoá dvt");
+        });
+        
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch();
@@ -98,35 +117,5 @@ public class DonViTinh extends JPanel implements MouseListener{
 
     public DonViTinh() {
         initComponent();
-    }
-
-    
-    public void add() {
-        JOptionPane.showMessageDialog(null, "Sanr pham");
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
