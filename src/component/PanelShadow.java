@@ -1,16 +1,18 @@
 
-package swing;
+package component;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class PanelBorderRadius extends JPanel{
+public class PanelShadow extends JPanel{
     
     int shadowSize = 3;
+    float shadowOpacity = 0.3f;
+    private Color shadowColor = Color.BLACK;
     Color HowerBackgroundColor = new Color(187, 222, 251);
 
-    public PanelBorderRadius () {
+    public PanelShadow () {
         setOpaque(false);
     }
     
@@ -33,7 +35,11 @@ public class PanelBorderRadius extends JPanel{
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.fillRoundRect(0, 0, width,  height, 30, 30);
         
-
+        //Create Shadow
+        ShadowRenderer render = new ShadowRenderer(size, shadowOpacity, shadowColor);
+        g2.drawImage(render.createShadow(img), 0,0,null);
+        g2.setPaint(shadowColor);
+        
         g2.drawImage(img, x, y, null);
     }
 }

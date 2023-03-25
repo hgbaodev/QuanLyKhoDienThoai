@@ -1,5 +1,6 @@
-package swing;
+package component;
 
+import component.GraphicsUtilities;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 

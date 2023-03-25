@@ -5,7 +5,7 @@ import component.MainFunction;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import swing.PanelBorderRadius;
+import component.PanelBorderRadius;
 
 public class QuanLyKho extends JPanel {
 
