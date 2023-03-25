@@ -13,13 +13,12 @@ import java.awt.event.ActionListener;
 
 public class DonViTinh extends JPanel{
 
-    PanelBorderRadius box1, box2, main, functionBar;
+    PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tableSanPham;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
-    JLabel lbl1, lblImage;
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
 
     Color BackgroundColor = new Color(240, 247, 250);
