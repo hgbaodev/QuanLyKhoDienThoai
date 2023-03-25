@@ -125,6 +125,7 @@ public class DonViTinh extends JPanel{
         initComponent();
         tableSanPham.setDefaultEditor(Object.class, null);
         loadDataTalbe();
+        System.out.println(getAutoIncrement());
     }
     
     // Function load data table
@@ -136,5 +137,20 @@ public class DonViTinh extends JPanel{
                 donViTinh.getMaDVT(), donViTinh.getTenDVT()
             });
         }
+    }
+    
+    public int getAutoIncrement(){
+        int index = 1;
+        for (DTO.DonViTinh donViTinh : listDv) {
+            if(donViTinh.getMaDVT()==index){
+                index++;
+            }
+        }
+        return index;
+    }
+    
+    public void addDVT(DTO.DonViTinh dvt){
+        listDv.add(dvt);
+        loadDataTalbe();
     }
 }
