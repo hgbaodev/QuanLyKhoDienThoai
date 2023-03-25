@@ -1,5 +1,6 @@
 package GUI;
 
+import DAO.DonViTinhDAO;
 import component.IntegratedSearch;
 import component.MainFunction;
 import java.awt.*;
@@ -10,6 +11,8 @@ import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 public class DonViTinh extends JPanel{
 
@@ -19,11 +22,18 @@ public class DonViTinh extends JPanel{
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
+    // Khai báo array líst danh sách
+    ArrayList<DTO.DonViTinh> listDv = DonViTinhDAO.getInstance().selectAll();
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
 
     Color BackgroundColor = new Color(240, 247, 250);
+    private DefaultTableModel tblModel;
 
     private void initComponent() {
+        //Set model table
+        
+        
+        
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -94,20 +104,17 @@ public class DonViTinh extends JPanel{
 
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
-
-        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
-
-//        scrollTableSanPham.setPreferredSize(new Dimension(1000, 0));
-
         tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                 new Object[][]{
-                    {"DV1", "Cái"},
-                    {"DV2","Bao"}
-                },
-                new String[]{
-                    "Mã đơn vị tính", "Tên đơn vị tính",
-                }
+            new Object [][] {
+            },
+            new String [] {
+            }
         ));
+        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"Mã đơn vị tính","Tên đơn vị tính"};
+        tblModel.setColumnIdentifiers(header);
+        tableSanPham.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableSanPham);
 
         main.add(scrollTableSanPham);
@@ -116,5 +123,18 @@ public class DonViTinh extends JPanel{
 
     public DonViTinh() {
         initComponent();
+        tableSanPham.setDefaultEditor(Object.class, null);
+        loadDataTalbe();
+    }
+    
+    // Function load data table
+    public void loadDataTalbe(){
+        tblModel.setRowCount(0);
+        for (DTO.DonViTinh donViTinh : listDv) {
+            System.out.println(donViTinh.getTenDVT()+"");
+            tblModel.addRow(new Object[]{
+                donViTinh.getMaDVT(), donViTinh.getTenDVT()
+            });
+        }
     }
 }
