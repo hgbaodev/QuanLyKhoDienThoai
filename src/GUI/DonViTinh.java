@@ -107,7 +107,7 @@ public class DonViTinh extends JPanel implements MouseListener{
 
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch();
+        search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
