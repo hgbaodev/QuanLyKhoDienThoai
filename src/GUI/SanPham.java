@@ -62,7 +62,7 @@ public class SanPham extends JPanel{
         mainFunction = new MainFunction(this);
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch();
+        search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);

@@ -61,7 +61,7 @@ public class PhanQuyen_pnl extends JPanel {
         mainFunction = new MainFunction();
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch();
+        search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
