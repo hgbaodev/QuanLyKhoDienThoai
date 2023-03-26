@@ -11,8 +11,16 @@ import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class DonViTinh extends JPanel implements MouseListener{
 
@@ -87,6 +95,8 @@ public class DonViTinh extends JPanel implements MouseListener{
         mainFunction.btnEdit.addMouseListener(this);
         mainFunction.btnDetail.addMouseListener(this);
         mainFunction.btnDelete.addMouseListener(this);
+        mainFunction.btnXuatExcel.addMouseListener(this);
+        mainFunction.btnNhapExcel.addMouseListener(this);
 
         functionBar.add(mainFunction);
 
@@ -170,6 +180,52 @@ public class DonViTinh extends JPanel implements MouseListener{
         listDv.remove(index);
         loadDataTalbe();
     }
+    
+    public void openFile(String file) {
+        try {
+            File path = new File(file);
+            Desktop.getDesktop().open(path);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void exportExcel(){
+        try {
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.showSaveDialog(this);
+            File saveFile = jFileChooser.getSelectedFile();
+            if (saveFile != null) {
+                saveFile = new File(saveFile.toString() + ".xlsx");
+                Workbook wb = new XSSFWorkbook();
+                Sheet sheet = wb.createSheet("Đơn vị tính");
+
+                Row rowCol = sheet.createRow(0);
+                for (int i = 0; i < tableSanPham.getColumnCount(); i++) {
+                    Cell cell = rowCol.createCell(i);
+                    cell.setCellValue(tableSanPham.getColumnName(i));
+                }
+
+                for (int j = 0; j < tableSanPham.getRowCount(); j++) {
+                    Row row = sheet.createRow(j + 1);
+                    for (int k = 0; k < tableSanPham.getColumnCount(); k++) {
+                        Cell cell = row.createCell(k);
+                        if (tableSanPham.getValueAt(j, k) != null) {
+                            cell.setCellValue(tableSanPham.getValueAt(j, k).toString());
+                        }
+
+                    }
+                }
+                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
+                wb.write(out);
+                wb.close();
+                out.close();
+                openFile(saveFile.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -179,6 +235,7 @@ public class DonViTinh extends JPanel implements MouseListener{
     @Override
     public void mousePressed(MouseEvent e) {
         if(e.getSource() == mainFunction.btnAdd){
+            System.out.println("Da bat duoc su kien");
             DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Thêm đơn vị tính", true, "create");
         } else if(e.getSource() == mainFunction.btnEdit){
             if (tableSanPham.getSelectedRow() == -1) {
@@ -203,9 +260,13 @@ public class DonViTinh extends JPanel implements MouseListener{
             if (tableSanPham.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
             } else {
-                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiết đơn vị tính", true, "update",getDVTtoTb(),getId(),2);
+                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiêt đơn vị tính", true, "update",getDVTtoTb(),getId(),2);
             }
         }
+        if(e.getSource() == mainFunction.btnXuatExcel){
+            exportExcel();
+        }
+        
     }
 
     @Override
