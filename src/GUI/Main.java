@@ -35,6 +35,7 @@ public class Main extends javax.swing.JFrame {
         this.setTitle("Hệ thống quản lý kho hàng ");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        /*
         lbl = new JLabel("Quản lý kho hàng hoá"
                 + "                nguyenthanhsangsgu@gmail.com");
         lbl.setBounds(10, 10, 100, 20);
@@ -49,6 +50,7 @@ public class Main extends javax.swing.JFrame {
 
         this.add(pnlThanhDuoi, BorderLayout.SOUTH);
 
+        */
         menuTaskbar = new MenuTaskbar();
         menuTaskbar.setPreferredSize(new Dimension(250, 1400));
 
