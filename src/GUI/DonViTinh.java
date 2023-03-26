@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
-public class DonViTinh extends JPanel {
+public class DonViTinh extends JPanel implements MouseListener{
 
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -82,30 +82,11 @@ public class DonViTinh extends JPanel {
         functionBar.setBorder(new EmptyBorder(2, 2, 2, 2));
 
         mainFunction = new MainFunction(this);
-        // Set sự kiện
-        mainFunction.btnAdd.addActionListener((ActionEvent evt) -> {
-            DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Thêm đơn vị tính", true, "create");
-        });
-        mainFunction.btnEdit.addActionListener((ActionEvent evt) -> {
-            if (tableSanPham.getSelectedRow() == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
-            } else {
-                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update",getDVTtoTb(),getId());
-            }
-        });
-
-        mainFunction.btnDetail.addActionListener((ActionEvent evt) -> {
-            JOptionPane.showMessageDialog(null, "Xen chi tiết dvt");
-        });
-
-        mainFunction.btnDelete.addActionListener((ActionEvent evt) -> {
-            if (tableSanPham.getSelectedRow() == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xóa");
-            } else {
-               
-                
-            }
-        });
+        //Add Event MouseListener
+        mainFunction.btnAdd.addMouseListener(this);
+        mainFunction.btnEdit.addMouseListener(this);
+        mainFunction.btnDetail.addMouseListener(this);
+        mainFunction.btnDelete.addMouseListener(this);
 
         functionBar.add(mainFunction);
 
@@ -152,10 +133,7 @@ public class DonViTinh extends JPanel {
         return index;
     }
 
-    public void addDVT(DTO.DonViTinh dvt) {
-        listDv.add(dvt);
-        loadDataTalbe();
-    }
+    
     
     public String getDVTtoTb(){
         int row = tableSanPham.getSelectedRow();
@@ -165,5 +143,80 @@ public class DonViTinh extends JPanel {
     public String getId(){
         int row = tableSanPham.getSelectedRow();
         return tableSanPham.getModel().getValueAt(row, 0).toString();
+    }
+    
+    public void addDVT(DTO.DonViTinh dvt) {
+        listDv.add(dvt);
+        loadDataTalbe();
+    }
+    
+    public void updateDVT(DTO.DonViTinh dvt){
+        System.out.println(dvt);
+        for (DTO.DonViTinh donViTinh : listDv) {
+            if(donViTinh.getMaDVT() == dvt.getMaDVT()){
+                donViTinh.setTenDVT(dvt.getTenDVT());
+            }
+        }
+        loadDataTalbe();
+    }
+    
+    public void deleteDVT(DTO.DonViTinh dvt){
+        int index = -1;
+        for(int i=0;i<listDv.size();i++){
+            if(listDv.get(i).getMaDVT() == dvt.getMaDVT()){
+                index = i;
+            }
+        }
+        listDv.remove(index);
+        loadDataTalbe();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if(e.getSource() == mainFunction.btnAdd){
+            System.out.println("Da bat duoc su kien");
+            DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Thêm đơn vị tính", true, "create");
+        } else if(e.getSource() == mainFunction.btnEdit){
+            if (tableSanPham.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
+            } else {
+                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update",getDVTtoTb(),getId());
+            }
+        } else if(e.getSource() == mainFunction.btnDelete){
+            if (tableSanPham.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xóa");
+            } else {
+                int input = JOptionPane.showConfirmDialog(null, 
+                "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa đơn vị tính", 
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if(input == 0){
+                    DonViTinhDAO.getInstance().delete(getId());
+                    DTO.DonViTinh d = new DTO.DonViTinh(Integer.parseInt(getId()), getDVTtoTb());
+                    deleteDVT(d);
+                } 
+            }
+        } else if(e.getSource() == mainFunction.btnDetail){
+            
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

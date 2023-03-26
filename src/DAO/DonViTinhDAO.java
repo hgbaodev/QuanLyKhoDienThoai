@@ -41,10 +41,10 @@ public class DonViTinhDAO implements DAOinterface<DonViTinh>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `donvitinh` SET `madonvitinh`='?',`tendonvitinh`='?' WHERE ?";
+            String sql = "UPDATE `donvitinh` SET`tendonvitinh`=? WHERE  `madonvitinh`=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setInt(1, t.getMaDVT());
-            pst.setString(2, t.getTenDVT());
+            pst.setString(1, t.getTenDVT());
+            pst.setInt(2, t.getMaDVT());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -58,7 +58,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinh>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM donvitinh WHERE madonvitinh = '?'";
+            String sql = "DELETE FROM donvitinh WHERE madonvitinh = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
