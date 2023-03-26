@@ -1,5 +1,6 @@
 package GUI;
 
+import DAO.DonViTinhDAO;
 import component.IntegratedSearch;
 import component.MainFunction;
 import java.awt.*;
@@ -10,8 +11,10 @@ import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
-public class DonViTinh extends JPanel{
+public class DonViTinh extends JPanel {
 
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -19,11 +22,28 @@ public class DonViTinh extends JPanel{
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
+    // Khai báo array líst danh sách
+    ArrayList<DTO.DonViTinh> listDv = DonViTinhDAO.getInstance().selectAll();
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
 
     Color BackgroundColor = new Color(240, 247, 250);
+    private DefaultTableModel tblModel;
 
     private void initComponent() {
+        //Set model table
+        tableSanPham = new JTable();
+        scrollTableSanPham = new JScrollPane();
+        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{}
+        ));
+        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"Mã đơn vị tính", "Tên đơn vị tính"};
+        tblModel.setColumnIdentifiers(header);
+        tableSanPham.setModel(tblModel);
+        scrollTableSanPham.setViewportView(tableSanPham);
+
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -58,8 +78,8 @@ public class DonViTinh extends JPanel{
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new PanelBorderRadius();
         functionBar.setPreferredSize(new Dimension(0, 100));
-        functionBar.setLayout(new GridLayout(1,2));
-        functionBar.setBorder(new EmptyBorder(2,2,2,2));
+        functionBar.setLayout(new GridLayout(1, 2));
+        functionBar.setBorder(new EmptyBorder(2, 2, 2, 2));
 
         mainFunction = new MainFunction(this);
         // Set sự kiện
@@ -67,17 +87,26 @@ public class DonViTinh extends JPanel{
             DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Thêm đơn vị tính", true, "create");
         });
         mainFunction.btnEdit.addActionListener((ActionEvent evt) -> {
-            DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update");
+            if (tableSanPham.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
+            } else {
+                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update",getDVTtoTb(),getId());
+            }
         });
-        
+
         mainFunction.btnDetail.addActionListener((ActionEvent evt) -> {
             JOptionPane.showMessageDialog(null, "Xen chi tiết dvt");
         });
-        
+
         mainFunction.btnDelete.addActionListener((ActionEvent evt) -> {
-            JOptionPane.showMessageDialog(null, "Xoá dvt");
+            if (tableSanPham.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xóa");
+            } else {
+               
+                
+            }
         });
-        
+
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch();
@@ -89,26 +118,8 @@ public class DonViTinh extends JPanel{
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20,20,20,20));
+        main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
-
-        tableSanPham = new JTable();
-        scrollTableSanPham = new JScrollPane();
-
-        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
-
-//        scrollTableSanPham.setPreferredSize(new Dimension(1000, 0));
-
-        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                 new Object[][]{
-                    {"DV1", "Cái"},
-                    {"DV2","Bao"}
-                },
-                new String[]{
-                    "Mã đơn vị tính", "Tên đơn vị tính",
-                }
-        ));
-        scrollTableSanPham.setViewportView(tableSanPham);
 
         main.add(scrollTableSanPham);
 
@@ -116,5 +127,43 @@ public class DonViTinh extends JPanel{
 
     public DonViTinh() {
         initComponent();
+        tableSanPham.setDefaultEditor(Object.class, null);
+        loadDataTalbe();
+        System.out.println(getAutoIncrement());
+    }
+
+    // Function load data table
+    public void loadDataTalbe() {
+        tblModel.setRowCount(0);
+        for (DTO.DonViTinh donViTinh : listDv) {
+            tblModel.addRow(new Object[]{
+                donViTinh.getMaDVT(), donViTinh.getTenDVT()
+            });
+        }
+    }
+
+    public int getAutoIncrement() {
+        int index = 1;
+        for (DTO.DonViTinh donViTinh : listDv) {
+            if (donViTinh.getMaDVT() == index) {
+                index++;
+            }
+        }
+        return index;
+    }
+
+    public void addDVT(DTO.DonViTinh dvt) {
+        listDv.add(dvt);
+        loadDataTalbe();
+    }
+    
+    public String getDVTtoTb(){
+        int row = tableSanPham.getSelectedRow();
+        return tableSanPham.getModel().getValueAt(row, 1).toString();
+    }
+    
+    public String getId(){
+        int row = tableSanPham.getSelectedRow();
+        return tableSanPham.getModel().getValueAt(row, 0).toString();
     }
 }
