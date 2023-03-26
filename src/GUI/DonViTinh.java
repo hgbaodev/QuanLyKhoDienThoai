@@ -179,13 +179,12 @@ public class DonViTinh extends JPanel implements MouseListener{
     @Override
     public void mousePressed(MouseEvent e) {
         if(e.getSource() == mainFunction.btnAdd){
-            System.out.println("Da bat duoc su kien");
             DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Thêm đơn vị tính", true, "create");
         } else if(e.getSource() == mainFunction.btnEdit){
             if (tableSanPham.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
             } else {
-                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update",getDVTtoTb(),getId());
+                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update",getDVTtoTb(),getId(),1);
             }
         } else if(e.getSource() == mainFunction.btnDelete){
             if (tableSanPham.getSelectedRow() == -1) {
@@ -201,7 +200,11 @@ public class DonViTinh extends JPanel implements MouseListener{
                 } 
             }
         } else if(e.getSource() == mainFunction.btnDetail){
-            
+            if (tableSanPham.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
+            } else {
+                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiết đơn vị tính", true, "update",getDVTtoTb(),getId(),2);
+            }
         }
     }
 

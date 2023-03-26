@@ -45,14 +45,25 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
         initComponents(title, type);
     }
 
-    public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, String tenDvt, String id) {
+    public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, String tenDvt, String id, int check) {
         super(owner, title, modal);
-        tenDv = new InputForm("Tên đơn vị tính");
-        idDvt = new JTextField("");
-        setTenDv(tenDvt);
-        setIdDvt(id);
-        this.jpDVT = jpDVT;
-        initComponents(title, type);
+        if (check == 1) {
+            tenDv = new InputForm("Tên đơn vị tính");
+            idDvt = new JTextField("");
+            setTenDv(tenDvt);
+            setIdDvt(id);
+            this.jpDVT = jpDVT;
+            initComponents(title, type);
+        } else if(check == 2){
+            tenDv = new InputForm("Tên đơn vị tính");
+            tenDv.setDisable();
+            idDvt = new JTextField("");
+            setTenDv(tenDvt);
+            setIdDvt(id);
+            this.jpDVT = jpDVT;
+            initComponents(title, type);
+        }
+
     }
 
     public void initComponents(String title, String type) {
@@ -70,12 +81,12 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
         btnThem = new ButtonCustom("Thêm đơn vị", "success", 14);
         btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
-        
+
         //Add MouseListener btn
         btnThem.addMouseListener(this);
         btnCapNhat.addMouseListener(this);
         btnHuyBo.addMouseListener(this);
-        
+
         switch (type) {
             case "create" ->
                 pnbottom.add(btnThem);
