@@ -11,15 +11,22 @@ import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class DonViTinh extends JPanel implements MouseListener{
@@ -226,6 +233,45 @@ public class DonViTinh extends JPanel implements MouseListener{
             e.printStackTrace();
         }
     }
+    
+    public void importExcel(){
+        File excelFile;
+        FileInputStream excelFIS = null;
+        BufferedInputStream excelBIS = null;
+        XSSFWorkbook excelJTableImport = null;
+        ArrayList<DTO.DonViTinh> listExcel = new ArrayList<DTO.DonViTinh>();
+        JFileChooser jf = new JFileChooser();
+        int result = jf.showOpenDialog(null);
+        jf.setDialogTitle("Open file");
+        Workbook workbook = null;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                excelFile = jf.getSelectedFile();
+                excelFIS = new FileInputStream(excelFile);
+                excelBIS = new BufferedInputStream(excelFIS);
+                excelJTableImport = new XSSFWorkbook(excelBIS);
+                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
+                    XSSFRow excelRow = excelSheet.getRow(row);
+                    int id = getAutoIncrement();
+                    String tenDvt = excelRow.getCell(0).getStringCellValue();
+                    DTO.DonViTinh dv = new DTO.DonViTinh(id, tenDvt);
+                    listDv.add(dv);
+                    listExcel.add(dv);
+                    tblModel.setRowCount(0);
+                }
+            } catch (FileNotFoundException ex) {
+                System.out.println("Lỗi đọc file");
+            } catch (IOException ex) {
+                System.out.println("Lỗi đọc file");
+            }
+        }
+        
+        for (DTO.DonViTinh donViTinh : listExcel) {
+            DonViTinhDAO.getInstance().insert(donViTinh);
+        }
+        loadDataTalbe();
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -265,7 +311,11 @@ public class DonViTinh extends JPanel implements MouseListener{
         }
         if(e.getSource() == mainFunction.btnXuatExcel){
             exportExcel();
-        }
+        } 
+        
+        if(e.getSource() == mainFunction.btnNhapExcel){
+            importExcel();
+        } 
         
     }
 
@@ -282,5 +332,11 @@ public class DonViTinh extends JPanel implements MouseListener{
     @Override
     public void mouseExited(MouseEvent e) {
 //        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private static class ProductForm {
+
+        public ProductForm() {
+        }
     }
 }
