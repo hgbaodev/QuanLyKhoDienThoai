@@ -9,9 +9,6 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,8 +16,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -31,6 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 public class DonViTinh extends JPanel implements MouseListener {
 
@@ -314,10 +310,11 @@ public class DonViTinh extends JPanel implements MouseListener {
             System.out.println("Da bat duoc su kien");
             DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Thêm đơn vị tính", true, "create");
         } else if (e.getSource() == mainFunction.btnEdit) {
-            if (tableSanPham.getSelectedRow() == -1) {
+            int index = tableSanPham.getSelectedRow();
+            if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
             } else {
-                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update", getDVTtoTb(), getId(), 1);
+                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update", listDv.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
             if (tableSanPham.getSelectedRow() == -1) {
@@ -333,10 +330,11 @@ public class DonViTinh extends JPanel implements MouseListener {
                 }
             }
         } else if (e.getSource() == mainFunction.btnDetail) {
-            if (tableSanPham.getSelectedRow() == -1) {
+            int index = tableSanPham.getSelectedRow();
+            if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
             } else {
-                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiêt đơn vị tính", true, "update", getDVTtoTb(), getId(), 2);
+                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiêt đơn vị tính", true, "view", listDv.get(index));
             }
         }
         if (e.getSource() == mainFunction.btnXuatExcel) {

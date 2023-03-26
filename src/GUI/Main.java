@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import component.MenuTaskbar;
 import component.NavigationBar;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 public class Main extends javax.swing.JFrame {
 
@@ -194,6 +195,8 @@ public class Main extends javax.swing.JFrame {
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
+        UIManager.put("Table.showVerticalLines", true);
+        UIManager.put("Table.showHorizontalLines", true);
         Main main = new Main();
         main.setVisible(true);
     }

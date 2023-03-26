@@ -45,25 +45,14 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
         initComponents(title, type);
     }
 
-    public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, String tenDvt, String id, int check) {
+    public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, DTO.DonViTinh dvt) {
         super(owner, title, modal);
-        if (check == 1) {
-            tenDv = new InputForm("Tên đơn vị tính");
-            idDvt = new JTextField("");
-            setTenDv(tenDvt);
-            setIdDvt(id);
-            this.jpDVT = jpDVT;
-            initComponents(title, type);
-        } else if(check == 2){
-            tenDv = new InputForm("Tên đơn vị tính");
-            tenDv.setDisable();
-            idDvt = new JTextField("");
-            setTenDv(tenDvt);
-            setIdDvt(id);
-            this.jpDVT = jpDVT;
-            initComponents(title, type);
-        }
-
+        tenDv = new InputForm("Tên đơn vị tính");
+        idDvt = new JTextField("");
+        setTenDv(dvt.getTenDVT());
+        setIdDvt(Integer.toString(dvt.getMaDVT()));
+        this.jpDVT = jpDVT;
+        initComponents(title, type);
     }
 
     public void initComponents(String title, String type) {
@@ -92,6 +81,8 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
                 pnbottom.add(btnThem);
             case "update" ->
                 pnbottom.add(btnCapNhat);
+            case "view" -> 
+                tenDv.setDisable();
             default ->
                 throw new AssertionError();
         }
