@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,8 +29,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-public class DonViTinh extends JPanel implements MouseListener{
+public class DonViTinh extends JPanel implements MouseListener {
 
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -108,6 +111,11 @@ public class DonViTinh extends JPanel implements MouseListener{
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
+        search.txtSearchForm.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                searchDonVi();
+            }
+        });
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
@@ -127,13 +135,22 @@ public class DonViTinh extends JPanel implements MouseListener{
         initComponent();
         tableSanPham.setDefaultEditor(Object.class, null);
         loadDataTalbe();
-        System.out.println(getAutoIncrement());
+
     }
 
     // Function load data table
     public void loadDataTalbe() {
         tblModel.setRowCount(0);
         for (DTO.DonViTinh donViTinh : listDv) {
+            tblModel.addRow(new Object[]{
+                donViTinh.getMaDVT(), donViTinh.getTenDVT()
+            });
+        }
+    }
+
+    public void loadSearch(ArrayList<DTO.DonViTinh> result) {
+        tblModel.setRowCount(0);
+        for (DTO.DonViTinh donViTinh : result) {
             tblModel.addRow(new Object[]{
                 donViTinh.getMaDVT(), donViTinh.getTenDVT()
             });
@@ -150,44 +167,42 @@ public class DonViTinh extends JPanel implements MouseListener{
         return index;
     }
 
-    
-    
-    public String getDVTtoTb(){
+    public String getDVTtoTb() {
         int row = tableSanPham.getSelectedRow();
         return tableSanPham.getModel().getValueAt(row, 1).toString();
     }
-    
-    public String getId(){
+
+    public String getId() {
         int row = tableSanPham.getSelectedRow();
         return tableSanPham.getModel().getValueAt(row, 0).toString();
     }
-    
+
     public void addDVT(DTO.DonViTinh dvt) {
         listDv.add(dvt);
         loadDataTalbe();
     }
-    
-    public void updateDVT(DTO.DonViTinh dvt){
+
+    public void updateDVT(DTO.DonViTinh dvt) {
         System.out.println(dvt);
         for (DTO.DonViTinh donViTinh : listDv) {
-            if(donViTinh.getMaDVT() == dvt.getMaDVT()){
+            if (donViTinh.getMaDVT() == dvt.getMaDVT()) {
                 donViTinh.setTenDVT(dvt.getTenDVT());
             }
         }
         loadDataTalbe();
     }
-    
-    public void deleteDVT(DTO.DonViTinh dvt){
+
+    public void deleteDVT(DTO.DonViTinh dvt) {
         int index = -1;
-        for(int i=0;i<listDv.size();i++){
-            if(listDv.get(i).getMaDVT() == dvt.getMaDVT()){
+        for (int i = 0; i < listDv.size(); i++) {
+            if (listDv.get(i).getMaDVT() == dvt.getMaDVT()) {
                 index = i;
             }
         }
         listDv.remove(index);
         loadDataTalbe();
     }
-    
+
     public void openFile(String file) {
         try {
             File path = new File(file);
@@ -196,8 +211,8 @@ public class DonViTinh extends JPanel implements MouseListener{
             System.out.println(e);
         }
     }
-    
-    public void exportExcel(){
+
+    public void exportExcel() {
         try {
             JFileChooser jFileChooser = new JFileChooser();
             jFileChooser.showSaveDialog(this);
@@ -233,8 +248,8 @@ public class DonViTinh extends JPanel implements MouseListener{
             e.printStackTrace();
         }
     }
-    
-    public void importExcel(){
+
+    public void importExcel() {
         File excelFile;
         FileInputStream excelFIS = null;
         BufferedInputStream excelBIS = null;
@@ -266,11 +281,26 @@ public class DonViTinh extends JPanel implements MouseListener{
                 System.out.println("Lỗi đọc file");
             }
         }
-        
+
         for (DTO.DonViTinh donViTinh : listExcel) {
             DonViTinhDAO.getInstance().insert(donViTinh);
         }
         loadDataTalbe();
+    }
+
+    public void searchDonVi() {
+        String content_search = search.txtSearchForm.getText();
+        if (content_search.length() != 0) {
+            ArrayList<DTO.DonViTinh> result = new ArrayList<>();
+            for (var dv : listDv) {
+                if (dv.getTenDVT().toLowerCase().contains(content_search.toLowerCase())) {
+                    result.add(dv);
+                }
+            }
+            loadSearch(result);
+        } else {
+            loadDataTalbe();
+        }
     }
 
     @Override
@@ -280,43 +310,43 @@ public class DonViTinh extends JPanel implements MouseListener{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(e.getSource() == mainFunction.btnAdd){
+        if (e.getSource() == mainFunction.btnAdd) {
             System.out.println("Da bat duoc su kien");
             DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Thêm đơn vị tính", true, "create");
-        } else if(e.getSource() == mainFunction.btnEdit){
+        } else if (e.getSource() == mainFunction.btnEdit) {
             if (tableSanPham.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
             } else {
-                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update",getDVTtoTb(),getId(),1);
+                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update", getDVTtoTb(), getId(), 1);
             }
-        } else if(e.getSource() == mainFunction.btnDelete){
+        } else if (e.getSource() == mainFunction.btnDelete) {
             if (tableSanPham.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xóa");
             } else {
-                int input = JOptionPane.showConfirmDialog(null, 
-                "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa đơn vị tính", 
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                if(input == 0){
+                int input = JOptionPane.showConfirmDialog(null,
+                        "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa đơn vị tính",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (input == 0) {
                     DonViTinhDAO.getInstance().delete(getId());
                     DTO.DonViTinh d = new DTO.DonViTinh(Integer.parseInt(getId()), getDVTtoTb());
                     deleteDVT(d);
-                } 
+                }
             }
-        } else if(e.getSource() == mainFunction.btnDetail){
+        } else if (e.getSource() == mainFunction.btnDetail) {
             if (tableSanPham.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
             } else {
-                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiêt đơn vị tính", true, "update",getDVTtoTb(),getId(),2);
+                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiêt đơn vị tính", true, "update", getDVTtoTb(), getId(), 2);
             }
         }
-        if(e.getSource() == mainFunction.btnXuatExcel){
+        if (e.getSource() == mainFunction.btnXuatExcel) {
             exportExcel();
-        } 
-        
-        if(e.getSource() == mainFunction.btnNhapExcel){
+        }
+
+        if (e.getSource() == mainFunction.btnNhapExcel) {
             importExcel();
-        } 
-        
+        }
+
     }
 
     @Override
