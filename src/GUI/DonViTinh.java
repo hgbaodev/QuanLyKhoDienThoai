@@ -9,6 +9,8 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -110,6 +112,14 @@ public class DonViTinh extends JPanel implements MouseListener {
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 searchDonVi();
+            }
+        });
+        
+        search.btnReset.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                search.txtSearchForm.setText("");
+                loadDataTalbe();
             }
         });
         functionBar.add(search);
@@ -332,7 +342,7 @@ public class DonViTinh extends JPanel implements MouseListener {
         } else if (e.getSource() == mainFunction.btnDetail) {
             int index = tableSanPham.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xem");
             } else {
                 DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiêt đơn vị tính", true, "view", listDv.get(index));
             }
