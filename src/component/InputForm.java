@@ -38,8 +38,4 @@ public class InputForm extends JPanel {
     public void setText(String content) {
         txtForm.setText(content);
     }
-    
-    public void setDisable(){
-        txtForm.setEnabled(false);
-    }
 }

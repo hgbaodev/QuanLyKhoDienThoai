@@ -7,7 +7,7 @@ import component.MainFunction;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import component.PanelBorderRadius;
+import swing.PanelBorderRadius;
 
 public class PhanQuyen_pnl extends JPanel {
 
@@ -61,7 +61,7 @@ public class PhanQuyen_pnl extends JPanel {
         mainFunction = new MainFunction();
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        search = new IntegratedSearch();
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);

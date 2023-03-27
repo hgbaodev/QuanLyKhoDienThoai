@@ -36,12 +36,12 @@ public class MainFunction extends JToolBar{
 //        separator1 = new JSeparator(SwingConstants.VERTICAL);
 //        this.add(separator1);
 
-        btnXuatExcel = new ButtonToolBar("XUẤT EXCEL","/icon/xls_50px.png");
-        
-
-        btnNhapExcel = new ButtonToolBar("NHẬP EXCEL", "/icon/import_csv_50px.png");
-        this.add(btnXuatExcel);
+        btnNhapExcel = new ButtonToolBar("XUẤT EXCEL","/icon/xls_50px.png");
         this.add(btnNhapExcel);
+
+        btnXuatExcel = new ButtonToolBar("NHẬP EXCEL", "/icon/import_csv_50px.png");
+        this.add(btnXuatExcel);
+       
     }
     
     

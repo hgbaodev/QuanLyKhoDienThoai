@@ -2,7 +2,7 @@ package GUI;
 
 import java.awt.*;
 import javax.swing.*;
-import component.PanelShadow;
+import swing.PanelShadow;
 
 public class TrangChu extends JPanel {
 

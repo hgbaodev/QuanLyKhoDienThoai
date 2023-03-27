@@ -6,11 +6,12 @@ import javax.swing.border.EmptyBorder;
 
 public class IntegratedSearch extends JPanel {
 
-    public JComboBox<String> cbxChoose;
-    public JButton btnReset;
-    public JTextField txtSearchForm;
+    JComboBox<String> cbxChoose;
+    String str[] = {"Tất cả", "Mã số", "Họ tên", "Năm sinh"};
+    JButton btnReset;
+    JTextField txtSearchForm;
 
-    private void initComponent(String str[]) {
+    private void initComponent() {
 
         this.setBackground(Color.WHITE);
         this.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
@@ -43,8 +44,8 @@ public class IntegratedSearch extends JPanel {
         this.add(jpSearch);
     }
 
-    public IntegratedSearch(String str[]) {
-        initComponent(str);
+    public IntegratedSearch() {
+        initComponent();
     }
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent e) {

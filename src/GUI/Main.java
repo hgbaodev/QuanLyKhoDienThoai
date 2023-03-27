@@ -1,12 +1,10 @@
 package GUI;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.*;
 import javax.swing.*;
 import component.MenuTaskbar;
 import component.NavigationBar;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 public class Main extends javax.swing.JFrame {
 
@@ -30,13 +28,13 @@ public class Main extends javax.swing.JFrame {
     private NavigationBar navbar;
 
     private void initComponent() {
+        
         this.setSize(new Dimension(1400, 800));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(0, 0));
         this.setTitle("Hệ thống quản lý kho hàng ");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        /*
         lbl = new JLabel("Quản lý kho hàng hoá"
                 + "                nguyenthanhsangsgu@gmail.com");
         lbl.setBounds(10, 10, 100, 20);
@@ -51,7 +49,6 @@ public class Main extends javax.swing.JFrame {
 
         this.add(pnlThanhDuoi, BorderLayout.SOUTH);
 
-        */
         menuTaskbar = new MenuTaskbar();
         menuTaskbar.setPreferredSize(new Dimension(250, 1400));
 
@@ -193,13 +190,12 @@ public class Main extends javax.swing.JFrame {
     }
 
     public Main() {
+        
         initComponent();
     }
 
-    public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new FlatMacLightLaf());
-        UIManager.put("Table.showVerticalLines", true);
-        UIManager.put("Table.showHorizontalLines", true);
+    public static void main(String[] args) {
+        FlatLightLaf.setup();
         Main main = new Main();
         main.setVisible(true);
     }
