@@ -5,7 +5,7 @@ import component.MainFunction;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import component.PanelBorderRadius;
+import swing.PanelBorderRadius;
 
 public class XuatKho extends JPanel {
 

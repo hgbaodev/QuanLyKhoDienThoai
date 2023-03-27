@@ -4,29 +4,30 @@
  */
 package DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.ResultSet;
 import config.JDBCUtil;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DTO.DonViTinhDTO;
+import DTO.DonViTinh;
 
-public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
+public class DonViTinhDAO implements DAOinterface<DonViTinh>{
     public static DonViTinhDAO getInstance(){
         return new DonViTinhDAO();
     }
 
     @Override
-    public int insert(DonViTinhDTO t) {
+    public int insert(DonViTinh t) {
       int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `donvitinh`(`tendonvitinh`) VALUES (?)";
+            String sql = "INSERT INTO `donvitinh`(`madonvitinh`,`tendonvitinh`) VALUES (?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t.getTenDVT());
+            pst.setInt(1, t.getMaDVT());
+            pst.setString(2, t.getTenDVT());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -36,14 +37,14 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
     }
 
     @Override
-    public int update(DonViTinhDTO t) {
+    public int update(DonViTinh t) {
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `donvitinh` SET`tendonvitinh`=? WHERE  `madonvitinh`=?";
+            String sql = "UPDATE `donvitinh` SET `madonvitinh`='?',`tendonvitinh`='?' WHERE ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t.getTenDVT());
-            pst.setInt(2, t.getMaDVT());
+            pst.setInt(1, t.getMaDVT());
+            pst.setString(2, t.getTenDVT());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -57,7 +58,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM donvitinh WHERE madonvitinh = ?";
+            String sql = "DELETE FROM donvitinh WHERE madonvitinh = '?'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -69,8 +70,8 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
     }
 
     @Override
-    public ArrayList<DonViTinhDTO> selectAll() {
-        ArrayList<DonViTinhDTO> result = new ArrayList<DonViTinhDTO>();
+    public ArrayList<DonViTinh> selectAll() {
+        ArrayList<DonViTinh> result = new ArrayList<DonViTinh>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM donvitinh";
@@ -80,7 +81,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
                 int mandvt = rs.getInt("madonvitinh");
                 String tendvt = rs.getString("tendonvitinh");
                 
-                DonViTinhDTO dvt = new DonViTinhDTO(mandvt, tendvt);
+                DonViTinh dvt = new DonViTinh(mandvt, tendvt);
                 result.add(dvt);
             }
             JDBCUtil.closeConnection(con);
@@ -90,8 +91,8 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
     }
 
     @Override
-    public DonViTinhDTO selectById(String t) {
-        DonViTinhDTO result = null;
+    public DonViTinh selectById(String t) {
+        DonViTinh result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM donvitinh WHERE madonvitinh='?'";
@@ -101,7 +102,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
             while(rs.next()){
                 int mancc = rs.getInt("madonvitinh");
                 String tenncc = rs.getString("tendonvitinh");
-                result = new DonViTinhDTO(mancc, tenncc);
+                result = new DonViTinh(mancc, tenncc);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
