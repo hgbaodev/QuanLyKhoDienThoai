@@ -3957,8 +3957,8 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 1255,
-											"top": 237,
+											"left": 1263,
+											"top": 245,
 											"height": 13,
 											"alpha": 1.5707963267948966,
 											"distance": 15,
@@ -3975,7 +3975,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 719,
-											"top": 223,
+											"top": 231,
 											"height": 13,
 											"alpha": 0.5235987755982988,
 											"distance": 30,
@@ -3991,7 +3991,7 @@
 												"$ref": "AAAAAAGGhJXrVQg+Un0="
 											},
 											"font": "Arial;13;0",
-											"left": 1255,
+											"left": 1263,
 											"top": 680,
 											"height": 13,
 											"alpha": -0.5235987755982988,
@@ -4009,7 +4009,7 @@
 										"$ref": "AAAAAAGGhDgFnQCDUj8="
 									},
 									"lineStyle": 2,
-									"points": "694:244;1240:244;1240:712",
+									"points": "694:252;1248:252;1248:712",
 									"nameLabel": {
 										"$ref": "AAAAAAGGhJXrVQg/aS8="
 									},
@@ -4038,8 +4038,8 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 1455,
-											"top": 225,
+											"left": 1463,
+											"top": 233,
 											"height": 13,
 											"alpha": 1.5707963267948966,
 											"distance": 15,
@@ -4056,7 +4056,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 719,
-											"top": 211,
+											"top": 219,
 											"height": 13,
 											"alpha": 0.5235987755982988,
 											"distance": 30,
@@ -4072,7 +4072,7 @@
 												"$ref": "AAAAAAGGhJZPxwhVQJ4="
 											},
 											"font": "Arial;13;0",
-											"left": 1455,
+											"left": 1463,
 											"top": 456,
 											"height": 13,
 											"alpha": -0.5235987755982988,
@@ -4090,7 +4090,7 @@
 										"$ref": "AAAAAAGGhDgFnQCDUj8="
 									},
 									"lineStyle": 2,
-									"points": "694:232;1440:232;1440:488",
+									"points": "694:240;1448:240;1448:488",
 									"nameLabel": {
 										"$ref": "AAAAAAGGhJZPxwhWEss="
 									},

@@ -2,20 +2,21 @@ package config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import javax.swing.JOptionPane;
 public class JDBCUtil {
 	public static Connection getConnection() {
 		Connection result = null;
 		try {
 			// Dang ky MySQL Driver voi DriverManager
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 			//Cac thong so
-			String url = "jdbc:mySQL://localhost:3306/warehousemanagement";
+			String url = "jdbc:mySQL://localhost:3307/warehousemanagement";
 			String userName = "root";
 			String password = "";
 			//Tao ket noi 
 			result = DriverManager.getConnection(url, userName, password);
 		} catch (Exception e) {
-                        System.out.println("Conenct database err");
+                        JOptionPane.showMessageDialog(null, "Không thể kết nối đến cơ sở dữ liệu !","Lỗi", JOptionPane.ERROR_MESSAGE);
 		}
 		return result;
 	}
@@ -29,5 +30,4 @@ public class JDBCUtil {
 			e.printStackTrace();
 		}
 	}
-
 }
