@@ -47,7 +47,7 @@ public class DonViTinhBUS {
     
     public Boolean delete(DonViTinhDTO dvt) {
         boolean check = dvtDAO.delete(Integer.toString(dvt.getMaDVT())) != 0;
-        if(check) this.listDvt.remove(dvt);
+        if(check) this.listDvt.remove(getIndexByMaDV(dvt.getMaDVT()));
         return check;
     }
     
