@@ -196,6 +196,11 @@ public class Main extends javax.swing.JFrame {
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
+<<<<<<< HEAD
+=======
+        UIManager.put("Table.showVerticalLines", true);
+        UIManager.put("Table.showHorizontalLines", true);
+>>>>>>> parent of a6ddc3a (up)
         Main main = new Main();
         main.setVisible(true);
     }

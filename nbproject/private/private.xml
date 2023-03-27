@@ -13,6 +13,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Main.java</file>
+<<<<<<< HEAD
+=======
+            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/DAO/DonViTinhDAO.java</file>
+            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/DonViTinhDialog.java</file>
+            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/PhanQuyen.java</file>
+            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/SanPhamDialog.java</file>
+>>>>>>> parent of a6ddc3a (up)
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/DonViTinh.java</file>
         </group>
     </open-files>

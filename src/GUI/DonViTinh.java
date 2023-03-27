@@ -1,5 +1,9 @@
 package GUI;
 
+<<<<<<< HEAD
+=======
+import DAO.DonViTinhDAO;
+>>>>>>> parent of a6ddc3a (up)
 import component.IntegratedSearch;
 import component.MainFunction;
 import java.awt.*;
@@ -7,9 +11,35 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+<<<<<<< HEAD
 import swing.PanelBorderRadius;
 
 public class DonViTinh extends JPanel implements MouseListener{
+=======
+import component.PanelBorderRadius;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
+
+public class DonViTinh extends JPanel implements MouseListener {
+>>>>>>> parent of a6ddc3a (up)
 
     PanelBorderRadius box1, box2, main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -17,11 +47,36 @@ public class DonViTinh extends JPanel implements MouseListener{
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
+<<<<<<< HEAD
     JLabel lbl1, lblImage;
 
     Color BackgroundColor = new Color(240, 247, 250);
 
     private void initComponent() {
+=======
+    // Khai báo array líst danh sách
+    ArrayList<DTO.DonViTinh> listDv = DonViTinhDAO.getInstance().selectAll();
+    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
+
+    Color BackgroundColor = new Color(240, 247, 250);
+    private DefaultTableModel tblModel;
+
+    private void initComponent() {
+        //Set model table
+        tableSanPham = new JTable();
+        scrollTableSanPham = new JScrollPane();
+        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{}
+        ));
+        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"Mã đơn vị tính", "Tên đơn vị tính"};
+        tblModel.setColumnIdentifiers(header);
+        tableSanPham.setModel(tblModel);
+        scrollTableSanPham.setViewportView(tableSanPham);
+
+>>>>>>> parent of a6ddc3a (up)
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -60,9 +115,36 @@ public class DonViTinh extends JPanel implements MouseListener{
         functionBar.setBorder(new EmptyBorder(2,2,2,2));
 
         mainFunction = new MainFunction(this);
+<<<<<<< HEAD
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch();
+=======
+        //Add Event MouseListener
+        mainFunction.btnAdd.addMouseListener(this);
+        mainFunction.btnEdit.addMouseListener(this);
+        mainFunction.btnDetail.addMouseListener(this);
+        mainFunction.btnDelete.addMouseListener(this);
+        mainFunction.btnXuatExcel.addMouseListener(this);
+        mainFunction.btnNhapExcel.addMouseListener(this);
+
+        functionBar.add(mainFunction);
+
+        search = new IntegratedSearch(new String[]{"Tất cả"});
+        search.txtSearchForm.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                searchDonVi();
+            }
+        });
+        
+        search.btnReset.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                search.txtSearchForm.setText("");
+                loadDataTalbe();
+            }
+        });
+>>>>>>> parent of a6ddc3a (up)
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
@@ -98,21 +180,237 @@ public class DonViTinh extends JPanel implements MouseListener{
 
     public DonViTinh() {
         initComponent();
+<<<<<<< HEAD
     }
 
     
     public void add() {
         JOptionPane.showMessageDialog(null, "Sanr pham");
+=======
+        tableSanPham.setDefaultEditor(Object.class, null);
+        loadDataTalbe();
+
+    }
+
+    // Function load data table
+    public void loadDataTalbe() {
+        tblModel.setRowCount(0);
+        for (DTO.DonViTinh donViTinh : listDv) {
+            tblModel.addRow(new Object[]{
+                donViTinh.getMaDVT(), donViTinh.getTenDVT()
+            });
+        }
+    }
+
+    public void loadSearch(ArrayList<DTO.DonViTinh> result) {
+        tblModel.setRowCount(0);
+        for (DTO.DonViTinh donViTinh : result) {
+            tblModel.addRow(new Object[]{
+                donViTinh.getMaDVT(), donViTinh.getTenDVT()
+            });
+        }
+    }
+
+    public int getAutoIncrement() {
+        int index = 1;
+        for (DTO.DonViTinh donViTinh : listDv) {
+            if (donViTinh.getMaDVT() == index) {
+                index++;
+            }
+        }
+        return index;
+    }
+
+    public String getDVTtoTb() {
+        int row = tableSanPham.getSelectedRow();
+        return tableSanPham.getModel().getValueAt(row, 1).toString();
+    }
+
+    public String getId() {
+        int row = tableSanPham.getSelectedRow();
+        return tableSanPham.getModel().getValueAt(row, 0).toString();
+    }
+
+    public void addDVT(DTO.DonViTinh dvt) {
+        listDv.add(dvt);
+        loadDataTalbe();
+    }
+
+    public void updateDVT(DTO.DonViTinh dvt) {
+        System.out.println(dvt);
+        for (DTO.DonViTinh donViTinh : listDv) {
+            if (donViTinh.getMaDVT() == dvt.getMaDVT()) {
+                donViTinh.setTenDVT(dvt.getTenDVT());
+            }
+        }
+        loadDataTalbe();
+    }
+
+    public void deleteDVT(DTO.DonViTinh dvt) {
+        int index = -1;
+        for (int i = 0; i < listDv.size(); i++) {
+            if (listDv.get(i).getMaDVT() == dvt.getMaDVT()) {
+                index = i;
+            }
+        }
+        listDv.remove(index);
+        loadDataTalbe();
+    }
+
+    public void openFile(String file) {
+        try {
+            File path = new File(file);
+            Desktop.getDesktop().open(path);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void exportExcel() {
+        try {
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.showSaveDialog(this);
+            File saveFile = jFileChooser.getSelectedFile();
+            if (saveFile != null) {
+                saveFile = new File(saveFile.toString() + ".xlsx");
+                Workbook wb = new XSSFWorkbook();
+                Sheet sheet = wb.createSheet("Đơn vị tính");
+
+                Row rowCol = sheet.createRow(0);
+                for (int i = 0; i < tableSanPham.getColumnCount(); i++) {
+                    Cell cell = rowCol.createCell(i);
+                    cell.setCellValue(tableSanPham.getColumnName(i));
+                }
+
+                for (int j = 0; j < tableSanPham.getRowCount(); j++) {
+                    Row row = sheet.createRow(j + 1);
+                    for (int k = 0; k < tableSanPham.getColumnCount(); k++) {
+                        Cell cell = row.createCell(k);
+                        if (tableSanPham.getValueAt(j, k) != null) {
+                            cell.setCellValue(tableSanPham.getValueAt(j, k).toString());
+                        }
+
+                    }
+                }
+                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
+                wb.write(out);
+                wb.close();
+                out.close();
+                openFile(saveFile.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void importExcel() {
+        File excelFile;
+        FileInputStream excelFIS = null;
+        BufferedInputStream excelBIS = null;
+        XSSFWorkbook excelJTableImport = null;
+        ArrayList<DTO.DonViTinh> listExcel = new ArrayList<DTO.DonViTinh>();
+        JFileChooser jf = new JFileChooser();
+        int result = jf.showOpenDialog(null);
+        jf.setDialogTitle("Open file");
+        Workbook workbook = null;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                excelFile = jf.getSelectedFile();
+                excelFIS = new FileInputStream(excelFile);
+                excelBIS = new BufferedInputStream(excelFIS);
+                excelJTableImport = new XSSFWorkbook(excelBIS);
+                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
+                    XSSFRow excelRow = excelSheet.getRow(row);
+                    int id = getAutoIncrement();
+                    String tenDvt = excelRow.getCell(0).getStringCellValue();
+                    DTO.DonViTinh dv = new DTO.DonViTinh(id, tenDvt);
+                    listDv.add(dv);
+                    listExcel.add(dv);
+                    tblModel.setRowCount(0);
+                }
+            } catch (FileNotFoundException ex) {
+                System.out.println("Lỗi đọc file");
+            } catch (IOException ex) {
+                System.out.println("Lỗi đọc file");
+            }
+        }
+
+        for (DTO.DonViTinh donViTinh : listExcel) {
+            DonViTinhDAO.getInstance().insert(donViTinh);
+        }
+        loadDataTalbe();
+    }
+
+    public void searchDonVi() {
+        String content_search = search.txtSearchForm.getText();
+        if (content_search.length() != 0) {
+            ArrayList<DTO.DonViTinh> result = new ArrayList<>();
+            for (var dv : listDv) {
+                if (dv.getTenDVT().toLowerCase().contains(content_search.toLowerCase())) {
+                    result.add(dv);
+                }
+            }
+            loadSearch(result);
+        } else {
+            loadDataTalbe();
+        }
+>>>>>>> parent of a6ddc3a (up)
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
 //        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+<<<<<<< HEAD
 
     @Override
     public void mousePressed(MouseEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+=======
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (e.getSource() == mainFunction.btnAdd) {
+            System.out.println("Da bat duoc su kien");
+            DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Thêm đơn vị tính", true, "create");
+        } else if (e.getSource() == mainFunction.btnEdit) {
+            int index = tableSanPham.getSelectedRow();
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
+            } else {
+                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update", listDv.get(index));
+            }
+        } else if (e.getSource() == mainFunction.btnDelete) {
+            if (tableSanPham.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xóa");
+            } else {
+                int input = JOptionPane.showConfirmDialog(null,
+                        "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa đơn vị tính",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (input == 0) {
+                    DonViTinhDAO.getInstance().delete(getId());
+                    DTO.DonViTinh d = new DTO.DonViTinh(Integer.parseInt(getId()), getDVTtoTb());
+                    deleteDVT(d);
+                }
+            }
+        } else if (e.getSource() == mainFunction.btnDetail) {
+            int index = tableSanPham.getSelectedRow();
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xem");
+            } else {
+                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiêt đơn vị tính", true, "view", listDv.get(index));
+            }
+        }
+        if (e.getSource() == mainFunction.btnXuatExcel) {
+            exportExcel();
+        }
+
+        if (e.getSource() == mainFunction.btnNhapExcel) {
+            importExcel();
+        }
+
+>>>>>>> parent of a6ddc3a (up)
     }
 
     @Override
@@ -128,5 +426,14 @@ public class DonViTinh extends JPanel implements MouseListener{
     @Override
     public void mouseExited(MouseEvent e) {
 //        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+<<<<<<< HEAD
+=======
+    }
+
+    private static class ProductForm {
+
+        public ProductForm() {
+        }
+>>>>>>> parent of a6ddc3a (up)
     }
 }
