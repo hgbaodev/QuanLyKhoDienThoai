@@ -2,6 +2,7 @@ package config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import javax.swing.JOptionPane;
 public class JDBCUtil {
 	public static Connection getConnection() {
 		Connection result = null;
@@ -15,7 +16,7 @@ public class JDBCUtil {
 			//Tao ket noi 
 			result = DriverManager.getConnection(url, userName, password);
 		} catch (Exception e) {
-                        System.out.println("Conenct database err");
+                        JOptionPane.showMessageDialog(null, "Không thể kết nối đến cơ sở dữ liệu !","Lỗi", JOptionPane.ERROR_MESSAGE);
 		}
 		return result;
 	}
