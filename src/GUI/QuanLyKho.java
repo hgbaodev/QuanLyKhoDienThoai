@@ -5,7 +5,7 @@ import component.MainFunction;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import swing.PanelBorderRadius;
+import component.PanelBorderRadius;
 
 public class QuanLyKho extends JPanel {
 
@@ -58,7 +58,7 @@ public class QuanLyKho extends JPanel {
         mainFunction = new MainFunction();
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch();
+        search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);

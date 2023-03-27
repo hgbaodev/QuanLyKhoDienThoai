@@ -5,7 +5,7 @@ import component.MainFunction;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import swing.PanelBorderRadius;
+import component.PanelBorderRadius;
 
 public class TaiKhoan extends JPanel {
     PanelBorderRadius box1, box2, main, functionBar, bottom;
@@ -59,7 +59,7 @@ public class TaiKhoan extends JPanel {
         mainFunction = new MainFunction();
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch();
+        search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
