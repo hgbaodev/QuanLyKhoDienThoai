@@ -1,6 +1,7 @@
 package GUI;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.*;
 import javax.swing.*;
 import component.MenuTaskbar;
@@ -195,8 +196,8 @@ public class Main extends javax.swing.JFrame {
         initComponent();
     }
 
-    public static void main(String[] args) {
-        FlatLightLaf.setup();
+    public static void main(String[] args) throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new FlatMacLightLaf());
         UIManager.put("Table.showVerticalLines", true);
         UIManager.put("Table.showHorizontalLines", true);
         Main main = new Main();

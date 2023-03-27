@@ -42,7 +42,7 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
         initComponents(title, type);
     }
 
-    public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, DTO.DonViTinh dvt) {
+    public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, DTO.DonViTinhDTO dvt) {
         super(owner, title, modal);
         tenDv = new InputForm("Tên đơn vị tính");
         idDvt = new JTextField("");
@@ -78,7 +78,7 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
                 pnbottom.add(btnThem);
             case "update" ->
                 pnbottom.add(btnCapNhat);
-            case "view" -> 
+            case "view" ->
                 tenDv.setDisable();
             default ->
                 throw new AssertionError();
@@ -117,19 +117,19 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == btnThem) {
             String name = tenDv.getText();
-            int id = jpDVT.getAutoIncrement();
-            DTO.DonViTinh dvt = new DTO.DonViTinh(id, name);
-            DonViTinhDAO.getInstance().insert(dvt);
-            jpDVT.addDVT(dvt);
+            int id = 0;
+            DTO.DonViTinhDTO dvt = new DTO.DonViTinhDTO(id, name);
+            jpDVT.dvtBUS.add(dvt);
+            jpDVT.loadDataTalbe(jpDVT.listdvt);
             dispose();
         } else if (e.getSource() == btnHuyBo) {
             dispose();
         } else if (e.getSource() == btnCapNhat) {
             String name = tenDv.getText();
             int id = Integer.parseInt(getIdDvt());
-            DTO.DonViTinh dvt = new DTO.DonViTinh(id, name);
-            DonViTinhDAO.getInstance().update(dvt);
-            jpDVT.updateDVT(dvt);
+            DTO.DonViTinhDTO dvt = new DTO.DonViTinhDTO(id, name);
+            jpDVT.dvtBUS.update(dvt);
+            jpDVT.loadDataTalbe(jpDVT.listdvt);
             dispose();
         }
     }

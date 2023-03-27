@@ -6,14 +6,14 @@ package DTO;
 
 import java.util.Objects;
 
-public class DonViTinh {
+public class DonViTinhDTO {
     private int maDVT;
     private String tenDVT;
 
-    public DonViTinh() {
+    public DonViTinhDTO() {
     }
 
-    public DonViTinh(int maDVT, String tenDVT) {
+    public DonViTinhDTO(int maDVT, String tenDVT) {
         this.maDVT = maDVT;
         this.tenDVT = tenDVT;
     }
@@ -53,7 +53,7 @@ public class DonViTinh {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DonViTinh other = (DonViTinh) obj;
+        final DonViTinhDTO other = (DonViTinhDTO) obj;
         return true;
     }
 
