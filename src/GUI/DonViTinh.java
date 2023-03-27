@@ -166,7 +166,6 @@ public class DonViTinh extends JPanel implements ActionListener {
             System.out.println(e);
         }
     }
-<<<<<<< HEAD
 
     public void exportExcel() {
         try {
