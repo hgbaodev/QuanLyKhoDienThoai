@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BUS.NhanVienBUS;
 import DAO.DonViTinhDAO;
 import component.ButtonCustom;
 import component.HeaderTitle;
@@ -28,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 public class DonViTinhDialog extends JDialog implements MouseListener {
 
     private DonViTinh jpDVT;
+    private NhanVienBUS nvbus;
     private HeaderTitle titlePage;
     private JPanel pnmain, pnbottom;
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
@@ -37,6 +39,14 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
     public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
         this.jpDVT = jpDVT;
+        tenDv = new InputForm("Tên đơn vị tính");
+        idDvt = new JTextField("");
+        initComponents(title, type);
+    }
+    
+    public DonViTinhDialog(NhanVienBUS jpDVT, JFrame owner, String title, boolean modal, String type) {
+        super(owner, title, modal);
+        this.nvbus = jpDVT;
         tenDv = new InputForm("Tên đơn vị tính");
         idDvt = new JTextField("");
         initComponents(title, type);

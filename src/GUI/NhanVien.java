@@ -1,14 +1,17 @@
 package GUI;
 
+import BUS.NhanVienBUS;
 import component.IntegratedSearch;
 import component.MainFunction;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
+import java.awt.event.ActionListener;
 
 public class NhanVien extends JPanel {
 
+   public JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     PanelBorderRadius box1, box2, main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tableSanPham;
@@ -53,17 +56,28 @@ public class NhanVien extends JPanel {
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new PanelBorderRadius();
-        functionBar.setPreferredSize(new Dimension(0, 180));
-        functionBar.setLayout(new FlowLayout(1, 15, 40));
+        functionBar.setPreferredSize(new Dimension(0, 100));
+        functionBar.setLayout(new GridLayout(1, 2));
+        functionBar.setBorder(new EmptyBorder(2, 2, 2, 2));
 
         mainFunction = new MainFunction();
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        search = new IntegratedSearch(new String[]{"Tất cả","Họ tên","Email"});
         functionBar.add(search);
-
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
+        ActionListener nvBus = new NhanVienBUS(this);
+        mainFunction.btnAdd.addActionListener(nvBus);
+        mainFunction.btnDelete.addActionListener(nvBus);
+        mainFunction.btnDetail.addActionListener(nvBus);
+        mainFunction.btnEdit.addActionListener(nvBus);
+        mainFunction.btnNhapExcel.addActionListener(nvBus);
+        mainFunction.btnXuatExcel.addActionListener(nvBus);
+        search.btnReset.addActionListener(nvBus);
+        search.cbxChoose.addActionListener(nvBus);
+        search.txtSearchForm.getDocument().addDocumentListener(new NhanVienBUS(search.txtSearchForm));
+        
         // main là phần ở dưới để thống kê bảng biểu
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
