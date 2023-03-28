@@ -1,6 +1,7 @@
 package component;
 
 import GUI.DonViTinh;
+import GUI.KhachHang;
 import GUI.SanPham;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +12,7 @@ public class MainFunction extends JToolBar{
     
    public SanPham sp;
    public DonViTinh dvt;
+   public KhachHang kh;
    public JButton btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel;
    public JSeparator separator1;
 
@@ -63,5 +65,10 @@ public class MainFunction extends JToolBar{
     public MainFunction(DonViTinh a) {
         initComponent();
         this.dvt = a;
+    }
+    
+    public MainFunction(KhachHang a) {
+        initComponent();
+        this.kh = a;
     }
 }
