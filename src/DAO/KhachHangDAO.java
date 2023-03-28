@@ -13,16 +13,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DTO.KhachHang;
+import DTO.KhachHangDTO;
 
-public class KhachHangDAO implements DAOinterface<KhachHang> {
+public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
 
     public static KhachHangDAO getInstance() {
         return new KhachHangDAO();
     }
 
     @Override
-    public int insert(KhachHang t) {
+    public int insert(KhachHangDTO t) {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
@@ -42,7 +42,7 @@ public class KhachHangDAO implements DAOinterface<KhachHang> {
     }
 
     @Override
-    public int update(KhachHang t) {
+    public int update(KhachHangDTO t) {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
@@ -78,8 +78,8 @@ public class KhachHangDAO implements DAOinterface<KhachHang> {
     }
 
     @Override
-    public ArrayList<KhachHang> selectAll() {
-        ArrayList<KhachHang> result = new ArrayList<KhachHang>();
+    public ArrayList<KhachHangDTO> selectAll() {
+        ArrayList<KhachHangDTO> result = new ArrayList<KhachHangDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM khachhang";
@@ -91,7 +91,7 @@ public class KhachHangDAO implements DAOinterface<KhachHang> {
                 String diachi = rs.getString("diachi");
                 String sdt = rs.getString("sdt");
                 
-                KhachHang kh = new KhachHang(makh, tenkh, sdt, diachi);
+                KhachHangDTO kh = new KhachHangDTO(makh, tenkh, sdt, diachi);
                 result.add(kh);
             }
             JDBCUtil.closeConnection(con);
@@ -101,8 +101,8 @@ public class KhachHangDAO implements DAOinterface<KhachHang> {
     }
 
     @Override
-    public KhachHang selectById(String t) {
-        KhachHang result = null;
+    public KhachHangDTO selectById(String t) {
+        KhachHangDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM khachhang WHERE makhachhang='?'";
@@ -115,7 +115,7 @@ public class KhachHangDAO implements DAOinterface<KhachHang> {
                 String diachi = rs.getString("diachi");
                 String sdt = rs.getString("sdt");
                 
-                result = new KhachHang(makh, tenkh, sdt, diachi);
+                result = new KhachHangDTO(makh, tenkh, sdt, diachi);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
