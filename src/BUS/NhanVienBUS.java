@@ -5,6 +5,7 @@
 package BUS;
 
 import GUI.NhanVien;
+import GUI.NhanVienDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
@@ -33,6 +34,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener{
         System.out.println("Bạn đang nhấn nút "+ btn);
         if(btn.equals("THÊM")){
 //           s DonViTinhDialog dvtDialog = new DonViTinhDialog(this, this.nv.owner, "Thêm đơn vị tính", true, "create");
+               NhanVienDialog nvDialog = new NhanVienDialog(this, nv.owner, true, "Thêm nhân viên","update");
         }
     }
 
