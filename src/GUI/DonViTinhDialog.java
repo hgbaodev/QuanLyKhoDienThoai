@@ -29,7 +29,6 @@ import javax.swing.border.EmptyBorder;
 public class DonViTinhDialog extends JDialog implements MouseListener {
 
     private DonViTinh jpDVT;
-    private NhanVienBUS nvbus;
     private HeaderTitle titlePage;
     private JPanel pnmain, pnbottom;
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
@@ -44,14 +43,6 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
         initComponents(title, type);
     }
     
-    public DonViTinhDialog(NhanVienBUS jpDVT, JFrame owner, String title, boolean modal, String type) {
-        super(owner, title, modal);
-        this.nvbus = jpDVT;
-        tenDv = new InputForm("Tên đơn vị tính");
-        idDvt = new JTextField("");
-        initComponents(title, type);
-    }
-
     public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, DTO.DonViTinhDTO dvt) {
         super(owner, title, modal);
         tenDv = new InputForm("Tên đơn vị tính");
