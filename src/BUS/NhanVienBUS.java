@@ -30,12 +30,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener{
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        String btn = e.getActionCommand();
-        System.out.println("Bạn đang nhấn nút "+ btn);
-        if(btn.equals("THÊM")){
-//           s DonViTinhDialog dvtDialog = new DonViTinhDialog(this, this.nv.owner, "Thêm đơn vị tính", true, "create");
-               NhanVienDialog nvDialog = new NhanVienDialog(this, nv.owner, true, "Thêm nhân viên","update");
-        }
+        
     }
 
     @Override
