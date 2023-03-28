@@ -16,6 +16,7 @@ import java.awt.GridLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
@@ -57,12 +58,18 @@ public class NhanVienDialog extends JDialog{
         gender = new ButtonGroup();
         gender.add(male);
         gender.add(female);
+        JPanel jpanelG = new JPanel(new GridLayout(2, 1,0,2));
+        jpanelG.setBackground(Color.white);
+        jpanelG.setBorder(new EmptyBorder(10, 10, 10, 10));
         JPanel jgender = new JPanel(new GridLayout(1, 2));
         jgender.setBackground(Color.white);
         jgender.add(male);
         jgender.add(female);
+        JLabel labelGender = new JLabel("Giới tính");
+        jpanelG.add(labelGender);
+        jpanelG.add(jgender);
         main.add(name);
-        main.add(jgender);
+        main.add(jpanelG);
         main.add(sdt);
         
         bottom = new JPanel(new FlowLayout());
