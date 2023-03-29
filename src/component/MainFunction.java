@@ -47,7 +47,6 @@ public class MainFunction extends JToolBar {
     public MainFunction() {
         initComponent();
     }
-
     public MainFunction(SanPham a) {
         initComponent();
         this.sp = a;

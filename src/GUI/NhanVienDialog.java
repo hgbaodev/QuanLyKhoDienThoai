@@ -5,6 +5,8 @@
 package GUI;
 
 import BUS.NhanVienBUS;
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 import component.ButtonCustom;
 import component.HeaderTitle;
 import component.InputForm;
@@ -13,6 +15,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -35,6 +40,7 @@ public class NhanVienDialog extends JDialog{
     private ButtonGroup gender;
     private JRadioButton male;
     private JRadioButton female;
+    private JDateChooser jcBd;
     
     public NhanVienDialog(NhanVienBUS nv, JFrame owner, boolean modal, String title, String type){
         super(owner,title,modal);
@@ -43,13 +49,14 @@ public class NhanVienDialog extends JDialog{
     }
     
     public void init(String title, String type){
-        this.setSize(new Dimension(500,390));
+        this.setSize(new Dimension(500,500));
         this.setLayout(new BorderLayout(0,0));
         
         
         titlePage = new HeaderTitle(title.toUpperCase());
         
-        main = new JPanel(new GridLayout(3,1,20,0));
+        main = new JPanel();
+        main.setLayout(new BoxLayout(main,BoxLayout.Y_AXIS));
         main.setBackground(Color.white);
         name = new InputForm("Họ và tên");
         sdt = new InputForm("Số điện thoại");
@@ -62,15 +69,28 @@ public class NhanVienDialog extends JDialog{
         jpanelG.setBackground(Color.white);
         jpanelG.setBorder(new EmptyBorder(10, 10, 10, 10));
         JPanel jgender = new JPanel(new GridLayout(1, 2));
+        jgender.setSize(new Dimension(500,80));
         jgender.setBackground(Color.white);
         jgender.add(male);
         jgender.add(female);
         JLabel labelGender = new JLabel("Giới tính");
         jpanelG.add(labelGender);
         jpanelG.add(jgender);
+        JPanel jpaneljd = new JPanel();
+        jpaneljd.setBorder(new EmptyBorder(10, 10, 10, 10));
+        JLabel lbBd = new JLabel("Ngày sinh");
+        lbBd.setSize(new Dimension(100,100));
+        jpaneljd.setSize(new Dimension(500,100));
+        jpaneljd.setLayout(new FlowLayout(FlowLayout.LEFT));
+        jpaneljd.setBackground(Color.white);
+        jcBd = new JDateChooser();
+        jcBd.setSize(new Dimension(100,100));
+        jpaneljd.add(lbBd);
+        jpaneljd.add(jcBd);
         main.add(name);
-        main.add(jpanelG);
         main.add(sdt);
+        main.add(jpanelG);
+        main.add(jpaneljd);
         
         bottom = new JPanel(new FlowLayout());
         bottom.setBorder(new EmptyBorder(10,0,10,0));
@@ -78,6 +98,24 @@ public class NhanVienDialog extends JDialog{
         btnAdd = new ButtonCustom("Thêm người dùng", "success", 14);
         btnEdit =  new ButtonCustom("Lưu thông tin","success", 14);
         btnExit = new ButtonCustom("Hủy bỏ", "danger", 14);
+        btnExit.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        
+        btnAdd.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        
+        btnEdit.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
         
         switch (type) {
             case "create":
