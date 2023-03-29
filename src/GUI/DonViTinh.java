@@ -101,7 +101,7 @@ public class DonViTinh extends JPanel implements ActionListener {
         functionBar.setLayout(new GridLayout(1, 2));
         functionBar.setBorder(new EmptyBorder(2, 2, 2, 2));
 
-        mainFunction = new MainFunction(this);
+        mainFunction = new MainFunction();
         //Add Event MouseListener
         mainFunction.btnAdd.addActionListener(this);
         mainFunction.btnEdit.addActionListener(this);
