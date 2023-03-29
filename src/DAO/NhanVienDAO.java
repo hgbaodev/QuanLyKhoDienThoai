@@ -27,10 +27,11 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "INSERT INTO `nhanvien`(`hoten`, `gioitinh`,`sdt`,`ngaysinh`) VALUES (?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setInt(1, t.getManv());
-            pst.setString(2, t.getHoten());
-            pst.setInt(3, t.getGioitinh());
-            pst.setDate(4, (Date) t.getNgaysinh());
+            pst.setString(1, t.getHoten());
+            pst.setInt(2, t.getGioitinh());
+            java.sql.Date sqlDate = new java.sql.Date( t.getNgaysinh().getTime() );
+            pst.setString(3, t.getSdt());
+            pst.setDate(4, (sqlDate) );
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
