@@ -12,15 +12,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DTO.NhaCungCap;
+import DTO.NhaCungCapDTO;
 
-public class NhaCungCapDAO implements DAOinterface<NhaCungCap>{
+public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
     public static NhaCungCapDAO getInstance(){
         return new NhaCungCapDAO();
     }
 
     @Override
-    public int insert(NhaCungCap t) {
+    public int insert(NhaCungCapDTO t) {
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
@@ -41,7 +41,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCap>{
     }
 
     @Override
-    public int update(NhaCungCap t) {
+    public int update(NhaCungCapDTO t) {
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
@@ -78,8 +78,8 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCap>{
     }
 
     @Override
-    public ArrayList<NhaCungCap> selectAll() {
-        ArrayList<NhaCungCap> result = new ArrayList<NhaCungCap>();
+    public ArrayList<NhaCungCapDTO> selectAll() {
+        ArrayList<NhaCungCapDTO> result = new ArrayList<NhaCungCapDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM nhacungcap";
@@ -92,7 +92,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCap>{
                 String email = rs.getString("diachi");
                 String sdt = rs.getString("sdt");
                 
-                NhaCungCap ncc = new NhaCungCap(mancc, tenncc, diachi, email, sdt);
+                NhaCungCapDTO ncc = new NhaCungCapDTO(mancc, tenncc, diachi, email, sdt);
                 result.add(ncc);
             }
             JDBCUtil.closeConnection(con);
@@ -102,8 +102,8 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCap>{
     }
 
     @Override
-    public NhaCungCap selectById(String t) {
-        NhaCungCap result = null;
+    public NhaCungCapDTO selectById(String t) {
+        NhaCungCapDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM nhacungcap WHERE nhacungcap='?'";
@@ -117,7 +117,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCap>{
                 String email = rs.getString("diachi");
                 String sdt = rs.getString("sdt");
                 
-                result = new NhaCungCap(mancc,tenncc,diachi,email,sdt);
+                result = new NhaCungCapDTO(mancc,tenncc,diachi,email,sdt);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
@@ -125,5 +125,25 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCap>{
         return result;
     }
 
-  
+    @Override
+    public int getAutoIncrement() {
+        int result = -1;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'warehousemanagement' AND   TABLE_NAME   = 'nhacungcap'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs2 = pst.executeQuery(sql);
+            if (!rs2.isBeforeFirst() ) {
+                System.out.println("No data");
+            } else {
+                while ( rs2.next() ) {
+                    result = rs2.getInt("AUTO_INCREMENT");
+                    
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 }

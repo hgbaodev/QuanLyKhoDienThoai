@@ -65,62 +65,9 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         }
         return tenLH;
     }
-
-    public void initComponents(String type) {
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        this.setTitle("Thêm sản phẩm");
-        this.setSize(new Dimension(870, 410));
-        this.setLocationRelativeTo(null);
-        this.setLayout(new BorderLayout(0, 0));
-        titlePage = new HeaderTitle("THÊM SẢN PHẨM MỚI");
-        pnCenter = new JPanel(new GridLayout(1, 2));
-        pnmain = new JPanel(new GridLayout(3, 2, 0, 0));
-        pnmain.setBackground(Color.WHITE);
-        pnCenter.add(pnmain);
-        
-        pnmainright = new JPanel();
-        pnmain.setBackground(Color.WHITE);
-        pnCenter.add(pnmainright);
-        
-        tenSP = new InputForm("Tên Sản Phẩm");
-        pnmain.add(tenSP);
-        xuatxu = new InputForm("Xuất xứ");
-        pnmain.add(xuatxu);
-        gianhap = new InputForm("Giá nhập");
-        pnmain.add(gianhap);
-        giaban = new InputForm("Giá bán");
-        pnmain.add(giaban);
-        donvitinh = new SelectForm("Đơn vị tính", getdonvitinh());
-        pnmain.add(donvitinh);
-        loaihang = new SelectForm("Thuộc loại hàng", getloaihang());
-        pnmain.add(loaihang);
-        String tempKVK[] = {"khu A", "khuB", "khu C"};
-        khuvuc = new SelectForm("Khu vực kho", tempKVK);
-        pnmain.add(khuvuc);
-        
-        hinhanh = new InputImage("Hình minh họa");
-        pnmainright.add(hinhanh);
-        
-        pnbottom = new JPanel(new FlowLayout());
-        pnbottom.setBorder(new EmptyBorder(10, 0, 10, 0));
-        pnbottom.setBackground(Color.white);
-        btnThemSanPham = new ButtonCustom("Thêm sản phẩm", "success", 14);
-        btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
-        btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
-        
-        pnbottom.add(btnThemSanPham);
-        pnbottom.add(btnCapNhat);
-        pnbottom.add(btnHuyBo);
-        
-        this.add(titlePage, BorderLayout.NORTH);
-        this.add(pnCenter, BorderLayout.CENTER);
-        this.add(pnbottom, BorderLayout.SOUTH);
-        
-        this.setVisible(true);
-    }
     
     public void initComponents(String title, String type) {
-        this.setSize(new Dimension(870, 410));
+        this.setSize(new Dimension(1150, 450));
         this.setLayout(new BorderLayout(0, 0));
         titlePage = new HeaderTitle(title.toUpperCase());
         pnCenter = new JPanel(new GridLayout(1, 2));
@@ -174,23 +121,6 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         
     }
 
-    public SanPhamDialog(String type) {
-        initComponents(type);
-        switch (type) {
-            case "create" -> {
-                this.btnThemSanPham.setVisible(true);
-                this.btnCapNhat.setVisible(false);
-            }
-            case "update" -> {
-                this.btnThemSanPham.setVisible(false);
-                this.btnCapNhat.setVisible(true);
-                // Set thông tin sản phẩm lên form
-            }
-            default ->
-                throw new AssertionError();
-        }
-    }
-
     public SanPhamDialog(SanPham jpSP, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
         this.jpSP = jpSP;
@@ -225,80 +155,10 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         initComponents(title, type);
     }
     
-    public JPanel getPnmain() {
-        return pnmain;
-    }
     
-    public void setPnmain(JPanel pnmain) {
-        this.pnmain = pnmain;
-    }
-    
-    public JPanel getPnbottom() {
-        return pnbottom;
-    }
-    
-    public void setPnbottom(JPanel pnbottom) {
-        this.pnbottom = pnbottom;
-    }
-    
-    public InputForm getTenSP() {
-        return tenSP;
-    }
     
     public void setTenSP(String text) {
         tenSP.setText(text);
-    }
-    
-    public InputForm getXuatxu() {
-        return xuatxu;
-    }
-    
-    public void setXuatxu(String text) {
-        xuatxu.setText(text);
-    }
-    
-    public InputForm getGianhap() {
-        return gianhap;
-    }
-    
-    public void setGianhap(String text) {
-        gianhap.setText(text);
-    }
-    
-    public InputForm getGiaban() {
-        return giaban;
-    }
-    
-    public void setGiaban(String text) {
-        giaban.setText(text);
-    }
-
-    public SelectForm getDonvitinh() {
-        return donvitinh;
-    }
-    
-    public void setDonvitinh(SelectForm donvitinh) {
-        this.donvitinh = donvitinh;
-    }
-    
-    public SelectForm getLoaihang() {
-        return loaihang;
-    }
-
-    public void setLoaihang(SelectForm loaihang) {
-        this.loaihang = loaihang;
-    }
-    
-    public SelectForm getKhuvuc() {
-        return khuvuc;
-    }
-
-    public void setKhuvuc(SelectForm khuvuc) {
-        this.khuvuc = khuvuc;
-    }
-    
-    public JTextField getIdSP() {
-        return idSP;
     }
     
     public void setIdSP(String text) {

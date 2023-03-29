@@ -90,16 +90,15 @@ public class NhanVien extends JPanel {
 
         tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
 
-//        scrollTableSanPham.setPreferredSize(new Dimension(1000, 0));
         tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-                    {"001", "Mĩ", "Nữ", "2001", "asff@gmail.com"},
-                    {"002", "Công", "Nam", "2001", "asd@gmail.com"},
+                    {"001", "Mĩ", "Nữ", "2001"},
+                    {"002", "Công", "Nam", "2001"},
                     {null, null, null, null},
                     {null, null, null, null}
                 },
                 new String[]{
-                    "Mã nhân viên", "Họ tên", "Giới tính", "Ngày sinh", "Email"
+                    "Mã nhân viên", "Họ tên", "Giới tính", "Ngày sinh"
                 }
         ));
         scrollTableSanPham.setViewportView(tableSanPham);

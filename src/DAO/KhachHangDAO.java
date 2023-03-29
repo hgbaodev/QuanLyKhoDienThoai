@@ -46,13 +46,14 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `khachhang` SET `makh`='?',`tenkh`='?',`diachi`='?',`sdt`='?' WHERE makh=?";
+            String sql = "UPDATE `khachhang` SET `makh`=?,`tenkh`=?,`diachi`=?,`sdt`=? WHERE makh=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMaKH());
             pst.setString(2, t.getHoten());
             pst.setString(3, t.getDiachi());
             pst.setString(4, t.getSdt());
             pst.setInt(5, t.getMaKH());
+            
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -119,6 +120,28 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
+        }
+        return result;
+    }
+
+    @Override
+    public int getAutoIncrement() {
+        int result = -1;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'warehousemanagement' AND   TABLE_NAME   = 'khachhang'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs2 = pst.executeQuery(sql);
+            if (!rs2.isBeforeFirst() ) {
+                System.out.println("No data");
+            } else {
+                while ( rs2.next() ) {
+                    result = rs2.getInt("AUTO_INCREMENT");
+                    
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

@@ -17,7 +17,7 @@ public class XuatKho extends JPanel {
     IntegratedSearch search;
     JLabel lbl1, lblImage;
 
-    Color BackgroundColor = new Color(244, 245, 218);
+    Color BackgroundColor = new Color(245, 229, 240);
 
     private Main m;
 
