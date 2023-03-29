@@ -16,4 +16,6 @@ public interface DAOinterface<T> {
     public ArrayList<T> selectAll();
     
     public T selectById(String t);
+    
+    int getAutoIncrement();
 }
