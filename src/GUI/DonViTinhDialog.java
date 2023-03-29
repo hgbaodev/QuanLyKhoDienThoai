@@ -38,14 +38,12 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
     public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
         this.jpDVT = jpDVT;
-        tenDv = new InputForm("Tên đơn vị tính");
         idDvt = new JTextField("");
         initComponents(title, type);
     }
     
     public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, DTO.DonViTinhDTO dvt) {
         super(owner, title, modal);
-        tenDv = new InputForm("Tên đơn vị tính");
         idDvt = new JTextField("");
         setTenDv(dvt.getTenDVT());
         setIdDvt(Integer.toString(dvt.getMaDVT()));
@@ -59,7 +57,7 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
         titlePage = new HeaderTitle(title.toUpperCase());
         pnmain = new JPanel(new GridLayout(1, 1, 20, 0));
         pnmain.setBackground(Color.white);
-
+        tenDv = new InputForm("Tên đơn vị tính");
         pnmain.add(tenDv);
 
         pnbottom = new JPanel(new FlowLayout());

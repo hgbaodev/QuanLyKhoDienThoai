@@ -258,9 +258,9 @@ public class LoaiHang extends JPanel implements ActionListener{
                         "Bạn có chắc chắn muốn xóa loại hàng :)!", "Xóa loại hàng",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    JOptionPane.showMessageDialog(null, listLH.get(index));
-//                    lhBUS.delete(listlh.get(index));
-//                    loadDataTalbe(listLH);
+                    JOptionPane.showMessageDialog(null, "Đã xóa "+listLH.get(index).getTenloaihang());
+                    lhBUS.delete(listLH.get(index));
+                    loadDataTalbe(listLH);
                 }
             }
         } else if (e.getSource() == mainFunction.btnDetail) {

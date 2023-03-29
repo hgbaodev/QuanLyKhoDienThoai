@@ -17,7 +17,7 @@ public class NhapKho extends JPanel {
     IntegratedSearch search;
     JLabel lbl1, lblImage;
 
-    Color BackgroundColor = new Color(240, 247, 250);
+    Color BackgroundColor = new Color(239, 235, 233);
 
     private void initComponent() {
 
