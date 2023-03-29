@@ -34,6 +34,7 @@ public class DonViTinhBUS {
         while(i < this.listDvt.size() && vitri == -1) {
             if(listDvt.get(i).getMaDVT() == madonvi) {
                 vitri = i;
+                break;
             } else i++;
         }
         return vitri;

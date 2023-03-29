@@ -6,16 +6,17 @@ package DTO;
 
 import java.util.Objects;
 
-public class KhachHang {
+public class KhachHangDTO {
+
     private int maKH;
     private String hoten;
     private String sdt;
     private String diachi;
 
-    public KhachHang() {
+    public KhachHangDTO() {
     }
 
-    public KhachHang(int maKH, String hoten, String sdt, String diachi) {
+    public KhachHangDTO(int maKH, String hoten, String sdt, String diachi) {
         this.maKH = maKH;
         this.hoten = hoten;
         this.sdt = sdt;
@@ -29,8 +30,6 @@ public class KhachHang {
     public void setMaKH(int maKH) {
         this.maKH = maKH;
     }
-
-    
 
     public String getHoten() {
         return hoten;
@@ -77,7 +76,7 @@ public class KhachHang {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final KhachHang other = (KhachHang) obj;
+        final KhachHangDTO other = (KhachHangDTO) obj;
         return true;
     }
 
@@ -85,5 +84,5 @@ public class KhachHang {
     public String toString() {
         return "KhachHang{" + "maKH=" + maKH + ", hoten=" + hoten + ", sdt=" + sdt + ", diachi=" + diachi + '}';
     }
-    
+
 }

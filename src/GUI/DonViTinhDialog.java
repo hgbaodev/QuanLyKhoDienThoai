@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BUS.NhanVienBUS;
 import DAO.DonViTinhDAO;
 import component.ButtonCustom;
 import component.HeaderTitle;
@@ -41,7 +42,7 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
         idDvt = new JTextField("");
         initComponents(title, type);
     }
-
+    
     public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, DTO.DonViTinhDTO dvt) {
         super(owner, title, modal);
         tenDv = new InputForm("Tên đơn vị tính");

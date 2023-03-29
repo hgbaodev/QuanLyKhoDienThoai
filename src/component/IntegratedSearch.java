@@ -33,7 +33,7 @@ public class IntegratedSearch extends JPanel {
         btnReset = new JButton("Làm mới");
         btnReset.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 14));
         btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/reset_30px.png")));
-        btnReset.setPreferredSize(new Dimension(150, 0));
+        btnReset.setPreferredSize(new Dimension(130, 0));
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 btnResetActionPerformed(e);

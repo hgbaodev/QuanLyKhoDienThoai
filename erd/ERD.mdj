@@ -4234,6 +4234,7 @@
 													"model": {
 														"$ref": "AAAAAAGGkf2GjqCQFT8="
 													},
+													"visible": false,
 													"font": "Arial;13;0",
 													"left": 869,
 													"top": 265,
@@ -4251,7 +4252,7 @@
 													},
 													"font": "Arial;13;0",
 													"left": 869,
-													"top": 280,
+													"top": 265,
 													"width": 205.3896484375,
 													"height": 13
 												}
@@ -4260,14 +4261,14 @@
 											"left": 864,
 											"top": 183,
 											"width": 215.3896484375,
-											"height": 115
+											"height": 100
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 864,
 									"top": 160,
 									"width": 215.3896484375,
-									"height": 153,
+									"height": 123,
 									"nameLabel": {
 										"$ref": "AAAAAAGGkeH6zaAE1o4="
 									},
@@ -7195,7 +7196,8 @@
 										"$ref": "AAAAAAGGkeH6y6ABYEQ="
 									},
 									"name": "email",
-									"length": 0
+									"length": 0,
+									"unique": true
 								}
 							]
 						},
