@@ -10,14 +10,14 @@ import java.util.Objects;
 public class NhanVien {
     private int manv;
     private String hoten;
-    private String gioitinh;
+    private int gioitinh;
     private String sdt;
     private Date ngaysinh;
 
     public NhanVien() {
     }
 
-    public NhanVien(int manv, String hoten, String gioitinh, Date ngaysinh ,String sdt) {
+    public NhanVien(int manv, String hoten, int gioitinh, Date ngaysinh ,String sdt) {
         this.manv = manv;
         this.hoten = hoten;
         this.gioitinh = gioitinh;
@@ -25,7 +25,7 @@ public class NhanVien {
         this.sdt = sdt;
     }
     
-    public NhanVien(String hoten, String gioitinh, Date ngaysinh ,String sdt) {
+    public NhanVien(String hoten, int gioitinh, Date ngaysinh ,String sdt) {
         this.hoten = hoten;
         this.gioitinh = gioitinh;
         this.ngaysinh = ngaysinh;
@@ -48,11 +48,11 @@ public class NhanVien {
         this.hoten = hoten;
     }
 
-    public String getGioitinh() {
+    public int getGioitinh() {
         return gioitinh;
     }
 
-    public void setGioitinh(String gioitinh) {
+    public void setGioitinh(int gioitinh) {
         this.gioitinh = gioitinh;
     }
 

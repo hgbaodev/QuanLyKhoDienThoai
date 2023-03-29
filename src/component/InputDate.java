@@ -10,7 +10,11 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -23,7 +27,6 @@ public class InputDate extends JPanel{
     DecimalFormat formatter = new DecimalFormat("###,###,###");
     SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/YYYY HH:mm");
     private final SimpleDateFormat dateFormat;
-    private final SimpleDateFormat Date_Format;
 //    public DecimalFormat getFormatter() {
 //        return formatter;
 //    }
@@ -39,13 +42,12 @@ public class InputDate extends JPanel{
         date = new JDateChooser();
         date.setDateFormatString("dd/MM/yyyy");
         dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date_Format = new SimpleDateFormat("yyyy-MM-dd");
         this.add(lbltitle);
         this.add(date);
     }
 
-    public String getDate() {
-        return Date_Format.format(date.getDate());
+    public Date getDate() {
+        return date.getDate();
     }
     
     
@@ -54,5 +56,4 @@ public class InputDate extends JPanel{
         this.date = date;
     }
 
-   
 }

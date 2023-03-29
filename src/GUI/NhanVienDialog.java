@@ -5,6 +5,7 @@
 package GUI;
 
 import BUS.NhanVienBUS;
+import DAO.NhanVienDAO;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import component.ButtonCustom;
@@ -18,6 +19,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
@@ -122,8 +124,9 @@ public class NhanVienDialog extends JDialog{
                 }
                 String txtName = name.getText();
                 String txtSdt = sdt.getText();
-                String birthDay = jcBd.getDate();
-                
+                Date birthDay = jcBd.getDate();
+                DTO.NhanVien nv = new DTO.NhanVien(txtName, txt_gender, birthDay, txtSdt);
+                NhanVienDAO.getInstance().insert(nv);
             }
         });
         

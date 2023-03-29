@@ -29,7 +29,7 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getManv());
             pst.setString(2, t.getHoten());
-            pst.setString(3, t.getGioitinh());
+            pst.setInt(3, t.getGioitinh());
             pst.setDate(4, (Date) t.getNgaysinh());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
@@ -48,7 +48,7 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getManv());
             pst.setString(2, t.getHoten());
-            pst.setString(3, t.getGioitinh());
+            pst.setInt(3, t.getGioitinh());
             pst.setDate(4, (Date) t.getNgaysinh());
             pst.setString(5, t.getSdt());
             pst.setInt(6, t.getManv());
@@ -87,7 +87,7 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
             while(rs.next()){
                 int manv = rs.getInt("manhanvien");
                 String hoten = rs.getString("hoten");
-                String gioitinh = rs.getString("gioitinh");
+                int gioitinh = rs.getInt("gioitinh");
                 Date ngaysinh = rs.getDate("ngaysinh");
                 String sdt = rs.getString("sdt");
                 NhanVien nv = new NhanVien(manv,hoten,gioitinh,ngaysinh,sdt);
@@ -111,7 +111,7 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
             while(rs.next()){
                 int manv = rs.getInt("manhanvien");
                 String hoten = rs.getString("hoten");
-                String gioitinh = rs.getString("gioitinh");
+                int gioitinh = rs.getInt("gioitinh");
                 Date ngaysinh = rs.getDate("ngaysinh");
                 String sdt = rs.getString("sdt");
                 
