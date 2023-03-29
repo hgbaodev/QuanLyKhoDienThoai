@@ -120,14 +120,14 @@ public class MenuTaskbar extends JPanel {
         for (int i = 0; i < st.length; i++) {
             pnl[i].addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
-                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    pnlMenuTaskbarMouseClicked(evt);
 
                 }
 
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    pnlMenuTaskbarMouseClicked(evt);
-                    pnlMenuTaskbarMouseEntered(evt);
+//                    pnlMenuTaskbarMouseEntered(evt);
                 }
 
             });

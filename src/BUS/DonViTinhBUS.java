@@ -34,6 +34,7 @@ public class DonViTinhBUS {
         while(i < this.listDvt.size() && vitri == -1) {
             if(listDvt.get(i).getMaDVT() == madonvi) {
                 vitri = i;
+                break;
             } else i++;
         }
         return vitri;
@@ -47,7 +48,7 @@ public class DonViTinhBUS {
     
     public Boolean delete(DonViTinhDTO dvt) {
         boolean check = dvtDAO.delete(Integer.toString(dvt.getMaDVT())) != 0;
-        if(check) this.listDvt.remove(dvt);
+        if(check) this.listDvt.remove(getIndexByMaDV(dvt.getMaDVT()));
         return check;
     }
     

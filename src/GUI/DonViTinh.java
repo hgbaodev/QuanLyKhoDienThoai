@@ -261,9 +261,8 @@ public class DonViTinh extends JPanel implements ActionListener {
                         "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa đơn vị tính",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    JOptionPane.showMessageDialog(null, listdvt.get(index));
-//                    dvtBUS.delete(listdvt.get(index));
-//                    loadDataTalbe(listdvt);
+                    dvtBUS.delete(listdvt.get(index));
+                    loadDataTalbe(listdvt);
                 }
             }
         } else if (e.getSource() == mainFunction.btnDetail) {
@@ -282,5 +281,5 @@ public class DonViTinh extends JPanel implements ActionListener {
             importExcel();
         }
     }
-    
+
 }

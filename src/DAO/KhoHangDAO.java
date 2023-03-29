@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DTO.KhachHang;
+import DTO.KhachHangDTO;
 import DTO.KhoHang;
 
 public class KhoHangDAO implements DAOinterface<KhoHang>{
