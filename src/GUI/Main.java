@@ -221,6 +221,7 @@ public class Main extends javax.swing.JFrame {
         UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
         UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
+        
         Main main = new Main();
         main.setVisible(true);
     }
