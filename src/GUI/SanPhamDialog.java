@@ -330,12 +330,20 @@ public class SanPhamDialog extends JDialog implements MouseListener {
             dispose();
         } else if (e.getSource() == btnHuyBo) {
             dispose();
-        } else if (e.getSource() == btnCapNhat) {
-//            
-//            Sa
-//            jpSP.spBUS.update(sp);
-//            jpSP.loadDataTalbe(jpSP.listSP);
-//            dispose();
+        } else if (e.getSource() == btnCapNhat) {  
+            String tensp = this.tenSP.getText();
+            String xuatxu = this.xuatxu.getText();
+            double gianhap = Double.valueOf(this.gianhap.getText());
+            double giaban = Double.valueOf(this.giaban.getText());
+            String hinhanh = this.hinhanh.getUrl_img();
+            int dvt = this.donvitinh.getSelectedIndex()+1;
+            int maloaihang = loaihang.getSelectedIndex()+1;
+            int makhuvuc = khuvuc.getSelectedIndex()+1;
+            int id = 0;
+            DTO.SanPham sp = new DTO.SanPham(id, tensp, xuatxu, gianhap, giaban, hinhanh, dvt, maloaihang, makhuvuc);
+            jpSP.spBUS.update(sp);
+            jpSP.loadDataTalbe(jpSP.listSP);
+            dispose();
         }
     }
     
