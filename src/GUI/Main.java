@@ -35,7 +35,7 @@ public class Main extends javax.swing.JFrame {
         this.setLayout(new BorderLayout(0, 0));
         this.setTitle("Hệ thống quản lý kho hàng ");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         menuTaskbar = new MenuTaskbar();
         menuTaskbar.setPreferredSize(new Dimension(250, 1400));
 

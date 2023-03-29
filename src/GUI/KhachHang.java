@@ -104,7 +104,7 @@ public class KhachHang extends JPanel implements ActionListener {
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        mainFunction = new MainFunction(this);
+        mainFunction = new MainFunction();
         functionBar.add(mainFunction);
 
 //        //Add Event MouseListener

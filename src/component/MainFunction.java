@@ -51,18 +51,4 @@ public class MainFunction extends JToolBar{
         initComponent();     
     }
     
-
-    public MainFunction(SanPham a) {
-        initComponent();
-        this.sp = a;
-    }
-    
-    public MainFunction(DonViTinh a) {
-        initComponent();
-        this.dvt = a;
-    }
-    public MainFunction(LoaiHang a){
-        initComponent();
-        this.lh=a;
-    }
 }

@@ -99,7 +99,6 @@ public class SanPham extends JPanel implements ActionListener {
         functionBar.setLayout(new GridLayout(1, 2));
         functionBar.setBorder(new EmptyBorder(2, 2, 2, 2));
         mainFunction = new MainFunction();
-        mainFunction = new MainFunction(this);
         //Add Event MouseListener
         mainFunction.btnAdd.addActionListener(this);
         mainFunction.btnEdit.addActionListener(this);
