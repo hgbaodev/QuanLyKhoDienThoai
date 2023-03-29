@@ -74,9 +74,10 @@ public class MenuTaskbar extends JPanel {
         pnlCenter.setPreferredSize(new Dimension(250, 560));
         pnlCenter.setBackground(DefaultColor);
         pnlCenter.setLayout(new FlowLayout(0, 0, 0));
-
-        this.add(pnlCenter, BorderLayout.CENTER);
-
+        
+        scrollPane = new JScrollPane(pnlCenter,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        this.add(scrollPane,BorderLayout.CENTER);
+        
         pnlBottom = new JPanel();
         pnlBottom.setPreferredSize(new Dimension(250, 50));
         pnlBottom.setBackground(DefaultColor);
