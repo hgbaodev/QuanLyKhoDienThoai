@@ -15,8 +15,11 @@ public class Main extends javax.swing.JFrame {
     DonViTinh donViTinh;
     LoaiHang loaiHang;
     QuanLyKho quanLyKho;
+    ChuyenKho chuyenKho;
     NhapKho nhapKho;
+    PhieuNhap phieuNhap;
     XuatKho xuatKho;
+    PhieuXuat phieuXuat;
     KhachHang khachHang;
     NhaCungCap nhacungcap;
     NhanVien nhanVien;
@@ -43,11 +46,10 @@ public class Main extends javax.swing.JFrame {
         MainContent.setBackground(MainColor);
         MainContent.setLayout(new BorderLayout(0, 0));
 
-        trangChu = new TrangChu();
-        trangChu.setPreferredSize(new Dimension(1100, 850));
-        JScrollPane jc = new JScrollPane(trangChu);
-        MainContent.add(jc);
         this.add(MainContent, BorderLayout.CENTER);
+
+        trangChu = new TrangChu();
+        MainContent.add(trangChu).setVisible(true);
 
         menuTaskbar.pnl[0].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -104,6 +106,16 @@ public class Main extends javax.swing.JFrame {
         menuTaskbar.pnl[5].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                chuyenKho = new ChuyenKho();
+                MainContent.removeAll();
+                MainContent.add(chuyenKho).setVisible(true);
+                MainContent.repaint();
+                MainContent.validate();
+            }
+        });
+        menuTaskbar.pnl[6].addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
                 nhapKho = new NhapKho();
                 MainContent.removeAll();
                 MainContent.add(nhapKho).setVisible(true);
@@ -111,7 +123,17 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[6].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[7].addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                phieuNhap = new PhieuNhap();
+                MainContent.removeAll();
+                MainContent.add(phieuNhap).setVisible(true);
+                MainContent.repaint();
+                MainContent.validate();
+            }
+        });
+        menuTaskbar.pnl[8].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 xuatKho = new XuatKho();
@@ -121,7 +143,17 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[7].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[9].addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                phieuXuat = new PhieuXuat();
+                MainContent.removeAll();
+                MainContent.add(phieuXuat).setVisible(true);
+                MainContent.repaint();
+                MainContent.validate();
+            }
+        });
+        menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 khachHang = new KhachHang();
@@ -129,9 +161,10 @@ public class Main extends javax.swing.JFrame {
                 MainContent.add(khachHang).setVisible(true);
                 MainContent.repaint();
                 MainContent.validate();
+
             }
         });
-        menuTaskbar.pnl[8].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[11].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 nhacungcap = new NhaCungCap();
@@ -141,9 +174,11 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[9].addMouseListener(new java.awt.event.MouseAdapter() {
+
+        menuTaskbar.pnl[12].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+
                 nhanVien = new NhanVien();
                 MainContent.removeAll();
                 MainContent.add(nhanVien).setVisible(true);
@@ -151,7 +186,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[13].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 taiKhoan = new TaiKhoan();
@@ -161,7 +196,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[11].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[14].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 phanQuyen = new PhanQuyen_pnl();
@@ -171,7 +206,6 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-
     }
 
     public Main() {
@@ -182,6 +216,9 @@ public class Main extends javax.swing.JFrame {
         UIManager.setLookAndFeel(new FlatMacLightLaf());
         UIManager.put("Table.showVerticalLines", true);
         UIManager.put("Table.showHorizontalLines", true);
+        UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
+        UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
+        UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
         Main main = new Main();
         main.setVisible(true);
     }

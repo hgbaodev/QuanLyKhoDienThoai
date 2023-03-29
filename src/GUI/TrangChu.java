@@ -68,7 +68,7 @@ public class TrangChu extends JPanel {
 
         for (int i = 0; i < ctArr.length; i++) {
             content[i] = new PanelShadow();
-            content[i].setPreferredSize(new Dimension(300, 500));
+            content[i].setPreferredSize(new Dimension(300, 450));
             content[i].setBackground(MainColor);
             content[i].setLayout(new FlowLayout(1, 0, 10));
 

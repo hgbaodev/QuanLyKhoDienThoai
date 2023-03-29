@@ -6,25 +6,49 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
-public class TaiKhoan extends JPanel {
-    PanelBorderRadius box1, box2, main, functionBar, bottom;
+public class PhieuNhap extends JPanel {
+
+    PanelBorderRadius box1, box2, main, functionBar, right;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
-    JTable tableSanPham;
-    JScrollPane scrollTableSanPham;
+    JTable tablePhieuNhap;
+    JScrollPane scrollTablePhieuNhap;
     MainFunction mainFunction;
     IntegratedSearch search;
     JLabel lbl1, lblImage;
+    DefaultTableModel tblModel;
+    
+    Color BackgroundColor = new Color(239, 235, 233);
 
-    Color BackgroundColor = new Color(240, 247, 250);
-
-    private Main m;
     private void initComponent() {
+
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
-        // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
+        tablePhieuNhap = new JTable();
+        scrollTablePhieuNhap = new JScrollPane();
+        tablePhieuNhap.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{}
+        ));
+        tablePhieuNhap.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"Mã khu vực kho", "Tên khu vực", "Mã kho hàng"};
+        tblModel.setColumnIdentifiers(header);
+        tablePhieuNhap.setModel(tblModel);
+        scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tablePhieuNhap.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tablePhieuNhap.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        tablePhieuNhap.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        this.setBackground(BackgroundColor);
+        this.setLayout(new BorderLayout(0, 0));
+        this.setOpaque(true);
+
         pnlBorder1 = new JPanel();
         pnlBorder1.setPreferredSize(new Dimension(0, 20));
         pnlBorder1.setBackground(BackgroundColor);
@@ -51,10 +75,10 @@ public class TaiKhoan extends JPanel {
         contentCenter.setLayout(new BorderLayout(20, 20));
         this.add(contentCenter, BorderLayout.CENTER);
 
-        // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new PanelBorderRadius();
-        functionBar.setPreferredSize(new Dimension(0, 160));
-        functionBar.setLayout(new FlowLayout(1, 15, 15));
+        functionBar.setPreferredSize(new Dimension(0, 140));
+        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
+        functionBar.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         mainFunction = new MainFunction();
         functionBar.add(mainFunction);
@@ -64,45 +88,23 @@ public class TaiKhoan extends JPanel {
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
-        // main là phần ở dưới để thống kê bảng biểu
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20,20,20,20));
+        main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
-        lbl1 = new JLabel("BẢNG THỐNG KÊ HÀNG HÓA");
-        lbl1.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
-        lbl1.setPreferredSize(new Dimension(600, 22));
-        main.add(lbl1);
+        scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
 
-        tableSanPham = new JTable();
-        scrollTableSanPham = new JScrollPane();
+        main.add(scrollTablePhieuNhap);
 
-        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
-
-        scrollTableSanPham.setPreferredSize(new Dimension(700, 450));
-
-        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                    {"001", "Nồi cơm điện siêu to khổng lồ", "Việt Nam", "201000", "240000"},
-                    {"002", "Công", "nhan zien", "2001"},
-                    {null, null, null, null},
-                    {null, null, null, null}
-                },
-                new String[]{
-                    "Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá bán",
-                }
-        ));
-        scrollTableSanPham.setViewportView(tableSanPham);
-
-        bottom = new PanelBorderRadius();
-        bottom.setPreferredSize(new Dimension(00, 160));
-        bottom.setLayout(new FlowLayout(1, 15, 40));
-        contentCenter.add(bottom, BorderLayout.SOUTH);
+        right = new PanelBorderRadius();
+        right.setPreferredSize(new Dimension(400, 0));
+        right.setLayout(new FlowLayout(1, 15, 40));
+        contentCenter.add(right, BorderLayout.EAST);
     }
 
-    public TaiKhoan() {
+    public PhieuNhap() {
         initComponent();
     }
 
