@@ -4,92 +4,83 @@
  */
 package DAO;
 
+import DTO.LoaiHangDTO;
+import config.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import config.JDBCUtil;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DTO.KhachHang;
-import DTO.KhoHang;
 
-public class KhoHangDAO implements DAOinterface<KhoHang>{
-    public static KhoHangDAO getInstance() {
-        return new KhoHangDAO();
+public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
+    public static LoaiHangDAO getInstance(){
+        return new LoaiHangDAO();
     }
-
     @Override
-    public int insert(KhoHang t) {
-        int result = 0;
+    public int insert(LoaiHangDTO t) {
+        int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `khohang`(`tenkhohang`, `diachi`,`mota`) VALUES (?,?,?)";
+            String sql = "INSERT INTO `loaihang`(`tenloaihang`) VALUES (?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t.getTenkhohang());
-            pst.setString(2, t.getDiachi());
-            pst.setString(3, t.getMota());
-
+            pst.setString(1, t.getTenloaihang());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(KhoHangDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoaiHangDTO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
-    public int update(KhoHang t) {
-        int result = 0;
+    public int update(LoaiHangDTO t) {
+        int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `khohang` SET `tenkhohang`='?',`diachi`='?',`mota`='?' WHERE makhohang=?";
+            String sql = "UPDATE `loaihang` SET`tenloaihang`=? WHERE  `maloaihang`=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t.getTenkhohang());
-            pst.setString(2, t.getDiachi());
-            pst.setString(3, t.getMota());
-            pst.setInt(4, t.getMakhohang());
+            pst.setString(1, t.getTenloaihang());
+            pst.setInt(2, t.getMaloaihang());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(KhoHangDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoaiHangDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
     public int delete(String t) {
-        int result = 0;
+        int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM khohang WHERE makhohang = '?'";
+            String sql = "DELETE FROM loaihang WHERE maloaihang = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(KhoHangDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoaiHangDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
-    public ArrayList<KhoHang> selectAll() {
-         ArrayList<KhoHang> result = new ArrayList<KhoHang>();
+    public ArrayList<LoaiHangDTO> selectAll() {
+        ArrayList<LoaiHangDTO> result = new ArrayList<LoaiHangDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM khohang";
+            String sql = "SELECT * FROM loaihang";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
-                int makhohang = rs.getInt("makhohang");
-                String tenkhohang = rs.getString("tenkhohnag");
-                String diachi = rs.getString("diachi");
-                String mota = rs.getString("mota");
+                int maloaihang = rs.getInt("maloaihang");
+                String tenloaihang = rs.getString("tenloaihang");
                 
-                KhoHang kh = new KhoHang(makhohang, tenkhohang, diachi, mota);
-                result.add(kh);
+                LoaiHangDTO lh = new LoaiHangDTO(maloaihang, tenloaihang);
+                result.add(lh);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
@@ -98,21 +89,18 @@ public class KhoHangDAO implements DAOinterface<KhoHang>{
     }
 
     @Override
-    public KhoHang selectById(String t) {
-        KhoHang result = null;
+    public LoaiHangDTO selectById(String t) {
+        LoaiHangDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM khohang WHERE makhohang='?'";
+            String sql = "SELECT * FROM loaihang WHERE maloaihang='?'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
-                int makhohang = rs.getInt("makhohang");
-                String tenkhohang = rs.getString("tenkhohnag");
-                String diachi = rs.getString("diachi");
-                String mota = rs.getString("mota");
-                
-                result = new KhoHang(makhohang, tenkhohang, diachi, mota);
+                int maloaihang = rs.getInt("maloaihang");
+                String tenloaihang = rs.getString("tenloaihang");
+                result = new LoaiHangDTO(maloaihang, tenloaihang);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
