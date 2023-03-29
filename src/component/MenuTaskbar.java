@@ -4,18 +4,18 @@ import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.*;
 import javax.swing.*;
 
-public class MenuTaskbar extends JPanel {
+public class MenuTaskbar extends JPanel { 
 
     private final int n = 20;
-    String st[] = {"Trang chủ", "Sản phẩm", "Đơn vị tính", "Loại hàng", "Quản lý kho", "Nhập kho", "Xuất kho", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
-    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/length_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/supply_chain_30px.png", "/icon/handle_with_care_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
+    String st[] = {"Trang chủ", "Sản phẩm", "Đơn vị tính", "Loại hàng", "Quản lý kho", "Chuyển kho", "Nhập kho", "Phiếu nhập", "Xuất kho", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
+    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/length_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/In Transit_30px.png", "/icon/supply_chain_30px.png","/icon/bill_30px.png", "/icon/handle_with_care_30px.png", "/icon/estimates_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
 
     public JPanel pnl[];
     JLabel lbl[], lblIcon[], info;
     JScrollPane scrollPane;
 
     //tasbarMenu chia thành 3 phần chính là pnlCenter, pnlTop, pnlBottom
-    JPanel pnlCenter, pnlTop, pnlBottom, bar1, bar2, bar3, bar4;
+    JPanel pnlCenter, pnlTop, pnlBottom, bar1, bar2;
 
     Color FontColor = new Color(96, 125, 139);
     Color DefaultColor = new Color(255, 255, 255);
@@ -38,11 +38,7 @@ public class MenuTaskbar extends JPanel {
         lbl = new JLabel[n];
         lblIcon = new JLabel[n];
 
-        // bar1, bar2, bar3, bar4 là các đường kẻ mỏng giữa taskbarMenu và MainContent
-        bar1 = new JPanel();
-        bar1.setBackground(new Color(204, 214, 219));
-        bar1.setPreferredSize(new Dimension(1, 10));
-        this.add(bar1, BorderLayout.EAST);
+        // bar1, bar là các đường kẻ mỏng giữa taskbarMenu và MainContent
 
         pnlTop = new JPanel();
         pnlTop.setPreferredSize(new Dimension(250, 80));
@@ -54,15 +50,10 @@ public class MenuTaskbar extends JPanel {
         info.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/permission.png")));
         pnlTop.add(info);
 
-        bar2 = new JPanel();
-        bar2.setBackground(new Color(204, 214, 219));
-        bar2.setPreferredSize(new Dimension(1, 1));
-        pnlTop.add(bar2, BorderLayout.EAST);
-
-        bar3 = new JPanel();
-        bar3.setBackground(new Color(204, 214, 219));
-        bar3.setPreferredSize(new Dimension(1, 1));
-        pnlTop.add(bar3, BorderLayout.SOUTH);
+        bar1 = new JPanel();
+        bar1.setBackground(new Color(204, 214, 219));
+        bar1.setPreferredSize(new Dimension(1, 1));
+        pnlTop.add(bar1, BorderLayout.EAST);
 
         pnlTop.add(info);
 
@@ -71,11 +62,12 @@ public class MenuTaskbar extends JPanel {
         this.add(pnlTop, BorderLayout.NORTH);
 
         pnlCenter = new JPanel();
-        pnlCenter.setPreferredSize(new Dimension(250, 560));
+        pnlCenter.setPreferredSize(new Dimension(250, 700));
         pnlCenter.setBackground(DefaultColor);
         pnlCenter.setLayout(new FlowLayout(0, 0, 0));
         
         scrollPane = new JScrollPane(pnlCenter,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        
         this.add(scrollPane,BorderLayout.CENTER);
         
         pnlBottom = new JPanel();
@@ -83,17 +75,17 @@ public class MenuTaskbar extends JPanel {
         pnlBottom.setBackground(DefaultColor);
         pnlBottom.setLayout(new BorderLayout(0, 0));
 
-        bar4 = new JPanel();
-        bar4.setBackground(new Color(204, 214, 219));
-        bar4.setPreferredSize(new Dimension(1, 1));
-        pnlBottom.add(bar4, BorderLayout.EAST);
+        bar2 = new JPanel();
+        bar2.setBackground(new Color(204, 214, 219));
+        bar2.setPreferredSize(new Dimension(1, 1));
+        pnlBottom.add(bar2, BorderLayout.EAST);
 
         this.add(pnlBottom, BorderLayout.SOUTH);
 
         // Dùng vòng lặp đẻ hiển thị, nếu đến "Đăng xuất" thì sẽ được add vào pnlBottom để nó xuống dưới cuối
         for (int i = 0; i < st.length; i++) {
             pnl[i] = new JPanel();
-            pnl[i].setLayout(new FlowLayout(1, 10, 5));
+            pnl[i].setLayout(new FlowLayout(1, 10, 7));
             pnl[i].setPreferredSize(new Dimension(250, 45));
             pnl[i].setBackground(DefaultColor);
 

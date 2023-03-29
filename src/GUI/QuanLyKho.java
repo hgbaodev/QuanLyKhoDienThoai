@@ -17,7 +17,7 @@ public class QuanLyKho extends JPanel {
     IntegratedSearch search;
     JLabel lbl1, lblImage;
 
-    Color BackgroundColor = new Color(244, 245, 218);    
+    Color BackgroundColor = new Color(240, 247, 250);    
     
     private void initComponent() {
         this.setBackground(BackgroundColor);
