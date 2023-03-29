@@ -8,6 +8,7 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
@@ -21,6 +22,8 @@ public class InputDate extends JPanel{
     JDateChooser date;
     DecimalFormat formatter = new DecimalFormat("###,###,###");
     SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/YYYY HH:mm");
+    private final SimpleDateFormat dateFormat;
+    private final SimpleDateFormat Date_Format;
 //    public DecimalFormat getFormatter() {
 //        return formatter;
 //    }
@@ -35,13 +38,17 @@ public class InputDate extends JPanel{
         lbltitle = new JLabel(title);
         date = new JDateChooser();
         date.setDateFormatString("dd/MM/yyyy");
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date_Format = new SimpleDateFormat("yyyy-MM-dd");
         this.add(lbltitle);
         this.add(date);
     }
 
-    public JDateChooser getDate() {
-        return date;
+    public String getDate() {
+        return Date_Format.format(date.getDate());
     }
+    
+    
 
     public void setDate(JDateChooser date) {
         this.date = date;

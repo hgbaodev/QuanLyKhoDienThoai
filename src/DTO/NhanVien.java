@@ -11,18 +11,25 @@ public class NhanVien {
     private int manv;
     private String hoten;
     private String gioitinh;
+    private String sdt;
     private Date ngaysinh;
-    private String email;
 
     public NhanVien() {
     }
 
-    public NhanVien(int manv, String hoten, String gioitinh, Date ngaysinh, String email) {
+    public NhanVien(int manv, String hoten, String gioitinh, Date ngaysinh ,String sdt) {
         this.manv = manv;
         this.hoten = hoten;
         this.gioitinh = gioitinh;
         this.ngaysinh = ngaysinh;
-        this.email = email;
+        this.sdt = sdt;
+    }
+    
+    public NhanVien(String hoten, String gioitinh, Date ngaysinh ,String sdt) {
+        this.hoten = hoten;
+        this.gioitinh = gioitinh;
+        this.ngaysinh = ngaysinh;
+        this.sdt = sdt;
     }
 
     public int getManv() {
@@ -57,13 +64,15 @@ public class NhanVien {
         this.ngaysinh = ngaysinh;
     }
 
-    public String getEmail() {
-        return email;
+    public String getSdt() {
+        return sdt;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
     }
+    
+    
 
     @Override
     public int hashCode() {
@@ -72,7 +81,6 @@ public class NhanVien {
         hash = 17 * hash + Objects.hashCode(this.hoten);
         hash = 17 * hash + Objects.hashCode(this.gioitinh);
         hash = 17 * hash + Objects.hashCode(this.ngaysinh);
-        hash = 17 * hash + Objects.hashCode(this.email);
         return hash;
     }
 
@@ -93,7 +101,7 @@ public class NhanVien {
 
     @Override
     public String toString() {
-        return "NhanVien{" + "manv=" + manv + ", hoten=" + hoten + ", gioitinh=" + gioitinh + ", ngaysinh=" + ngaysinh + ", email=" + email + '}';
+        return "NhanVien{" + "manv=" + manv + ", hoten=" + hoten + ", gioitinh=" + gioitinh + ", ngaysinh=" + ngaysinh + '}';
     }
     
 }

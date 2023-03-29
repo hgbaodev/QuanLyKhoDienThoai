@@ -25,13 +25,12 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `nhanvien`(`manhanvien`, `hoten`, `gioitinh`, `ngaysinh`, `email`) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO `nhanvien`(`hoten`, `gioitinh`,`sdt`,`ngaysinh`) VALUES (?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getManv());
             pst.setString(2, t.getHoten());
             pst.setString(3, t.getGioitinh());
             pst.setDate(4, (Date) t.getNgaysinh());
-            pst.setString(5, t.getEmail());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -45,13 +44,13 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `nhanvien` SET `manhanvien`='?',`hoten`='?',`gioitinh`='?',`ngaysinh`='?',`email`='?' WHERE ?";
+            String sql = "UPDATE `nhanvien` SET `manhanvien`='?',`hoten`='?',`gioitinh`='?',`ngaysinh`='?',`sdt`='?' WHERE ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getManv());
             pst.setString(2, t.getHoten());
             pst.setString(3, t.getGioitinh());
             pst.setDate(4, (Date) t.getNgaysinh());
-            pst.setString(5, t.getEmail());
+            pst.setString(5, t.getSdt());
             pst.setInt(6, t.getManv());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
@@ -90,8 +89,8 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
                 String hoten = rs.getString("hoten");
                 String gioitinh = rs.getString("gioitinh");
                 Date ngaysinh = rs.getDate("ngaysinh");
-                String email = rs.getString("email");
-                NhanVien nv = new NhanVien(manv,hoten,gioitinh,ngaysinh,email);
+                String sdt = rs.getString("sdt");
+                NhanVien nv = new NhanVien(manv,hoten,gioitinh,ngaysinh,sdt);
                 result.add(nv);
             }
             JDBCUtil.closeConnection(con);
@@ -114,9 +113,9 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
                 String hoten = rs.getString("hoten");
                 String gioitinh = rs.getString("gioitinh");
                 Date ngaysinh = rs.getDate("ngaysinh");
-                String email = rs.getString("email");
+                String sdt = rs.getString("sdt");
                 
-                result = new NhanVien(manv,hoten,gioitinh,ngaysinh,email);
+                result = new NhanVien(manv,hoten,gioitinh,ngaysinh,sdt);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {

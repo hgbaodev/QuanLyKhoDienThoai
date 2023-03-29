@@ -180,7 +180,6 @@ public class DonViTinh extends JPanel implements ActionListener {
                     Cell cell = rowCol.createCell(i);
                     cell.setCellValue(tableSanPham.getColumnName(i));
                 }
-
                 for (int j = 0; j < tableSanPham.getRowCount(); j++) {
                     Row row = sheet.createRow(j + 1);
                     for (int k = 0; k < tableSanPham.getColumnCount(); k++) {
@@ -188,7 +187,6 @@ public class DonViTinh extends JPanel implements ActionListener {
                         if (tableSanPham.getValueAt(j, k) != null) {
                             cell.setCellValue(tableSanPham.getValueAt(j, k).toString());
                         }
-
                     }
                 }
                 FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
