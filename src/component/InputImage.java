@@ -57,7 +57,9 @@ public class InputImage extends JPanel implements ActionListener {
     public static void setUrl_img(String url_img) {
         InputImage.url_img = url_img;
     }
-
+    public void setUnable(){
+        this.btnChooseImg.setEnabled(false);
+    }
    
 
  

@@ -6,17 +6,17 @@ package DTO;
 
 import java.util.Objects;
 
-public class NhaCungCap {
+public class NhaCungCapDTO {
     private int mancc;
     private String tenncc;
     private String diachi;
     private String email;
     private String sdt;
 
-    public NhaCungCap() {
+    public NhaCungCapDTO() {
     }
 
-    public NhaCungCap(int mancc, String tenncc, String diachi, String email, String sdt) {
+    public NhaCungCapDTO(int mancc, String tenncc, String diachi, String email, String sdt) {
         this.mancc = mancc;
         this.tenncc = tenncc;
         this.diachi = diachi;
@@ -86,7 +86,7 @@ public class NhaCungCap {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final NhaCungCap other = (NhaCungCap) obj;
+        final NhaCungCapDTO other = (NhaCungCapDTO) obj;
         return true;
     }
 

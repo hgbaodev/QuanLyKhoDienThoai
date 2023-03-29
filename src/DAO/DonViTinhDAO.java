@@ -14,14 +14,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import DTO.DonViTinhDTO;
 
-public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
-    public static DonViTinhDAO getInstance(){
+public class DonViTinhDAO implements DAOinterface<DonViTinhDTO> {
+
+    public static DonViTinhDAO getInstance() {
         return new DonViTinhDAO();
     }
 
     @Override
     public int insert(DonViTinhDTO t) {
-      int result = 0 ;
+        int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "INSERT INTO `donvitinh`(`tendonvitinh`) VALUES (?)";
@@ -37,7 +38,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
 
     @Override
     public int update(DonViTinhDTO t) {
-        int result = 0 ;
+        int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "UPDATE `donvitinh` SET`tendonvitinh`=? WHERE  `madonvitinh`=?";
@@ -54,7 +55,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
 
     @Override
     public int delete(String t) {
-        int result = 0 ;
+        int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "DELETE FROM donvitinh WHERE madonvitinh = ?";
@@ -76,10 +77,10 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
             String sql = "SELECT * FROM donvitinh";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int mandvt = rs.getInt("madonvitinh");
                 String tendvt = rs.getString("tendonvitinh");
-                
+
                 DonViTinhDTO dvt = new DonViTinhDTO(mandvt, tendvt);
                 result.add(dvt);
             }
@@ -98,7 +99,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO>{
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int mancc = rs.getInt("madonvitinh");
                 String tenncc = rs.getString("tendonvitinh");
                 result = new DonViTinhDTO(mancc, tenncc);

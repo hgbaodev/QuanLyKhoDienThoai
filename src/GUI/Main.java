@@ -1,12 +1,10 @@
 package GUI;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.*;
 import javax.swing.*;
 import component.MenuTaskbar;
 import component.NavigationBar;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 public class Main extends javax.swing.JFrame {
 

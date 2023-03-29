@@ -1,25 +1,71 @@
 package GUI;
 
+import BUS.DonViTinhBUS;
+import BUS.NhaCungCapBUS;
+import DAO.DonViTinhDAO;
+import DTO.DonViTinhDTO;
+import DTO.NhaCungCapDTO;
 import component.IntegratedSearch;
 import component.MainFunction;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 
-public class NhaCungCap extends JPanel {
+public class NhaCungCap extends JPanel implements ActionListener {
 
-    PanelBorderRadius box1, box2, main, functionBar;
+    PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
-    JTable tableSanPham;
+    JTable tableNhaCungCap;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
-    JLabel lbl1, lblImage;
-
+    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     Color BackgroundColor = new Color(240, 247, 250);
+    DefaultTableModel tblModel;
+    NhaCungCapBUS nccBUS = new NhaCungCapBUS();
+    ArrayList<NhaCungCapDTO> listncc = nccBUS.getAll();
 
     private void initComponent() {
+        //Set model table
+        tableNhaCungCap = new JTable();
+        scrollTableSanPham = new JScrollPane();
+        tableNhaCungCap.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{}
+        ));
+        tableNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"};
+        tblModel.setColumnIdentifiers(header);
+        tableNhaCungCap.setModel(tblModel);
+        scrollTableSanPham.setViewportView(tableNhaCungCap);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tableNhaCungCap.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tableNhaCungCap.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+
+//        tableNhaCungCap.setDefaultRenderer(String.class, centerRenderer);
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -53,13 +99,37 @@ public class NhaCungCap extends JPanel {
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new PanelBorderRadius();
-        functionBar.setPreferredSize(new Dimension(0, 180));
-        functionBar.setLayout(new FlowLayout(1, 15, 40));
+        functionBar.setPreferredSize(new Dimension(0, 100));
+        functionBar.setLayout(new GridLayout(1, 2));
+        functionBar.setBorder(new EmptyBorder(2, 2, 2, 2));
 
         mainFunction = new MainFunction();
+        //Add Event MouseListener
+        mainFunction.btnAdd.addActionListener(this);
+        mainFunction.btnEdit.addActionListener(this);
+        mainFunction.btnDetail.addActionListener(this);
+        mainFunction.btnDelete.addActionListener(this);
+        mainFunction.btnXuatExcel.addActionListener(this);
+        mainFunction.btnNhapExcel.addActionListener(this);
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        search = new IntegratedSearch(new String[]{"Tất cả","Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email" ,"Số điện thoại"});
+        search.txtSearchForm.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                String txt = search.txtSearchForm.getText();
+                listncc = nccBUS.search(txt,"all");
+                loadDataTalbe(listncc);
+            }
+        });
+
+        search.btnReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                search.txtSearchForm.setText("");
+                listncc = nccBUS.getAll();
+                loadDataTalbe(listncc);
+            }
+        });
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
@@ -71,29 +141,66 @@ public class NhaCungCap extends JPanel {
         main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
-        tableSanPham = new JTable();
-        scrollTableSanPham = new JScrollPane();
-
-        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
-
-//        scrollTableSanPham.setPreferredSize(new Dimension(1000, 0));
-        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                    {"001", "SamSung", "Hàn Cuốc", "asdfasdf@gmail.com", "091852471"},
-                    {"002", "Công", "nhan zien", "2001", "091852471"},
-                    {null, null, null, null}
-                },
-                new String[]{
-                    "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"
-                }
-        ));
-        scrollTableSanPham.setViewportView(tableSanPham);
-
         main.add(scrollTableSanPham);
+
     }
 
     public NhaCungCap() {
         initComponent();
+        tableNhaCungCap.setDefaultEditor(Object.class, null);
+        loadDataTalbe(listncc);
+    }
+
+    public void loadDataTalbe(ArrayList<NhaCungCapDTO> result) {
+        tblModel.setRowCount(0);
+        for (NhaCungCapDTO ncc : result) {
+            tblModel.addRow(new Object[]{
+                ncc.getMancc(), ncc.getTenncc(), ncc.getDiachi(), ncc.getEmail(), ncc.getSdt()
+            });
+        }
+    }
+
+    public void openFile(String file) {
+        try {
+            File path = new File(file);
+            Desktop.getDesktop().open(path);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == mainFunction.btnAdd) {
+            NhaCungCapDialog dvtDialog = new NhaCungCapDialog(this, owner, "Thêm nhà cung cấp", true, "create");
+        } else if (e.getSource() == mainFunction.btnEdit) {
+            int index = tableNhaCungCap.getSelectedRow();
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
+            } else {
+//                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update", listncc.get(index));
+            }
+        } else if (e.getSource() == mainFunction.btnDelete) {
+            int index = tableNhaCungCap.getSelectedRow();
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xóa");
+            } else {
+                int input = JOptionPane.showConfirmDialog(null,
+                        "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa đơn vị tính",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (input == 0) {
+                    nccBUS.delete(listncc.get(index));
+                    loadDataTalbe(listncc);
+                }
+            }
+        } else if (e.getSource() == mainFunction.btnDetail) {
+            int index = tableNhaCungCap.getSelectedRow();
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xem");
+            } else {
+//                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiêt đơn vị tính", true, "view", listncc.get(index));
+            }
+        }
     }
 
 }
