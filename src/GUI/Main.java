@@ -35,23 +35,7 @@ public class Main extends javax.swing.JFrame {
         this.setLayout(new BorderLayout(0, 0));
         this.setTitle("Hệ thống quản lý kho hàng ");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        /*
-        lbl = new JLabel("Quản lý kho hàng hoá"
-                + "                nguyenthanhsangsgu@gmail.com");
-        lbl.setBounds(10, 10, 100, 20);
-        lbl.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lbl.setForeground(MainColor);
-
-        pnlThanhDuoi = new JPanel();
-        pnlThanhDuoi.setPreferredSize(new Dimension(1100, 30));
-        pnlThanhDuoi.setBackground(new Color(69, 90, 100));
-
-        pnlThanhDuoi.add(lbl);
-
-        this.add(pnlThanhDuoi, BorderLayout.SOUTH);
-
-        */
+        
         menuTaskbar = new MenuTaskbar();
         menuTaskbar.setPreferredSize(new Dimension(250, 1400));
 

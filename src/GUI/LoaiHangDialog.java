@@ -4,8 +4,6 @@
  */
 package GUI;
 
-import BUS.NhanVienBUS;
-import DAO.DonViTinhDAO;
 import component.ButtonCustom;
 import component.HeaderTitle;
 import component.InputForm;
@@ -14,6 +12,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JDialog;
@@ -24,32 +24,32 @@ import javax.swing.border.EmptyBorder;
 
 /**
  *
- * @author Tran Nhat Sinh
+ * @author 84907
  */
-public class DonViTinhDialog extends JDialog implements MouseListener {
+public class LoaiHangDialog extends JDialog implements MouseListener {
 
-    private DonViTinh jpDVT;
+    private LoaiHang jpLH;
     private HeaderTitle titlePage;
     private JPanel pnmain, pnbottom;
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
-    private InputForm tenDv;
-    private JTextField idDvt;
+    private InputForm tenLH;
+    private JTextField maLH;
 
-    public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type) {
+    public LoaiHangDialog(LoaiHang jpLH, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
-        this.jpDVT = jpDVT;
-        tenDv = new InputForm("Tên đơn vị tính");
-        idDvt = new JTextField("");
+        this.jpLH = jpLH;
+        tenLH = new InputForm("Tên loại hàng hóa mới");
+        maLH = new JTextField("");
         initComponents(title, type);
     }
-    
-    public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, DTO.DonViTinhDTO dvt) {
+
+    public LoaiHangDialog(LoaiHang jpLH, JFrame owner, String title, boolean modal, String type, DTO.LoaiHangDTO lh) {
         super(owner, title, modal);
-        tenDv = new InputForm("Tên đơn vị tính");
-        idDvt = new JTextField("");
-        setTenDv(dvt.getTenDVT());
-        setIdDvt(Integer.toString(dvt.getMaDVT()));
-        this.jpDVT = jpDVT;
+        tenLH = new InputForm("Tên loại hàng hóa mới");
+        maLH = new JTextField("");
+        setTenLoaihang(lh.getTenloaihang());
+        setMaloaihang(Integer.toString(lh.getMaloaihang()));
+        this.jpLH = jpLH;
         initComponents(title, type);
     }
 
@@ -60,12 +60,12 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
         pnmain = new JPanel(new GridLayout(1, 1, 20, 0));
         pnmain.setBackground(Color.white);
 
-        pnmain.add(tenDv);
+        pnmain.add(tenLH);
 
         pnbottom = new JPanel(new FlowLayout());
         pnbottom.setBorder(new EmptyBorder(10, 0, 10, 0));
         pnbottom.setBackground(Color.white);
-        btnThem = new ButtonCustom("Thêm đơn vị", "success", 14);
+        btnThem = new ButtonCustom("Thêm loại hàng", "success", 14);
         btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
 
@@ -80,7 +80,7 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
             case "update" ->
                 pnbottom.add(btnCapNhat);
             case "view" ->
-                tenDv.setDisable();
+                tenLH.setDisable();
             default ->
                 throw new AssertionError();
         }
@@ -93,60 +93,61 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
         this.setVisible(true);
     }
 
-    public void setTenDv(String name) {
-        tenDv.setText(name);
+    public void setTenLoaihang(String name) {
+        tenLH.setText(name);
     }
 
-    public String getTenDonViTinh() {
-        return tenDv.getText();
+    public String getTenLoaihang() {
+        return tenLH.getText();
     }
 
-    public String getIdDvt() {
-        return idDvt.getText();
+    public void setMaloaihang(String id) {
+        this.maLH.setText(id);
     }
 
-    public void setIdDvt(String id) {
-        this.idDvt.setText(id);
+    public String getMaLoaihang() {
+        return maLH.getText();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == btnThem) {
-            String name = tenDv.getText();
+            String name = tenLH.getText();
             int id = 0;
-            DTO.DonViTinhDTO dvt = new DTO.DonViTinhDTO(id, name);
-            jpDVT.dvtBUS.add(dvt);
-            jpDVT.loadDataTalbe(jpDVT.listdvt);
+            DTO.LoaiHangDTO lh = new DTO.LoaiHangDTO(id, name);
+            jpLH.lhBUS.add(lh);
+            jpLH.loadDataTalbe(jpLH.listLH);
             dispose();
         } else if (e.getSource() == btnHuyBo) {
             dispose();
         } else if (e.getSource() == btnCapNhat) {
-            String name = tenDv.getText();
-            int id = Integer.parseInt(getIdDvt());
-            DTO.DonViTinhDTO dvt = new DTO.DonViTinhDTO(id, name);
-            jpDVT.dvtBUS.update(dvt);
-            jpDVT.loadDataTalbe(jpDVT.listdvt);
+            String name = tenLH.getText();
+            int id = Integer.parseInt(getMaLoaihang());
+            DTO.LoaiHangDTO lh = new DTO.LoaiHangDTO(id, name);
+            jpLH.lhBUS.update(lh);
+            jpLH.loadDataTalbe(jpLH.listLH);
             dispose();
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
 }
