@@ -136,7 +136,7 @@ public class KhachHangDialog extends JDialog implements MouseListener {
             String address = diachiKH.getText();
             DTO.KhachHangDTO kh = new DTO.KhachHangDTO(id, name, phone, address);
             jpKH.khachhangBUS.add(kh);
-            jpKH.loadDataTalbe(jpKH.listkh);
+            jpKH.loadDataTable(jpKH.listkh);
             dispose();
         } else if (e.getSource() == btnHuyBo) {
             dispose();
@@ -147,7 +147,7 @@ public class KhachHangDialog extends JDialog implements MouseListener {
             String address = diachiKH.getText();
             DTO.KhachHangDTO kh = new DTO.KhachHangDTO(id, name, phone, address);
             jpKH.khachhangBUS.update(kh);
-            jpKH.loadDataTalbe(jpKH.listkh);
+            jpKH.loadDataTable(jpKH.listkh);
             dispose();
         }
     }

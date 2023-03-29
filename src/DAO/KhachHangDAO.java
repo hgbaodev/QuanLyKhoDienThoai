@@ -53,6 +53,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
             pst.setString(3, t.getDiachi());
             pst.setString(4, t.getSdt());
             pst.setInt(5, t.getMaKH());
+            
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
