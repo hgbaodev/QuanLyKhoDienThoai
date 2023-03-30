@@ -137,7 +137,6 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
             } else {
                 while ( rs2.next() ) {
                     result = rs2.getInt("AUTO_INCREMENT");
-                    
                 }
             }
         } catch (SQLException ex) {
