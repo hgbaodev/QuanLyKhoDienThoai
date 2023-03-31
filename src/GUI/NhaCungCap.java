@@ -1,9 +1,6 @@
 package GUI;
 
-import BUS.DonViTinhBUS;
 import BUS.NhaCungCapBUS;
-import DAO.DonViTinhDAO;
-import DTO.DonViTinhDTO;
 import DTO.NhaCungCapDTO;
 import component.IntegratedSearch;
 import component.MainFunction;
@@ -13,21 +10,10 @@ import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -56,7 +42,7 @@ public class NhaCungCap extends JPanel implements ActionListener {
         ));
         tableNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"};
+        String[] header = new String[]{"Mã NCC", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"};
         tblModel.setColumnIdentifiers(header);
         tableNhaCungCap.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableNhaCungCap);
@@ -176,17 +162,18 @@ public class NhaCungCap extends JPanel implements ActionListener {
         } else if (e.getSource() == mainFunction.btnEdit) {
             int index = tableNhaCungCap.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần sửa");
             } else {
-//                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chỉnh sửa đơn vị tính", true, "update", listncc.get(index));
+//                JOptionPane.showMessageDialog(null, listncc.get(index)+"");
+                NhaCungCapDialog nccDialog = new NhaCungCapDialog(this, owner, "Chỉnh sửa nhà cung cấp", true, "update", listncc.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
             int index = tableNhaCungCap.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xóa");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần xóa");
             } else {
                 int input = JOptionPane.showConfirmDialog(null,
-                        "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa đơn vị tính",
+                        "Bạn có chắc chắn muốn xóa nhà cung cấp!", "Xóa nhà cung cấp",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
                     nccBUS.delete(listncc.get(index));
@@ -196,7 +183,7 @@ public class NhaCungCap extends JPanel implements ActionListener {
         } else if (e.getSource() == mainFunction.btnDetail) {
             int index = tableNhaCungCap.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xem");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần xem");
             } else {
 //                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiêt đơn vị tính", true, "view", listncc.get(index));
             }

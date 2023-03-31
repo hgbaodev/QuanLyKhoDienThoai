@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import DAO.NhaCungCapDAO;
+import DTO.NhaCungCapDTO;
 import component.ButtonCustom;
 import component.HeaderTitle;
 import component.InputForm;
@@ -24,7 +26,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Tran Nhat Sinh
  */
-public class NhaCungCapDialog extends JDialog {
+public class NhaCungCapDialog extends JDialog implements ActionListener {
 
     private NhaCungCap jpNcc;
     private HeaderTitle titlePage;
@@ -41,10 +43,11 @@ public class NhaCungCapDialog extends JDialog {
         initComponents(title, type);
     }
 
-    public NhaCungCapDialog(NhaCungCap jpNcc, JFrame owner, String title, boolean modal, String type, DTO.DonViTinhDTO dvt) {
+    public NhaCungCapDialog(NhaCungCap jpNcc, JFrame owner, String title, boolean modal, String type, NhaCungCapDTO nccdto) {
         super(owner, title, modal);
         this.jpNcc = jpNcc;
         initComponents(title, type);
+        this.tenNcc.setText(nccdto.getTenncc());
     }
 
     public void initComponents(String title, String type) {
@@ -71,9 +74,9 @@ public class NhaCungCapDialog extends JDialog {
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
 
         //Add MouseListener btn
-//        btnThem.addActionListener(this);
-//        btnCapNhat.addActionListener(this);
-//        btnHuyBo.addActionListener(this);
+        btnThem.addActionListener(this);
+        btnCapNhat.addActionListener(this);
+        btnHuyBo.addActionListener(this);
 
         switch (type) {
             case "create" ->
@@ -92,5 +95,28 @@ public class NhaCungCapDialog extends JDialog {
         this.add(pnbottom, BorderLayout.SOUTH);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnThem) {
+            int mancc = NhaCungCapDAO.getInstance().getAutoIncrement();
+            String tenNcc = this.tenNcc.getText();
+            String diachi = this.diachi.getText();
+            String email = this.email.getText();
+            String sodienthoai = this.sodienthoai.getText();
+            jpNcc.nccBUS.add(new NhaCungCapDTO(mancc, tenNcc, diachi, email, sodienthoai));
+            jpNcc.loadDataTalbe(jpNcc.listncc);
+            dispose();
+        } else if (e.getSource() == btnHuyBo) {
+            dispose();
+        } else if (e.getSource() == btnCapNhat) {
+//            String name = tenDv.getText();
+//            int id = Integer.parseInt(getIdDvt());
+//            DTO.DonViTinhDTO dvt = new DTO.DonViTinhDTO(id, name);
+//            jpNcc.dvtBUS.update(dvt);
+//            jpNcc.loadDataTalbe(jpNcc.listdvt);
+//            dispose();
+        }
     }
 }

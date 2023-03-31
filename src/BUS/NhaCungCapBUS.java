@@ -57,42 +57,42 @@ public class NhaCungCapBUS {
         ArrayList<NhaCungCapDTO> result = new ArrayList<>();
         txt = txt.toLowerCase();
         switch (type) {
-            case "all" -> {
+            case "Tất cả" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (Integer.toString(i.getMancc()).contains(txt) || i.getTenncc().contains(txt) || i.getDiachi().contains(txt) || i.getEmail().contains(txt) || i.getSdt().contains(txt)) {
                         result.add(i);
                     }
                 }
             }
-            case "mancc" -> {
+            case "Mã nhà cung cấp" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (Integer.toString(i.getMancc()).contains(txt)) {
                         result.add(i);
                     }
                 }
             }
-            case "tenncc" -> {
+            case "Tên nhà cung cấp" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (i.getTenncc().toLowerCase().contains(txt)) {
                         result.add(i);
                     }
                 }
             }
-            case "diachi" -> {
+            case "Địa chỉ" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (i.getDiachi().toLowerCase().contains(txt)) {
                         result.add(i);
                     }
                 }
             }
-            case "sodienthoai" -> {
+            case "Số điện thoại" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (i.getSdt().toLowerCase().contains(txt)) {
                         result.add(i);
                     }
                 }
             }
-            case "email" -> {
+            case "Email" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (i.getEmail().toLowerCase().contains(txt)) {
                         result.add(i);
