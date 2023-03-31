@@ -1,6 +1,7 @@
 package GUI;
 
 import BUS.NhaCungCapBUS;
+import DAO.NhaCungCapDAO;
 import DTO.NhaCungCapDTO;
 import component.IntegratedSearch;
 import component.MainFunction;
@@ -17,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 public class NhaCungCap extends JPanel implements ActionListener {
 
@@ -48,10 +50,13 @@ public class NhaCungCap extends JPanel implements ActionListener {
         scrollTableSanPham.setViewportView(tableNhaCungCap);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tableNhaCungCap.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tableNhaCungCap.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        TableColumnModel columnModel = tableNhaCungCap.getColumnModel();
+        columnModel.getColumn(0).setCellRenderer(centerRenderer);
+        columnModel.getColumn(0).setPreferredWidth(2);
+        columnModel.getColumn(2).setPreferredWidth(300);
+        columnModel.getColumn(4).setCellRenderer(centerRenderer);
 
-//        tableNhaCungCap.setDefaultRenderer(String.class, centerRenderer);
+        
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -99,11 +104,11 @@ public class NhaCungCap extends JPanel implements ActionListener {
         mainFunction.btnNhapExcel.addActionListener(this);
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả","Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email" ,"Số điện thoại"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"});
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 String txt = search.txtSearchForm.getText();
-                listncc = nccBUS.search(txt,"all");
+                listncc = nccBUS.search(txt, "all");
                 loadDataTalbe(listncc);
             }
         });
@@ -164,7 +169,6 @@ public class NhaCungCap extends JPanel implements ActionListener {
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần sửa");
             } else {
-//                JOptionPane.showMessageDialog(null, listncc.get(index)+"");
                 NhaCungCapDialog nccDialog = new NhaCungCapDialog(this, owner, "Chỉnh sửa nhà cung cấp", true, "update", listncc.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
@@ -176,7 +180,7 @@ public class NhaCungCap extends JPanel implements ActionListener {
                         "Bạn có chắc chắn muốn xóa nhà cung cấp!", "Xóa nhà cung cấp",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    nccBUS.delete(listncc.get(index));
+                    nccBUS.delete(listncc.get(index), index);
                     loadDataTalbe(listncc);
                 }
             }
@@ -185,7 +189,7 @@ public class NhaCungCap extends JPanel implements ActionListener {
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần xem");
             } else {
-//                DonViTinhDialog dvtDialog = new DonViTinhDialog(this, owner, "Chi tiêt đơn vị tính", true, "view", listncc.get(index));
+                NhaCungCapDialog nccDialog = new NhaCungCapDialog(this, owner, "Chi tiết nhà cung cấp", true, "view", listncc.get(index));
             }
         }
     }

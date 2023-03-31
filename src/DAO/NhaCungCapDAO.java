@@ -31,7 +31,6 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
             pst.setString(3, t.getDiachi());
             pst.setString(4, t.getEmail());
             pst.setString(5, t.getSdt());
-            
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -45,14 +44,13 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `nhacungcap` SET `mancc`='?',`tenncc`='?',`diachi`='?',`email`='?',`sdt`='?' WHERE ?";
+            String sql = "UPDATE `nhacungcap` SET `tenncc`=?,`diachi`=?,`email`=?,`sdt`=? WHERE `mancc`= ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setInt(1, t.getMancc());
-            pst.setString(2, t.getTenncc());
-            pst.setString(3, t.getDiachi());
-            pst.setString(4, t.getEmail());
-            pst.setString(5, t.getSdt());
-            pst.setInt(6, t.getMancc());
+            pst.setString(1, t.getTenncc());
+            pst.setString(2, t.getDiachi());
+            pst.setString(3, t.getEmail());
+            pst.setString(4, t.getSdt());
+            pst.setInt(5, t.getMancc());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -66,7 +64,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM nhacungcap WHERE mancc = '?'";
+            String sql = "DELETE FROM nhacungcap WHERE mancc = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -89,9 +87,8 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
                 int mancc = rs.getInt("mancc");
                 String tenncc = rs.getString("tenncc");
                 String diachi = rs.getString("diachi");
-                String email = rs.getString("diachi");
+                String email = rs.getString("email");
                 String sdt = rs.getString("sdt");
-                
                 NhaCungCapDTO ncc = new NhaCungCapDTO(mancc, tenncc, diachi, email, sdt);
                 result.add(ncc);
             }

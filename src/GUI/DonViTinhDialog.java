@@ -4,8 +4,6 @@
  */
 package GUI;
 
-import BUS.NhanVienBUS;
-import DAO.DonViTinhDAO;
 import component.ButtonCustom;
 import component.HeaderTitle;
 import component.InputForm;
@@ -14,8 +12,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,7 +25,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Tran Nhat Sinh
  */
-public class DonViTinhDialog extends JDialog implements MouseListener {
+public class DonViTinhDialog extends JDialog implements ActionListener {
 
     private DonViTinh jpDVT;
     private HeaderTitle titlePage;
@@ -68,9 +67,9 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
 
         //Add MouseListener btn
-        btnThem.addMouseListener(this);
-        btnCapNhat.addMouseListener(this);
-        btnHuyBo.addMouseListener(this);
+        btnThem.addActionListener(this);
+        btnCapNhat.addActionListener(this);
+        btnHuyBo.addActionListener(this);
 
         switch (type) {
             case "create" ->
@@ -108,17 +107,10 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
+    public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnThem) {
             String name = tenDv.getText();
-            int id = 0;
-            DTO.DonViTinhDTO dvt = new DTO.DonViTinhDTO(id, name);
-            jpDVT.dvtBUS.add(dvt);
+            jpDVT.dvtBUS.add(name);
             jpDVT.loadDataTalbe(jpDVT.listdvt);
             dispose();
         } else if (e.getSource() == btnHuyBo) {
@@ -131,20 +123,5 @@ public class DonViTinhDialog extends JDialog implements MouseListener {
             jpDVT.loadDataTalbe(jpDVT.listdvt);
             dispose();
         }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -62,8 +62,7 @@ public class DonViTinh extends JPanel implements ActionListener {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableSanPham.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-
-//        tableSanPham.setDefaultRenderer(String.class, centerRenderer);
+        
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -259,7 +258,7 @@ public class DonViTinh extends JPanel implements ActionListener {
                         "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa đơn vị tính",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    dvtBUS.delete(listdvt.get(index));
+                    dvtBUS.delete(listdvt.get(index),index);
                     loadDataTalbe(listdvt);
                 }
             }

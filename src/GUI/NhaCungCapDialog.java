@@ -36,6 +36,7 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
     private InputForm diachi;
     private InputForm email;
     private InputForm sodienthoai;
+    private NhaCungCapDTO nccDTO;
 
     public NhaCungCapDialog(NhaCungCap jpNcc, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
@@ -46,8 +47,8 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
     public NhaCungCapDialog(NhaCungCap jpNcc, JFrame owner, String title, boolean modal, String type, NhaCungCapDTO nccdto) {
         super(owner, title, modal);
         this.jpNcc = jpNcc;
+        this.nccDTO = nccdto;
         initComponents(title, type);
-        this.tenNcc.setText(nccdto.getTenncc());
     }
 
     public void initComponents(String title, String type) {
@@ -79,22 +80,32 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
         btnHuyBo.addActionListener(this);
 
         switch (type) {
-            case "create" ->
+            case "create":
                 pnbottom.add(btnThem);
-            case "update" ->
+                break;
+            case "update":
                 pnbottom.add(btnCapNhat);
-            case "view" ->
-                tenNcc.setDisable();
-            default ->
+                initInfo();
+                break;
+            case "view":
+                initInfo();
+                break;
+            default:
                 throw new AssertionError();
         }
         pnbottom.add(btnHuyBo);
-
         this.add(titlePage, BorderLayout.NORTH);
         this.add(pnmain, BorderLayout.CENTER);
         this.add(pnbottom, BorderLayout.SOUTH);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public void initInfo() {
+        tenNcc.setText(nccDTO.getTenncc());
+        diachi.setText(nccDTO.getDiachi());
+        email.setText(nccDTO.getEmail());
+        sodienthoai.setText(nccDTO.getSdt());
     }
 
     @Override
@@ -111,12 +122,13 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
         } else if (e.getSource() == btnHuyBo) {
             dispose();
         } else if (e.getSource() == btnCapNhat) {
-//            String name = tenDv.getText();
-//            int id = Integer.parseInt(getIdDvt());
-//            DTO.DonViTinhDTO dvt = new DTO.DonViTinhDTO(id, name);
-//            jpNcc.dvtBUS.update(dvt);
-//            jpNcc.loadDataTalbe(jpNcc.listdvt);
-//            dispose();
+            String tenNcc = this.tenNcc.getText();
+            String diachi = this.diachi.getText();
+            String email = this.email.getText();
+            String sodienthoai = this.sodienthoai.getText();
+            jpNcc.nccBUS.update(new NhaCungCapDTO(nccDTO.getMancc(),tenNcc, diachi, email, sodienthoai));
+            jpNcc.loadDataTalbe(jpNcc.listncc);
+            dispose();
         }
     }
 }
