@@ -86,16 +86,18 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
-                int manv = rs.getInt("manhanvien");
+                int manv = rs.getInt("manv");
                 String hoten = rs.getString("hoten");
                 int gioitinh = rs.getInt("gioitinh");
                 Date ngaysinh = rs.getDate("ngaysinh");
                 String sdt = rs.getString("sdt");
                 NhanVien nv = new NhanVien(manv,hoten,gioitinh,ngaysinh,sdt);
+                System.out.println(nv);
                 result.add(nv);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return result;
     }
