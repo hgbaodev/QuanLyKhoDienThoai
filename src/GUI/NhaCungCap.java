@@ -11,6 +11,8 @@ import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-public class NhaCungCap extends JPanel implements ActionListener {
+public class NhaCungCap extends JPanel implements ActionListener, ItemListener {
 
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -56,7 +58,6 @@ public class NhaCungCap extends JPanel implements ActionListener {
         columnModel.getColumn(2).setPreferredWidth(300);
         columnModel.getColumn(4).setCellRenderer(centerRenderer);
 
-        
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -105,35 +106,26 @@ public class NhaCungCap extends JPanel implements ActionListener {
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch(new String[]{"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"});
+        search.cbxChoose.addItemListener(this);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
+                String type = (String) search.cbxChoose.getSelectedItem();
                 String txt = search.txtSearchForm.getText();
-                listncc = nccBUS.search(txt, "all");
+                listncc = nccBUS.search(txt, type);
                 loadDataTalbe(listncc);
             }
         });
 
-        search.btnReset.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                search.txtSearchForm.setText("");
-                listncc = nccBUS.getAll();
-                loadDataTalbe(listncc);
-            }
-        });
+        search.btnReset.addActionListener(this);
         functionBar.add(search);
-
         contentCenter.add(functionBar, BorderLayout.NORTH);
-
         // main là phần ở dưới để thống kê bảng biểu
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
         main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
-
         main.add(scrollTableSanPham);
-
     }
 
     public NhaCungCap() {
@@ -191,7 +183,18 @@ public class NhaCungCap extends JPanel implements ActionListener {
             } else {
                 NhaCungCapDialog nccDialog = new NhaCungCapDialog(this, owner, "Chi tiết nhà cung cấp", true, "view", listncc.get(index));
             }
+        } else if (e.getSource() == search.btnReset) {
+            search.txtSearchForm.setText("");
+            listncc = nccBUS.getAll();
+            loadDataTalbe(listncc);
         }
     }
 
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        String type = (String) search.cbxChoose.getSelectedItem();
+        String txt = search.txtSearchForm.getText();
+        listncc = nccBUS.search(txt, type);
+        loadDataTalbe(listncc);
+    }
 }

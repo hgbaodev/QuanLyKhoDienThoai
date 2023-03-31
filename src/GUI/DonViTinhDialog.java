@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import DTO.DonViTinhDTO;
 import component.ButtonCustom;
 import component.HeaderTitle;
 import component.InputForm;
@@ -33,6 +34,7 @@ public class DonViTinhDialog extends JDialog implements ActionListener {
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
     private InputForm tenDv;
     private JTextField idDvt;
+    private DonViTinhDTO dvtDTO;
 
     public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
@@ -40,13 +42,11 @@ public class DonViTinhDialog extends JDialog implements ActionListener {
         idDvt = new JTextField("");
         initComponents(title, type);
     }
-    
+
     public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, DTO.DonViTinhDTO dvt) {
         super(owner, title, modal);
-        idDvt = new JTextField("");
-        setTenDv(dvt.getTenDVT());
-        setIdDvt(Integer.toString(dvt.getMaDVT()));
         this.jpDVT = jpDVT;
+        this.dvtDTO = dvt;
         initComponents(title, type);
     }
 
@@ -72,15 +72,15 @@ public class DonViTinhDialog extends JDialog implements ActionListener {
         btnHuyBo.addActionListener(this);
 
         switch (type) {
-            case "create" ->
-                pnbottom.add(btnThem);
-            case "update" ->
+            case "create" -> pnbottom.add(btnThem);
+            case "update" -> {
+                initInfo();
                 pnbottom.add(btnCapNhat);
-            case "view" ->
-                tenDv.setDisable();
-            default ->
-                throw new AssertionError();
+            }
+            case "view" -> initInfo();
+            default -> throw new AssertionError();
         }
+        
         pnbottom.add(btnHuyBo);
 
         this.add(titlePage, BorderLayout.NORTH);
@@ -90,20 +90,8 @@ public class DonViTinhDialog extends JDialog implements ActionListener {
         this.setVisible(true);
     }
 
-    public void setTenDv(String name) {
-        tenDv.setText(name);
-    }
-
-    public String getTenDonViTinh() {
-        return tenDv.getText();
-    }
-
-    public String getIdDvt() {
-        return idDvt.getText();
-    }
-
-    public void setIdDvt(String id) {
-        this.idDvt.setText(id);
+    public void initInfo() {
+        tenDv.setText(dvtDTO.getTenDVT());
     }
 
     @Override
@@ -117,7 +105,7 @@ public class DonViTinhDialog extends JDialog implements ActionListener {
             dispose();
         } else if (e.getSource() == btnCapNhat) {
             String name = tenDv.getText();
-            int id = Integer.parseInt(getIdDvt());
+            int id = dvtDTO.getMaDVT();
             DTO.DonViTinhDTO dvt = new DTO.DonViTinhDTO(id, name);
             jpDVT.dvtBUS.update(dvt);
             jpDVT.loadDataTalbe(jpDVT.listdvt);

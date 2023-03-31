@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import DTO.LoaiHangDTO;
 import component.ButtonCustom;
 import component.HeaderTitle;
 import component.InputForm;
@@ -12,8 +13,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JDialog;
@@ -33,23 +32,18 @@ public class LoaiHangDialog extends JDialog implements MouseListener {
     private JPanel pnmain, pnbottom;
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
     private InputForm tenLH;
-    private JTextField maLH;
+    private LoaiHangDTO loaihangDto;
 
     public LoaiHangDialog(LoaiHang jpLH, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
         this.jpLH = jpLH;
-        tenLH = new InputForm("Tên loại hàng hóa mới");
-        maLH = new JTextField("");
         initComponents(title, type);
     }
 
     public LoaiHangDialog(LoaiHang jpLH, JFrame owner, String title, boolean modal, String type, DTO.LoaiHangDTO lh) {
         super(owner, title, modal);
-        tenLH = new InputForm("Tên loại hàng hóa mới");
-        maLH = new JTextField("");
-        setTenLoaihang(lh.getTenloaihang());
-        setMaloaihang(Integer.toString(lh.getMaloaihang()));
         this.jpLH = jpLH;
+        this.loaihangDto = lh;
         initComponents(title, type);
     }
 
@@ -59,7 +53,7 @@ public class LoaiHangDialog extends JDialog implements MouseListener {
         titlePage = new HeaderTitle(title.toUpperCase());
         pnmain = new JPanel(new GridLayout(1, 1, 20, 0));
         pnmain.setBackground(Color.white);
-
+        tenLH = new InputForm("Tên loại hàng hóa mới");
         pnmain.add(tenLH);
 
         pnbottom = new JPanel(new FlowLayout());
@@ -93,41 +87,22 @@ public class LoaiHangDialog extends JDialog implements MouseListener {
         this.setVisible(true);
     }
 
-    public void setTenLoaihang(String name) {
-        tenLH.setText(name);
-    }
-
-    public String getTenLoaihang() {
-        return tenLH.getText();
-    }
-
-    public void setMaloaihang(String id) {
-        this.maLH.setText(id);
-    }
-
-    public String getMaLoaihang() {
-        return maLH.getText();
-    }
-
     @Override
     public void mouseClicked(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == btnThem) {
             String name = tenLH.getText();
-            int id = 0;
-            DTO.LoaiHangDTO lh = new DTO.LoaiHangDTO(id, name);
-            jpLH.lhBUS.add(lh);
+            jpLH.lhBUS.add(name);
             jpLH.loadDataTalbe(jpLH.listLH);
             dispose();
         } else if (e.getSource() == btnHuyBo) {
             dispose();
         } else if (e.getSource() == btnCapNhat) {
             String name = tenLH.getText();
-            int id = Integer.parseInt(getMaLoaihang());
+            int id = loaihangDto.getMaloaihang();
             DTO.LoaiHangDTO lh = new DTO.LoaiHangDTO(id, name);
             jpLH.lhBUS.update(lh);
             jpLH.loadDataTalbe(jpLH.listLH);
@@ -137,17 +112,14 @@ public class LoaiHangDialog extends JDialog implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
