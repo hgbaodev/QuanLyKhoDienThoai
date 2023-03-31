@@ -18,41 +18,46 @@ import javax.swing.event.DocumentListener;
  *
  * @author robot
  */
-public class NhanVienBUS implements ActionListener, DocumentListener{
+public class NhanVienBUS implements ActionListener, DocumentListener {
+
     private GUI.NhanVien nv;
     private JTextField textField;
-    private ArrayList<DTO.NhanVien> listNv = NhanVienDAO.getInstance().selectAll();
-    
-    
-    public NhanVienBUS(NhanVien nv){
+    public ArrayList<DTO.NhanVien> listNv = NhanVienDAO.getInstance().selectAll();
+
+    public NhanVienBUS(NhanVien nv) {
         this.nv = nv;
     }
-    
+
     public NhanVienBUS(JTextField textField) {
         this.textField = textField;
     }
     
+    public ArrayList<DTO.NhanVien> getAll(){
+        return this.listNv;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String btn = e.getActionCommand();
-        System.out.println("Bạn đang nhấn nút "+ btn);
-        
+        System.out.println("Bạn đang nhấn nút " + btn);
+
         switch (btn) {
             case "THÊM":
-                NhanVienDialog nvthem = new NhanVienDialog(this, nv.owner, true, "Thêm nhân viên","create");
+                NhanVienDialog nvthem = new NhanVienDialog(this, nv.owner, true, "Thêm nhân viên", "create");
                 break;
             case "SỬA":
-                NhanVienDialog nvsua = new NhanVienDialog(this, nv.owner, true, "Sửa nhân viên","update");
+                NhanVienDialog nvsua = new NhanVienDialog(this, nv.owner, true, "Sửa nhân viên", "update");
+                break;
             case "XÓA":
-                
-            break; 
+
+                break;
             case "NHẬP EXCEL":
-                
-            break;
+
+                break;
             case "XUẤT EXCEL":
-                
-            break;
-            
+
+                break;
+
         }
     }
 

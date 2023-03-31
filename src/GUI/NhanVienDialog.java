@@ -19,7 +19,10 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
@@ -111,22 +114,30 @@ public class NhanVienDialog extends JDialog{
         btnAdd.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Name: "+ name.getText() );
-                System.out.println("Phone: " + sdt.getText());
-                System.out.println("Birthday: " + jcBd.getDate());
-                int txt_gender = -1;
-                if(male.isSelected()){
-                    System.out.println("Nam");
-                    txt_gender = 1;
-                } else if(female.isSelected()){
-                    System.out.println("Nữ");
-                    txt_gender = 0;
+                try {
+                    System.out.println("Name: "+ name.getText() );
+                    System.out.println("Phone: " + sdt.getText());
+                    try {
+                        System.out.println("Birthday: " + jcBd.getDate());
+                    } catch (ParseException ex) {
+                        Logger.getLogger(NhanVienDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    int txt_gender = -1;
+                    if(male.isSelected()){
+                        System.out.println("Nam");
+                        txt_gender = 1;
+                    } else if(female.isSelected()){
+                        System.out.println("Nữ");
+                        txt_gender = 0;
+                    }
+                    String txtName = name.getText();
+                    String txtSdt = sdt.getText();
+                    Date birthDay = jcBd.getDate();
+                    DTO.NhanVien nv = new DTO.NhanVien(txtName, txt_gender, birthDay, txtSdt);
+                    NhanVienDAO.getInstance().insert(nv);
+                } catch (ParseException ex) {
+                    Logger.getLogger(NhanVienDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                String txtName = name.getText();
-                String txtSdt = sdt.getText();
-                Date birthDay = jcBd.getDate();
-                DTO.NhanVien nv = new DTO.NhanVien(txtName, txt_gender, birthDay, txtSdt);
-                NhanVienDAO.getInstance().insert(nv);
             }
         });
         

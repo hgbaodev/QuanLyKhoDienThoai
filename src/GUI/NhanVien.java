@@ -8,10 +8,12 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class NhanVien extends JPanel {
 
    public JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
+    NhanVienBUS nvBus = new NhanVienBUS(this);
     PanelBorderRadius box1, box2, main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tableSanPham;
@@ -19,6 +21,7 @@ public class NhanVien extends JPanel {
     MainFunction mainFunction;
     IntegratedSearch search;
     JLabel lbl1, lblImage;
+    ArrayList<DTO.NhanVien> listnv = nvBus.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
 
@@ -67,7 +70,7 @@ public class NhanVien extends JPanel {
         functionBar.add(search);
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
-        ActionListener nvBus = new NhanVienBUS(this);
+       
         mainFunction.btnAdd.addActionListener(nvBus);
         mainFunction.btnDelete.addActionListener(nvBus);
         mainFunction.btnDetail.addActionListener(nvBus);
@@ -105,6 +108,8 @@ public class NhanVien extends JPanel {
 
         main.add(scrollTableSanPham);
     }
+    
+    
 
     public NhanVien() {
         initComponent();
