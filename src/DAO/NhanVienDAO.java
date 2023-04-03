@@ -92,7 +92,6 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
                 Date ngaysinh = rs.getDate("ngaysinh");
                 String sdt = rs.getString("sdt");
                 NhanVien nv = new NhanVien(manv,hoten,gioitinh,ngaysinh,sdt);
-                System.out.println(nv);
                 result.add(nv);
             }
             JDBCUtil.closeConnection(con);
