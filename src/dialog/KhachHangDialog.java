@@ -38,7 +38,13 @@ public class KhachHangDialog extends JDialog implements MouseListener {
         tenKH = new InputForm("Tên khách hàng");
         setTenKH(kh.getHoten());
         sdtKH = new InputForm("Số điện thoại");
+        try {
+            Integer.parseInt(kh.getSdt());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"vui lòng nhập số điện thoại là số!");
+        }
         setSdtKH(kh.getSdt());
+        
         diachiKH = new InputForm("Địa chỉ");
         setDiaChiKH(kh.getDiachi());
         this.jpKH = jpKH;

@@ -4,11 +4,11 @@ import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.*;
 import javax.swing.*;
 
-public class MenuTaskbar extends JPanel { 
+public class MenuTaskbar extends JPanel {
 
     private final int n = 20;
-    String st[] = {"Trang chủ", "Sản phẩm", "Đơn vị tính", "Loại hàng", "Quản lý kho", "Chuyển kho", "Nhập kho", "Phiếu nhập", "Xuất kho", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
-    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/length_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/In Transit_30px.png", "/icon/supply_chain_30px.png","/icon/bill_30px.png", "/icon/handle_with_care_30px.png", "/icon/estimates_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
+    String st[] = {"Trang chủ", "Sản phẩm", "Đơn vị tính", "Loại hàng", "Quản lý kho", "Chuyển kho", "Kiểm kê", "Nhập kho", "Phiếu nhập", "Xuất kho", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
+    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/length_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/In Transit_30px.png", "/icon/In Transit_30px.png", "/icon/supply_chain_30px.png", "/icon/bill_30px.png", "/icon/handle_with_care_30px.png", "/icon/estimates_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
 
     public JPanel pnl[];
     JLabel lbl[], lblIcon[], info;
@@ -39,7 +39,6 @@ public class MenuTaskbar extends JPanel {
         lblIcon = new JLabel[n];
 
         // bar1, bar là các đường kẻ mỏng giữa taskbarMenu và MainContent
-
         pnlTop = new JPanel();
         pnlTop.setPreferredSize(new Dimension(250, 80));
         pnlTop.setBackground(DefaultColor);
@@ -65,11 +64,11 @@ public class MenuTaskbar extends JPanel {
         pnlCenter.setPreferredSize(new Dimension(250, 700));
         pnlCenter.setBackground(DefaultColor);
         pnlCenter.setLayout(new FlowLayout(0, 0, 0));
-        
-        scrollPane = new JScrollPane(pnlCenter,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        
-        this.add(scrollPane,BorderLayout.CENTER);
-        
+
+        scrollPane = new JScrollPane(pnlCenter, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        this.add(scrollPane, BorderLayout.CENTER);
+
         pnlBottom = new JPanel();
         pnlBottom.setPreferredSize(new Dimension(250, 50));
         pnlBottom.setBackground(DefaultColor);
@@ -109,6 +108,8 @@ public class MenuTaskbar extends JPanel {
             }
 
         }
+        pnl[0].setBackground(HowerBackgroundColor);
+        lbl[0].setForeground(HowerFontColor);
 
         for (int i = 0; i < st.length; i++) {
             pnl[i].addMouseListener(new java.awt.event.MouseAdapter() {

@@ -6,10 +6,12 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class PhieuNhap extends JPanel {
+public class PhieuNhap extends JPanel implements ActionListener {
 
     PanelBorderRadius box1, box2, main, functionBar, right;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -19,8 +21,16 @@ public class PhieuNhap extends JPanel {
     IntegratedSearch search;
     JLabel lbl1, lblImage;
     DefaultTableModel tblModel;
-    
+
+    NhapKho nhapKho;
+    Main m;
+
     Color BackgroundColor = new Color(239, 235, 233);
+
+    public PhieuNhap(Main m) {
+        initComponent();
+        this.m = m;
+    }
 
     private void initComponent() {
 
@@ -83,6 +93,9 @@ public class PhieuNhap extends JPanel {
         mainFunction = new MainFunction();
         functionBar.add(mainFunction);
 
+        //        //Add Event MouseListener
+        mainFunction.btnAdd.addActionListener(this);
+
         search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
 
@@ -104,8 +117,22 @@ public class PhieuNhap extends JPanel {
         contentCenter.add(right, BorderLayout.EAST);
     }
 
-    public PhieuNhap() {
-        initComponent();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == mainFunction.btnAdd) {
+
+            int input = JOptionPane.showConfirmDialog(null,
+                    "Chúng tôi sẽ chuyển đến nhập kho.\nBạn đã chắc chắn chưa?", "Chuyển sang nhập kho",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            if (input == 0) {
+                nhapKho = new NhapKho();
+                m.MainContent.removeAll();
+                m.MainContent.add(nhapKho).setVisible(true);
+                m.MainContent.repaint();
+                m.MainContent.validate();
+            }
+
+        }
     }
 
 }

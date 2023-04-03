@@ -44,6 +44,7 @@ public class KhachHang extends JPanel implements ActionListener {
     DefaultTableModel tblModel;
     public KhachHangBUS khachhangBUS = new KhachHangBUS();
     public ArrayList<KhachHangDTO> listkh = khachhangBUS.getAll();
+    KhachHangDTO kh = new KhachHangDTO();
 
     Color BackgroundColor = new Color(240, 247, 250);
 
@@ -180,7 +181,6 @@ public class KhachHang extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng cần sửa");
             } else {
                 KhachHangDialog khDialog = new KhachHangDialog(this, owner, "Chỉnh sửa khách hàng", true, "update", listkh.get(index));
-
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
             int index = tableKhachHang.getSelectedRow();
@@ -212,8 +212,8 @@ public class KhachHang extends JPanel implements ActionListener {
             importExcel();
         }
     }
-    
-        public void exportExcel() {
+
+    public void exportExcel() {
         try {
             JFileChooser jFileChooser = new JFileChooser();
             jFileChooser.showSaveDialog(this);
