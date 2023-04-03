@@ -5,10 +5,12 @@
 package GUI;
 
 import BUS.NhanVienBUS;
+import DAO.NhanVienDAO;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import component.ButtonCustom;
 import component.HeaderTitle;
+import component.InputDate;
 import component.InputForm;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,6 +19,10 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
@@ -40,7 +46,7 @@ public class NhanVienDialog extends JDialog{
     private ButtonGroup gender;
     private JRadioButton male;
     private JRadioButton female;
-    private JDateChooser jcBd;
+    private InputDate jcBd;
     
     public NhanVienDialog(NhanVienBUS nv, JFrame owner, boolean modal, String title, String type){
         super(owner,title,modal);
@@ -83,14 +89,14 @@ public class NhanVienDialog extends JDialog{
         jpaneljd.setSize(new Dimension(500,100));
         jpaneljd.setLayout(new FlowLayout(FlowLayout.LEFT));
         jpaneljd.setBackground(Color.white);
-        jcBd = new JDateChooser();
+        jcBd = new InputDate("Ngày sinh");
         jcBd.setSize(new Dimension(100,100));
         jpaneljd.add(lbBd);
         jpaneljd.add(jcBd);
         main.add(name);
         main.add(sdt);
         main.add(jpanelG);
-        main.add(jpaneljd);
+        main.add(jcBd);
         
         bottom = new JPanel(new FlowLayout());
         bottom.setBorder(new EmptyBorder(10,0,10,0));
@@ -108,6 +114,30 @@ public class NhanVienDialog extends JDialog{
         btnAdd.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    System.out.println("Name: "+ name.getText() );
+                    System.out.println("Phone: " + sdt.getText());
+                    try {
+                        System.out.println("Birthday: " + jcBd.getDate());
+                    } catch (ParseException ex) {
+                        Logger.getLogger(NhanVienDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    int txt_gender = -1;
+                    if(male.isSelected()){
+                        System.out.println("Nam");
+                        txt_gender = 1;
+                    } else if(female.isSelected()){
+                        System.out.println("Nữ");
+                        txt_gender = 0;
+                    }
+                    String txtName = name.getText();
+                    String txtSdt = sdt.getText();
+                    Date birthDay = jcBd.getDate();
+                    DTO.NhanVien nv = new DTO.NhanVien(txtName, txt_gender, birthDay, txtSdt);
+                    NhanVienDAO.getInstance().insert(nv);
+                } catch (ParseException ex) {
+                    Logger.getLogger(NhanVienDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         

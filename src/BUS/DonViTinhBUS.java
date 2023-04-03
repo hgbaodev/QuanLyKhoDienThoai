@@ -40,15 +40,16 @@ public class DonViTinhBUS {
         return vitri;
     }
     
-    public Boolean add(DonViTinhDTO dvt) {
+    public Boolean add(String name) {
+        DonViTinhDTO dvt = new DonViTinhDTO(dvtDAO.getAutoIncrement(), name);
         boolean check = dvtDAO.insert(dvt) != 0;
         if(check) this.listDvt.add(dvt);
         return check;
     }
     
-    public Boolean delete(DonViTinhDTO dvt) {
+    public Boolean delete(DonViTinhDTO dvt, int index) {
         boolean check = dvtDAO.delete(Integer.toString(dvt.getMaDVT())) != 0;
-        if(check) this.listDvt.remove(getIndexByMaDV(dvt.getMaDVT()));
+        if(check) this.listDvt.remove(index);
         return check;
     }
     

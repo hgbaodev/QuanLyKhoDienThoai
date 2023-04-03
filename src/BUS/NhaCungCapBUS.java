@@ -37,10 +37,10 @@ public class NhaCungCapBUS {
         return check;
     }
 
-    public boolean delete(NhaCungCapDTO ncc) {
+    public boolean delete(NhaCungCapDTO ncc, int index) {
         boolean check = NccDAO.delete(Integer.toString(ncc.getMancc())) != 0;
         if (check) {
-            this.listNcc.remove(ncc);
+            this.listNcc.remove(index);
         }
         return check;
     }
@@ -48,51 +48,65 @@ public class NhaCungCapBUS {
     public boolean update(NhaCungCapDTO ncc) {
         boolean check = NccDAO.update(ncc) != 0;
         if (check) {
-            this.listNcc.remove(ncc);
+            this.listNcc.set(getIndexByMaNCC(ncc.getMancc()),ncc);
         }
         return check;
+    }
+
+    public int getIndexByMaNCC(int mancc) {
+        int i = 0;
+        int vitri = -1;
+        while (i < this.listNcc.size() && vitri == -1) {
+            if (listNcc.get(i).getMancc()== mancc) {
+                vitri = i;
+                break;
+            } else {
+                i++;
+            }
+        }
+        return vitri;
     }
 
     public ArrayList<NhaCungCapDTO> search(String txt, String type) {
         ArrayList<NhaCungCapDTO> result = new ArrayList<>();
         txt = txt.toLowerCase();
         switch (type) {
-            case "all" -> {
+            case "Tất cả" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (Integer.toString(i.getMancc()).contains(txt) || i.getTenncc().contains(txt) || i.getDiachi().contains(txt) || i.getEmail().contains(txt) || i.getSdt().contains(txt)) {
                         result.add(i);
                     }
                 }
             }
-            case "mancc" -> {
+            case "Mã nhà cung cấp" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (Integer.toString(i.getMancc()).contains(txt)) {
                         result.add(i);
                     }
                 }
             }
-            case "tenncc" -> {
+            case "Tên nhà cung cấp" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (i.getTenncc().toLowerCase().contains(txt)) {
                         result.add(i);
                     }
                 }
             }
-            case "diachi" -> {
+            case "Địa chỉ" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (i.getDiachi().toLowerCase().contains(txt)) {
                         result.add(i);
                     }
                 }
             }
-            case "sodienthoai" -> {
+            case "Số điện thoại" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (i.getSdt().toLowerCase().contains(txt)) {
                         result.add(i);
                     }
                 }
             }
-            case "email" -> {
+            case "Email" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (i.getEmail().toLowerCase().contains(txt)) {
                         result.add(i);
@@ -102,5 +116,4 @@ public class NhaCungCapBUS {
         }
         return result;
     }
-
 }

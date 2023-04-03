@@ -35,7 +35,8 @@ public class LoaiHangBUS {
         }
         return vitri;
      }
-     public Boolean add(LoaiHangDTO lh) {
+     public Boolean add(String name) {
+        LoaiHangDTO lh = new LoaiHangDTO(lhDAO.getAutoIncrement(),name);
         boolean check = lhDAO.insert(lh) != 0;
         if(check) this.listLH.add(lh);
         return check;

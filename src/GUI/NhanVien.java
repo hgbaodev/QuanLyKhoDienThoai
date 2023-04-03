@@ -1,6 +1,8 @@
 package GUI;
 
 import BUS.NhanVienBUS;
+import DAO.NhanVienDAO;
+import DTO.DonViTinhDTO;
 import component.IntegratedSearch;
 import component.MainFunction;
 import java.awt.*;
@@ -8,10 +10,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 public class NhanVien extends JPanel {
 
    public JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
+    NhanVienBUS nvBus = new NhanVienBUS(this);
     PanelBorderRadius box1, box2, main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tableSanPham;
@@ -19,8 +24,10 @@ public class NhanVien extends JPanel {
     MainFunction mainFunction;
     IntegratedSearch search;
     JLabel lbl1, lblImage;
+    ArrayList<DTO.NhanVien> listnv = nvBus.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
+    private DefaultTableModel tblModel;
 
     private void initComponent() {
         this.setBackground(BackgroundColor);
@@ -67,7 +74,7 @@ public class NhanVien extends JPanel {
         functionBar.add(search);
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
-        ActionListener nvBus = new NhanVienBUS(this);
+       
         mainFunction.btnAdd.addActionListener(nvBus);
         mainFunction.btnDelete.addActionListener(nvBus);
         mainFunction.btnDetail.addActionListener(nvBus);
@@ -89,25 +96,33 @@ public class NhanVien extends JPanel {
         scrollTableSanPham = new JScrollPane();
 
         tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
-
+        tableSanPham = new JTable();
         tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                    {"001", "Mĩ", "Nữ", "2001"},
-                    {"002", "Công", "Nam", "2001"},
-                    {null, null, null, null},
-                    {null, null, null, null}
-                },
-                new String[]{
-                    "Mã nhân viên", "Họ tên", "Giới tính", "Ngày sinh"
-                }
+                new Object[][]{},
+                new String[]{}
         ));
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"MNV","Họ tên","Giởi tính","Ngày Sinh","SDT"};
+        tblModel.setColumnIdentifiers(header);
+        tableSanPham.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableSanPham);
-
         main.add(scrollTableSanPham);
     }
+    
+    
 
     public NhanVien() {
         initComponent();
+        loadDataTalbe(listnv);
+    }
+    
+    public void loadDataTalbe(ArrayList<DTO.NhanVien> list) {
+        tblModel.setRowCount(0);
+        for (DTO.NhanVien nhanVien : list) {
+            tblModel.addRow(new Object[]{
+                nhanVien.getManv(),nhanVien.getHoten(),nhanVien.getGioitinh()==1?"Nam":"Nữ",nhanVien.getNgaysinh(),nhanVien.getSdt()
+            });
+        }
     }
 
 }

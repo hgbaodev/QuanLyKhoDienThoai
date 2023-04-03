@@ -25,13 +25,13 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `nhanvien`(`manhanvien`, `hoten`, `gioitinh`, `ngaysinh`, `email`) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO `nhanvien`(`hoten`, `gioitinh`,`sdt`,`ngaysinh`) VALUES (?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setInt(1, t.getManv());
-            pst.setString(2, t.getHoten());
-            pst.setString(3, t.getGioitinh());
-            pst.setDate(4, (Date) t.getNgaysinh());
-            pst.setString(5, t.getEmail());
+            pst.setString(1, t.getHoten());
+            pst.setInt(2, t.getGioitinh());
+            java.sql.Date sqlDate = new java.sql.Date( t.getNgaysinh().getTime() );
+            pst.setString(3, t.getSdt());
+            pst.setDate(4, (sqlDate) );
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -45,13 +45,13 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `nhanvien` SET `manhanvien`='?',`hoten`='?',`gioitinh`='?',`ngaysinh`='?',`email`='?' WHERE ?";
+            String sql = "UPDATE `nhanvien` SET `manhanvien`='?',`hoten`='?',`gioitinh`='?',`ngaysinh`='?',`sdt`='?' WHERE ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getManv());
             pst.setString(2, t.getHoten());
-            pst.setString(3, t.getGioitinh());
+            pst.setInt(3, t.getGioitinh());
             pst.setDate(4, (Date) t.getNgaysinh());
-            pst.setString(5, t.getEmail());
+            pst.setString(5, t.getSdt());
             pst.setInt(6, t.getManv());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
@@ -86,16 +86,17 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
-                int manv = rs.getInt("manhanvien");
+                int manv = rs.getInt("manv");
                 String hoten = rs.getString("hoten");
-                String gioitinh = rs.getString("gioitinh");
+                int gioitinh = rs.getInt("gioitinh");
                 Date ngaysinh = rs.getDate("ngaysinh");
-                String email = rs.getString("email");
-                NhanVien nv = new NhanVien(manv,hoten,gioitinh,ngaysinh,email);
+                String sdt = rs.getString("sdt");
+                NhanVien nv = new NhanVien(manv,hoten,gioitinh,ngaysinh,sdt);
                 result.add(nv);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -112,11 +113,11 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
             while(rs.next()){
                 int manv = rs.getInt("manhanvien");
                 String hoten = rs.getString("hoten");
-                String gioitinh = rs.getString("gioitinh");
+                int gioitinh = rs.getInt("gioitinh");
                 Date ngaysinh = rs.getDate("ngaysinh");
-                String email = rs.getString("email");
+                String sdt = rs.getString("sdt");
                 
-                result = new NhanVien(manv,hoten,gioitinh,ngaysinh,email);
+                result = new NhanVien(manv,hoten,gioitinh,ngaysinh,sdt);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
@@ -137,7 +138,6 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
             } else {
                 while ( rs2.next() ) {
                     result = rs2.getInt("AUTO_INCREMENT");
-                    
                 }
             }
         } catch (SQLException ex) {

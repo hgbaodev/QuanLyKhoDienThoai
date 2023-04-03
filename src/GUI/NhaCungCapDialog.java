@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import DAO.NhaCungCapDAO;
+import DTO.NhaCungCapDTO;
 import component.ButtonCustom;
 import component.HeaderTitle;
 import component.InputForm;
@@ -24,7 +26,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Tran Nhat Sinh
  */
-public class NhaCungCapDialog extends JDialog {
+public class NhaCungCapDialog extends JDialog implements ActionListener {
 
     private NhaCungCap jpNcc;
     private HeaderTitle titlePage;
@@ -34,6 +36,7 @@ public class NhaCungCapDialog extends JDialog {
     private InputForm diachi;
     private InputForm email;
     private InputForm sodienthoai;
+    private NhaCungCapDTO nccDTO;
 
     public NhaCungCapDialog(NhaCungCap jpNcc, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
@@ -41,9 +44,10 @@ public class NhaCungCapDialog extends JDialog {
         initComponents(title, type);
     }
 
-    public NhaCungCapDialog(NhaCungCap jpNcc, JFrame owner, String title, boolean modal, String type, DTO.DonViTinhDTO dvt) {
+    public NhaCungCapDialog(NhaCungCap jpNcc, JFrame owner, String title, boolean modal, String type, NhaCungCapDTO nccdto) {
         super(owner, title, modal);
         this.jpNcc = jpNcc;
+        this.nccDTO = nccdto;
         initComponents(title, type);
     }
 
@@ -71,26 +75,60 @@ public class NhaCungCapDialog extends JDialog {
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
 
         //Add MouseListener btn
-//        btnThem.addActionListener(this);
-//        btnCapNhat.addActionListener(this);
-//        btnHuyBo.addActionListener(this);
+        btnThem.addActionListener(this);
+        btnCapNhat.addActionListener(this);
+        btnHuyBo.addActionListener(this);
 
         switch (type) {
-            case "create" ->
+            case "create":
                 pnbottom.add(btnThem);
-            case "update" ->
+                break;
+            case "update":
                 pnbottom.add(btnCapNhat);
-            case "view" ->
-                tenNcc.setDisable();
-            default ->
+                initInfo();
+                break;
+            case "view":
+                initInfo();
+                break;
+            default:
                 throw new AssertionError();
         }
         pnbottom.add(btnHuyBo);
-
         this.add(titlePage, BorderLayout.NORTH);
         this.add(pnmain, BorderLayout.CENTER);
         this.add(pnbottom, BorderLayout.SOUTH);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public void initInfo() {
+        tenNcc.setText(nccDTO.getTenncc());
+        diachi.setText(nccDTO.getDiachi());
+        email.setText(nccDTO.getEmail());
+        sodienthoai.setText(nccDTO.getSdt());
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnThem) {
+            int mancc = NhaCungCapDAO.getInstance().getAutoIncrement();
+            String tenNcc = this.tenNcc.getText();
+            String diachi = this.diachi.getText();
+            String email = this.email.getText();
+            String sodienthoai = this.sodienthoai.getText();
+            jpNcc.nccBUS.add(new NhaCungCapDTO(mancc, tenNcc, diachi, email, sodienthoai));
+            jpNcc.loadDataTalbe(jpNcc.listncc);
+            dispose();
+        } else if (e.getSource() == btnHuyBo) {
+            dispose();
+        } else if (e.getSource() == btnCapNhat) {
+            String tenNcc = this.tenNcc.getText();
+            String diachi = this.diachi.getText();
+            String email = this.email.getText();
+            String sodienthoai = this.sodienthoai.getText();
+            jpNcc.nccBUS.update(new NhaCungCapDTO(nccDTO.getMancc(),tenNcc, diachi, email, sodienthoai));
+            jpNcc.loadDataTalbe(jpNcc.listncc);
+            dispose();
+        }
     }
 }
