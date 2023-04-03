@@ -159,7 +159,7 @@ public class Main extends javax.swing.JFrame {
         menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                phieuXuat = new PhieuXuat();
+                phieuXuat = new PhieuXuat(Main.this);
                 MainContent.removeAll();
                 MainContent.add(phieuXuat).setVisible(true);
                 MainContent.repaint();

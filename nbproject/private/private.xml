@@ -3,14 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/H:/Java/quanlikhohang/src/GUI/PhieuNhap.java</file>
             <file>file:/H:/Java/quanlikhohang/src/GUI/Main.java</file>
-            <file>file:/H:/Java/quanlikhohang/src/DAO/KhachHangDAO.java</file>
             <file>file:/H:/Java/quanlikhohang/src/GUI/KhachHang.java</file>
-            <file>file:/H:/Java/quanlikhohang/src/dialog/KhachHangDialog.java</file>
-            <file>file:/H:/Java/quanlikhohang/src/DTO/KhachHangDTO.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/PhieuXuat.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/KiemKe.java</file>
             <file>file:/H:/Java/quanlikhohang/src/GUI/NhapKho.java</file>
-            <file>file:/H:/Java/quanlikhohang/src/component/MainFunction.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/dialog/KhachHangDialog.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/component/ButtonToolBar.java</file>
             <file>file:/H:/Java/quanlikhohang/src/component/MenuTaskbar.java</file>
         </group>
     </open-files>
