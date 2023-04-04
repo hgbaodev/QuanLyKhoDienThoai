@@ -20,12 +20,16 @@ import java.util.logging.Logger;
  */
 public class ChiTietQuyenDAO implements ChiTietInterface<ChiTietQuyenDTO> {
 
+    public static ChiTietQuyenDAO getInstance() {
+        return new ChiTietQuyenDAO();
+    }
+    
     @Override
     public int delete(String t) {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM chitietquyen WHERE manhomquyen = ?";
+            String sql = "DELETE FROM ctquyen WHERE manhomquyen = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -42,7 +46,7 @@ public class ChiTietQuyenDAO implements ChiTietInterface<ChiTietQuyenDTO> {
         for (int i = 0; i < t.size(); i++) {
             try {
                 Connection con = (Connection) JDBCUtil.getConnection();
-                String sql = "INSERT INTO `chitietquyen`(`manhomquyen`,`machucnang`,`hanhdong`) VALUES (?,?,?)";
+                String sql = "INSERT INTO `ctquyen`(`manhomquyen`,`machucnang`,`hanhdong`) VALUES (?,?,?)";
                 PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                 pst.setInt(1, t.get(i).getManhomquyen());
                 pst.setString(2, t.get(i).getMachucnang());
@@ -61,8 +65,9 @@ public class ChiTietQuyenDAO implements ChiTietInterface<ChiTietQuyenDTO> {
         ArrayList<ChiTietQuyenDTO> result = new ArrayList<ChiTietQuyenDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM donvitinh";
+            String sql = "SELECT * FROM ctquyen WHERE manhomquyen = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
                 int manhomquyen = rs.getInt("manhomquyen");

@@ -5,6 +5,7 @@
 package BUS;
 
 import DAO.NhomQuyenDAO;
+import DTO.ChiTietQuyenDTO;
 import DTO.NhomQuyenDTO;
 import java.util.ArrayList;
 
@@ -15,10 +16,11 @@ import java.util.ArrayList;
 public class NhomQuyenBUS {
 
     private final NhomQuyenDAO nhomquyenDAO = new NhomQuyenDAO();
+    public ChiTietQuyenBUS chitietquyenBUS = new ChiTietQuyenBUS();
     private ArrayList<NhomQuyenDTO> listNhomQuyen;
 
     public NhomQuyenBUS() {
-        this.listNhomQuyen = new ArrayList<>();
+        this.listNhomQuyen = nhomquyenDAO.selectAll();
     }
     
     public ArrayList<NhomQuyenDTO> getAll() {
@@ -29,10 +31,12 @@ public class NhomQuyenBUS {
         return this.listNhomQuyen.get(index);
     }
 
-    public boolean add(NhomQuyenDTO nqdto) {
-        boolean check = nhomquyenDAO.insert(nqdto) != 0;
+    public boolean add(String nqdto, ArrayList<ChiTietQuyenDTO> ctquyen) {
+        NhomQuyenDTO nq = new NhomQuyenDTO(nhomquyenDAO.getAutoIncrement(),nqdto);
+        boolean check = nhomquyenDAO.insert(nq) != 0;
         if (check) {
-            this.listNhomQuyen.add(nqdto);
+            this.listNhomQuyen.add(nq);
+            this.chitietquyenBUS.add(ctquyen);
         }
         return check;
     }

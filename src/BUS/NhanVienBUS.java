@@ -5,8 +5,8 @@
 package BUS;
 
 import DAO.NhanVienDAO;
-import GUI.NhanVien;
-import GUI.NhanVienDialog;
+import GUI.Panel.NhanVien;
+import GUI.Dialog.NhanVienDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import javax.swing.event.DocumentListener;
  */
 public class NhanVienBUS implements ActionListener, DocumentListener {
 
-    private GUI.NhanVien nv;
+    private GUI.Panel.NhanVien nv;
     private JTextField textField;
     public ArrayList<DTO.NhanVien> listNv = NhanVienDAO.getInstance().selectAll();
 

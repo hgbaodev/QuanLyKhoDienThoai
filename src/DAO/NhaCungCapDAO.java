@@ -24,7 +24,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `nhacungcap`(`mancc`, `tenncc`, `diachi`, `email`, `sdt`) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO `nhacungcap`(`manhacungcap`, `tennhacungcap`, `diachi`, `email`, `sdt`) VALUES (?,?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMancc());
             pst.setString(2, t.getTenncc());
@@ -44,7 +44,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `nhacungcap` SET `tenncc`=?,`diachi`=?,`email`=?,`sdt`=? WHERE `mancc`= ?";
+            String sql = "UPDATE `nhacungcap` SET `tennhacungcap`=?,`diachi`=?,`email`=?,`sdt`=? WHERE `manhacungcap`= ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getTenncc());
             pst.setString(2, t.getDiachi());
@@ -64,7 +64,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM nhacungcap WHERE mancc = ?";
+            String sql = "DELETE FROM nhacungcap WHERE manhacungcap = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -84,8 +84,8 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
-                int mancc = rs.getInt("mancc");
-                String tenncc = rs.getString("tenncc");
+                int mancc = rs.getInt("manhacungcap");
+                String tenncc = rs.getString("tennhacungcap");
                 String diachi = rs.getString("diachi");
                 String email = rs.getString("email");
                 String sdt = rs.getString("sdt");
@@ -103,13 +103,13 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
         NhaCungCapDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM nhacungcap WHERE nhacungcap='?'";
+            String sql = "SELECT * FROM nhacungcap WHERE manhacungcap=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
-                int mancc = rs.getInt("mancc");
-                String tenncc = rs.getString("tenncc");
+                int mancc = rs.getInt("manhacungcap");
+                String tenncc = rs.getString("tennhacungcap");
                 String diachi = rs.getString("diachi");
                 String email = rs.getString("diachi");
                 String sdt = rs.getString("sdt");

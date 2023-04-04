@@ -1,10 +1,26 @@
 package GUI;
 
+import GUI.Panel.TrangChu;
+import GUI.Panel.TaiKhoan;
+import GUI.Panel.XuatKho;
+import GUI.Panel.PhieuNhap;
+import GUI.Panel.NhapKho;
+import GUI.Panel.KhachHang;
+import GUI.Panel.DonViTinh;
+import GUI.Panel.SanPham;
+import GUI.Panel.KiemKe;
+import GUI.Panel.NhanVien;
+import GUI.Panel.LoaiHang;
+import GUI.Panel.PhanQuyen;
+import GUI.Panel.NhaCungCap;
+import GUI.Panel.ChuyenKho;
+import GUI.Panel.QuanLyKho;
+import GUI.Panel.PhieuXuat;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.*;
 import javax.swing.*;
-import component.MenuTaskbar;
-import component.NavigationBar;
+import GUI.Component.MenuTaskbar;
+import GUI.Component.NavigationBar;
 
 public class Main extends javax.swing.JFrame {
 
@@ -222,7 +238,7 @@ public class Main extends javax.swing.JFrame {
         UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
         UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
-        UIManager.put( "Table.selectionBackground", new Color(1,4,77));
+        UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
         Main main = new Main();
         main.setVisible(true);
     }

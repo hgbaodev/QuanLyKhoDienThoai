@@ -39,7 +39,7 @@ public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `loaihang` SET`tenloaihang`=? WHERE  `maloaihang`=?";
+            String sql = "UPDATE `loaihang` SET`tenloaihang`=? WHERE `maloaihang`=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getTenloaihang());
             pst.setInt(2, t.getMaloaihang());

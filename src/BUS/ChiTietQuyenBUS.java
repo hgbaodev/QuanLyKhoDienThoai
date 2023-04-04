@@ -14,13 +14,18 @@ import java.util.ArrayList;
  */
 public class ChiTietQuyenBUS {
     private ChiTietQuyenDAO chitietquyenDAO = new ChiTietQuyenDAO();
-    private ArrayList<ChiTietQuyenDTO> listChiTietQuyen;
+    public ArrayList<ChiTietQuyenDTO> listChiTietQuyen;
     
     public ChiTietQuyenBUS() {
-        this.listChiTietQuyen = new ArrayList<>();
+        
     }
     
-    public ArrayList<ChiTietQuyenDTO> getAll(){
+    public ArrayList<ChiTietQuyenDTO> getAll(String manhomquyen){
         return this.listChiTietQuyen;
+    }
+    
+    public boolean add(ArrayList<ChiTietQuyenDTO> listctquyen) {
+        boolean check = chitietquyenDAO.insert(listctquyen) != 0;
+        return check;
     }
 }
