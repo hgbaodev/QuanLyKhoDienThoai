@@ -4,7 +4,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.*;
 import javax.swing.*;
 
-public class MenuTaskbar extends JPanel { 
+public class MenuTaskbar extends JPanel {
 
     private final int n = 20;
     String st[] = {"Trang chủ", "Sản phẩm", "Đơn vị tính", "Loại hàng", "Khu vực kho", "Chuyển kho", "Nhập kho", "Phiếu nhập", "Xuất kho", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
@@ -39,7 +39,6 @@ public class MenuTaskbar extends JPanel {
         lblIcon = new JLabel[n];
 
         // bar1, bar là các đường kẻ mỏng giữa taskbarMenu và MainContent
-
         pnlTop = new JPanel();
         pnlTop.setPreferredSize(new Dimension(250, 80));
         pnlTop.setBackground(DefaultColor);
@@ -62,14 +61,14 @@ public class MenuTaskbar extends JPanel {
         this.add(pnlTop, BorderLayout.NORTH);
 
         pnlCenter = new JPanel();
-        pnlCenter.setPreferredSize(new Dimension(250, 700));
+        pnlCenter.setPreferredSize(new Dimension(250, 720));
         pnlCenter.setBackground(DefaultColor);
         pnlCenter.setLayout(new FlowLayout(0, 0, 0));
-        
-        scrollPane = new JScrollPane(pnlCenter,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        
-        this.add(scrollPane,BorderLayout.CENTER);
-        
+
+        scrollPane = new JScrollPane(pnlCenter, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        this.add(scrollPane, BorderLayout.CENTER);
+
         pnlBottom = new JPanel();
         pnlBottom.setPreferredSize(new Dimension(250, 50));
         pnlBottom.setBackground(DefaultColor);
@@ -109,6 +108,8 @@ public class MenuTaskbar extends JPanel {
             }
 
         }
+        pnl[0].setBackground(HowerBackgroundColor);
+        lbl[0].setForeground(HowerFontColor);
 
         for (int i = 0; i < st.length; i++) {
             pnl[i].addMouseListener(new java.awt.event.MouseAdapter() {

@@ -12,16 +12,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DTO.SanPham;
+import DTO.SanPhamDTO;
 
 
-public class SanPhamDAO implements DAOinterface<SanPham>{
+public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
     public static SanPhamDAO getInstance(){
         return new SanPhamDAO();
     }
 
     @Override
-    public int insert(SanPham t) {
+    public int insert(SanPhamDTO t) {
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
@@ -45,7 +45,7 @@ public class SanPhamDAO implements DAOinterface<SanPham>{
     }
 
     @Override
-    public int update(SanPham t) {
+    public int update(SanPhamDTO t) {
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
@@ -86,8 +86,8 @@ public class SanPhamDAO implements DAOinterface<SanPham>{
     }
 
     @Override
-    public ArrayList<SanPham> selectAll() {
-        ArrayList<SanPham> result = new ArrayList<SanPham>();
+    public ArrayList<SanPhamDTO> selectAll() {
+        ArrayList<SanPhamDTO> result = new ArrayList<SanPhamDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM sanpham";
@@ -104,7 +104,7 @@ public class SanPhamDAO implements DAOinterface<SanPham>{
                 int maloaihang = rs.getInt("maloaihang");
                 int makhuvuc = rs.getInt("makhuvuc");
                 
-                SanPham sp = new SanPham(masp,tensp,xuatxu,gianhap,giaban,hinhanh,maDVT,maloaihang,makhuvuc);
+                SanPhamDTO sp = new SanPhamDTO(masp,tensp,xuatxu,gianhap,giaban,hinhanh,maDVT,maloaihang,makhuvuc);
                 result.add(sp);
             }
             JDBCUtil.closeConnection(con);
@@ -114,8 +114,8 @@ public class SanPhamDAO implements DAOinterface<SanPham>{
     }
 
     @Override
-    public SanPham selectById(String t) {
-        SanPham result = null;
+    public SanPhamDTO selectById(String t) {
+        SanPhamDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM sanpham WHERE masanpham='?'";
@@ -133,7 +133,7 @@ public class SanPhamDAO implements DAOinterface<SanPham>{
                 int maloaihang = rs.getInt("maloaihang");
                 int makhuvuc = rs.getInt("makhuvuc");
                 
-                result = new SanPham(masp,tensp,xuatxu,gianhap,giaban,hinhanh,maDVT,maloaihang,makhuvuc);
+                result = new SanPhamDTO(masp,tensp,xuatxu,gianhap,giaban,hinhanh,maDVT,maloaihang,makhuvuc);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {

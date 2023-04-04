@@ -1,25 +1,42 @@
 package GUI;
 
+import DTO.SanPhamDTO;
+import BUS.SanPhamBUS;
+
 import component.IntegratedSearch;
 import component.MainFunction;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
-public class TaiKhoan extends JPanel {
-    PanelBorderRadius box1, box2, main, functionBar, bottom;
+import java.util.ArrayList;
+
+public class KiemKe extends JPanel {
+
+    PanelBorderRadius box1, box2, main, left, right;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tableSanPham;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
     JLabel lbl1, lblImage;
+    DefaultTableModel tblModel;
+    public SanPhamBUS sanphamBUS = new SanPhamBUS();
+    public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
+    SanPhamDTO sp = new SanPhamDTO();
 
-    Color BackgroundColor = new Color(240, 247, 250);
+    Color BackgroundColor = new Color(239, 235, 233);
 
-    private Main m;
+    public KiemKe() {
+        initComponent();
+        loadDataTable(listsp);
+    }
+
     private void initComponent() {
+
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -51,61 +68,50 @@ public class TaiKhoan extends JPanel {
         contentCenter.setLayout(new BorderLayout(20, 20));
         this.add(contentCenter, BorderLayout.CENTER);
 
-        // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
-        functionBar = new PanelBorderRadius();
-        functionBar.setPreferredSize(new Dimension(0, 140));
-        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
-        functionBar.setBorder(new EmptyBorder(20, 20, 20, 20));
-
-
-        mainFunction = new MainFunction();
-        functionBar.add(mainFunction);
-
-        search = new IntegratedSearch(new String[]{"Tất cả"});
-        functionBar.add(search);
-
-        contentCenter.add(functionBar, BorderLayout.NORTH);
+        left = new PanelBorderRadius();
+        BoxLayout boxlyLeft = new BoxLayout(left, BoxLayout.Y_AXIS);
+        left.setLayout(boxlyLeft);
+        left.setBorder(new EmptyBorder(20, 20, 20, 20));
+        contentCenter.add(left, BorderLayout.CENTER);
+        contentCenter.add(left, BorderLayout.WEST);
 
         // main là phần ở dưới để thống kê bảng biểu
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20,20,20,20));
+        main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
-
-        lbl1 = new JLabel("BẢNG THỐNG KÊ HÀNG HÓA");
-        lbl1.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
-        lbl1.setPreferredSize(new Dimension(600, 22));
-        main.add(lbl1);
 
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
-
-        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
-
-        scrollTableSanPham.setPreferredSize(new Dimension(700, 450));
-
         tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                    {"001", "Nồi cơm điện siêu to khổng lồ", "Việt Nam", "201000", "240000"},
-                    {"002", "Công", "nhan zien", "2001"},
-                    {null, null, null, null},
-                    {null, null, null, null}
-                },
-                new String[]{
-                    "Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá bán",
-                }
+                new Object[][]{},
+                new String[]{}
         ));
+        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Hình ảnh"};
+        tblModel.setColumnIdentifiers(header);
+        tableSanPham.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableSanPham);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
 
-        bottom = new PanelBorderRadius();
-        bottom.setPreferredSize(new Dimension(00, 160));
-        bottom.setLayout(new FlowLayout(1, 15, 40));
-        contentCenter.add(bottom, BorderLayout.SOUTH);
+        left.add(scrollTableSanPham);
+
     }
 
-    public TaiKhoan() {
-        initComponent();
+    public void loadDataTable(ArrayList<DTO.SanPhamDTO> result) {
+        tblModel.setRowCount(0);
+        for (DTO.SanPhamDTO sanPham : result) {
+            tblModel.addRow(new Object[]{
+                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaban()
+            });
+        }
     }
 
 }

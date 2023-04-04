@@ -42,7 +42,7 @@ public class SanPham extends JPanel implements ActionListener {
     IntegratedSearch search;
     DefaultTableModel tblModel;
     SanPhamBUS spBUS = new SanPhamBUS();
-    ArrayList<DTO.SanPham> listSP = spBUS.getAll();
+    ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
     Color FontColor = new Color(96, 125, 139);
@@ -94,10 +94,14 @@ public class SanPham extends JPanel implements ActionListener {
         contentCenter.setBackground(BackgroundColor);
         contentCenter.setLayout(new BorderLayout(20, 20));
         this.add(contentCenter, BorderLayout.CENTER);
+        
+        // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new PanelBorderRadius();
-        functionBar.setPreferredSize(new Dimension(0, 100));
-        functionBar.setLayout(new GridLayout(1, 2));
-        functionBar.setBorder(new EmptyBorder(2, 2, 2, 2));
+        functionBar.setPreferredSize(new Dimension(0, 140));
+        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
+        functionBar.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        
         mainFunction = new MainFunction();
         //Add Event MouseListener
         mainFunction.btnAdd.addActionListener(this);
@@ -147,9 +151,9 @@ public class SanPham extends JPanel implements ActionListener {
         loadDataTalbe(listSP);
     }
 
-    public void loadDataTalbe(ArrayList<DTO.SanPham> result) {
+    public void loadDataTalbe(ArrayList<DTO.SanPhamDTO> result) {
         tblModel.setRowCount(0);
-        for (DTO.SanPham sp : result) {
+        for (DTO.SanPhamDTO sp : result) {
             tblModel.addRow(new Object[]{
                 sp.getMasp(), sp.getTensp(), sp.getXuatxu(), sp.getGianhap(), sp.getGiaban(), sp.getHinhanh(), sp.getMaDVT(), sp.getMaloaihang(), sp.getMakhuvuc()
             });
@@ -206,7 +210,7 @@ public class SanPham extends JPanel implements ActionListener {
         FileInputStream excelFIS = null;
         BufferedInputStream excelBIS = null;
         XSSFWorkbook excelJTableImport = null;
-        ArrayList<DTO.SanPham> listExcel = new ArrayList<DTO.SanPham>();
+        ArrayList<DTO.SanPhamDTO> listExcel = new ArrayList<DTO.SanPhamDTO>();
         JFileChooser jf = new JFileChooser();
         int result = jf.showOpenDialog(null);
         jf.setDialogTitle("Open file");
@@ -234,7 +238,7 @@ public class SanPham extends JPanel implements ActionListener {
             }
         }
 
-        for (DTO.SanPham sp : listExcel) {
+        for (DTO.SanPhamDTO sp : listExcel) {
             SanPhamDAO.getInstance().insert(sp);
         }
         loadDataTalbe(listExcel);

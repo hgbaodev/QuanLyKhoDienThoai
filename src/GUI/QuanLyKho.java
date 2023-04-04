@@ -89,9 +89,10 @@ public class QuanLyKho extends JPanel implements ActionListener, ItemListener {
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new PanelBorderRadius();
-        functionBar.setPreferredSize(new Dimension(0, 100));
-        functionBar.setLayout(new GridLayout(1, 2));
-        functionBar.setBorder(new EmptyBorder(2, 2, 2, 2));
+        functionBar.setPreferredSize(new Dimension(0, 140));
+        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
+        functionBar.setBorder(new EmptyBorder(20, 20, 20, 20));
+
 
         mainFunction = new MainFunction();
         //Add Event MouseListener
