@@ -80,7 +80,7 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
         jpLeft.setBackground(Color.WHITE);
         jpLeft.setBorder(new EmptyBorder(0, 20, 0, 14)); 
         JLabel dmcnl = new JLabel("Danh mục chức năng ");
-        dmcnl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        dmcnl.setFont(new Font("Segoe UI", Font.BOLD, 15));
         jpLeft.add(dmcnl);
         for (DanhMucChucNangDTO i : dmcn) {
             JLabel lblTenchucnang = new JLabel(i.getTenchucnang());
