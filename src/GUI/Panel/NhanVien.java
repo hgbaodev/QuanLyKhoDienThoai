@@ -130,6 +130,14 @@ public class NhanVien extends JPanel {
         loadDataTalbe(listnv);
     }
     
+    public int getRow(){
+        return tableNhanVien.getSelectedRow();
+    }
+    
+    public DTO.NhanVien getNhanVien(){
+        return listnv.get(tableNhanVien.getSelectedRow());
+    }
+    
     public void loadDataTalbe(ArrayList<DTO.NhanVien> list) {
         tblModel.setRowCount(0);
         for (DTO.NhanVien nhanVien : list) {

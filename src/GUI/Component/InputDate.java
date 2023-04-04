@@ -56,5 +56,9 @@ public class InputDate extends JPanel{
     public void setDate(JDateChooser date) {
         this.date = date;
     }
+    
+    public void setDate(Date date){
+        this.date.setDate(date);
+    }
 
 }

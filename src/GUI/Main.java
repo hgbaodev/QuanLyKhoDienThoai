@@ -132,6 +132,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+
         menuTaskbar.pnl[6].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
