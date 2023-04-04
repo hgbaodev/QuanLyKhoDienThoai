@@ -29,8 +29,9 @@ public class NhanVienDAO implements DAOinterface<NhanVien>{
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getHoten());
             pst.setInt(2, t.getGioitinh());
+            java.sql.Date sqlDate = new java.sql.Date( t.getNgaysinh().getTime() );
             pst.setString(3, t.getSdt());
-            pst.setDate(4, (Date) (t.getNgaysinh()));
+            pst.setDate(4, (sqlDate) );
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {

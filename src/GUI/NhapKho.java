@@ -236,25 +236,20 @@ public class NhapKho extends JPanel {
         main_center.add(scrTableNhapKho);
 
         main_bottom = new PanelBorderRadius();
-        main_bottom.setPreferredSize(new Dimension(0, 80));
-        main_bottom.setLayout(new BorderLayout(10,10));
-        main_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
+        main_bottom.setPreferredSize(new Dimension(0, 140));
+        main_bottom.setLayout(new FlowLayout(1, 30, 20));
         main.add(main_bottom, BorderLayout.SOUTH);
-        
-        JPanel main_Panel_bottom = new JPanel();
-        main_Panel_bottom.setBackground(Color.WHITE);
-        main_Panel_bottom.setLayout(new FlowLayout(1, 15, 20));
-//        main_Panel_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
+
         lbl1 = new JLabel("Số lượng");
         btnNhapExcel = new ButtonMajor("Nhập Excel", "/icon/xls_25px.png");
-        main_Panel_bottom.add(btnNhapExcel);
+        main_bottom.add(btnNhapExcel);
 
         btnEditSoLuong = new ButtonMajor("Sửa số lượng", "/icon/edit_25px.png");
-        main_Panel_bottom.add(btnEditSoLuong);
+        main_bottom.add(btnEditSoLuong);
 
         btnDeleteSanPham = new ButtonMajor("Xóa sản phẩm", "/icon/delete_25px.png");
-        main_Panel_bottom.add(btnDeleteSanPham);
-        main_bottom.add(main_Panel_bottom, BorderLayout.CENTER);
+        main_bottom.add(btnDeleteSanPham);
+
     }
 
     public void loadDataTableSanPham(ArrayList<DTO.SanPhamDTO> result) {
