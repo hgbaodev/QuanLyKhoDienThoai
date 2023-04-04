@@ -31,25 +31,19 @@ public class NhaCungCapBUS {
 
     public boolean add(NhaCungCapDTO ncc) {
         boolean check = NccDAO.insert(ncc) != 0;
-        if (check) {
-            this.listNcc.add(ncc);
-        }
+        if (check)  this.listNcc.add(ncc);
         return check;
     }
 
     public boolean delete(NhaCungCapDTO ncc, int index) {
         boolean check = NccDAO.delete(Integer.toString(ncc.getMancc())) != 0;
-        if (check) {
-            this.listNcc.remove(index);
-        }
+        if (check)  this.listNcc.remove(index);
         return check;
     }
 
     public boolean update(NhaCungCapDTO ncc) {
         boolean check = NccDAO.update(ncc) != 0;
-        if (check) {
-            this.listNcc.set(getIndexByMaNCC(ncc.getMancc()),ncc);
-        }
+        if (check) this.listNcc.set(getIndexByMaNCC(ncc.getMancc()),ncc);
         return check;
     }
 
