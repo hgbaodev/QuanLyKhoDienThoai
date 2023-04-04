@@ -54,7 +54,6 @@ public class QuanLyKho extends JPanel implements ActionListener, ItemListener {
         columnModel.getColumn(0).setCellRenderer(centerRenderer);
         columnModel.getColumn(0).setPreferredWidth(2);
         columnModel.getColumn(2).setPreferredWidth(300);
-        columnModel.getColumn(4).setCellRenderer(centerRenderer);
 
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
