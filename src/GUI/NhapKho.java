@@ -2,6 +2,9 @@ package GUI;
 
 import BUS.SanPhamBUS;
 import DTO.SanPhamDTO;
+import DTO.NhaCungCapDTO;
+import DAO.NhaCungCapDAO;
+
 import component.ButtonMajor;
 import component.ButtonToolBar;
 import component.IntegratedSearch;
@@ -10,6 +13,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
+import component.SelectForm;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -18,14 +22,19 @@ import javax.swing.table.DefaultTableModel;
 
 public class NhapKho extends JPanel {
 
+    private final int n = 3;
+
+    String text[] = {"Mã phiếu nhập", "Mã nhân viên", "Mã nhà cung cấp"};
+
     PanelBorderRadius left_top, left_center, left_bottom, main_top, main_center, main_bottom;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left, main;
+    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left, main, pnl[];
     JTable tableSanPham, tableNhapKho;
     JScrollPane scrollTableSanPham, scrTableNhapKho;
-    JLabel lbl1, lblImage;
-    JTextField txtSoLuong;
+    JLabel lbl1, lblImage, lbl[];
+    JTextField txtSoLuong, txt[];
     DefaultTableModel tblModelSanPham, tblModelNhapKho;
     JButton btnAddSoLuong, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnNhapHang;
+    SelectForm slfNhaCungCap;
 
     MainFunction mainFunction;
     IntegratedSearch search;
@@ -41,6 +50,15 @@ public class NhapKho extends JPanel {
         initComponent();
         loadDataTableSanPham(listsp);
 
+    }
+
+    public String[] getnhacungcap() {
+        ArrayList<NhaCungCapDTO> ncc = NhaCungCapDAO.getInstance().selectAll();
+        String tenNCC[] = new String[ncc.size()];
+        for (int i = 0; i < ncc.size(); i++) {
+            tenNCC[i] = ncc.get(i).getTenncc();
+        }
+        return tenNCC;
     }
 
     private void initComponent() {
@@ -134,7 +152,7 @@ public class NhapKho extends JPanel {
         lbl1 = new JLabel("Số lượng");
         left_bottom.add(lbl1);
         txtSoLuong = new JTextField();
-        txtSoLuong.setPreferredSize(new Dimension(70, 35));
+        txtSoLuong.setPreferredSize(new Dimension(70, 30));
         left_bottom.add(txtSoLuong);
         btnAddSoLuong = new ButtonMajor("THÊM", "/icon/Plus_25px.png");
         left_bottom.add(btnAddSoLuong);
@@ -146,21 +164,48 @@ public class NhapKho extends JPanel {
         contentCenter.add(main, BorderLayout.CENTER);
 
         main_top = new PanelBorderRadius();
-        main_top.setPreferredSize(new Dimension(0, 120));
+        main_top.setPreferredSize(new Dimension(0, 220));
         BoxLayout b3 = new BoxLayout(main_top, BoxLayout.Y_AXIS);
         main_top.setLayout(b3);
         main_top.setBorder(new EmptyBorder(5, 20, 20, 20));
         main.add(main_top, BorderLayout.NORTH);
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
-        search.txtSearchForm.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {
-                String txt = search.txtSearchForm.getText();
-                listsp = sanphamBUS.search(txt);
-                loadDataTableSanPham(listsp);
+        pnl = new JPanel[n];
+        lbl = new JLabel[n];
+        txt = new JTextField[n];
+
+        for (int i = 0; i < text.length; i++) {
+            pnl[i] = new JPanel();
+            pnl[i].setLayout(new FlowLayout(1, 20, 10));
+            pnl[i].setOpaque(false);
+            main_top.add(pnl[i]);
+
+            lbl[i] = new JLabel(text[i]);
+            lbl[i].setPreferredSize(new Dimension(130, 30));
+            lbl[i].setFont(new Font("Segoe UI", Font.BOLD, 16));
+            pnl[i].add(lbl[i]);
+
+            if (i + 1 == txt.length) {
+                break;
             }
-        });
-        main_top.add(search);
+
+            txt[i] = new JTextField();
+            txt[i].setPreferredSize(new Dimension(350, 35));
+            pnl[i].add(txt[i]);
+
+        }
+
+        slfNhaCungCap = new SelectForm("", getnhacungcap());
+        slfNhaCungCap.setPreferredSize(new Dimension(360, 50));
+        pnl[2].add(slfNhaCungCap);
+
+        txt[0].setEditable(false);
+        txt[0].setEnabled(false);
+        txt[0].setFocusable(false);
+
+        txt[1].setEditable(false);
+        txt[1].setEnabled(false);
+        txt[1].setFocusable(false);
 
         main_center = new PanelBorderRadius();
         BoxLayout b4 = new BoxLayout(main_center, BoxLayout.Y_AXIS);
@@ -176,7 +221,7 @@ public class NhapKho extends JPanel {
         ));
         tableNhapKho.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModelNhapKho = new DefaultTableModel();
-        String[] header1 = new String[]{"Mã phiếu nhập", "Thời gian", "Trạng Thái", "Mã kho nhập", "Mã nhà cung cấp", "Mã nhân viên"};
+        String[] header1 = new String[]{"Số thứ tự", "Mã sản phẩm", "Tên sẩn phẩm", "Số lượng", "Đơn giá"};
         tblModelNhapKho.setColumnIdentifiers(header1);
         tableNhapKho.setModel(tblModelNhapKho);
         scrTableNhapKho.setViewportView(tableNhapKho);
@@ -187,7 +232,6 @@ public class NhapKho extends JPanel {
         tableNhapKho.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tableNhapKho.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         tableNhapKho.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-        tableNhapKho.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
 
         main_center.add(scrTableNhapKho);
 
