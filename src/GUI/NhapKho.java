@@ -91,12 +91,12 @@ public class NhapKho extends JPanel {
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
         contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(20, 20));
+        contentCenter.setLayout(new BorderLayout(5, 5));
         this.add(contentCenter, BorderLayout.CENTER);
 
         left = new JPanel();
         left.setPreferredSize(new Dimension(500, 0));
-        left.setLayout(new BorderLayout(0, 10));
+        left.setLayout(new BorderLayout(0, 5));
         left.setOpaque(false);
         contentCenter.add(left, BorderLayout.WEST);
 
@@ -159,7 +159,7 @@ public class NhapKho extends JPanel {
 
         // main là phần ở dưới để thống kê bảng biểu
         main = new JPanel();
-        main.setLayout(new BorderLayout(0, 10));
+        main.setLayout(new BorderLayout(0, 5));
         main.setOpaque(false);
         contentCenter.add(main, BorderLayout.CENTER);
 
