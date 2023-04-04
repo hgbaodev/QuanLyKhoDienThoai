@@ -60,6 +60,8 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
 
         }
     }
+    
+    
 
     @Override
     public void insertUpdate(DocumentEvent e) {
