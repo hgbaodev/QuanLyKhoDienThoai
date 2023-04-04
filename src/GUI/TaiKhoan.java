@@ -73,7 +73,7 @@ public class TaiKhoan extends JPanel {
         main.setBorder(new EmptyBorder(20,20,20,20));
         contentCenter.add(main, BorderLayout.CENTER);
 
-        lbl1 = new JLabel("BẢNG THỐNG KÊ HÀNG HÓA");
+        lbl1 = new JLabel("Tài khoản");
         lbl1.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
         lbl1.setPreferredSize(new Dimension(600, 22));
         main.add(lbl1);
