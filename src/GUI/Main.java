@@ -119,16 +119,6 @@ public class Main extends javax.swing.JFrame {
         menuTaskbar.pnl[6].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                kiemKe  = new KiemKe();
-                MainContent.removeAll();
-                MainContent.add(kiemKe).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
-            }
-        });
-        menuTaskbar.pnl[7].addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
                 nhapKho = new NhapKho();
                 MainContent.removeAll();
                 MainContent.add(nhapKho).setVisible(true);
@@ -136,7 +126,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[8].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[7].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 phieuNhap = new PhieuNhap(Main.this);
@@ -146,7 +136,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[9].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[8].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 xuatKho = new XuatKho();
@@ -156,7 +146,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[9].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 phieuXuat = new PhieuXuat(Main.this);
@@ -166,7 +156,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[11].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 khachHang = new KhachHang();
@@ -177,7 +167,7 @@ public class Main extends javax.swing.JFrame {
 
             }
         });
-        menuTaskbar.pnl[12].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[11].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 nhacungcap = new NhaCungCap();
@@ -188,7 +178,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        menuTaskbar.pnl[13].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[12].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
 
@@ -199,7 +189,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[14].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[13].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 taiKhoan = new TaiKhoan();
@@ -209,7 +199,7 @@ public class Main extends javax.swing.JFrame {
                 MainContent.validate();
             }
         });
-        menuTaskbar.pnl[15].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[14].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 phanQuyen = new PhanQuyen_pnl();

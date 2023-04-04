@@ -3,13 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/BUS/NhaCungCapBUS.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/component/MenuTaskbar.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Main.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/NhaCungCap.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/QuanLyKho.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/BUS/KhoHangBUS.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/component/ShadowRenderer.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/DTO/PhieuNhap.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Main.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/KhachHang.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/PhieuXuat.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/QuanLyKho.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/KiemKe.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/dialog/KhachHangDialog.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/NhapKho.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/SanPham.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/component/MenuTaskbar.java</file>
         </group>
     </open-files>
 </project-private>

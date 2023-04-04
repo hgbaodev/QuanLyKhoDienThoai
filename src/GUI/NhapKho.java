@@ -27,13 +27,13 @@ public class NhapKho extends JPanel {
     String text[] = {"Mã phiếu nhập", "Mã nhân viên", "Mã nhà cung cấp"};
 
     PanelBorderRadius left_top, left_center, left_bottom, main_top, main_center, main_bottom;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left, main, pnl[];
+    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left, main, pnl[], pnl1;
     JTable tableSanPham, tableNhapKho;
     JScrollPane scrollTableSanPham, scrTableNhapKho;
-    JLabel lbl1, lblImage, lbl[];
+    JLabel lbl1, lblImage, lbl[], lbl2, lblTongTien;
     JTextField txtSoLuong, txt[];
     DefaultTableModel tblModelSanPham, tblModelNhapKho;
-    JButton btnAddSoLuong, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnNhapHang;
+    JButton btnAddSoLuong, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnNhapHang, btnNhapKho;
     SelectForm slfNhaCungCap;
 
     MainFunction mainFunction;
@@ -249,6 +249,29 @@ public class NhapKho extends JPanel {
 
         btnDeleteSanPham = new ButtonMajor("Xóa sản phẩm", "/icon/delete_25px.png");
         main_bottom.add(btnDeleteSanPham);
+        
+        pnl1 = new JPanel();
+        pnl1.setOpaque(false);
+        pnl1.setLayout(new FlowLayout(1,50,0));
+        main_bottom.add(pnl1);
+        
+        lbl2 = new JLabel("Tổng tiền");
+        lbl2.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
+        pnl1.add(lbl2);
+        
+        lblTongTien = new JLabel("0 VNĐ");
+        lblTongTien.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
+        lblTongTien.setForeground(Color.RED);
+        pnl1.add(lblTongTien);
+        
+        btnNhapKho = new JButton("NHẬP KHO");
+        btnNhapKho.setPreferredSize(new Dimension(150,40));
+        btnNhapKho.setFont(new java.awt.Font("Segoe UI", Font.BOLD,18));
+        btnNhapKho.setBackground(new Color(0, 200, 83));
+        btnNhapKho.setForeground(Color.white);
+        pnl1.add(btnNhapKho);
+        
+        
 
     }
 
