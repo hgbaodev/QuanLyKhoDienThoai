@@ -25,14 +25,14 @@ public class KiemKe extends JPanel {
     JLabel lbl1, lblImage;
     DefaultTableModel tblModel;
     public SanPhamBUS sanphamBUS = new SanPhamBUS();
-//    public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
-//    SanPhamDTO sp = new SanPhamDTO();
+    public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
+    SanPhamDTO sp = new SanPhamDTO();
 
     Color BackgroundColor = new Color(239, 235, 233);
 
     public KiemKe() {
         initComponent();
-//        loadDataTable(listsp);
+        loadDataTable(listsp);
     }
 
     private void initComponent() {

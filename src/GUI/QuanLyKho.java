@@ -44,7 +44,7 @@ public class QuanLyKho extends JPanel implements ActionListener, ItemListener {
         ));
         tableKhoHang.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã khu vực", "Tên khu vực", "Mô tả"};
+        String[] header = new String[]{"Mã kho", "Tên kho hàng", "Địa chỉ", "Mô tả"};
         tblModel.setColumnIdentifiers(header);
         tableKhoHang.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableKhoHang);
@@ -54,7 +54,7 @@ public class QuanLyKho extends JPanel implements ActionListener, ItemListener {
         columnModel.getColumn(0).setCellRenderer(centerRenderer);
         columnModel.getColumn(0).setPreferredWidth(2);
         columnModel.getColumn(2).setPreferredWidth(300);
-//        columnModel.getColumn(4).setCellRenderer(centerRenderer);
+        columnModel.getColumn(4).setCellRenderer(centerRenderer);
 
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
