@@ -10,14 +10,14 @@ import java.util.Objects;
  *
  * @author Tran Nhat Sinh
  */
-public class DanhMucChucNang {
+public class DanhMucChucNangDTO {
     private String machucnang;
     private String tenchucnang;
 
-    public DanhMucChucNang() {
+    public DanhMucChucNangDTO() {
     }
 
-    public DanhMucChucNang(String machucnang, String tenchucnang) {
+    public DanhMucChucNangDTO(String machucnang, String tenchucnang) {
         this.machucnang = machucnang;
         this.tenchucnang = tenchucnang;
     }
@@ -57,7 +57,7 @@ public class DanhMucChucNang {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DanhMucChucNang other = (DanhMucChucNang) obj;
+        final DanhMucChucNangDTO other = (DanhMucChucNangDTO) obj;
         if (!Objects.equals(this.machucnang, other.machucnang)) {
             return false;
         }

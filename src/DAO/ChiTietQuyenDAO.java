@@ -4,7 +4,7 @@
  */
 package DAO;
 
-import DTO.ChiTietQuyen;
+import DTO.ChiTietQuyenDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,15 +18,26 @@ import java.util.logging.Logger;
  *
  * @author Tran Nhat Sinh
  */
-public class ChiTietQuyenDAO implements DAOinterface<ChiTietQuyen>{
+public class ChiTietQuyenDAO implements DAOinterface<ChiTietQuyenDTO>{
 
     @Override
-    public int insert(ChiTietQuyen t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int insert(ChiTietQuyenDTO t) {
+        int result = 0;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "INSERT INTO `chitietquyen`(`manhomquyen`,`machucnang`,`hanhdong`) VALUES (?,?,?)";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, t.getManhomquyen());
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
 
     @Override
-    public int update(ChiTietQuyen t) {
+    public int update(ChiTietQuyenDTO t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -36,12 +47,12 @@ public class ChiTietQuyenDAO implements DAOinterface<ChiTietQuyen>{
     }
 
     @Override
-    public ArrayList<ChiTietQuyen> selectAll() {
+    public ArrayList<ChiTietQuyenDTO> selectAll() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public ChiTietQuyen selectById(String t) {
+    public ChiTietQuyenDTO selectById(String t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

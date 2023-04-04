@@ -10,25 +10,25 @@ import java.util.Objects;
  *
  * @author Tran Nhat Sinh
  */
-public class ChiTietQuyen {
-    private String manhomquyen;
+public class ChiTietQuyenDTO {
+    private int manhomquyen;
     private String machucnang;
     private String hanhdong;
 
-    public ChiTietQuyen() {
+    public ChiTietQuyenDTO() {
     }
 
-    public ChiTietQuyen(String manhomquyen, String machucnang, String hanhdong) {
+    public ChiTietQuyenDTO(int manhomquyen, String machucnang, String hanhdong) {
         this.manhomquyen = manhomquyen;
         this.machucnang = machucnang;
         this.hanhdong = hanhdong;
     }
 
-    public String getManhomquyen() {
+    public int getManhomquyen() {
         return manhomquyen;
     }
 
-    public void setManhomquyen(String manhomquyen) {
+    public void setManhomquyen(int manhomquyen) {
         this.manhomquyen = manhomquyen;
     }
 
@@ -68,7 +68,7 @@ public class ChiTietQuyen {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ChiTietQuyen other = (ChiTietQuyen) obj;
+        final ChiTietQuyenDTO other = (ChiTietQuyenDTO) obj;
         if (!Objects.equals(this.manhomquyen, other.manhomquyen)) {
             return false;
         }

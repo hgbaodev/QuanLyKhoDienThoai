@@ -26,7 +26,7 @@ public class Main extends javax.swing.JFrame {
     NhaCungCap nhacungcap;
     NhanVien nhanVien;
     TaiKhoan taiKhoan;
-    PhanQuyen_pnl phanQuyen;
+    PhanQuyen phanQuyen;
     JLabel lbl;
 
     private MenuTaskbar menuTaskbar;
@@ -202,7 +202,7 @@ public class Main extends javax.swing.JFrame {
         menuTaskbar.pnl[14].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                phanQuyen = new PhanQuyen_pnl();
+                phanQuyen = new PhanQuyen();
                 MainContent.removeAll();
                 MainContent.add(phanQuyen).setVisible(true);
                 MainContent.repaint();
