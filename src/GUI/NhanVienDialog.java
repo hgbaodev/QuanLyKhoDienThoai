@@ -130,11 +130,16 @@ public class NhanVienDialog extends JDialog{
                         System.out.println("Nữ");
                         txt_gender = 0;
                     }
+                    int manv = NhanVienDAO.getInstance().getAutoIncrement();
                     String txtName = name.getText();
                     String txtSdt = sdt.getText();
                     Date birthDay = jcBd.getDate();
-                    DTO.NhanVien nv = new DTO.NhanVien(txtName, txt_gender, birthDay, txtSdt);
-                    NhanVienDAO.getInstance().insert(nv);
+                    java.sql.Date sqlDate = new java.sql.Date( birthDay.getTime() );
+                    DTO.NhanVien nV = new DTO.NhanVien(manv,txtName, txt_gender, sqlDate, txtSdt);
+                    NhanVienDAO.getInstance().insert(nV);
+                    nv.insertNv(nV);
+                    nv.loadTable();
+                    dispose();
                 } catch (ParseException ex) {
                     Logger.getLogger(NhanVienDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }

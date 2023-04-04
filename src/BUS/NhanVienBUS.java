@@ -77,5 +77,13 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     public void changedUpdate(DocumentEvent e) {
 //        System.out.println("Text field changed: " + textField.getText());
     }
+    
+    public void insertNv(DTO.NhanVien nv){
+        listNv.add(nv);
+    }
+    
+    public void loadTable(){
+        nv.loadDataTalbe(listNv);
+    }
 
 }
