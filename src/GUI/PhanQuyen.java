@@ -1,155 +1,196 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI;
 
-import DTO.ChiTietQuyen;
-import DTO.DanhMucChucNang;
-import com.formdev.flatlaf.FlatLightLaf;
-import component.ButtonCustom;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
+import component.IntegratedSearch;
+import component.MainFunction;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import component.PanelBorderRadius;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class PhanQuyen extends JFrame implements ActionListener {
+public class PhanQuyen extends JPanel implements ActionListener, ItemListener {
 
-    private JLabel lblTennhomquyen;
-    private JTextField txtTennhomquyen;
-    private JPanel jpTop, jpLeft, jpCen, jpBottom;
-    private JCheckBox[][] listCheckBox;
-    private ButtonCustom btnAddNhomQuyen, btnHuybo;
-    private ArrayList<ChiTietQuyen> ctQuyen;
-    private int sizeDmCn, sizeHanhdong;
-    private ArrayList<DanhMucChucNang> dmcn;
+    PanelBorderRadius main, functionBar;
+    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
+    JTable tablePhanQuyen;
+    JScrollPane scrollTableSanPham;
+    MainFunction mainFunction;
+    IntegratedSearch search;
+    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
+    Color BackgroundColor = new Color(240, 247, 250);
+    DefaultTableModel tblModel;
 
-    public void initComponents() {
-        dmcn = new ArrayList<>();
+    private void initComponent() {
+        System.out.println("oklklklklkl");
+        //Set model table
+        tablePhanQuyen = new JTable();
+        scrollTableSanPham = new JScrollPane();
+        tablePhanQuyen.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{}
+        ));
+        tablePhanQuyen.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"Mã NCC", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"};
+        tblModel.setColumnIdentifiers(header);
+        tablePhanQuyen.setModel(tblModel);
+        scrollTableSanPham.setViewportView(tablePhanQuyen);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        TableColumnModel columnModel = tablePhanQuyen.getColumnModel();
+        columnModel.getColumn(0).setCellRenderer(centerRenderer);
+        columnModel.getColumn(0).setPreferredWidth(2);
+        columnModel.getColumn(2).setPreferredWidth(300);
+        columnModel.getColumn(4).setCellRenderer(centerRenderer);
 
-        // Fake data (Phần này sẽ đổ từ bảng danh mục chức năng lên)
-        dmcn.add(new DanhMucChucNang("kho", "Quản lý kho"));
-        dmcn.add(new DanhMucChucNang("nhaphang", "Quản lý nhập hàng"));
-        dmcn.add(new DanhMucChucNang("xuathang", "Quản lý xuất hàng"));
-        dmcn.add(new DanhMucChucNang("chuyenhang", "Quản lý chuyển hàng"));
-        dmcn.add(new DanhMucChucNang("kiemke", "Quản lý kiểm kê"));
-        dmcn.add(new DanhMucChucNang("sanpham", "Quản lý sản phẩm"));
-        dmcn.add(new DanhMucChucNang("loaisanpham", "Quản lý loại sản phẩm"));
-        dmcn.add(new DanhMucChucNang("donvitinh", "Quản lý đơn vị tính"));
-        dmcn.add(new DanhMucChucNang("nhanvien", "Quản lý nhân viên"));
-        dmcn.add(new DanhMucChucNang("taikhoan", "Quản lý tài khoản"));
-        dmcn.add(new DanhMucChucNang("nhacungcap", "Quản lý nhà cung cấp"));
-        String[] hanhdong = {"Xem", "Tạo mới", "Cập nhật", "Xoá"};
-
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        this.setTitle("Phân quyền");
-        this.setSize(new Dimension(1000, 580));
-        this.setLocationRelativeTo(null);
+        this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
-        // Hiển thị tên nhóm quyền
-        jpTop = new JPanel(new BorderLayout(20, 10));
-        jpTop.setBorder(new EmptyBorder(20, 20, 20, 20));
-        jpTop.setBackground(Color.WHITE);
-        lblTennhomquyen = new JLabel("Tên nhóm quyền");
-        txtTennhomquyen = new JTextField();
-        txtTennhomquyen.setPreferredSize(new Dimension(150, 35));
-        jpTop.add(lblTennhomquyen, BorderLayout.WEST);
-        jpTop.add(txtTennhomquyen, BorderLayout.CENTER);
+        this.setOpaque(true);
 
-        // Hiển thị danh mục chức năng
-        jpLeft = new JPanel(new GridLayout(dmcn.size() + 1, 1));
-        jpLeft.setBackground(Color.WHITE);
-        jpLeft.setBorder(new EmptyBorder(0, 20, 0, 14)); 
-        JLabel dmcnl = new JLabel("Danh mục chức năng ");
-        dmcnl.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        jpLeft.add(dmcnl);
-        for (DanhMucChucNang i : dmcn) {
-            JLabel lblTenchucnang = new JLabel(i.getTenchucnang());
-            jpLeft.add(lblTenchucnang);
-        }
-        // Hiển thị chức năng CRUD        
-        sizeDmCn = dmcn.size();
-        sizeHanhdong = hanhdong.length;
-        jpCen = new JPanel(new GridLayout(sizeDmCn + 1, sizeHanhdong));
-        jpCen.setBackground(Color.WHITE);
-        listCheckBox = new JCheckBox[sizeDmCn][sizeHanhdong];
-        for(int i =0; i < sizeHanhdong;i++){
-            JLabel lblhanhdong = new JLabel(hanhdong[i]);
-            lblhanhdong.setHorizontalAlignment(SwingConstants.CENTER);
-            jpCen.add(lblhanhdong);
-        }
-        for (int i = 0; i < sizeDmCn; i++) {
-            for (int j = 0; j < sizeHanhdong; j++) {
-                listCheckBox[i][j] = new JCheckBox();
-                listCheckBox[i][j].setHorizontalAlignment(SwingConstants.CENTER);
-                jpCen.add(listCheckBox[i][j]);
+        // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
+        pnlBorder1 = new JPanel();
+        pnlBorder1.setPreferredSize(new Dimension(0, 20));
+        pnlBorder1.setBackground(BackgroundColor);
+        this.add(pnlBorder1, BorderLayout.NORTH);
+
+        pnlBorder2 = new JPanel();
+        pnlBorder2.setPreferredSize(new Dimension(0, 20));
+        pnlBorder2.setBackground(BackgroundColor);
+        this.add(pnlBorder2, BorderLayout.SOUTH);
+
+        pnlBorder3 = new JPanel();
+        pnlBorder3.setPreferredSize(new Dimension(20, 0));
+        pnlBorder3.setBackground(BackgroundColor);
+        this.add(pnlBorder3, BorderLayout.EAST);
+
+        pnlBorder4 = new JPanel();
+        pnlBorder4.setPreferredSize(new Dimension(20, 0));
+        pnlBorder4.setBackground(BackgroundColor);
+        this.add(pnlBorder4, BorderLayout.WEST);
+
+        contentCenter = new JPanel();
+        contentCenter.setPreferredSize(new Dimension(1100, 600));
+        contentCenter.setBackground(BackgroundColor);
+        contentCenter.setLayout(new BorderLayout(20, 20));
+        this.add(contentCenter, BorderLayout.CENTER);
+
+        // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
+        functionBar = new PanelBorderRadius();
+        functionBar.setPreferredSize(new Dimension(0, 140));
+        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
+        functionBar.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        mainFunction = new MainFunction();
+        //Add Event MouseListener
+        mainFunction.btnAdd.addActionListener(this);
+        mainFunction.btnEdit.addActionListener(this);
+        mainFunction.btnDetail.addActionListener(this);
+        mainFunction.btnDelete.addActionListener(this);
+        mainFunction.btnXuatExcel.addActionListener(this);
+        mainFunction.btnNhapExcel.addActionListener(this);
+        functionBar.add(mainFunction);
+
+        search = new IntegratedSearch(new String[]{"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"});
+        search.cbxChoose.addItemListener(this);
+        search.txtSearchForm.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                String type = (String) search.cbxChoose.getSelectedItem();
+                String txt = search.txtSearchForm.getText();
+//                listncc = nccBUS.search(txt, type);
+//                loadDataTalbe(listncc);
             }
-        }
+        });
 
-        // Hiển thị nút thêm
-        jpBottom = new JPanel(new FlowLayout());
-        jpBottom.setBackground(Color.white);
-        jpBottom.setBorder(new EmptyBorder(20, 0, 20, 0));
-        btnAddNhomQuyen = new ButtonCustom("Thêm nhóm quyền", "success", 14);
-        btnHuybo = new ButtonCustom("Huỷ bỏ", "danger", 14);
-        btnAddNhomQuyen.addActionListener(this);
-        btnHuybo.addActionListener(this);
-        jpBottom.add(btnAddNhomQuyen);
-        jpBottom.add(btnHuybo);
-
-        this.add(jpTop, BorderLayout.NORTH);
-        this.add(jpLeft, BorderLayout.WEST);
-        this.add(jpCen, BorderLayout.CENTER);
-        this.add(jpBottom, BorderLayout.SOUTH);
-
-        this.setVisible(true);
+        search.btnReset.addActionListener(this);
+        functionBar.add(search);
+        contentCenter.add(functionBar, BorderLayout.NORTH);
+        // main là phần ở dưới để thống kê bảng biểu
+        main = new PanelBorderRadius();
+        BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
+        main.setLayout(boxly);
+        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+        contentCenter.add(main, BorderLayout.CENTER);
+        main.add(scrollTableSanPham);
     }
 
     public PhanQuyen() {
-        initComponents();
+        initComponent();
+        tablePhanQuyen.setDefaultEditor(Object.class, null);
+//        loadDataTalbe(listncc);
     }
 
-    public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new FlatLightLaf());
-        new PhanQuyen();
+//    public void loadDataTalbe(ArrayList<PhanQuyenDTO> result) {
+//        tblModel.setRowCount(0);
+//        for (PhanQuyenDTO ncc : result) {
+//            tblModel.addRow(new Object[]{
+//                ncc.getMancc(), ncc.getTenncc(), ncc.getDiachi(), ncc.getEmail(), ncc.getSdt()
+//            });
+//        }
+//    }
+
+    public void openFile(String file) {
+        try {
+            File path = new File(file);
+            Desktop.getDesktop().open(path);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnAddNhomQuyen) {
-            ctQuyen = new ArrayList<>();
-            String[] mahanhdong = {"view", "create", "update", "delete"};
-            for (int i = 0; i < sizeDmCn; i++) {
-                for (int j = 0; j < sizeHanhdong; j++) {
-                    if (listCheckBox[i][j].isSelected()) {
-                        ctQuyen.add(new ChiTietQuyen("admin", dmcn.get(i).getMachucnang(), mahanhdong[j]));
-                    }
+        if (e.getSource() == mainFunction.btnAdd) {
+//            PhanQuyenDialog dvtDialog = new PhanQuyenDialog(this, owner, "Thêm nhà cung cấp", true, "create");
+        } else if (e.getSource() == mainFunction.btnEdit) {
+            int index = tablePhanQuyen.getSelectedRow();
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần sửa");
+            } else {
+//                PhanQuyenDialog nccDialog = new PhanQuyenDialog(this, owner, "Chỉnh sửa nhà cung cấp", true, "update", listncc.get(index));
+            }
+        } else if (e.getSource() == mainFunction.btnDelete) {
+            int index = tablePhanQuyen.getSelectedRow();
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần xóa");
+            } else {
+                int input = JOptionPane.showConfirmDialog(null,
+                        "Bạn có chắc chắn muốn xóa nhà cung cấp!", "Xóa nhà cung cấp",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (input == 0) {
+//                    nccBUS.delete(listncc.get(index), index);
+//                    loadDataTalbe(listncc);
                 }
             }
-            JOptionPane.showMessageDialog(null, ctQuyen);
-        } else if (e.getSource() == btnHuybo) {
-            dispose();
+        } else if (e.getSource() == mainFunction.btnDetail) {
+            int index = tablePhanQuyen.getSelectedRow();
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần xem");
+            } else {
+//                PhanQuyenDialog nccDialog = new PhanQuyenDialog(this, owner, "Chi tiết nhà cung cấp", true, "view", listncc.get(index));
+            }
+        } else if (e.getSource() == search.btnReset) {
+            search.txtSearchForm.setText("");
+//            listncc = nccBUS.getAll();
+//            loadDataTalbe(listncc);
         }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        String type = (String) search.cbxChoose.getSelectedItem();
+        String txt = search.txtSearchForm.getText();
+//        listncc = nccBUS.search(txt, type);
+//        loadDataTalbe(listncc);
     }
 }

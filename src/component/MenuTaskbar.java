@@ -7,8 +7,8 @@ import javax.swing.*;
 public class MenuTaskbar extends JPanel {
 
     private final int n = 20;
-    String st[] = {"Trang chủ", "Sản phẩm", "Đơn vị tính", "Loại hàng", "Khu vực kho", "Chuyển kho", "Nhập kho", "Phiếu nhập", "Xuất kho", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
-    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/length_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/In Transit_30px.png", "/icon/supply_chain_30px.png","/icon/bill_30px.png", "/icon/handle_with_care_30px.png", "/icon/estimates_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
+    String st[] = {"Trang chủ", "Sản phẩm", "Đơn vị tính", "Loại hàng", "Khu vực kho", "Nhập kho", "Phiếu nhập", "Xuất kho", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
+    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/length_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/supply_chain_30px.png","/icon/bill_30px.png", "/icon/handle_with_care_30px.png", "/icon/estimates_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
 
     public JPanel pnl[];
     JLabel lbl[], lblIcon[], info;
@@ -116,7 +116,6 @@ public class MenuTaskbar extends JPanel {
                 @Override
                 public void mousePressed(java.awt.event.MouseEvent evt) {
                     pnlMenuTaskbarMouseClicked(evt);
-
                 }
 
                 @Override
