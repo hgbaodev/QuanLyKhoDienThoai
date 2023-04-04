@@ -78,7 +78,7 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
         // Hiển thị danh mục chức năng
         jpLeft = new JPanel(new GridLayout(dmcn.size() + 1, 1));
         jpLeft.setBackground(Color.WHITE);
-        jpLeft.setBorder(new EmptyBorder(0, 20, 0, 14)); 
+        jpLeft.setBorder(new EmptyBorder(0, 20, 0, 14));
         JLabel dmcnl = new JLabel("Danh mục chức năng ");
         dmcnl.setFont(new Font("Segoe UI", Font.BOLD, 15));
         jpLeft.add(dmcnl);
@@ -92,7 +92,7 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
         jpCen = new JPanel(new GridLayout(sizeDmCn + 1, sizeHanhdong));
         jpCen.setBackground(Color.WHITE);
         listCheckBox = new JCheckBox[sizeDmCn][sizeHanhdong];
-        for(int i =0; i < sizeHanhdong;i++){
+        for (int i = 0; i < sizeHanhdong; i++) {
             JLabel lblhanhdong = new JLabel(hanhdong[i]);
             lblhanhdong.setHorizontalAlignment(SwingConstants.CENTER);
             jpCen.add(lblhanhdong);
@@ -145,5 +145,9 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
         } else if (e.getSource() == btnHuybo) {
             dispose();
         }
+    }
+
+    public void initUpdate(ArrayList<ChiTietQuyenDTO> ctquyen) {
+        
     }
 }
