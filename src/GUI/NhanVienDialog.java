@@ -52,7 +52,25 @@ public class NhanVienDialog extends JDialog{
         super(owner,title,modal);
         this.nv = nv;
         init(title,type);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
+    
+    public NhanVienDialog(NhanVienBUS nv, JFrame owner, boolean modal, String title, String type, DTO.NhanVien nhanVien){
+        super(owner,title,modal);
+        this.nv = nv;
+        init(title,type);
+        name.setText(nhanVien.getHoten());
+        sdt.setText(nhanVien.getSdt());
+        if(nhanVien.getGioitinh() == 1){
+            male.setSelected(true);
+        } else {
+            female.setSelected(true);
+        }
+        jcBd.setDate(nhanVien.getNgaysinh());
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+    }    
     
     public void init(String title, String type){
         this.setSize(new Dimension(500,500));
@@ -168,8 +186,7 @@ public class NhanVienDialog extends JDialog{
         this.add(titlePage,BorderLayout.NORTH);
         this.add(main,BorderLayout.CENTER);
         this.add(bottom,BorderLayout.SOUTH);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        
     }
     
 }
