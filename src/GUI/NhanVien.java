@@ -1,6 +1,7 @@
 package GUI;
 
 import BUS.NhanVienBUS;
+import DAO.DonViTinhDAO;
 import DAO.NhanVienDAO;
 import DTO.DonViTinhDTO;
 import component.IntegratedSearch;
@@ -9,9 +10,21 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
-import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class NhanVien extends JPanel {
 
@@ -19,7 +32,7 @@ public class NhanVien extends JPanel {
     NhanVienBUS nvBus = new NhanVienBUS(this);
     PanelBorderRadius box1, box2, main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
-    JTable tableSanPham;
+    JTable tableNhanVien;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
@@ -92,20 +105,20 @@ public class NhanVien extends JPanel {
         main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
-        tableSanPham = new JTable();
+        tableNhanVien = new JTable();
         scrollTableSanPham = new JScrollPane();
 
-        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
-        tableSanPham = new JTable();
-        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
+        tableNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        tableNhanVien = new JTable();
+        tableNhanVien.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{}
         ));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"MNV","Họ tên","Giởi tính","Ngày Sinh","SDT"};
         tblModel.setColumnIdentifiers(header);
-        tableSanPham.setModel(tblModel);
-        scrollTableSanPham.setViewportView(tableSanPham);
+        tableNhanVien.setModel(tblModel);
+        scrollTableSanPham.setViewportView(tableNhanVien);
         main.add(scrollTableSanPham);
     }
     
@@ -113,6 +126,7 @@ public class NhanVien extends JPanel {
 
     public NhanVien() {
         initComponent();
+        tableNhanVien.setDefaultEditor(Object.class, null);
         loadDataTalbe(listnv);
     }
     
@@ -123,6 +137,87 @@ public class NhanVien extends JPanel {
                 nhanVien.getManv(),nhanVien.getHoten(),nhanVien.getGioitinh()==1?"Nam":"Nữ",nhanVien.getNgaysinh(),nhanVien.getSdt()
             });
         }
+    }
+    
+    public void openFile(String file) {
+        try {
+            File path = new File(file);
+            Desktop.getDesktop().open(path);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+    public void exportExcel() {
+        try {
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.showSaveDialog(this);
+            File saveFile = jFileChooser.getSelectedFile();
+            if (saveFile != null) {
+                saveFile = new File(saveFile.toString() + ".xlsx");
+                Workbook wb = new XSSFWorkbook();
+                Sheet sheet = wb.createSheet("Đơn vị tính");
+                Row rowCol = sheet.createRow(0);
+                for (int i = 0; i < tableNhanVien.getColumnCount(); i++) {
+                    Cell cell = rowCol.createCell(i);
+                    cell.setCellValue(tableNhanVien.getColumnName(i));
+                }
+                for (int j = 0; j < tableNhanVien.getRowCount(); j++) {
+                    Row row = sheet.createRow(j + 1);
+                    for (int k = 0; k < tableNhanVien.getColumnCount(); k++) {
+                        Cell cell = row.createCell(k);
+                        if (tableNhanVien.getValueAt(j, k) != null) {
+                            cell.setCellValue(tableNhanVien.getValueAt(j, k).toString());
+                        }
+                    }
+                }
+                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
+                wb.write(out);
+                wb.close();
+                out.close();
+                openFile(saveFile.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void importExcel() {
+        File excelFile;
+        FileInputStream excelFIS = null;
+        BufferedInputStream excelBIS = null;
+        XSSFWorkbook excelJTableImport = null;
+        ArrayList<DTO.DonViTinhDTO> listExcel = new ArrayList<DTO.DonViTinhDTO>();
+        JFileChooser jf = new JFileChooser();
+        int result = jf.showOpenDialog(null);
+        jf.setDialogTitle("Open file");
+        Workbook workbook = null;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                excelFile = jf.getSelectedFile();
+                excelFIS = new FileInputStream(excelFile);
+                excelBIS = new BufferedInputStream(excelFIS);
+                excelJTableImport = new XSSFWorkbook(excelBIS);
+                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
+                    XSSFRow excelRow = excelSheet.getRow(row);
+//                    int id = getAutoIncrement();
+                    String tenDvt = excelRow.getCell(0).getStringCellValue();
+//                    DTO.DonViTinhDTO dv = new DTO.DonViTinhDTO(id, tenDvt);
+//                    dvtBUS.getAll().add(dv);
+//                    listExcel.add(dv);
+                    tblModel.setRowCount(0);
+                }
+            } catch (FileNotFoundException ex) {
+                System.out.println("Lỗi đọc file");
+            } catch (IOException ex) {
+                System.out.println("Lỗi đọc file");
+            }
+        }
+
+        for (DTO.DonViTinhDTO donViTinh : listExcel) {
+            DonViTinhDAO.getInstance().insert(donViTinh);
+        }
+//        loadDataTalbe(listdvt);
     }
 
 }
