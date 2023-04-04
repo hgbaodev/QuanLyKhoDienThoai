@@ -15,12 +15,15 @@ public class KhoHangBUS {
     public KhoHangBUS() {
         listKho=khoDAO.selectAll();
     }
+    
     public ArrayList<KhoHang>getAll(){
         return this.listKho;
     }
+    
     public KhoHang getByIndex(int index){
         return this.listKho.get(index);
     }
+    
      public int getIndexByMaKho(int makho){
          int i = 0;
         int vitri = -1;
@@ -31,11 +34,13 @@ public class KhoHangBUS {
         }
         return vitri;
      }
+     
      public Boolean add(KhoHang kho) {
         boolean check = khoDAO.insert(kho) != 0;
         if(check) this.listKho.add(kho);
         return check;
     }
+     
     public Boolean delete(KhoHang kho) {
         boolean check = khoDAO.delete(Integer.toString(kho.getMakhohang())) != 0;
         if(check) this.listKho.remove(kho);

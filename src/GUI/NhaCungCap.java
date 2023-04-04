@@ -1,7 +1,6 @@
 package GUI;
 
 import BUS.NhaCungCapBUS;
-import DAO.NhaCungCapDAO;
 import DTO.NhaCungCapDTO;
 import component.IntegratedSearch;
 import component.MainFunction;
