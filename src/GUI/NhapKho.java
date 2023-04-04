@@ -238,11 +238,13 @@ public class NhapKho extends JPanel {
         main_bottom = new PanelBorderRadius();
         main_bottom.setPreferredSize(new Dimension(0, 80));
         main_bottom.setLayout(new BorderLayout(10,10));
+        main_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
         main.add(main_bottom, BorderLayout.SOUTH);
         
         JPanel main_Panel_bottom = new JPanel();
         main_Panel_bottom.setBackground(Color.WHITE);
         main_Panel_bottom.setLayout(new FlowLayout(1, 15, 20));
+//        main_Panel_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
         lbl1 = new JLabel("Số lượng");
         btnNhapExcel = new ButtonMajor("Nhập Excel", "/icon/xls_25px.png");
         main_Panel_bottom.add(btnNhapExcel);
