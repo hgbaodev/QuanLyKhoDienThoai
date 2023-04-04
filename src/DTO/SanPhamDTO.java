@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author 84907
  */
-public class SanPham {
+public class SanPhamDTO {
     private int masp;
     private String tensp;
     private String xuatxu;
@@ -22,7 +22,7 @@ public class SanPham {
     private int makhuvuc;
     
 
-    public SanPham() {
+    public SanPhamDTO() {
     }
 
     public int getMasp() {
@@ -97,7 +97,7 @@ public class SanPham {
         this.makhuvuc = makhuvuc;
     }
 
-    public SanPham(int masp, String tensp, String xuatxu, double gianhap, double giaban, String hinhanh, int maDVT, int maloaihang, int makhuvuc) {
+    public SanPhamDTO(int masp, String tensp, String xuatxu, double gianhap, double giaban, String hinhanh, int maDVT, int maloaihang, int makhuvuc) {
         this.masp = masp;
         this.tensp = tensp;
         this.xuatxu = xuatxu;
@@ -135,7 +135,7 @@ public class SanPham {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SanPham other = (SanPham) obj;
+        final SanPhamDTO other = (SanPhamDTO) obj;
         return true;
     }
 

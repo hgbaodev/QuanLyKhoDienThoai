@@ -8,10 +8,12 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import component.PanelBorderRadius;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class PhieuXuat extends JPanel {
+public class PhieuXuat extends JPanel implements ActionListener{
 
     PanelBorderRadius box1, box2, main, functionBar, right;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -22,8 +24,16 @@ public class PhieuXuat extends JPanel {
     JLabel lbl1, lblImage;
     DefaultTableModel tblModel;
     
+    Main m;
+    XuatKho xuatKho;
+    
     Color BackgroundColor = new Color(245, 229, 240);
 
+        public PhieuXuat(Main m) {
+        initComponent();
+        this.m = m;
+    }
+    
     private void initComponent() {
 
         this.setBackground(BackgroundColor);
@@ -95,6 +105,7 @@ public class PhieuXuat extends JPanel {
         main.setLayout(boxly);
         main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
+        
 
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
 
@@ -104,10 +115,29 @@ public class PhieuXuat extends JPanel {
         right.setPreferredSize(new Dimension(400, 0));
         right.setLayout(new FlowLayout(1, 15, 40));
         contentCenter.add(right, BorderLayout.EAST);
+        
+          //Add Event MouseListener
+        mainFunction.btnAdd.addActionListener(this);
     }
 
-    public PhieuXuat() {
-        initComponent();
+
+    
+        @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == mainFunction.btnAdd) {
+
+            int input = JOptionPane.showConfirmDialog(null,
+                    "Chúng tôi sẽ chuyển đến xuất kho.\nBạn đã chắc chắn chưa?", "Chuyển sang xuất kho",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            if (input == 0) {
+                xuatKho = new XuatKho();
+                m.MainContent.removeAll();
+                m.MainContent.add(xuatKho).setVisible(true);
+                m.MainContent.repaint();
+                m.MainContent.validate();
+            }
+
+        }
     }
 
 }

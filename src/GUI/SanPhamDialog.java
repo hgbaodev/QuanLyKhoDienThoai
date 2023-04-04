@@ -137,7 +137,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         initComponents(title, type);
     }
     
-    public SanPhamDialog(GUI.SanPham jpSP, JFrame owner, String title, boolean modal, String type, DTO.SanPham sp) {
+    public SanPhamDialog(GUI.SanPham jpSP, JFrame owner, String title, boolean modal, String type, DTO.SanPhamDTO sp) {
         super(owner, title, modal);
         tenSP = new InputForm("Tên sản phẩm");
         idSP = new JTextField("");
@@ -184,7 +184,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
             int id = 0;
             JOptionPane.showMessageDialog(rootPane, tensp+"\n"+xuatxu+"\n"+gianhap+"\n"+giaban+"\n"+hinhanh+"\n"+dvt+"\n"
                     + maloaihang+"\n"+makhuvuc);
-            DTO.SanPham sp = new DTO.SanPham(id, tensp, xuatxu, gianhap, giaban, hinhanh, dvt, maloaihang, makhuvuc);
+            DTO.SanPhamDTO sp = new DTO.SanPhamDTO(id, tensp, xuatxu, gianhap, giaban, hinhanh, dvt, maloaihang, makhuvuc);
             jpSP.spBUS.add(sp);
             jpSP.loadDataTalbe(jpSP.listSP);
             dispose();
@@ -200,7 +200,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
             int maloaihang = loaihang.getSelectedIndex()+1;
             int makhuvuc = khuvuc.getSelectedIndex()+1;
             int id = 0;
-            DTO.SanPham sp = new DTO.SanPham(id, tensp, xuatxu, gianhap, giaban, hinhanh, dvt, maloaihang, makhuvuc);
+            DTO.SanPhamDTO sp = new DTO.SanPhamDTO(id, tensp, xuatxu, gianhap, giaban, hinhanh, dvt, maloaihang, makhuvuc);
             jpSP.spBUS.update(sp);
             jpSP.loadDataTalbe(jpSP.listSP);
             dispose();

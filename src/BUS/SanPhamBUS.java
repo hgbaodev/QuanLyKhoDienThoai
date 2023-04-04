@@ -5,20 +5,20 @@
 package BUS;
 
 import DAO.SanPhamDAO;
-import DTO.SanPham;
+import DTO.SanPhamDTO;
 import java.util.ArrayList;
 
 public class SanPhamBUS  {
      private final SanPhamDAO spDAO = new SanPhamDAO();
-    private ArrayList<SanPham> listSP = new ArrayList<>();
+    private ArrayList<SanPhamDTO> listSP = new ArrayList<>();
 
     public SanPhamBUS() {
         listSP=spDAO.selectAll();
     }
-    public ArrayList<SanPham>getAll(){
+    public ArrayList<SanPhamDTO>getAll(){
         return this.listSP;
     }
-    public SanPham getByIndex(int index){
+    public SanPhamDTO getByIndex(int index){
         return this.listSP.get(index);
     }
      public int getIndexByMaLH(int maloaihang){
@@ -31,26 +31,26 @@ public class SanPhamBUS  {
         }
         return vitri;
      }
-     public Boolean add(SanPham lh) {
+     public Boolean add(SanPhamDTO lh) {
         boolean check = spDAO.insert(lh) != 0;
         if(check) this.listSP.add(lh);
         return check;
     }
-    public Boolean delete(SanPham lh) {
+    public Boolean delete(SanPhamDTO lh) {
         boolean check = spDAO.delete(Integer.toString(lh.getMaloaihang())) != 0;
         if(check) this.listSP.remove(lh);
         return check;
     }
     
-    public Boolean update(SanPham lh) {
+    public Boolean update(SanPhamDTO lh) {
         boolean check = spDAO.update(lh) != 0;
         if(check) this.listSP.set(getIndexByMaLH(lh.getMaloaihang()), lh);
         return check;
     }
-    public ArrayList<SanPham> search(String text) {
+    public ArrayList<SanPhamDTO> search(String text) {
         text = text.toLowerCase();
-        ArrayList<SanPham> result = new ArrayList<>();
-        for(SanPham i : this.listSP) {
+        ArrayList<SanPhamDTO> result = new ArrayList<>();
+        for(SanPhamDTO i : this.listSP) {
             if(Integer.toString(i.getMasp()).toLowerCase().contains(text) || i.getTensp().toLowerCase().contains(text)) {
                 result.add(i);
             }
