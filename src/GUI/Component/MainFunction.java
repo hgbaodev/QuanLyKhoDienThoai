@@ -1,22 +1,10 @@
 package GUI.Component;
 
-import GUI.Panel.DonViTinh;
-import GUI.Panel.KhachHang;
-import GUI.Panel.LoaiHang;
-import GUI.Panel.PhieuNhap;
-import GUI.Panel.SanPham;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class MainFunction extends JToolBar {
 
-    public SanPham sp;
-    public DonViTinh dvt;
-    public LoaiHang lh;
-    public KhachHang kh;
-    public PhieuNhap pn;
     public JButton btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel;
     public JSeparator separator1;
 
@@ -48,29 +36,5 @@ public class MainFunction extends JToolBar {
 
     public MainFunction() {
         initComponent();
-    }
-    public MainFunction(SanPham a) {
-        initComponent();
-        this.sp = a;
-    }
-
-    public MainFunction(DonViTinh a) {
-        initComponent();
-        this.dvt = a;
-    }
-
-    public MainFunction(LoaiHang a) {
-        initComponent();
-        this.lh = a;
-    }
-
-    public MainFunction(KhachHang a) {
-        initComponent();
-        this.kh = a;
-    }
-    
-    public MainFunction(PhieuNhap a) {
-        initComponent();
-        this.pn =a;
     }
 }
