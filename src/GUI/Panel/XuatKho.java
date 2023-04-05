@@ -263,7 +263,7 @@ public class XuatKho extends JPanel implements ActionListener{
         tblModelSanPham.setRowCount(0);
         for (DTO.SanPhamDTO sanPham : result) {
             tblModelSanPham.addRow(new Object[]{
-                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaban()
+                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaxuat()
             });
         }
     }

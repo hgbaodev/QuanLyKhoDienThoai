@@ -189,11 +189,11 @@ public class DonViTinh extends JPanel implements ActionListener {
             }
         }
         if (e.getSource() == mainFunction.btnXuatExcel) {
-            exportExcel();
+//            exportExcel();
         }
 
         if (e.getSource() == mainFunction.btnNhapExcel) {
-            importExcel();
+//            importExcel();
         }
     }
 
