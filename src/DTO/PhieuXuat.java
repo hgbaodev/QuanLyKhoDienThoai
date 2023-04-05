@@ -21,7 +21,7 @@ public class PhieuXuat extends Phieu{
         this.trangthai = trangthai;
     }
 
-    public PhieuXuat(int maphieu, int manguoitao, Timestamp thoigiantao, ArrayList<ChiTietPhieu> CTPhieu, double tongTien,int makhoxuat, int makh, int trangthai) {
+    public PhieuXuat(int maphieu, int manguoitao, Timestamp thoigiantao, ArrayList<ChiTietPhieuDTO> CTPhieu, double tongTien,int makhoxuat, int makh, int trangthai) {
         super(maphieu, manguoitao, thoigiantao, CTPhieu, tongTien);
         this.makhoxuat = makhoxuat;
         this.makh = makh;

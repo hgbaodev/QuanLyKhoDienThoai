@@ -26,7 +26,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `khachhang`(`makh`, `tenkh`, `diachi`,`sdt`) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO `khachhang`(`makh`, `tenkhachhangachhang`, `diachi`,`sdt`) VALUES (?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMaKH());
             pst.setString(2, t.getHoten());
@@ -46,7 +46,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `khachhang` SET `makh`=?,`tenkh`=?,`diachi`=?,`sdt`=? WHERE makh=?";
+            String sql = "UPDATE `khachhang` SET `makh`=?,`tenkhachhang`=?,`diachi`=?,`sdt`=? WHERE makh=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMaKH());
             pst.setString(2, t.getHoten());
@@ -88,11 +88,11 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
                 int makh = rs.getInt("makh");
-                String tenkh = rs.getString("tenkh");
+                String tenkhachhang = rs.getString("tenkhachhang");
                 String diachi = rs.getString("diachi");
                 String sdt = rs.getString("sdt");
                 
-                KhachHangDTO kh = new KhachHangDTO(makh, tenkh, sdt, diachi);
+                KhachHangDTO kh = new KhachHangDTO(makh, tenkhachhang, sdt, diachi);
                 result.add(kh);
             }
             JDBCUtil.closeConnection(con);
@@ -112,11 +112,11 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
                 int makh = rs.getInt("makh");
-                String tenkh = rs.getString("tenkh");
+                String tenkhachhang = rs.getString("tenkhachhang");
                 String diachi = rs.getString("diachi");
                 String sdt = rs.getString("sdt");
                 
-                result = new KhachHangDTO(makh, tenkh, sdt, diachi);
+                result = new KhachHangDTO(makh, tenkhachhang, sdt, diachi);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {

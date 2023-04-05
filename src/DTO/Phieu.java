@@ -16,13 +16,13 @@ public class Phieu {
     private int maphieu;
     private int manguoitao;
     private Timestamp thoigiantao;
-    ArrayList<ChiTietPhieu> CTPhieu;
+    ArrayList<ChiTietPhieuDTO> CTPhieu;
     private double tongTien;
 
     public Phieu() {
     }
 
-    public Phieu(int maphieu, int manguoitao, Timestamp thoigiantao, ArrayList<ChiTietPhieu> CTPhieu, double tongTien) {
+    public Phieu(int maphieu, int manguoitao, Timestamp thoigiantao, ArrayList<ChiTietPhieuDTO> CTPhieu, double tongTien) {
         this.maphieu = maphieu;
         this.manguoitao = manguoitao;
         this.thoigiantao = thoigiantao;
@@ -54,11 +54,11 @@ public class Phieu {
         this.thoigiantao = thoigiantao;
     }
 
-    public ArrayList<ChiTietPhieu> getCTPhieu() {
+    public ArrayList<ChiTietPhieuDTO> getCTPhieu() {
         return CTPhieu;
     }
 
-    public void setCTPhieu(ArrayList<ChiTietPhieu> CTPhieu) {
+    public void setCTPhieu(ArrayList<ChiTietPhieuDTO> CTPhieu) {
         this.CTPhieu = CTPhieu;
     }
 

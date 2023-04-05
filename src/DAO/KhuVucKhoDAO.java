@@ -23,11 +23,10 @@ public class KhuVucKhoDAO implements DAOinterface<KhuVucKho>{
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `khuvuckho`(`makhucvuckho`, `tenkhuvuc`, `makhohang`) VALUES (?,?,?)";
+            String sql = "INSERT INTO `khuvuckho`(`makhucvuckho`, `tenkhuvuc`) VALUES (?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMakhuvuckho());
             pst.setString(2, t.getTenkhuvuc());
-            pst.setString(3, t.getMakhohang());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -45,9 +44,9 @@ public class KhuVucKhoDAO implements DAOinterface<KhuVucKho>{
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMakhuvuckho());
             pst.setString(2, t.getTenkhuvuc());
-            pst.setString(3, t.getMakhohang());
+//            pst.setString(3, t.getMakhohang());
             pst.setInt(4, t.getMakhuvuckho());
-            pst.setString(5, t.getMakhohang());
+//            pst.setString(5, t.getMakhohang());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {

@@ -1,5 +1,6 @@
 package GUI;
 
+import GUI.Dialog.QuenMatKhau;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.*;
 import javax.swing.*;

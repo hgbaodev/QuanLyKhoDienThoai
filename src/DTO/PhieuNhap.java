@@ -23,7 +23,7 @@ public class PhieuNhap extends Phieu{
         this.trangthai = trangthai;
     }
 
-    public PhieuNhap(int maphieu, int manguoitao, Timestamp thoigiantao, ArrayList<ChiTietPhieu> CTPhieu, double tongTien, int mancc, int trangthai) {
+    public PhieuNhap(int maphieu, int manguoitao, Timestamp thoigiantao, ArrayList<ChiTietPhieuDTO> CTPhieu, double tongTien, int mancc, int trangthai) {
         super(maphieu, manguoitao, thoigiantao, CTPhieu, tongTien);
         this.mancc = mancc;
         this.trangthai = trangthai;
@@ -45,11 +45,11 @@ public class PhieuNhap extends Phieu{
         this.trangthai = trangthai;
     }
 
-    public ArrayList<ChiTietPhieu> getCTPhieu() {
+    public ArrayList<ChiTietPhieuDTO> getCTPhieu() {
         return CTPhieu;
     }
 
-    public void setCTPhieu(ArrayList<ChiTietPhieu> CTPhieu) {
+    public void setCTPhieu(ArrayList<ChiTietPhieuDTO> CTPhieu) {
         this.CTPhieu = CTPhieu;
     }
     
