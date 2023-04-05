@@ -24,7 +24,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `nhacungcap`(`manhacungcap`, `tennhacungcap`, `diachi`, `email`, `sdt`) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO `nhacungcap`(`manhacungcap`, `tennhacungcap`, `diachi`, `email`, `sdt`, `trangthai`) VALUES (?,?,?,?,?,1)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMancc());
             pst.setString(2, t.getTenncc());
@@ -64,7 +64,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM nhacungcap WHERE manhacungcap = ?";
+            String sql = "UPDATE nhacungcap SET trangthai = 0 WHERE manhacungcap = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -80,7 +80,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
         ArrayList<NhaCungCapDTO> result = new ArrayList<NhaCungCapDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM nhacungcap";
+            String sql = "SELECT * FROM nhacungcap WHERE trangthai = 1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){

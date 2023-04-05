@@ -27,7 +27,7 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `nhomquyen`(`tennhomquyen`) VALUES (?)";
+            String sql = "INSERT INTO `nhomquyen`(`tennhomquyen`,`trangthai`) VALUES (?,1)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t.getTennhomquyen());
             result = pst.executeUpdate();
