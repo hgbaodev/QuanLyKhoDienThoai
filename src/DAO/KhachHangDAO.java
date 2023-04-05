@@ -26,7 +26,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `khachhang`(`makh`, `tenkhachhangachhang`, `diachi`,`sdt`) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO `khachhang`(`makh`, `tenkhachhang`, `diachi`,`sdt`) VALUES (?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMaKH());
             pst.setString(2, t.getHoten());
