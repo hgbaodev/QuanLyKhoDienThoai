@@ -6,6 +6,7 @@ package GUI.Dialog;
 
 import BUS.NhanVienBUS;
 import DAO.NhanVienDAO;
+import DTO.NhanVienDTO;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import GUI.Component.ButtonCustom;
@@ -56,7 +57,7 @@ public class NhanVienDialog extends JDialog{
         this.setVisible(true);
     }
     
-    public NhanVienDialog(NhanVienBUS nv, JFrame owner, boolean modal, String title, String type, DTO.NhanVien nhanVien){
+    public NhanVienDialog(NhanVienBUS nv, JFrame owner, boolean modal, String title, String type, DTO.NhanVienDTO nhanVien){
         super(owner,title,modal);
         this.nv = nv;
         init(title,type);
@@ -153,7 +154,7 @@ public class NhanVienDialog extends JDialog{
                     String txtSdt = sdt.getText();
                     Date birthDay = jcBd.getDate();
                     java.sql.Date sqlDate = new java.sql.Date( birthDay.getTime() );
-                    DTO.NhanVien nV = new DTO.NhanVien(manv,txtName, txt_gender, sqlDate, txtSdt);
+                    NhanVienDTO nV = new NhanVienDTO(manv,txtName, txt_gender, sqlDate, txtSdt,1);
                     NhanVienDAO.getInstance().insert(nV);
                     nv.insertNv(nV);
                     nv.loadTable();

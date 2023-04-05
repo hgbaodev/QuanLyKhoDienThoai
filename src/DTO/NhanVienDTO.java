@@ -7,29 +7,32 @@ package DTO;
 import java.util.Date;
 import java.util.Objects;
 
-public class NhanVien {
+public class NhanVienDTO {
     private int manv;
     private String hoten;
     private int gioitinh;
     private String sdt;
     private Date ngaysinh;
+    private int trangthai;
 
-    public NhanVien() {
+    public NhanVienDTO() {
     }
 
-    public NhanVien(int manv, String hoten, int gioitinh, Date ngaysinh ,String sdt) {
+    public NhanVienDTO(int manv, String hoten, int gioitinh, Date ngaysinh ,String sdt, int trangthai) {
         this.manv = manv;
         this.hoten = hoten;
         this.gioitinh = gioitinh;
         this.ngaysinh = ngaysinh;
         this.sdt = sdt;
+        this.trangthai = trangthai;
     }
     
-    public NhanVien(String hoten, int gioitinh, Date ngaysinh ,String sdt) {
+    public NhanVienDTO(String hoten, int gioitinh, Date ngaysinh ,String sdt, int trangthai) {
         this.hoten = hoten;
         this.gioitinh = gioitinh;
         this.ngaysinh = ngaysinh;
         this.sdt = sdt;
+        this.trangthai = trangthai;
     }
 
     public int getManv() {
@@ -71,7 +74,14 @@ public class NhanVien {
     public void setSdt(String sdt) {
         this.sdt = sdt;
     }
-    
+
+    public int getTrangthai() {
+        return trangthai;
+    }
+
+    public void setTrangthai(int trangthai) {
+        this.trangthai = trangthai;
+    }
     
 
     @Override
@@ -95,7 +105,7 @@ public class NhanVien {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final NhanVien other = (NhanVien) obj;
+        final NhanVienDTO other = (NhanVienDTO) obj;
         return true;
     }
 
