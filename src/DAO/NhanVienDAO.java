@@ -25,13 +25,14 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `nhanvien`(`hoten`, `gioitinh`,`sdt`,`ngaysinh`,`trangthai`) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO `nhanvien`(`hoten`, `gioitinh`,`sdt`,`ngaysinh`,`trangthai`,`email`) VALUES (?,?,?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getHoten());
             pst.setInt(2, t.getGioitinh());
             pst.setString(3, t.getSdt());
             pst.setDate(4, (Date) (t.getNgaysinh()));
             pst.setInt(5, t.getTrangthai());
+            pst.setString(6, t.getEmail());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -45,14 +46,15 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `nhanvien` SET`hoten`='?',`gioitinh`='?',`ngaysinh`='?',`sdt`='?', `trangthai`='?' WHERE `manhanvien`='?'";
+            String sql = "UPDATE `nhanvien` SET`hoten`=?,`gioitinh`=?,`ngaysinh`=?,`sdt`=?, `trangthai`=?, `email`=?  WHERE `manv`=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getHoten());
             pst.setInt(2, t.getGioitinh());
             pst.setDate(3, (Date) t.getNgaysinh());
             pst.setString(4, t.getSdt());
             pst.setInt(5, t.getTrangthai());
-            pst.setInt(6, t.getManv());
+            pst.setString(6, t.getEmail());
+            pst.setInt(7, t.getManv());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -66,9 +68,9 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM nhanvien WHERE manhanvien = '?'";
+            String sql = "Update nhanvien set `trangthai` = 0 WHERE manv = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t);
+            pst.setString(2, t);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -82,7 +84,7 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO>{
         ArrayList<NhanVienDTO> result = new ArrayList<NhanVienDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM nhanvien";
+            String sql = "SELECT * FROM nhanvien where trangthai = 1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
@@ -92,7 +94,8 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO>{
                 Date ngaysinh = rs.getDate("ngaysinh");
                 String sdt = rs.getString("sdt");
                 int trangthai = rs.getInt("trangthai");
-                NhanVienDTO nv = new NhanVienDTO(manv,hoten,gioitinh,ngaysinh,sdt,trangthai);
+                String email = rs.getString("email");
+                NhanVienDTO nv = new NhanVienDTO(manv,hoten,gioitinh,ngaysinh,sdt,trangthai,email);
                 result.add(nv);
             }
             JDBCUtil.closeConnection(con);
@@ -118,7 +121,8 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO>{
                 Date ngaysinh = rs.getDate("ngaysinh");
                 String sdt = rs.getString("sdt");
                 int trangthai = rs.getInt("trangthai");
-                result = new NhanVienDTO(manv,hoten,gioitinh,ngaysinh,sdt,trangthai);
+                String email = rs.getString("email");
+                result = new NhanVienDTO(manv,hoten,gioitinh,ngaysinh,sdt,trangthai,email);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {

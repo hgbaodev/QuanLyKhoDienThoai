@@ -3,14 +3,15 @@ package GUI.Component;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.*;
 import javax.swing.*;
+//import GUI.Component.itemTaskbar;
 
 public class MenuTaskbar extends JPanel {
 
     private final int n = 20;
-    String st[] = {"Trang chủ", "Sản phẩm", "Đơn vị tính", "Loại hàng", "Khu vực kho", "Chuyển kho", "Nhập kho", "Phiếu nhập", "Xuất kho", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
-    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/length_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/In Transit_30px.png", "/icon/supply_chain_30px.png","/icon/bill_30px.png", "/icon/handle_with_care_30px.png", "/icon/estimates_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
+    String st[] = {"Trang chủ", "Sản phẩm", "Đơn vị tính", "Loại hàng", "Khu vực kho", "Kiểm kê", "Phiếu nhập", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
+    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/length_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/estimates_30px.png", "/icon/In Transit_30px.png", "/icon/supply_chain_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
 
-    public JPanel pnl[];
+    public JPanel pnl[], pnlDangxuat;
     JLabel lbl[], lblIcon[], info;
     JScrollPane scrollPane;
 
@@ -84,27 +85,13 @@ public class MenuTaskbar extends JPanel {
         // Dùng vòng lặp đẻ hiển thị, nếu đến "Đăng xuất" thì sẽ được add vào pnlBottom để nó xuống dưới cuối
         for (int i = 0; i < st.length; i++) {
             pnl[i] = new JPanel();
-            pnl[i].setLayout(new FlowLayout(1, 10, 7));
-            pnl[i].setPreferredSize(new Dimension(250, 45));
-            pnl[i].setBackground(DefaultColor);
-
             lblIcon[i] = new JLabel();
-            lblIcon[i].setPreferredSize(new Dimension(30, 30));
-            lblIcon[i].setIcon(new javax.swing.ImageIcon(getClass().getResource(iconst[i])));
-
-            pnl[i].add(lblIcon[i]);
-
             lbl[i] = new JLabel(st[i]);
-            lbl[i].setPreferredSize(new Dimension(170, 30));
-            lbl[i].putClientProperty("FlatLaf.style", "font: 150% $medium.font");
-            lbl[i].setForeground(FontColor);
-
-            pnl[i].add(lbl[i]);
 
             if (i + 1 == st.length) {
-                pnlBottom.add(pnl[i]);
+                itemTaskbar(pnl[i], lblIcon[i], lbl[i], iconst[i], st[i], pnlBottom);
             } else {
-                pnlCenter.add(pnl[i]);
+                itemTaskbar(pnl[i], lblIcon[i], lbl[i], iconst[i], st[i], pnlCenter);
             }
 
         }
@@ -156,6 +143,28 @@ public class MenuTaskbar extends JPanel {
             }
 
         }
+    }
+
+    private void itemTaskbar(JPanel pnlItem, JLabel lblIcon, JLabel pnlContent, String linkIcon, String content, JPanel pnlMain) {
+//        pnlItem = new JPanel();
+        pnlItem.setLayout(new FlowLayout(1, 10, 7));
+        pnlItem.setPreferredSize(new Dimension(250, 45));
+        pnlItem.setBackground(DefaultColor);
+
+//        lblIcon = new JLabel();
+        lblIcon.setPreferredSize(new Dimension(30, 30));
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource(linkIcon)));
+
+        pnlItem.add(lblIcon);
+
+//        pnlContent = new JLabel(content);
+        pnlContent.setPreferredSize(new Dimension(170, 30));
+        pnlContent.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
+        pnlContent.setForeground(FontColor);
+
+        pnlItem.add(pnlContent);
+
+        pnlMain.add(pnlItem);
     }
 
 }

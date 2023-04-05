@@ -8,31 +8,35 @@ import java.util.Date;
 import java.util.Objects;
 
 public class NhanVienDTO {
+
     private int manv;
     private String hoten;
     private int gioitinh;
     private String sdt;
     private Date ngaysinh;
     private int trangthai;
+    private String email;
 
     public NhanVienDTO() {
     }
 
-    public NhanVienDTO(int manv, String hoten, int gioitinh, Date ngaysinh ,String sdt, int trangthai) {
+    public NhanVienDTO(int manv, String hoten, int gioitinh, Date ngaysinh, String sdt, int trangthai, String email) {
         this.manv = manv;
         this.hoten = hoten;
         this.gioitinh = gioitinh;
         this.ngaysinh = ngaysinh;
         this.sdt = sdt;
         this.trangthai = trangthai;
+        this.email = email;
     }
-    
-    public NhanVienDTO(String hoten, int gioitinh, Date ngaysinh ,String sdt, int trangthai) {
+
+    public NhanVienDTO(String hoten, int gioitinh, Date ngaysinh, String sdt, int trangthai) {
         this.hoten = hoten;
         this.gioitinh = gioitinh;
         this.ngaysinh = ngaysinh;
         this.sdt = sdt;
         this.trangthai = trangthai;
+        this.email = email;
     }
 
     public int getManv() {
@@ -82,7 +86,14 @@ public class NhanVienDTO {
     public void setTrangthai(int trangthai) {
         this.trangthai = trangthai;
     }
-    
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     @Override
     public int hashCode() {
@@ -113,5 +124,9 @@ public class NhanVienDTO {
     public String toString() {
         return "NhanVien{" + "manv=" + manv + ", hoten=" + hoten + ", gioitinh=" + gioitinh + ", ngaysinh=" + ngaysinh + '}';
     }
-    
+
+    public int getColumnCount() {
+        return getClass().getDeclaredFields().length;
+    }
+
 }

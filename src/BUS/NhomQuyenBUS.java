@@ -4,6 +4,7 @@
  */
 package BUS;
 
+import DAO.ChiTietQuyenDAO;
 import DAO.NhomQuyenDAO;
 import DTO.ChiTietQuyenDTO;
 import DTO.NhomQuyenDTO;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 public class NhomQuyenBUS {
 
     private final NhomQuyenDAO nhomquyenDAO = new NhomQuyenDAO();
-    public ChiTietQuyenBUS chitietquyenBUS = new ChiTietQuyenBUS();
+    private final ChiTietQuyenDAO chitietquyenDAO = new ChiTietQuyenDAO();
     private ArrayList<NhomQuyenDTO> listNhomQuyen;
 
     public NhomQuyenBUS() {
@@ -36,24 +37,37 @@ public class NhomQuyenBUS {
         boolean check = nhomquyenDAO.insert(nq) != 0;
         if (check) {
             this.listNhomQuyen.add(nq);
-            this.chitietquyenBUS.add(ctquyen);
+            this.addChiTietQuyen(ctquyen);
+        }
+        return check;
+    }
+    
+    public boolean update(NhomQuyenDTO nhomquyen, ArrayList<ChiTietQuyenDTO> chitietquyen) {
+        boolean check = nhomquyenDAO.update(nhomquyen) != 0;
+        if(check) {
+            this.removeChiTietQuyen(Integer.toString(nhomquyen.getManhomquyen()));
+            this.addChiTietQuyen(chitietquyen);
         }
         return check;
     }
 
-    public boolean update(NhomQuyenDTO nqdto, int index) {
-        boolean check = nhomquyenDAO.update(nqdto) != 0;
-        if (check) {
-            this.listNhomQuyen.set(index, nqdto);
-        }
+    public boolean delete(NhomQuyenDTO nqdto) {
+        boolean check = nhomquyenDAO.delete(Integer.toString(nqdto.getManhomquyen())) != 0;
+        if (check) this.listNhomQuyen.remove(nqdto);
         return check;
     }
-
-    public boolean delete(NhomQuyenDTO nqdto, int index) {
-        boolean check = nhomquyenDAO.update(nqdto) != 0;
-        if (check) {
-            this.listNhomQuyen.remove(index);
-        }
+    
+    public ArrayList<ChiTietQuyenDTO> getChiTietQuyen(String manhomquyen){
+        return chitietquyenDAO.selectAll(manhomquyen);
+    }
+    
+    public boolean addChiTietQuyen(ArrayList<ChiTietQuyenDTO> listctquyen) {
+        boolean check = chitietquyenDAO.insert(listctquyen) != 0;
+        return check;
+    }
+    
+    public boolean removeChiTietQuyen(String manhomquyen) {
+        boolean check = chitietquyenDAO.delete(manhomquyen) != 0;
         return check;
     }
 }
