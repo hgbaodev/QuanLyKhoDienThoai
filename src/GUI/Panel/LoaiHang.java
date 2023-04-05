@@ -252,6 +252,7 @@ public class LoaiHang extends JPanel implements ActionListener{
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
             } else {
+                System.out.println(listLH.get(index));
                 LoaiHangDialog lhDialog = new LoaiHangDialog(this, owner, "Chỉnh sửa loại hàng", true, "update", listLH.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {

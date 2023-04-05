@@ -70,12 +70,16 @@ public class LoaiHangDialog extends JDialog implements MouseListener {
         btnHuyBo.addMouseListener(this);
 
         switch (type) {
-            case "create" ->
+            case "create" -> {
                 pnbottom.add(btnThem);
-            case "update" ->
+            }
+            case "update" -> {
                 pnbottom.add(btnCapNhat);
-            case "view" ->
-                tenLH.setDisable();
+                tenLH.setText(loaihangDto.getTenloaihang());
+            }
+            case "view" -> {
+                tenLH.setText(loaihangDto.getTenloaihang());
+            }
             default ->
                 throw new AssertionError();
         }
