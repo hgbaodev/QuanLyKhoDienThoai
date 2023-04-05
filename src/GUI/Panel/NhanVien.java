@@ -37,7 +37,7 @@ public class NhanVien extends JPanel {
     MainFunction mainFunction;
     IntegratedSearch search;
     JLabel lbl1, lblImage;
-    ArrayList<DTO.NhanVien> listnv = nvBus.getAll();
+    ArrayList<DTO.NhanVienDTO> listnv = nvBus.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
     private DefaultTableModel tblModel;
@@ -134,13 +134,13 @@ public class NhanVien extends JPanel {
         return tableNhanVien.getSelectedRow();
     }
     
-    public DTO.NhanVien getNhanVien(){
+    public DTO.NhanVienDTO getNhanVien(){
         return listnv.get(tableNhanVien.getSelectedRow());
     }
     
-    public void loadDataTalbe(ArrayList<DTO.NhanVien> list) {
+    public void loadDataTalbe(ArrayList<DTO.NhanVienDTO> list) {
         tblModel.setRowCount(0);
-        for (DTO.NhanVien nhanVien : list) {
+        for (DTO.NhanVienDTO nhanVien : list) {
             tblModel.addRow(new Object[]{
                 nhanVien.getManv(),nhanVien.getHoten(),nhanVien.getGioitinh()==1?"Nam":"Nữ",nhanVien.getNgaysinh(),nhanVien.getSdt()
             });
