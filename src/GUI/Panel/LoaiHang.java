@@ -252,6 +252,7 @@ public class LoaiHang extends JPanel implements ActionListener{
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
             } else {
+                System.out.println(listLH.get(index));
                 LoaiHangDialog lhDialog = new LoaiHangDialog(this, owner, "Chỉnh sửa loại hàng", true, "update", listLH.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
@@ -273,7 +274,7 @@ public class LoaiHang extends JPanel implements ActionListener{
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn loại hàng cần xem");
             } else {
-                LoaiHangDialog lhDialog = new LoaiHangDialog(this, owner, "Chi tiêt đơn vị tính", true, "view", listLH.get(index));
+                LoaiHangDialog lhDialog = new LoaiHangDialog(this, owner, "Chi tiêt loại hàng", true, "view", listLH.get(index));
             }
         }
         if (e.getSource() == mainFunction.btnXuatExcel) {

@@ -60,7 +60,7 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM nhomquyen WHERE manhomquyen = ?";
+            String sql = "UPDATE `nhomquyen` SET `trangthai` = 0 WHERE manhomquyen = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -76,7 +76,7 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
         ArrayList<NhomQuyenDTO> result = new ArrayList<NhomQuyenDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM nhomquyen";
+            String sql = "SELECT * FROM nhomquyen WHERE trangthai = 1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
@@ -116,7 +116,7 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'warehousemanagement' AND   TABLE_NAME   = 'nhomquyen'";
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'nhomquyen'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
             if (!rs2.isBeforeFirst()) {

@@ -4,7 +4,6 @@
  */
 package GUI.Dialog;
 
-import BUS.ChiTietQuyenBUS;
 import BUS.NhomQuyenBUS;
 import DAO.ChiTietQuyenDAO;
 import DAO.DanhMucChucNangDAO;
@@ -44,9 +43,9 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
     private JPanel jpTop, jpLeft, jpCen, jpBottom;
     private JCheckBox[][] listCheckBox;
     private ButtonCustom btnAddNhomQuyen, btnUpdateNhomQuyen,btnHuybo;
+    private PhanQuyen jpPhanQuyen;
     private int sizeDmCn, sizeHanhdong;
     private ArrayList<DanhMucChucNangDTO> dmcn;
-    
     String[] mahanhdong = {"view", "create", "update", "delete"};
     private ArrayList<ChiTietQuyenDTO> ctQuyen;
     private NhomQuyenDTO nhomquyenDTO;
@@ -117,6 +116,9 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
                 jpBottom.add(btnUpdateNhomQuyen);
                 initUpdate();
             }
+            case "view" -> {
+                initUpdate();
+            }
             default -> throw new AssertionError();
         }
         
@@ -136,11 +138,13 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
 
     public PhanQuyenDialog(PhanQuyen jpPhanQuyen, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
+        this.jpPhanQuyen = jpPhanQuyen;
         initComponents(type);
     }
     
     public PhanQuyenDialog(PhanQuyen jpPhanQuyen, JFrame owner, String title, boolean modal, String type, NhomQuyenDTO nhomquyendto) {
         super(owner, title, modal);
+        this.jpPhanQuyen = jpPhanQuyen;
         this.nhomquyenDTO = nhomquyendto;
         this.ctQuyen = ChiTietQuyenDAO.getInstance().selectAll(Integer.toString(nhomquyendto.getManhomquyen()));
         initComponents(type);
@@ -149,20 +153,28 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnAddNhomQuyen) {
-            ctQuyen = this.getListChiTietQuyen();
+            ctQuyen = this.getListChiTietQuyen(NhomQuyenDAO.getInstance().getAutoIncrement());
             nhomquyenBUS.add(txtTennhomquyen.getText(),ctQuyen);
-            JOptionPane.showMessageDialog(null, ctQuyen);
+            this.jpPhanQuyen.loadDataTalbe(nhomquyenBUS.getAll());
+            dispose();
+        } else if(e.getSource() == btnUpdateNhomQuyen){
+            ctQuyen = this.getListChiTietQuyen(this.nhomquyenDTO.getManhomquyen());
+            NhomQuyenDTO nhomquyen = new NhomQuyenDTO(this.nhomquyenDTO.getManhomquyen(),txtTennhomquyen.getText());
+            nhomquyenBUS.update(nhomquyen,ctQuyen);
+            this.jpPhanQuyen.loadDataTalbe(nhomquyenBUS.getAll());
+            dispose();
+            dispose();
         } else if (e.getSource() == btnHuybo) {
             dispose();
         }
     }
 
-    public ArrayList<ChiTietQuyenDTO> getListChiTietQuyen() {
+    public ArrayList<ChiTietQuyenDTO> getListChiTietQuyen(int manhomquyen) {
         ArrayList<ChiTietQuyenDTO> result = new ArrayList<>();
         for (int i = 0; i < sizeDmCn; i++) {
             for (int j = 0; j < sizeHanhdong; j++) {
                 if (listCheckBox[i][j].isSelected()) {
-                    result.add(new ChiTietQuyenDTO(NhomQuyenDAO.getInstance().getAutoIncrement(), dmcn.get(i).getMachucnang(), mahanhdong[j]));
+                    result.add(new ChiTietQuyenDTO(manhomquyen, dmcn.get(i).getMachucnang(), mahanhdong[j]));
                 }
             }
         }

@@ -7,7 +7,7 @@ import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuDTO;
 import DTO.KhachHangDTO;
 import DTO.SanPhamDTO;
-import GUI.Component.ButtonMajor;
+import GUI.Component.ButtonCustom;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import GUI.Component.PanelBorderRadius;
@@ -50,7 +50,7 @@ public class XuatKho extends JPanel implements ActionListener{
     SanPhamDTO sp = new SanPhamDTO();
     public ArrayList<ChiTietPhieuDTO> CTPhieu=new ArrayList<>();
 
-    Color BackgroundColor = new Color(239, 235, 233);
+    Color BackgroundColor = new Color(245, 229, 240);
     Color buttonColor = new Color(1, 87, 155);
 
 //    public NhapKho() {
@@ -98,12 +98,12 @@ public class XuatKho extends JPanel implements ActionListener{
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
         contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(20, 20));
+        contentCenter.setLayout(new BorderLayout(5, 5));
         this.add(contentCenter, BorderLayout.CENTER);
 
         left = new JPanel();
         left.setPreferredSize(new Dimension(500, 0));
-        left.setLayout(new BorderLayout(0, 10));
+        left.setLayout(new BorderLayout(0, 5));
         left.setOpaque(false);
         contentCenter.add(left, BorderLayout.WEST);
 
@@ -161,12 +161,12 @@ public class XuatKho extends JPanel implements ActionListener{
         txtSoLuong = new JTextField("1");
         txtSoLuong.setPreferredSize(new Dimension(100, 30));
         left_bottom.add(txtSoLuong);
-        btnAddSoLuong = new ButtonMajor("THÊM", "/icon/Plus_25px.png");
+        btnAddSoLuong = new ButtonCustom("Thêm","blue" ,14,"/icon/Plus_25px.png");
         left_bottom.add(btnAddSoLuong);
 
         // main là phần ở dưới để thống kê bảng biểu
         main = new JPanel();
-        main.setLayout(new BorderLayout(0, 10));
+        main.setLayout(new BorderLayout(0, 5));
         main.setOpaque(false);
         contentCenter.add(main, BorderLayout.CENTER);
 
@@ -203,7 +203,7 @@ public class XuatKho extends JPanel implements ActionListener{
         }
 
         slfKhachHang = new JComboBox( getKhachHang());
-        slfKhachHang.setPreferredSize(new Dimension(360, 30));
+        slfKhachHang.setPreferredSize(new Dimension(350, 35));
         pnl[2].add(slfKhachHang);
 
         txt[0].setEditable(false);
@@ -248,13 +248,13 @@ public class XuatKho extends JPanel implements ActionListener{
         main.add(main_bottom, BorderLayout.SOUTH);
 
         lbl1 = new JLabel("Số lượng");
-        btnNhapExcel = new ButtonMajor("Nhập Excel", "/icon/xls_25px.png");
+        btnNhapExcel = new ButtonCustom("Nhập Excel", "green",14, "/icon/xls_25px.png");
         main_bottom.add(btnNhapExcel);
 
-        btnEditSoLuong = new ButtonMajor("Sửa số lượng", "/icon/edit_25px.png");
+        btnEditSoLuong = new ButtonCustom("Sửa số lượng", "yellow", 14, "/icon/edit_25px.png");
         main_bottom.add(btnEditSoLuong);
 
-        btnDeleteSanPham = new ButtonMajor("Xóa sản phẩm", "/icon/delete_25px.png");
+        btnDeleteSanPham = new ButtonCustom("Xóa sản phẩm", "red", 14,"/icon/delete_25px.png");
         main_bottom.add(btnDeleteSanPham);
 
     }

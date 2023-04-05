@@ -31,6 +31,11 @@ public class LoaiHangDTO {
     public void setTenloaihang(String tenloaihang) {
         this.tenloaihang = tenloaihang;
     }
+
+    @Override
+    public String toString() {
+        return "LoaiHangDTO{" + "maloaihang=" + maloaihang + ", tenloaihang=" + tenloaihang + '}';
+    }
     
     
 }
