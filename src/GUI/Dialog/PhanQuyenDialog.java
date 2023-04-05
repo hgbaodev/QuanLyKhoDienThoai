@@ -46,7 +46,6 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
     private PhanQuyen jpPhanQuyen;
     private int sizeDmCn, sizeHanhdong;
     private ArrayList<DanhMucChucNangDTO> dmcn;
-    
     String[] mahanhdong = {"view", "create", "update", "delete"};
     private ArrayList<ChiTietQuyenDTO> ctQuyen;
     private NhomQuyenDTO nhomquyenDTO;
@@ -154,24 +153,28 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnAddNhomQuyen) {
-            ctQuyen = this.getListChiTietQuyen();
+            ctQuyen = this.getListChiTietQuyen(NhomQuyenDAO.getInstance().getAutoIncrement());
             nhomquyenBUS.add(txtTennhomquyen.getText(),ctQuyen);
             this.jpPhanQuyen.loadDataTalbe(nhomquyenBUS.getAll());
             dispose();
         } else if(e.getSource() == btnUpdateNhomQuyen){
-            
+            ctQuyen = this.getListChiTietQuyen(this.nhomquyenDTO.getManhomquyen());
+            NhomQuyenDTO nhomquyen = new NhomQuyenDTO(this.nhomquyenDTO.getManhomquyen(),txtTennhomquyen.getText());
+            nhomquyenBUS.update(nhomquyen,ctQuyen);
+            this.jpPhanQuyen.loadDataTalbe(nhomquyenBUS.getAll());
+            dispose();
             dispose();
         } else if (e.getSource() == btnHuybo) {
             dispose();
         }
     }
 
-    public ArrayList<ChiTietQuyenDTO> getListChiTietQuyen() {
+    public ArrayList<ChiTietQuyenDTO> getListChiTietQuyen(int manhomquyen) {
         ArrayList<ChiTietQuyenDTO> result = new ArrayList<>();
         for (int i = 0; i < sizeDmCn; i++) {
             for (int j = 0; j < sizeHanhdong; j++) {
                 if (listCheckBox[i][j].isSelected()) {
-                    result.add(new ChiTietQuyenDTO(NhomQuyenDAO.getInstance().getAutoIncrement(), dmcn.get(i).getMachucnang(), mahanhdong[j]));
+                    result.add(new ChiTietQuyenDTO(manhomquyen, dmcn.get(i).getMachucnang(), mahanhdong[j]));
                 }
             }
         }
