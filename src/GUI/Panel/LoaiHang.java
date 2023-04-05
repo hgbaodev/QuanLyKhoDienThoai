@@ -274,7 +274,7 @@ public class LoaiHang extends JPanel implements ActionListener{
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn loại hàng cần xem");
             } else {
-                LoaiHangDialog lhDialog = new LoaiHangDialog(this, owner, "Chi tiêt đơn vị tính", true, "view", listLH.get(index));
+                LoaiHangDialog lhDialog = new LoaiHangDialog(this, owner, "Chi tiêt loại hàng", true, "view", listLH.get(index));
             }
         }
         if (e.getSource() == mainFunction.btnXuatExcel) {
