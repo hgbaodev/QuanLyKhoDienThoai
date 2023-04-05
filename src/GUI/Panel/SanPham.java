@@ -62,7 +62,7 @@ public class SanPham extends JPanel implements ActionListener {
         ));
         tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá bán", "Hình ảnh", "Mã đơn vị tính", "Mã loại hàng", "Mã khu vực"};
+        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá xuất", "Hình ảnh", "Mã đơn vị tính", "Mã loại hàng", "Mã khu vực"};
         tblModel.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableSanPham);
