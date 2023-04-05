@@ -57,7 +57,7 @@ public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `loaihang` SET `trangthai` = 0";
+            String sql = "UPDATE `loaihang` SET `trangthai` = 0 WHERE `maloaihang`= ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
@@ -113,7 +113,7 @@ public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'warehousemanagement' AND   TABLE_NAME   = 'loaihang'";
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'loaihang'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
             if (!rs2.isBeforeFirst() ) {

@@ -14,7 +14,7 @@ import GUI.Panel.LoaiHang;
 import GUI.Panel.PhanQuyen;
 import GUI.Panel.NhaCungCap;
 import GUI.Panel.ChuyenKho;
-import GUI.Panel.QuanLyKho;
+import GUI.Panel.KhuVucKho;
 import GUI.Panel.PhieuXuat;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.*;
@@ -31,7 +31,7 @@ public class Main extends javax.swing.JFrame {
     SanPham sanPham;
     DonViTinh donViTinh;
     LoaiHang loaiHang;
-    QuanLyKho quanLyKho;
+    KhuVucKho quanLyKho;
     ChuyenKho chuyenKho;
     KiemKe kiemKe;
     NhapKho nhapKho;
@@ -102,7 +102,7 @@ public class Main extends javax.swing.JFrame {
         menuTaskbar.pnl[4].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                quanLyKho = new QuanLyKho();
+                quanLyKho = new KhuVucKho();
                 setPanel(quanLyKho);
             }
         });

@@ -25,13 +25,13 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `sanpham`(`masanpham`, `tensanpham`, `xuatxu`, `gianhap`, `giaban`,`hinhanh`,`madonvitinh`,`maloaihang`,`makhuvuc`) VALUES (?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO `sanpham`(`masanpham`, `tensanpham`, `xuatxu`, `gianhap`, `giaxuat`,`hinhanh`,`madonvitinh`,`maloaihang`,`makhuvuc`,`soluong`) VALUES (?,?,?,?,?,?,?,?,?,0)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMasp());
             pst.setString(2,t.getTensp());
             pst.setString(3, t.getXuatxu());
             pst.setDouble(4,t.getGianhap());
-            pst.setDouble(5,t.getGiaban());
+            pst.setDouble(5,t.getGiaxuat());
             pst.setString(6,t.getHinhanh());
             pst.setInt(7,t.getMaDVT());
             pst.setInt(8,t.getMaloaihang());
@@ -49,13 +49,13 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `sanpham` SET `masanpham`='?',`tensanpham`='?',`xuatxu`='?',`gianhap`='?',`giaban`='?',`hinhanh`='?',`madonvitinh`='?',`maloaihang`='?',`makhuvuc`='?' WHERE ?";
+            String sql = "UPDATE `sanpham` SET `masanpham`='?',`tensanpham`='?',`xuatxu`='?',`gianhap`='?',`giaxuat`='?',`hinhanh`='?',`madonvitinh`='?',`maloaihang`='?',`makhuvuc`='?' WHERE ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMasp());
             pst.setString(2,t.getTensp());
             pst.setString(3, t.getXuatxu());
             pst.setDouble(4,t.getGianhap());
-            pst.setDouble(5,t.getGiaban());
+            pst.setDouble(5,t.getGiaxuat());
             pst.setString(6,t.getHinhanh());
             pst.setInt(7,t.getMaDVT());
             pst.setInt(8,t.getMaloaihang());
@@ -74,7 +74,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM sanpham WHERE masanpham = '?'";
+            String sql = "UPDATE `sanpham` SET `trangthai`=0 WHERE masanpham = '?'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -90,7 +90,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
         ArrayList<SanPhamDTO> result = new ArrayList<SanPhamDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM sanpham";
+            String sql = "SELECT * FROM sanpham WHERE `trangthai`=1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
@@ -98,13 +98,13 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
                 String tensp= rs.getString("tensanpham");
                 String xuatxu = rs.getString("xuatxu");
                 int gianhap = rs.getInt("gianhap");
-                int giaban = rs.getInt("giaban");
+                int giaxuat = rs.getInt("giaxuat");
                 String hinhanh = rs.getString("hinhanh");
                 int maDVT = rs.getInt("madonvitinh");
                 int maloaihang = rs.getInt("maloaihang");
                 int makhuvuc = rs.getInt("makhuvuc");
-                
-                SanPhamDTO sp = new SanPhamDTO(masp,tensp,xuatxu,gianhap,giaban,hinhanh,maDVT,maloaihang,makhuvuc);
+                int soluong = rs.getInt("soluong");
+                SanPhamDTO sp = new SanPhamDTO(masp,tensp,xuatxu,gianhap,giaxuat,hinhanh,maDVT,maloaihang,makhuvuc,soluong);
                 result.add(sp);
             }
             JDBCUtil.closeConnection(con);
@@ -127,13 +127,13 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
                 String tensp= rs.getString("tensanpham");
                 String xuatxu = rs.getString("xuatxu");
                 int gianhap = rs.getInt("gianhap");
-                int giaban = rs.getInt("giaban");
+                int giaxuat = rs.getInt("giaxuat");
                 String hinhanh = rs.getString("hinhanh");
                 int maDVT = rs.getInt("madonvitinh");
                 int maloaihang = rs.getInt("maloaihang");
                 int makhuvuc = rs.getInt("makhuvuc");
-                
-                result = new SanPhamDTO(masp,tensp,xuatxu,gianhap,giaban,hinhanh,maDVT,maloaihang,makhuvuc);
+                int soluong = rs.getInt("soluong");
+                result = new SanPhamDTO(masp,tensp,xuatxu,gianhap,giaxuat,hinhanh,maDVT,maloaihang,makhuvuc,soluong);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
@@ -146,7 +146,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'warehousemanagement' AND   TABLE_NAME   = 'sanpham'";
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'sanpham'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
             if (!rs2.isBeforeFirst() ) {

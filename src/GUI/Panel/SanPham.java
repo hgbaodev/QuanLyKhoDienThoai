@@ -156,7 +156,7 @@ public class SanPham extends JPanel implements ActionListener {
         tblModel.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
             tblModel.addRow(new Object[]{
-                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), sp.getGianhap(), sp.getGiaban(), sp.getHinhanh(), sp.getMaDVT(), sp.getMaloaihang(), sp.getMakhuvuc()
+                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), sp.getGianhap(), sp.getGiaxuat(), sp.getHinhanh(), sp.getMaDVT(), sp.getMaloaihang(), sp.getMakhuvuc()
             });
         }
     }

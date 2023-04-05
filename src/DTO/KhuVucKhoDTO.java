@@ -6,16 +6,16 @@ package DTO;
 
 import java.util.Objects;
 
-public class KhuVucKho {
+public class KhuVucKhoDTO {
 
     private int makhuvuckho;
     private String tenkhuvuc;
     private String ghichu;
 
-    public KhuVucKho() {
+    public KhuVucKhoDTO() {
     }
 
-    public KhuVucKho(int makhuvuckho, String tenkhuvuc, String ghichu) {
+    public KhuVucKhoDTO(int makhuvuckho, String tenkhuvuc, String ghichu) {
         this.makhuvuckho = makhuvuckho;
         this.tenkhuvuc = tenkhuvuc;
         this.ghichu = ghichu;
@@ -45,12 +45,13 @@ public class KhuVucKho {
         this.ghichu = ghichu;
     }
 
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 61 * hash + this.makhuvuckho;
-        hash = 61 * hash + Objects.hashCode(this.tenkhuvuc);
-        hash = 61 * hash + Objects.hashCode(this.ghichu);
+        hash = 97 * hash + this.makhuvuckho;
+        hash = 97 * hash + Objects.hashCode(this.tenkhuvuc);
+        hash = 97 * hash + Objects.hashCode(this.ghichu);
         return hash;
     }
 
@@ -65,18 +66,13 @@ public class KhuVucKho {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final KhuVucKho other = (KhuVucKho) obj;
-        if (this.makhuvuckho != other.makhuvuckho) {
-            return false;
-        }
-        if (!Objects.equals(this.tenkhuvuc, other.tenkhuvuc)) {
-            return false;
-        }
-        return Objects.equals(this.ghichu, other.ghichu);
+        final KhuVucKhoDTO other = (KhuVucKhoDTO) obj;
+        return true;
     }
 
     @Override
     public String toString() {
         return "KhuVucKho{" + "makhuvuckho=" + makhuvuckho + ", tenkhuvuc=" + tenkhuvuc + ", ghichu=" + ghichu + '}';
     }
+    
 }

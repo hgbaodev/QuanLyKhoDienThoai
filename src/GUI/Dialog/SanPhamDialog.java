@@ -1,8 +1,11 @@
 package GUI.Dialog;
 
 import DAO.DonViTinhDAO;
+import DAO.KhuVucKhoDAO;
 import DAO.LoaiHangDAO;
+import DAO.SanPhamDAO;
 import DTO.DonViTinhDTO;
+import DTO.KhuVucKhoDTO;
 import DTO.LoaiHangDTO;
 import GUI.Panel.SanPham;
 import GUI.Component.ButtonCustom;
@@ -43,14 +46,17 @@ public class SanPhamDialog extends JDialog implements MouseListener {
     private HeaderTitle titlePage;
     private JPanel pnmain, pnbottom, pnCenter, pnmainright;
     private ButtonCustom btnThemSanPham, btnCapNhat, btnHuyBo;
-    InputForm tenSP, xuatxu, gianhap, giaban;
+    InputForm tenSP, xuatxu, gianhap, giaban,soluong;
     SelectForm donvitinh, loaihang, khuvuc;
     InputImage hinhanh;
     JTextField idSP;
     GUI.Panel.SanPham jpSP;
+    
+    ArrayList<DonViTinhDTO> dvt = DonViTinhDAO.getInstance().selectAll();
+    ArrayList<LoaiHangDTO> lh = LoaiHangDAO.getInstance().selectAll();
+    ArrayList<KhuVucKhoDTO> kvk = KhuVucKhoDAO.getInstance().selectAll();
 
     public String[] getdonvitinh() {
-        ArrayList<DonViTinhDTO> dvt = DonViTinhDAO.getInstance().selectAll();
         String tenDVT[] = new String[dvt.size()];
         for (int i = 0; i < dvt.size(); i++) {
             tenDVT[i] = dvt.get(i).getTenDVT();
@@ -59,12 +65,19 @@ public class SanPhamDialog extends JDialog implements MouseListener {
     }
 
     public String[] getloaihang() {
-        ArrayList<LoaiHangDTO> lh = LoaiHangDAO.getInstance().selectAll();
         String tenLH[] = new String[lh.size()];
         for (int i = 0; i < lh.size(); i++) {
             tenLH[i] = lh.get(i).getTenloaihang();
         }
         return tenLH;
+    }
+    
+    public String[] getkhuvuc(){
+        String tenkv[] = new String[kvk.size()];
+        for (int i=0;i<kvk.size();i++){
+            tenkv[i]=kvk.get(i).getTenkhuvuc();
+        }
+        return tenkv;
     }
     
     public void initComponents(String title, String type) {
@@ -82,9 +95,9 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         
         pnmain.add(tenSP);
         pnmain.add(xuatxu);
+        pnmain.add(donvitinh);
         pnmain.add(gianhap);
         pnmain.add(giaban);
-        pnmain.add(donvitinh);
         pnmain.add(loaihang);
         pnmain.add(khuvuc);
         
@@ -106,9 +119,18 @@ public class SanPhamDialog extends JDialog implements MouseListener {
             case "create" ->
                 pnbottom.add(btnThemSanPham);
             case "update" ->
+            {
+                pnmain.add(soluong);
+                soluong.setDisable();
                 pnbottom.add(btnCapNhat);
+            }
             case "view" ->
+            {
                 tenSP.setDisable();
+                pnmain.add(soluong);
+                soluong.setDisable();
+            }
+                
             default ->
                 throw new AssertionError();
         }
@@ -132,8 +154,9 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         giaban = new InputForm("Giá bán");
         donvitinh = new SelectForm("Đơn vị tính", getdonvitinh());
         loaihang = new SelectForm("Loại hàng", getloaihang());
-        String tempKVK[] = {"khu A", "khuB", "khu C"};
-        khuvuc = new SelectForm("Khu vực kho", tempKVK);
+        soluong = new InputForm("Số lượng");
+        
+        khuvuc = new SelectForm("Khu vực kho", getkhuvuc());
         hinhanh = new InputImage("Hình minh họa");
         initComponents(title, type);
     }
@@ -179,13 +202,14 @@ public class SanPhamDialog extends JDialog implements MouseListener {
             double gianhap = Double.valueOf(this.gianhap.getText());
             double giaban = Double.valueOf(this.giaban.getText());
             String hinhanh = this.hinhanh.getUrl_img();
-            int dvt = this.donvitinh.getSelectedIndex()+1;
-            int maloaihang = loaihang.getSelectedIndex()+1;
-            int makhuvuc = khuvuc.getSelectedIndex()+1;
-            int id = 0;
-            JOptionPane.showMessageDialog(rootPane, tensp+"\n"+xuatxu+"\n"+gianhap+"\n"+giaban+"\n"+hinhanh+"\n"+dvt+"\n"
+            int madonvi = dvt.get(donvitinh.getSelectedIndex()).getMaDVT();
+            int maloaihang = lh.get(loaihang.getSelectedIndex()).getMaloaihang();
+            int makhuvuc = kvk.get(khuvuc.getSelectedIndex()).getMakhuvuckho();
+            int sluong = 0;
+            int id = SanPhamDAO.getInstance().getAutoIncrement();
+            JOptionPane.showMessageDialog(rootPane, tensp+"\n"+xuatxu+"\n"+gianhap+"\n"+giaban+"\n"+hinhanh+"\n"+madonvi+"\n"
                     + maloaihang+"\n"+makhuvuc);
-            DTO.SanPhamDTO sp = new DTO.SanPhamDTO(id, tensp, xuatxu, gianhap, giaban, hinhanh, dvt, maloaihang, makhuvuc);
+            DTO.SanPhamDTO sp = new DTO.SanPhamDTO(id, tensp, xuatxu, gianhap, giaban, hinhanh, madonvi, maloaihang, makhuvuc,sluong);
             jpSP.spBUS.add(sp);
             jpSP.loadDataTalbe(jpSP.listSP);
             dispose();
@@ -197,11 +221,12 @@ public class SanPhamDialog extends JDialog implements MouseListener {
             double gianhap = Double.valueOf(this.gianhap.getText());
             double giaban = Double.valueOf(this.giaban.getText());
             String hinhanh = this.hinhanh.getUrl_img();
-            int dvt = this.donvitinh.getSelectedIndex()+1;
-            int maloaihang = loaihang.getSelectedIndex()+1;
-            int makhuvuc = khuvuc.getSelectedIndex()+1;
-            int id = 0;
-            DTO.SanPhamDTO sp = new DTO.SanPhamDTO(id, tensp, xuatxu, gianhap, giaban, hinhanh, dvt, maloaihang, makhuvuc);
+            int madonvi = dvt.get(donvitinh.getSelectedIndex()).getMaDVT();
+            int maloaihang = lh.get(loaihang.getSelectedIndex()).getMaloaihang();
+            int makhuvuc = kvk.get(khuvuc.getSelectedIndex()).getMakhuvuckho();
+            int sluong = Integer.valueOf(this.soluong.getText());
+            int id = SanPhamDAO.getInstance().getAutoIncrement();
+            DTO.SanPhamDTO sp = new DTO.SanPhamDTO(id, tensp, xuatxu, gianhap, giaban, hinhanh, madonvi, maloaihang, makhuvuc,sluong);
             jpSP.spBUS.update(sp);
             jpSP.loadDataTalbe(jpSP.listSP);
             dispose();
