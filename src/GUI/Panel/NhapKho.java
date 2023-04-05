@@ -4,8 +4,7 @@ import BUS.SanPhamBUS;
 import DTO.SanPhamDTO;
 import DTO.NhaCungCapDTO;
 import DAO.NhaCungCapDAO;
-
-import GUI.Component.ButtonMajor;
+import GUI.Component.ButtonCustom;
 import GUI.Component.ButtonToolBar;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -24,7 +23,7 @@ public class NhapKho extends JPanel {
 
     private final int n = 3;
 
-    String text[] = {"Mã phiếu nhập", "Mã nhân viên", "Mã nhà cung cấp"};
+    String text[] = {"Mã phiếu nhập", "Mã nhân viên", "Tên nhà cung cấp"};
 
     PanelBorderRadius left_top, left_center, left_bottom, main_top, main_center, main_bottom;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left, main, pnl[], pnl1;
@@ -34,7 +33,7 @@ public class NhapKho extends JPanel {
     JTextField txtSoLuong, txt[];
     DefaultTableModel tblModelSanPham, tblModelNhapKho;
     JButton btnAddSoLuong, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnNhapHang, btnNhapKho;
-    SelectForm slfNhaCungCap;
+    JComboBox slfNhaCungCap;
 
     MainFunction mainFunction;
     IntegratedSearch search;
@@ -154,7 +153,7 @@ public class NhapKho extends JPanel {
         txtSoLuong = new JTextField();
         txtSoLuong.setPreferredSize(new Dimension(70, 30));
         left_bottom.add(txtSoLuong);
-        btnAddSoLuong = new ButtonMajor("THÊM", "/icon/Plus_25px.png");
+        btnAddSoLuong = new ButtonCustom("Thêm","blue" ,14,"/icon/Plus_25px.png");
         left_bottom.add(btnAddSoLuong);
 
         // main là phần ở dưới để thống kê bảng biểu
@@ -164,7 +163,7 @@ public class NhapKho extends JPanel {
         contentCenter.add(main, BorderLayout.CENTER);
 
         main_top = new PanelBorderRadius();
-        main_top.setPreferredSize(new Dimension(0, 220));
+        main_top.setPreferredSize(new Dimension(0, 160));
         BoxLayout b3 = new BoxLayout(main_top, BoxLayout.Y_AXIS);
         main_top.setLayout(b3);
         main_top.setBorder(new EmptyBorder(5, 20, 20, 20));
@@ -181,7 +180,7 @@ public class NhapKho extends JPanel {
             main_top.add(pnl[i]);
 
             lbl[i] = new JLabel(text[i]);
-            lbl[i].setPreferredSize(new Dimension(130, 30));
+            lbl[i].setPreferredSize(new Dimension(150, 30));
             lbl[i].setFont(new Font("Segoe UI", Font.BOLD, 16));
             pnl[i].add(lbl[i]);
 
@@ -190,13 +189,13 @@ public class NhapKho extends JPanel {
             }
 
             txt[i] = new JTextField();
-            txt[i].setPreferredSize(new Dimension(350, 35));
+            txt[i].setPreferredSize(new Dimension(330, 35));
             pnl[i].add(txt[i]);
 
         }
 
-        slfNhaCungCap = new SelectForm("", getnhacungcap());
-        slfNhaCungCap.setPreferredSize(new Dimension(360, 50));
+        slfNhaCungCap = new JComboBox(getnhacungcap());
+        slfNhaCungCap.setPreferredSize(new Dimension(330, 35));
         pnl[2].add(slfNhaCungCap);
 
         txt[0].setEditable(false);
@@ -236,7 +235,7 @@ public class NhapKho extends JPanel {
         main_center.add(scrTableNhapKho);
 
         main_bottom = new PanelBorderRadius();
-        main_bottom.setPreferredSize(new Dimension(0, 80));
+        main_bottom.setPreferredSize(new Dimension(0, 140));
         main_bottom.setLayout(new BorderLayout(10,10));
         main_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
         main.add(main_bottom, BorderLayout.SOUTH);
@@ -246,13 +245,13 @@ public class NhapKho extends JPanel {
         main_Panel_bottom.setLayout(new FlowLayout(1, 15, 20));
 //        main_Panel_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
         lbl1 = new JLabel("Số lượng");
-        btnNhapExcel = new ButtonMajor("Nhập Excel", "/icon/xls_25px.png");
+        btnNhapExcel = new ButtonCustom("Nhập Excel", "green",14, "/icon/xls_25px.png");
         main_Panel_bottom.add(btnNhapExcel);
 
-        btnEditSoLuong = new ButtonMajor("Sửa số lượng", "/icon/edit_25px.png");
+        btnEditSoLuong = new ButtonCustom("Sửa số lượng", "yellow", 14, "/icon/edit_25px.png");
         main_Panel_bottom.add(btnEditSoLuong);
 
-        btnDeleteSanPham = new ButtonMajor("Xóa sản phẩm", "/icon/delete_25px.png");
+        btnDeleteSanPham = new ButtonCustom("Xóa sản phẩm", "red", 14,"/icon/delete_25px.png");
         main_bottom.add(btnDeleteSanPham);
         
         pnl1 = new JPanel();
