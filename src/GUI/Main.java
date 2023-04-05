@@ -21,6 +21,7 @@ import java.awt.*;
 import javax.swing.*;
 import GUI.Component.MenuTaskbar;
 import GUI.Component.NavigationBar;
+import java.awt.event.MouseAdapter;
 
 public class Main extends javax.swing.JFrame {
 
@@ -69,7 +70,7 @@ public class Main extends javax.swing.JFrame {
         trangChu = new TrangChu();
         MainContent.add(trangChu).setVisible(true);
 
-        menuTaskbar.pnl[0].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[0].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 trangChu = new TrangChu();
@@ -77,7 +78,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        menuTaskbar.pnl[1].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[1].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 sanPham = new SanPham();
@@ -85,28 +86,28 @@ public class Main extends javax.swing.JFrame {
 
             }
         });
-        menuTaskbar.pnl[2].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[2].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 donViTinh = new DonViTinh();
                 setPanel(donViTinh);
             }
         });
-        menuTaskbar.pnl[3].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[3].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 loaiHang = new LoaiHang();
                 setPanel(loaiHang);
             }
         });
-        menuTaskbar.pnl[4].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[4].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 quanLyKho = new QuanLyKho();
                 setPanel(quanLyKho);
             }
         });
-        menuTaskbar.pnl[5].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[5].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 chuyenKho = new ChuyenKho();
@@ -114,7 +115,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        menuTaskbar.pnl[6].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.pnl[6].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 phieuNhap = new PhieuNhap(Main.this);

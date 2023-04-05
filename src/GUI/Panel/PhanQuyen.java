@@ -74,6 +74,8 @@ public class PhanQuyen extends JPanel implements ActionListener {
         functionBar.add(mainFunction);
         mainFunction.btnAdd.addActionListener(this);
         mainFunction.btnEdit.addActionListener(this);
+        mainFunction.btnDetail.addActionListener(this);
+        mainFunction.btnDelete.addActionListener(this);
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
@@ -112,7 +114,6 @@ public class PhanQuyen extends JPanel implements ActionListener {
     }
 
     public void loadDataTalbe(ArrayList<NhomQuyenDTO> result) {
-        System.out.println(result);
         tblModel.setRowCount(0);
         for (NhomQuyenDTO ncc : result) {
             tblModel.addRow(new Object[]{
@@ -126,12 +127,34 @@ public class PhanQuyen extends JPanel implements ActionListener {
         if (e.getSource() == mainFunction.btnAdd) {
             PhanQuyenDialog pq = new PhanQuyenDialog(this, owner, "Thêm nhóm quyền", true, "create");
         } else if (e.getSource() == mainFunction.btnEdit) {
-            int index = tblNhomQuyen.getSelectedRow();
-            if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhóm quyền cần sửa");
-            } else {
+            int index = this.getRowSelected();
+            if (index >= 0) {
                 PhanQuyenDialog nccDialog = new PhanQuyenDialog(this, owner, "Chỉnh sửa nhóm quyền", true, "update", listnhomquyen.get(index));
             }
+        } else if (e.getSource() == mainFunction.btnDetail) {
+            int index = this.getRowSelected();
+            if (index >= 0) {
+                PhanQuyenDialog nccDialog = new PhanQuyenDialog(this, owner, "Chi tiết nhóm quyền", true, "view", listnhomquyen.get(index));
+            }
+        } else if (e.getSource() == mainFunction.btnDelete) {
+            int index = this.getRowSelected();
+            if (index >= 0) {
+                int input = JOptionPane.showConfirmDialog(null,"Bạn có chắc chắn muốn xóa nhà cung cấp!", "Xóa nhà cung cấp",JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (input == 0) {
+                    System.out.println(listnhomquyen.get(index));
+                    nhomquyenBUS.delete(listnhomquyen.get(index));
+                    loadDataTalbe(listnhomquyen);
+                }
+            }
         }
+    }
+
+    public int getRowSelected() {
+        int index = tblNhomQuyen.getSelectedRow();
+        if (tblNhomQuyen.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhóm quyền");
+            return -1;
+        }
+        return index;
     }
 }

@@ -4,7 +4,6 @@
  */
 package GUI.Dialog;
 
-import BUS.ChiTietQuyenBUS;
 import BUS.NhomQuyenBUS;
 import DAO.ChiTietQuyenDAO;
 import DAO.DanhMucChucNangDAO;
@@ -44,6 +43,7 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
     private JPanel jpTop, jpLeft, jpCen, jpBottom;
     private JCheckBox[][] listCheckBox;
     private ButtonCustom btnAddNhomQuyen, btnUpdateNhomQuyen,btnHuybo;
+    private PhanQuyen jpPhanQuyen;
     private int sizeDmCn, sizeHanhdong;
     private ArrayList<DanhMucChucNangDTO> dmcn;
     
@@ -117,6 +117,9 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
                 jpBottom.add(btnUpdateNhomQuyen);
                 initUpdate();
             }
+            case "view" -> {
+                initUpdate();
+            }
             default -> throw new AssertionError();
         }
         
@@ -136,11 +139,13 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
 
     public PhanQuyenDialog(PhanQuyen jpPhanQuyen, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
+        this.jpPhanQuyen = jpPhanQuyen;
         initComponents(type);
     }
     
     public PhanQuyenDialog(PhanQuyen jpPhanQuyen, JFrame owner, String title, boolean modal, String type, NhomQuyenDTO nhomquyendto) {
         super(owner, title, modal);
+        this.jpPhanQuyen = jpPhanQuyen;
         this.nhomquyenDTO = nhomquyendto;
         this.ctQuyen = ChiTietQuyenDAO.getInstance().selectAll(Integer.toString(nhomquyendto.getManhomquyen()));
         initComponents(type);
@@ -151,7 +156,11 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
         if (e.getSource() == btnAddNhomQuyen) {
             ctQuyen = this.getListChiTietQuyen();
             nhomquyenBUS.add(txtTennhomquyen.getText(),ctQuyen);
-            JOptionPane.showMessageDialog(null, ctQuyen);
+            this.jpPhanQuyen.loadDataTalbe(nhomquyenBUS.getAll());
+            dispose();
+        } else if(e.getSource() == btnUpdateNhomQuyen){
+            
+            dispose();
         } else if (e.getSource() == btnHuybo) {
             dispose();
         }
