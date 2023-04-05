@@ -103,7 +103,6 @@ public class PhanQuyen extends JPanel implements ActionListener {
         columnModel.getColumn(0).setPreferredWidth(2);
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
         columnModel.getColumn(1).setPreferredWidth(300);
-
         main.add(scrollTable);
     }
 
