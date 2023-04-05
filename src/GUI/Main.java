@@ -73,10 +73,7 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 trangChu = new TrangChu();
-                MainContent.removeAll();
-                MainContent.add(trangChu).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(trangChu);
             }
         });
 
@@ -84,10 +81,7 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 sanPham = new SanPham();
-                MainContent.removeAll();
-                MainContent.add(sanPham).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(sanPham);
 
             }
         });
@@ -95,92 +89,64 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 donViTinh = new DonViTinh();
-                MainContent.removeAll();
-                MainContent.add(donViTinh).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(donViTinh);
             }
         });
         menuTaskbar.pnl[3].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 loaiHang = new LoaiHang();
-                MainContent.removeAll();
-                MainContent.add(loaiHang).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(loaiHang);
             }
         });
         menuTaskbar.pnl[4].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 quanLyKho = new QuanLyKho();
-                MainContent.removeAll();
-                MainContent.add(quanLyKho).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(quanLyKho);
             }
         });
         menuTaskbar.pnl[5].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 chuyenKho = new ChuyenKho();
-                MainContent.removeAll();
-                MainContent.add(chuyenKho).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(chuyenKho);
             }
         });
-
 
         menuTaskbar.pnl[6].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 nhapKho = new NhapKho();
-                MainContent.removeAll();
-                MainContent.add(nhapKho).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(nhapKho);
             }
         });
         menuTaskbar.pnl[7].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 phieuNhap = new PhieuNhap(Main.this);
-                MainContent.removeAll();
-                MainContent.add(phieuNhap).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(phieuNhap);
             }
         });
         menuTaskbar.pnl[8].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 xuatKho = new XuatKho();
-                MainContent.removeAll();
-                MainContent.add(xuatKho).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(xuatKho);
             }
         });
         menuTaskbar.pnl[9].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 phieuXuat = new PhieuXuat(Main.this);
-                MainContent.removeAll();
-                MainContent.add(phieuXuat).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(phieuXuat);
             }
         });
         menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 khachHang = new KhachHang();
-                MainContent.removeAll();
-                MainContent.add(khachHang).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(nhacungcap);
 
             }
         });
@@ -188,10 +154,7 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 nhacungcap = new NhaCungCap();
-                MainContent.removeAll();
-                MainContent.add(nhacungcap).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(nhacungcap);
             }
         });
 
@@ -200,36 +163,34 @@ public class Main extends javax.swing.JFrame {
             public void mousePressed(java.awt.event.MouseEvent evt) {
 
                 nhanVien = new NhanVien();
-                MainContent.removeAll();
-                MainContent.add(nhanVien).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(nhanVien);
             }
         });
         menuTaskbar.pnl[13].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 taiKhoan = new TaiKhoan();
-                MainContent.removeAll();
-                MainContent.add(taiKhoan).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(taiKhoan);
             }
         });
         menuTaskbar.pnl[14].addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 phanQuyen = new PhanQuyen();
-                MainContent.removeAll();
-                MainContent.add(phanQuyen).setVisible(true);
-                MainContent.repaint();
-                MainContent.validate();
+                setPanel(phanQuyen);
             }
         });
     }
 
     public Main() {
         initComponent();
+    }
+
+    public void setPanel(JPanel pn) {
+        MainContent.removeAll();
+        MainContent.add(pn).setVisible(true);
+        MainContent.repaint();
+        MainContent.validate();
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
