@@ -4,6 +4,7 @@ import BUS.NhanVienBUS;
 import DAO.DonViTinhDAO;
 import DAO.NhanVienDAO;
 import DTO.DonViTinhDTO;
+import DTO.NhanVienDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -115,7 +116,8 @@ public class NhanVien extends JPanel {
                 new String[]{}
         ));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MNV","Họ tên","Giởi tính","Ngày Sinh","SDT"};
+        String[] header = new String[]{"MNV","Họ tên","Giới tính","Ngày Sinh","SDT","Email"};
+        
         tblModel.setColumnIdentifiers(header);
         tableNhanVien.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableNhanVien);
@@ -138,11 +140,13 @@ public class NhanVien extends JPanel {
         return listnv.get(tableNhanVien.getSelectedRow());
     }
     
+    
+    
     public void loadDataTalbe(ArrayList<DTO.NhanVienDTO> list) {
         tblModel.setRowCount(0);
         for (DTO.NhanVienDTO nhanVien : list) {
             tblModel.addRow(new Object[]{
-                nhanVien.getManv(),nhanVien.getHoten(),nhanVien.getGioitinh()==1?"Nam":"Nữ",nhanVien.getNgaysinh(),nhanVien.getSdt()
+                nhanVien.getManv(),nhanVien.getHoten(),nhanVien.getGioitinh()==1?"Nam":"Nữ",nhanVien.getNgaysinh(),nhanVien.getSdt(),nhanVien.getEmail()
             });
         }
     }
