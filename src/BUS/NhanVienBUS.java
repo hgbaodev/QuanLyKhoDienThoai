@@ -6,6 +6,7 @@ package BUS;
 
 import DAO.DonViTinhDAO;
 import DAO.NhanVienDAO;
+import DTO.DonViTinhDTO;
 import DTO.NhanVienDTO;
 import GUI.Panel.NhanVien;
 import GUI.Dialog.NhanVienDialog;
@@ -26,6 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.BuiltinFormats;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -52,8 +54,9 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         this.nv = nv;
     }
 
-    public NhanVienBUS(JTextField textField) {
+    public NhanVienBUS(JTextField textField, NhanVien nv) {
         this.textField = textField;
+        this.nv = nv;
     }
 
     public ArrayList<DTO.NhanVienDTO> getAll() {
@@ -93,10 +96,10 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                 }
             }
             case "NHẬP EXCEL" -> {
-
+                
             }
             case "XUẤT EXCEL" -> {
-
+                exportExcel(listNv);
             }
 
         }
@@ -104,12 +107,24 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        System.out.println("Text field changed: " + textField.getText());
+        String text = textField.getText();
+        if(text.length() == 0){
+            nv.loadDataTalbe(listNv);
+        } else {
+            ArrayList<NhanVienDTO> listSearch = search(text);
+            searchLoadTable(listSearch);
+        }
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        System.out.println("Text field changed: " + textField.getText());
+        String text = textField.getText();
+        if(text.length() == 0){
+            nv.loadDataTalbe(listNv);
+        } else {
+            ArrayList<NhanVienDTO> listSearch = search(text);
+            searchLoadTable(listSearch);
+        }
     }
 
     @Override
@@ -136,6 +151,10 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         nv.loadDataTalbe(listNv);
     }
     
+    public void searchLoadTable(ArrayList<NhanVienDTO> list){
+        nv.loadDataTalbe(list);
+    }
+    
     public void openFile(String file) {
         try {
             File path = new File(file);
@@ -154,9 +173,13 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                 saveFile = new File(saveFile.toString() + ".xlsx");
                 Workbook wb = new XSSFWorkbook();
                 Sheet sheet = wb.createSheet("Nhân viên");
-                Row rowCol = sheet.createRow(0);
-                int maxCol = list.get(0).getColumnCount();
-                
+                String[] header = new String[]{"MãNV","Tên nhân viên","Email nhân viên","Số điên thoại","Giới tính","Ngày sinh"};
+                writeHeader(header,sheet,0);
+                int rowIndex = 1;
+                for (NhanVienDTO nv : list) {
+                    Row row = sheet.createRow(rowIndex++);
+                    writeNhanVien(nv,row);
+                }
                 FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
                 wb.write(out);
                 wb.close();
@@ -170,18 +193,14 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     }
     
     private static void writeHeader(String[] list, Sheet sheet, int rowIndex) {
-        // create CellStyle
         CellStyle cellStyle = createStyleForHeader(sheet);
-         
-        // Create row
         Row row = sheet.createRow(rowIndex);
-         
-        // Create cells
         Cell cell ;
         for(int i = 0;i < list.length;i++){
             cell = row.createCell(i);
             cell.setCellStyle(cellStyle);
             cell.setCellValue(list[i]);
+            sheet.autoSizeColumn(i);
         }
     }
     
@@ -200,6 +219,38 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setBorderBottom(BorderStyle.THIN);
         return cellStyle;
+    }
+    
+    private static void writeNhanVien(NhanVienDTO nv, Row row) {
+        CellStyle cellStyleFormatNumber = null;
+        if (cellStyleFormatNumber == null) {
+            // Format number
+            short format = (short)BuiltinFormats.getBuiltinFormat("#,##0");
+            // DataFormat df = workbook.createDataFormat();
+            // short format = df.getFormat("#,##0");
+             
+            //Create CellStyle
+            Workbook workbook = row.getSheet().getWorkbook();
+            cellStyleFormatNumber = workbook.createCellStyle();
+            cellStyleFormatNumber.setDataFormat(format);
+        }
+        Cell cell = row.createCell(0);
+        cell.setCellValue(nv.getManv());
+ 
+        cell = row.createCell(1);
+        cell.setCellValue(nv.getHoten());
+ 
+        cell = row.createCell(2);
+        cell.setCellValue(nv.getEmail());
+ 
+        cell = row.createCell(3);
+        cell.setCellValue(nv.getSdt());
+         
+        cell = row.createCell(4);
+        cell.setCellValue(nv.getGioitinh()==1?"Nam":"Nữ");
+        
+        cell = row.createCell(5);
+        cell.setCellValue(""+nv.getNgaysinh());
     }
 
 //    public void importExcel() {
@@ -240,5 +291,17 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
 //        }
 //        loadDataTalbe(listdvt);
 //    }
-
+    public ArrayList<NhanVienDTO> search(String text) {
+        text = text.toLowerCase();
+        ArrayList<NhanVienDTO> result = new ArrayList<>();
+        System.out.println(text);
+        for(NhanVienDTO i : this.listNv) {
+           if(i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
+                   || i.getSdt().toLowerCase().contains(text)){
+               result.add(i);
+           }
+        }
+        return result;
+    }
+    
 }
