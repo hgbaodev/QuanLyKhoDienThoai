@@ -23,7 +23,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
 
     private GUI.Panel.NhanVien nv;
     private JTextField textField;
-    public ArrayList<DTO.NhanVien> listNv = NhanVienDAO.getInstance().selectAll();
+    public ArrayList<DTO.NhanVienDTO> listNv = NhanVienDAO.getInstance().selectAll();
 
     public NhanVienBUS(NhanVien nv) {
         this.nv = nv;
@@ -33,7 +33,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         this.textField = textField;
     }
 
-    public ArrayList<DTO.NhanVien> getAll() {
+    public ArrayList<DTO.NhanVienDTO> getAll() {
         return this.listNv;
     }
 
@@ -86,7 +86,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
 //        System.out.println("Text field changed: " + textField.getText());
     }
 
-    public void insertNv(DTO.NhanVien nv) {
+    public void insertNv(DTO.NhanVienDTO nv) {
         listNv.add(nv);
     }
 
