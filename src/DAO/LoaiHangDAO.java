@@ -23,9 +23,10 @@ public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `loaihang`(`tenloaihang`) VALUES (?)";
+            String sql = "INSERT INTO `loaihang`(`tenloaihang`,`trangthai`) VALUES (?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getTenloaihang());
+            pst.setInt(2, 1);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -56,9 +57,8 @@ public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM loaihang WHERE maloaihang = ?";
+            String sql = "UPDATE `loaihang` SET `trangthai` = 0";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -72,7 +72,7 @@ public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
         ArrayList<LoaiHangDTO> result = new ArrayList<LoaiHangDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM loaihang";
+            String sql = "SELECT * FROM loaihang WHERE `trangthai`=1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){

@@ -54,7 +54,7 @@ public class LoaiHangDialog extends JDialog implements MouseListener {
         titlePage = new HeaderTitle(title.toUpperCase());
         pnmain = new JPanel(new GridLayout(1, 1, 20, 0));
         pnmain.setBackground(Color.white);
-        tenLH = new InputForm("Tên loại hàng hóa mới");
+        tenLH = new InputForm("Tên loại hàng hóa");
         pnmain.add(tenLH);
 
         pnbottom = new JPanel(new FlowLayout());
@@ -106,6 +106,7 @@ public class LoaiHangDialog extends JDialog implements MouseListener {
             int id = loaihangDto.getMaloaihang();
             DTO.LoaiHangDTO lh = new DTO.LoaiHangDTO(id, name);
             jpLH.lhBUS.update(lh);
+            tenLH.setText(name);
             jpLH.loadDataTalbe(jpLH.listLH);
             dispose();
         }
