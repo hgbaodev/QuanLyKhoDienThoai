@@ -5,6 +5,7 @@
 package GUI.Component;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import javax.swing.JButton;
 
 /**
@@ -20,5 +21,7 @@ public class ButtonToolBar extends JButton{
         this.setFocusable(false);
         this.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         this.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.putClientProperty("JButton.buttonType", "toolBarButton");
     }
 }

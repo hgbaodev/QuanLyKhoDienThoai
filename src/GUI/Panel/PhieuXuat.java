@@ -89,9 +89,9 @@ public class PhieuXuat extends JPanel implements ActionListener{
         this.add(contentCenter, BorderLayout.CENTER);
 
         functionBar = new PanelBorderRadius();
-        functionBar.setPreferredSize(new Dimension(0, 140));
+        functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
-        functionBar.setBorder(new EmptyBorder(20, 20, 20, 20));
+        functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         mainFunction = new MainFunction();
         functionBar.add(mainFunction);

@@ -61,13 +61,13 @@ public class ButtonCustom extends JButton {
                 throw new AssertionError();
         }
         this.setBackground(javax.swing.UIManager.getDefaults().getColor(color));
+        this.putClientProperty("JButton.buttonType", "roundRect");
+        this.putClientProperty("JButton.buttonType", "borderless");
         this.setFont(new java.awt.Font("Segoe UI", 0, fontsize)); // NOI18N
         this.setForeground(new java.awt.Color(255, 255, 255));
-        this.setBorder(null);
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.setPreferredSize(new Dimension(150, 35));
         this.setIcon(new javax.swing.ImageIcon(getClass().getResource(linkIcon)));
-
     }
 
     public void setVisible(Boolean value) {

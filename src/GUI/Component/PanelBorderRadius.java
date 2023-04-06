@@ -31,7 +31,7 @@ public class PanelBorderRadius extends JPanel{
         g2.setBackground(HowerBackgroundColor);
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.fillRoundRect(0, 0, width,  height, 30, 30);
+        g.fillRoundRect(0, 0, width,  height, 15, 15);
         
 
         g2.drawImage(img, x, y, null);
