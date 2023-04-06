@@ -25,7 +25,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `sanpham`(`masanpham`, `tensanpham`, `xuatxu`, `gianhap`, `giaxuat`,`hinhanh`,`madonvitinh`,`maloaihang`,`makhuvuc`,`soluong`) VALUES (?,?,?,?,?,?,?,?,?,0)";
+            String sql = "INSERT INTO `sanpham`(`masanpham`, `tensanpham`, `xuatxu`, `gianhap`, `giaxuat`,`hinhanh`,`madonvitinh`,`maloaihang`,`makhuvuc`,`soluong`,`trangthai`) VALUES (?,?,?,?,?,?,?,?,?,0,1)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMasp());
             pst.setString(2,t.getTensp());
@@ -90,7 +90,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
         ArrayList<SanPhamDTO> result = new ArrayList<SanPhamDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM sanpham WHERE `trangthai`=1";
+            String sql = "SELECT * FROM sanpham WHERE `trangthai`= 1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
