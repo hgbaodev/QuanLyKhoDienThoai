@@ -52,6 +52,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
     InputImage hinhanh;
     GUI.Panel.SanPham jpSP;
     SanPhamDTO spDTO;
+    String urlImage;
     
     ArrayList<DonViTinhDTO> dvt = DonViTinhDAO.getInstance().selectAll();
     ArrayList<LoaiHangDTO> lh = LoaiHangDAO.getInstance().selectAll();
@@ -155,6 +156,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
                 pnmain.add(idSP);
                 pnmain.add(soluong);
                 soluong.setDisable();
+                
             }
                 
             default ->
@@ -200,6 +202,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         setNoidung(giaxuat, String.valueOf(sp.getGiaxuat()));
         setIdSP(Integer.toString(sp.getMasp()));
         setNoidung(soluong,String.valueOf(sp.getSoluong()));
+        
         donvitinh = new SelectForm("Đơn vị tính", getdonvitinh());
         donvitinh.setSelectedIndex(setdonvitinh(sp.getMaDVT()));
         
@@ -215,6 +218,8 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         
         hinhanh = new InputImage("Hình minh họa");
         hinhanh.setUrl_img(sp.getHinhanh());
+        urlImage=sp.getHinhanh();
+        
         this.jpSP = jpSP;
         this.spDTO=sp;
         initComponents(title, type);
@@ -261,8 +266,11 @@ public class SanPhamDialog extends JDialog implements MouseListener {
             String xuatxu = this.xuatxu.getText();
             double gianhap = Double.valueOf(this.gianhap.getText());
             double giaxuat = Double.valueOf(this.giaxuat.getText());
-            String hinhanh = this.hinhanh.getUrl_img();
-            System.out.println(hinhanh);
+            String hinhanh=urlImage;
+            if(this.hinhanh.getUrl_img()!=null){
+            hinhanh = this.hinhanh.getUrl_img();
+            }
+            //System.out.println(hinhanh);
             int madonvi = dvt.get(donvitinh.getSelectedIndex()).getMaDVT();
             int maloaihang = lh.get(loaihang.getSelectedIndex()).getMaloaihang();
             int makhuvuc = kvk.get(khuvuc.getSelectedIndex()).getMakhuvuckho();
