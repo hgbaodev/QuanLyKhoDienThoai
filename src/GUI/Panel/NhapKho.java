@@ -29,13 +29,12 @@ public class NhapKho extends JPanel {
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left, main, pnl[], pnl1;
     JTable tableSanPham, tableNhapKho;
     JScrollPane scrollTableSanPham, scrTableNhapKho;
-    JLabel lbl1, lblImage, lbl[], lbl2, lblTongTien;
+    JLabel lbl1, lbl[], lbl2, lblTongTien;
     JTextField txtSoLuong, txt[];
     DefaultTableModel tblModelSanPham, tblModelNhapKho;
     JButton btnAddSoLuong, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnNhapHang, btnNhapKho;
     JComboBox slfNhaCungCap;
 
-    MainFunction mainFunction;
     IntegratedSearch search;
 
     public SanPhamBUS sanphamBUS = new SanPhamBUS();
@@ -103,7 +102,7 @@ public class NhapKho extends JPanel {
         left_top.setPreferredSize(new Dimension(0, 100));
         BoxLayout b1 = new BoxLayout(left_top, BoxLayout.Y_AXIS);
         left_top.setLayout(b1);
-        left_top.setBorder(new EmptyBorder(5, 20, 20, 20));
+        left_top.setBorder(new EmptyBorder(5, 10, 5, 10));
         left.add(left_top, BorderLayout.NORTH);
 
         search = new IntegratedSearch(new String[]{"Tất cả"});

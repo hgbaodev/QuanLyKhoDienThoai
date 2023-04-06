@@ -14,15 +14,13 @@ import javax.swing.table.DefaultTableModel;
 
 public class PhieuNhap extends JPanel implements ActionListener {
 
-    PanelBorderRadius box1, box2, main, functionBar, right;
+    PanelBorderRadius main, functionBar, right;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tablePhieuNhap;
     JScrollPane scrollTablePhieuNhap;
     MainFunction mainFunction;
     IntegratedSearch search;
-    JLabel lbl1, lblImage;
     DefaultTableModel tblModel;
-
     NhapKho nhapKho;
     Main m;
 
@@ -34,7 +32,6 @@ public class PhieuNhap extends JPanel implements ActionListener {
     }
 
     private void initComponent() {
-
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
