@@ -174,7 +174,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần xem");
             } else {
-//                NhaCungCapDialog nccDialog = new NhaCungCapDialog(this, owner, "Chi tiết nhà cung cấp", true, "view", listKVK.get(index));
+                KhuVucKhoDialog kvkDialog = new KhuVucKhoDialog(this, owner, "Sản phẩm thuộc khu vực", true, "view", listKVK.get(index));
             }
         } else if (e.getSource() == search.btnReset) {
             search.txtSearchForm.setText("");
