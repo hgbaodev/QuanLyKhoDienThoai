@@ -107,7 +107,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
     }
     
     public void initComponents(String title, String type) {
-        this.setSize(new Dimension(1150, 450));
+        this.setSize(new Dimension(1150, 500));
         this.setLayout(new BorderLayout(0, 0));
         titlePage = new HeaderTitle(title.toUpperCase());
         pnCenter = new JPanel(new GridLayout(1, 2));
@@ -171,6 +171,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
                 pnmain.add(idSP);
                 pnmain.add(soluong);
                 initInfomation(this.spDTO);
+                idSP.setDisable();
                 soluong.setDisable();  
             }
             default ->

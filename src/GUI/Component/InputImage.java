@@ -36,7 +36,7 @@ public class InputImage extends JPanel implements ActionListener {
 
     private JButton btnChooseImg;
     private JLabel img;
-    private  String url_img;
+    private String url_img;
 
     public InputImage() {
 
@@ -46,24 +46,26 @@ public class InputImage extends JPanel implements ActionListener {
         this.setBackground(Color.white);
         btnChooseImg = new JButton(title);
         img = new JLabel();
-        img.setPreferredSize(new Dimension(400,300));
+        img.setPreferredSize(new Dimension(400, 300));
         btnChooseImg.addActionListener(this);
         this.add(btnChooseImg);
     }
 
-    public  String getUrl_img() {
+    public String getUrl_img() {
         return url_img;
     }
-    public  void setUrl_img(String url_img) {
-        btnChooseImg.setIcon(new ImageIcon(url_img));
+
+    public void setUrl_img(String url_img) {
+        ImageIcon imgicon = new ImageIcon(url_img);
+        imgicon = new ImageIcon(scale(imgicon));
+        btnChooseImg.setIcon(imgicon);
         btnChooseImg.setText("");
     }
-    public void setUnable(){
+
+    public void setUnable() {
         this.btnChooseImg.setEnabled(false);
     }
 
- 
-    
     @Override
     public void actionPerformed(ActionEvent e) {
         JFileChooser jfc;
@@ -74,19 +76,14 @@ public class InputImage extends JPanel implements ActionListener {
         int returnValue = jfc.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             System.out.println(jfc.getSelectedFile().getPath());
-            //this.setUrl_img((String)jfc.getSelectedFile().getPath());
-            this.url_img = (String)jfc.getSelectedFile().getPath();
-            System.out.println(url_img);
+            this.url_img = (String) jfc.getSelectedFile().getPath();
             File file = jfc.getSelectedFile();
             ImageIcon imgicon = new ImageIcon(String.valueOf(jfc.getSelectedFile()));
             BufferedImage b;
             try {
                 b = ImageIO.read(file);
-                int WIDTH = 350;
-                int HEIGHT = 250;
-                Image scaledImage = imgicon.getImage().getScaledInstance(WIDTH,HEIGHT ,Image.SCALE_SMOOTH);
-                imgicon = new ImageIcon(scaledImage);
-                System.out.println(imgicon.getIconWidth()+":"+imgicon.getIconHeight());
+                imgicon = new ImageIcon(scale(imgicon));
+                System.out.println(imgicon.getIconWidth() + ":" + imgicon.getIconHeight());
                 btnChooseImg.setText("");
                 btnChooseImg.setIcon(imgicon);
             } catch (IOException ex) {
@@ -96,5 +93,10 @@ public class InputImage extends JPanel implements ActionListener {
         }
     }
 
-
+    public Image scale(ImageIcon x) {
+        int WIDTH = 400;
+        int HEIGHT = 300;
+        Image scaledImage = x.getImage().getScaledInstance(WIDTH, HEIGHT, Image.SCALE_SMOOTH);
+        return scaledImage;
+    }
 }
