@@ -94,7 +94,6 @@ public class MenuTaskbar extends JPanel {
                 listitem[i] = new itemTaskbar(iconst[i], st[i]);
                 pnlCenter.add(listitem[i]);
             }
-            System.out.println(st[i]);
         }
         
         listitem[0].setBackground(HowerBackgroundColor);
