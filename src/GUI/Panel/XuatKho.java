@@ -25,10 +25,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 
-public class XuatKho extends JPanel implements ActionListener{
+public class XuatKho extends JPanel implements ActionListener {
 
-    
-     private final int n = 3;
+    private final int n = 3;
 
     String text[] = {"Mã phiếu xuất", "Mã nhân viên", "Tên Khách Hàng"};
 
@@ -36,10 +35,10 @@ public class XuatKho extends JPanel implements ActionListener{
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left, main, pnl[];
     JTable tableSanPham, tableXuatKho;
     JScrollPane scrollTableSanPham, scrTableNhapKho;
-    JLabel lbl1, lblImage, lbl[];
+    JLabel lbl1, lblImage, lbl[], lbl2, lblTongTien;
     JTextField txtSoLuong, txt[];
     DefaultTableModel tblModelSanPham, tblModelXuatKho;
-    JButton btnAddSoLuong, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnNhapHang;
+    JButton btnAddSoLuong, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnXuatHang, btnXuatKho;
     JComboBox<String> slfKhachHang;
 
     MainFunction mainFunction;
@@ -48,7 +47,7 @@ public class XuatKho extends JPanel implements ActionListener{
     public SanPhamBUS sanphamBUS = new SanPhamBUS();
     public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
     SanPhamDTO sp = new SanPhamDTO();
-    public ArrayList<ChiTietPhieuDTO> CTPhieu=new ArrayList<>();
+    public ArrayList<ChiTietPhieuDTO> CTPhieu = new ArrayList<>();
 
     Color BackgroundColor = new Color(245, 229, 240);
     Color buttonColor = new Color(1, 87, 155);
@@ -58,7 +57,6 @@ public class XuatKho extends JPanel implements ActionListener{
 //        loadDataTableSanPham(listsp);
 //
 //    }
-
     public String[] getKhachHang() {
         ArrayList<KhachHangDTO> khachhang = KhachHangDAO.getInstance().selectAll();
         String tenKH[] = new String[khachhang.size()];
@@ -108,7 +106,7 @@ public class XuatKho extends JPanel implements ActionListener{
         contentCenter.add(left, BorderLayout.WEST);
 
         left_top = new PanelBorderRadius();
-        left_top.setPreferredSize(new Dimension(0, 120));
+        left_top.setPreferredSize(new Dimension(0, 100));
         BoxLayout b1 = new BoxLayout(left_top, BoxLayout.Y_AXIS);
         left_top.setLayout(b1);
         left_top.setBorder(new EmptyBorder(5, 20, 20, 20));
@@ -161,7 +159,7 @@ public class XuatKho extends JPanel implements ActionListener{
         txtSoLuong = new JTextField("1");
         txtSoLuong.setPreferredSize(new Dimension(100, 30));
         left_bottom.add(txtSoLuong);
-        btnAddSoLuong = new ButtonCustom("Thêm","blue" ,14,"/icon/Plus_25px.png");
+        btnAddSoLuong = new ButtonCustom("Thêm", "blue", 14, "/icon/Plus_25px.png");
         left_bottom.add(btnAddSoLuong);
 
         // main là phần ở dưới để thống kê bảng biểu
@@ -202,7 +200,7 @@ public class XuatKho extends JPanel implements ActionListener{
 
         }
 
-        slfKhachHang = new JComboBox( getKhachHang());
+        slfKhachHang = new JComboBox(getKhachHang());
         slfKhachHang.setPreferredSize(new Dimension(350, 35));
         pnl[2].add(slfKhachHang);
 
@@ -244,18 +242,45 @@ public class XuatKho extends JPanel implements ActionListener{
 
         main_bottom = new PanelBorderRadius();
         main_bottom.setPreferredSize(new Dimension(0, 140));
-        main_bottom.setLayout(new FlowLayout(1, 30, 20));
+        main_bottom.setLayout(new FlowLayout(1,5, 5));
+        main_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
         main.add(main_bottom, BorderLayout.SOUTH);
 
-        lbl1 = new JLabel("Số lượng");
-        btnNhapExcel = new ButtonCustom("Nhập Excel", "green",14, "/icon/xls_25px.png");
-        main_bottom.add(btnNhapExcel);
+        JPanel main_Panel_bottom = new JPanel();
+        main_Panel_bottom.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14)));
+        main_Panel_bottom.setOpaque(false);
+        main_Panel_bottom.setPreferredSize(new Dimension(550, 70));
+        main_bottom.add(main_Panel_bottom);
+
+        btnNhapExcel = new ButtonCustom("Nhập Excel", "green", 14, "/icon/xls_25px.png");
+        main_Panel_bottom.add(btnNhapExcel);
 
         btnEditSoLuong = new ButtonCustom("Sửa số lượng", "yellow", 14, "/icon/edit_25px.png");
-        main_bottom.add(btnEditSoLuong);
+        main_Panel_bottom.add(btnEditSoLuong);
 
-        btnDeleteSanPham = new ButtonCustom("Xóa sản phẩm", "red", 14,"/icon/delete_25px.png");
-        main_bottom.add(btnDeleteSanPham);
+        btnDeleteSanPham = new ButtonCustom("Xóa sản phẩm", "red", 14, "/icon/delete_25px.png");
+        main_Panel_bottom.add(btnDeleteSanPham);
+
+        JPanel pnl1 = new JPanel();
+        pnl1.setOpaque(false);
+        pnl1.setLayout(new FlowLayout(1, 40, 0));
+        main_bottom.add(pnl1);
+
+        lbl2 = new JLabel("Tổng tiền");
+        lbl2.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
+        pnl1.add(lbl2);
+
+        lblTongTien = new JLabel("0 VNĐ");
+        lblTongTien.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
+        lblTongTien.setForeground(Color.RED);
+        pnl1.add(lblTongTien);
+
+        btnXuatKho = new JButton("XUẤT KHO");
+        btnXuatKho.setPreferredSize(new Dimension(180, 40));
+        btnXuatKho.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 18));
+        btnXuatKho.setBackground(new Color(0, 0, 0));
+        btnXuatKho.setForeground(Color.white);
+        pnl1.add(btnXuatKho);
 
     }
 
@@ -268,8 +293,7 @@ public class XuatKho extends JPanel implements ActionListener{
         }
     }
 
-
-public XuatKho() {
+    public XuatKho() {
         initComponent();
     }
 
