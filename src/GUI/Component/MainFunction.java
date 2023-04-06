@@ -10,7 +10,7 @@ public class MainFunction extends JToolBar {
 
     private void initComponent() {
         this.setBackground(Color.WHITE);
-        this.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14)));
+//        this.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14)));
         this.setRollover(true);
 
         btnAdd = new ButtonToolBar("THÊM", "/icon/Add_50px(1).png");
@@ -22,7 +22,7 @@ public class MainFunction extends JToolBar {
         btnEdit = new ButtonToolBar("SỬA", "/icon/Edit_50px.png");
         this.add(btnEdit);
 
-        btnDetail = new ButtonToolBar("CHI TIẾT", "/icon/View Details_50px.png");
+        btnDetail = new ButtonToolBar("CHI TIẾT", "/icon/info_50px.png");
         this.add(btnDetail);
 
 //        separator1 = new JSeparator(SwingConstants.VERTICAL);

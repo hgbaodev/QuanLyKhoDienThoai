@@ -13,12 +13,12 @@ public class IntegratedSearch extends JPanel {
     private void initComponent(String str[]) {
 
         this.setBackground(Color.WHITE);
-        this.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+//        this.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
         BoxLayout bx = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(bx);
 
         JPanel jpSearch = new JPanel(new BorderLayout(5,10));
-        jpSearch.setBorder(new EmptyBorder(15,15,15,15));
+        jpSearch.setBorder(new EmptyBorder(18,15,18,15));
         jpSearch.setBackground(Color.white);
         cbxChoose = new JComboBox();
         cbxChoose.setModel(new DefaultComboBoxModel<>(str));
