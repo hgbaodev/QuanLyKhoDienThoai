@@ -27,7 +27,9 @@ public class IntegratedSearch extends JPanel {
         jpSearch.add(cbxChoose,BorderLayout.WEST);
 
         txtSearchForm = new JTextField();
-        txtSearchForm.setFont(new java.awt.Font("Segoe UI", 0, 16));
+        txtSearchForm.setFont(new Font("Segoe UI", 0, 14));
+        txtSearchForm.putClientProperty("JTextField.placeholderText", "Tìm kiếm gì đi...");
+        txtSearchForm.putClientProperty("JTextField.showClearButton", true);
         jpSearch.add(txtSearchForm);
 
         btnReset = new JButton("Làm mới");

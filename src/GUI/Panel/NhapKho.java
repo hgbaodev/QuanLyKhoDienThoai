@@ -181,7 +181,7 @@ public class NhapKho extends JPanel {
 
             lbl[i] = new JLabel(text[i]);
             lbl[i].setPreferredSize(new Dimension(150, 30));
-            lbl[i].setFont(new Font("Segoe UI", Font.BOLD, 16));
+            lbl[i].putClientProperty( "FlatLaf.style", "font: bold $h3.regular.font");
             pnl[i].add(lbl[i]);
 
             if (i + 1 == txt.length) {

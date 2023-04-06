@@ -21,6 +21,7 @@ import java.awt.*;
 import javax.swing.*;
 import GUI.Component.MenuTaskbar;
 import GUI.Component.NavigationBar;
+import com.formdev.flatlaf.FlatLaf;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -183,11 +184,9 @@ public class Main extends javax.swing.JFrame {
         UIManager.setLookAndFeel(new FlatMacLightLaf());
         UIManager.put("Table.showVerticalLines", true);
         UIManager.put("Table.showHorizontalLines", true);
-        UIManager.put("ScrollBar.trackArc", 999);
+        UIManager.put("TextComponent.arc", 5);
         UIManager.put("ScrollBar.thumbArc", 999);
-        UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
-        UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
         UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
         Main main = new Main();
         main.setVisible(true);

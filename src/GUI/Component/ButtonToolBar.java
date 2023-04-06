@@ -20,5 +20,6 @@ public class ButtonToolBar extends JButton{
         this.setFocusable(false);
         this.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         this.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        this.putClientProperty("JButton.buttonType", "toolBarButton");
     }
 }

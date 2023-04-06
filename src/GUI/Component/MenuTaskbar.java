@@ -70,7 +70,6 @@ public class MenuTaskbar extends JPanel {
         pnlCenter.setLayout(new FlowLayout(0, 0, 0));
 
         scrollPane = new JScrollPane(pnlCenter, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
         this.add(scrollPane, BorderLayout.CENTER);
 
         pnlBottom = new JPanel();
@@ -102,15 +101,15 @@ public class MenuTaskbar extends JPanel {
         for (int i = 0; i < st.length; i++) {
             listitem[i].addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent evt) {
-                    pnlMenuTaskbarMouseClicked(evt);
+                public void mousePressed(MouseEvent evt) {
+                    pnlMenuTaskbarMousePress(evt);
                 }
             });
         }
     }
 
 
-    public void pnlMenuTaskbarMouseClicked(MouseEvent evt) {
+    public void pnlMenuTaskbarMousePress(MouseEvent evt) {
         for (int i = 0; i < st.length; i++) {
             if (evt.getSource() == listitem[i]) {
                 listitem[i].isSelected = true;
