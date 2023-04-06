@@ -7,6 +7,7 @@ import DAO.SanPhamDAO;
 import DTO.DonViTinhDTO;
 import DTO.KhuVucKhoDTO;
 import DTO.LoaiHangDTO;
+import DTO.SanPhamDTO;
 import GUI.Panel.SanPham;
 import GUI.Component.ButtonCustom;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -46,11 +47,11 @@ public class SanPhamDialog extends JDialog implements MouseListener {
     private HeaderTitle titlePage;
     private JPanel pnmain, pnbottom, pnCenter, pnmainright;
     private ButtonCustom btnThemSanPham, btnCapNhat, btnHuyBo;
-    InputForm tenSP, xuatxu, gianhap, giaxuat,soluong;
+    InputForm tenSP, xuatxu, gianhap, giaxuat,soluong,idSP;
     SelectForm donvitinh, loaihang, khuvuc;
     InputImage hinhanh;
-    JTextField idSP;
     GUI.Panel.SanPham jpSP;
+    SanPhamDTO spDTO;
     
     ArrayList<DonViTinhDTO> dvt = DonViTinhDAO.getInstance().selectAll();
     ArrayList<LoaiHangDTO> lh = LoaiHangDAO.getInstance().selectAll();
@@ -63,13 +64,28 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         }
         return tenDVT;
     }
-
+    public int setdonvitinh(int n){
+        int x=0;
+        for (int i = 0; i < dvt.size(); i++) {
+            if(n==dvt.get(i).getMaDVT())
+                x=i;
+        }
+        return x;
+    }
     public String[] getloaihang() {
         String tenLH[] = new String[lh.size()];
         for (int i = 0; i < lh.size(); i++) {
             tenLH[i] = lh.get(i).getTenloaihang();
         }
         return tenLH;
+    }
+    public int setloaihang(int n){
+        int x=0;
+        for (int i = 0; i < lh.size(); i++) {
+            if(n==lh.get(i).getMaloaihang())
+                x=i;
+        }
+        return x;
     }
     
     public String[] getkhuvuc(){
@@ -78,6 +94,15 @@ public class SanPhamDialog extends JDialog implements MouseListener {
             tenkv[i]=kvk.get(i).getTenkhuvuc();
         }
         return tenkv;
+    }
+    public int setkhuvuc(int n){
+        int x=0;
+        for (int i = 0; i < kvk.size(); i++) {
+            if(n==kvk.get(i).getMakhuvuckho()){
+                x=i;
+            }
+        }
+        return x;
     }
     
     public void initComponents(String title, String type) {
@@ -100,7 +125,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         pnmain.add(giaxuat);
         pnmain.add(loaihang);
         pnmain.add(khuvuc);
-        
+        pnmain.add(soluong);
         pnmainright.add(hinhanh);
         
         pnbottom = new JPanel(new FlowLayout());
@@ -117,16 +142,17 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         
         switch (type) {
             case "create" ->
+            {;
                 pnbottom.add(btnThemSanPham);
+            }
             case "update" ->
             {
-//                pnmain.add(soluong);
-//                soluong.setDisable();
+                soluong.setVisible(false);
                 pnbottom.add(btnCapNhat);
             }
             case "view" ->
             {
-                tenSP.setDisable();
+                pnmain.add(idSP);
                 pnmain.add(soluong);
                 soluong.setDisable();
             }
@@ -148,7 +174,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         super(owner, title, modal);
         this.jpSP = jpSP;
         tenSP = new InputForm("Tên sản phẩm");
-        idSP = new JTextField("");
+        idSP = new InputForm("Mã sản phẩm");
         xuatxu = new InputForm("Xuất xứ");
         gianhap = new InputForm("Giá nhập");
         giaxuat = new InputForm("Giá bán");
@@ -160,24 +186,37 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         initComponents(title, type);
     }
     
-    public SanPhamDialog(GUI.Panel.SanPham jpSP, JFrame owner, String title, boolean modal, String type, DTO.SanPhamDTO sp) {
+    public SanPhamDialog(GUI.Panel.SanPham jpSP, JFrame owner, String title, boolean modal, String type, SanPhamDTO sp) {
         super(owner, title, modal);
+        idSP = new InputForm("Mã sản phẩm");
         tenSP = new InputForm("Tên sản phẩm");
-//        idSP = new JTextField("");
         xuatxu = new InputForm("Xuất xứ");
         gianhap = new InputForm("Giá nhập");
         giaxuat = new InputForm("Giá bán");
+        soluong = new InputForm("Số lượng");
         setNoidung(tenSP,sp.getTensp());
         setNoidung(xuatxu,sp.getXuatxu());
         setNoidung(gianhap, String.valueOf(sp.getGianhap()));
         setNoidung(giaxuat, String.valueOf(sp.getGiaxuat()));
         setIdSP(Integer.toString(sp.getMasp()));
-
+        setNoidung(soluong,String.valueOf(sp.getSoluong()));
         donvitinh = new SelectForm("Đơn vị tính", getdonvitinh());
+        donvitinh.setSelectedIndex(setdonvitinh(sp.getMaDVT()));
+        
+        
         loaihang = new SelectForm("Loại hàng", getloaihang());
+        loaihang.setSelectedIndex(setloaihang(sp.getMaloaihang()));
+        
+        
         khuvuc = new SelectForm("Khu vực kho", getkhuvuc());
+        khuvuc.setSelectedIndex(setkhuvuc(sp.getMakhuvuc()));
+        
+        
+        
         hinhanh = new InputImage("Hình minh họa");
+        hinhanh.setUrl_img(sp.getHinhanh());
         this.jpSP = jpSP;
+        this.spDTO=sp;
         initComponents(title, type);
     }
     
@@ -211,7 +250,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
             int id = SanPhamDAO.getInstance().getAutoIncrement();
             JOptionPane.showMessageDialog(rootPane, tensp+"\n"+xuatxu+"\n"+gianhap+"\n"+giaxuat+"\n"+hinhanh+"\n"+madonvi+"\n"
                     + maloaihang+"\n"+makhuvuc);
-            DTO.SanPhamDTO sp = new DTO.SanPhamDTO(id, tensp, xuatxu, gianhap, giaxuat, hinhanh, madonvi, maloaihang, makhuvuc,sluong);
+            SanPhamDTO sp = new SanPhamDTO(id, tensp, xuatxu, gianhap, giaxuat, hinhanh, madonvi, maloaihang, makhuvuc,sluong);
             jpSP.spBUS.add(sp);
             jpSP.loadDataTalbe(jpSP.listSP);
             dispose();
@@ -223,11 +262,12 @@ public class SanPhamDialog extends JDialog implements MouseListener {
             double gianhap = Double.valueOf(this.gianhap.getText());
             double giaxuat = Double.valueOf(this.giaxuat.getText());
             String hinhanh = this.hinhanh.getUrl_img();
+            System.out.println(hinhanh);
             int madonvi = dvt.get(donvitinh.getSelectedIndex()).getMaDVT();
             int maloaihang = lh.get(loaihang.getSelectedIndex()).getMaloaihang();
             int makhuvuc = kvk.get(khuvuc.getSelectedIndex()).getMakhuvuckho();
             int sluong = Integer.valueOf(this.soluong.getText());
-            int id = SanPhamDAO.getInstance().getAutoIncrement();
+            int id= spDTO.getMasp();
             DTO.SanPhamDTO sp = new DTO.SanPhamDTO(id, tensp, xuatxu, gianhap, giaxuat, hinhanh, madonvi, maloaihang, makhuvuc,sluong);
             jpSP.spBUS.update(sp);
             jpSP.loadDataTalbe(jpSP.listSP);
