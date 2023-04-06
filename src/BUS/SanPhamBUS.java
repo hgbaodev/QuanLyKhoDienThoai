@@ -22,11 +22,11 @@ public class SanPhamBUS  {
         return this.listSP.get(index);
     }
      
-     public int getIndexByMaLH(int maloaihang){
+     public int getIndexByMaSP(int masanpham){
          int i = 0;
         int vitri = -1;
         while(i < this.listSP.size() && vitri == -1) {
-            if(listSP.get(i).getMaloaihang()== maloaihang) {
+            if(listSP.get(i).getMasp()== masanpham) {
                 vitri = i;
             } else i++;
         }
@@ -38,15 +38,24 @@ public class SanPhamBUS  {
         return check;
     }
     public Boolean delete(SanPhamDTO lh) {
-        boolean check = spDAO.delete(Integer.toString(lh.getMaloaihang())) != 0;
+        boolean check = spDAO.delete(Integer.toString(lh.getMasp())) != 0;
         if(check) this.listSP.remove(lh);
         return check;
     }
     
     public Boolean update(SanPhamDTO lh) {
         boolean check = spDAO.update(lh) != 0;
-        if(check) this.listSP.set(getIndexByMaLH(lh.getMaloaihang()), lh);
+        if(check) this.listSP.set(getIndexByMaSP(lh.getMasp()), lh);
         return check;
+    }
+    public ArrayList<SanPhamDTO> getByMakhuvuc(int makv){
+        ArrayList<SanPhamDTO> result = new ArrayList<>();
+        for(SanPhamDTO i: this.listSP){
+            if(i.getMakhuvuc()==makv){
+                result.add(i);
+            }
+        }
+        return result;
     }
     public ArrayList<SanPhamDTO> search(String text) {
         text = text.toLowerCase();

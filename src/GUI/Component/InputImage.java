@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.Action;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -50,17 +51,16 @@ public class InputImage extends JPanel implements ActionListener {
         this.add(btnChooseImg);
     }
 
-    public static String getUrl_img() {
+    public  String getUrl_img() {
         return url_img;
     }
-
-    public static void setUrl_img(String url_img) {
-        InputImage.url_img = url_img;
+    public  void setUrl_img(String url_img) {
+        btnChooseImg.setIcon(new ImageIcon(url_img));
+        btnChooseImg.setText("");
     }
     public void setUnable(){
         this.btnChooseImg.setEnabled(false);
     }
-   
 
  
     
@@ -80,8 +80,8 @@ public class InputImage extends JPanel implements ActionListener {
             BufferedImage b;
             try {
                 b = ImageIO.read(file);
-                int WIDTH = 270;
-                int HEIGHT = 220;
+                int WIDTH = 350;
+                int HEIGHT = 250;
                 Image scaledImage = imgicon.getImage().getScaledInstance(WIDTH,HEIGHT ,Image.SCALE_SMOOTH);
                 imgicon = new ImageIcon(scaledImage);
                 System.out.println(imgicon.getIconWidth()+":"+imgicon.getIconHeight());

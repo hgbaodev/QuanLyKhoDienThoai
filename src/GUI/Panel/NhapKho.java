@@ -100,7 +100,7 @@ public class NhapKho extends JPanel {
         contentCenter.add(left, BorderLayout.WEST);
 
         left_top = new PanelBorderRadius();
-        left_top.setPreferredSize(new Dimension(0, 120));
+        left_top.setPreferredSize(new Dimension(0, 100));
         BoxLayout b1 = new BoxLayout(left_top, BoxLayout.Y_AXIS);
         left_top.setLayout(b1);
         left_top.setBorder(new EmptyBorder(5, 20, 20, 20));
@@ -150,7 +150,7 @@ public class NhapKho extends JPanel {
 
         lbl1 = new JLabel("Số lượng");
         left_bottom.add(lbl1);
-        txtSoLuong = new JTextField();
+        txtSoLuong = new JTextField("1");
         txtSoLuong.setPreferredSize(new Dimension(70, 30));
         left_bottom.add(txtSoLuong);
         btnAddSoLuong = new ButtonCustom("Thêm", "blue", 14, "/icon/Plus_25px.png");
@@ -236,19 +236,20 @@ public class NhapKho extends JPanel {
 
         main_bottom = new PanelBorderRadius();
         main_bottom.setPreferredSize(new Dimension(0, 140));
-        main_bottom.setLayout(new FlowLayout(1,10, 10));
+        main_bottom.setLayout(new FlowLayout(1,5, 5));
         main_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
         main.add(main_bottom, BorderLayout.SOUTH);
 
         JPanel main_Panel_bottom = new JPanel();
         main_Panel_bottom.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14)));
         main_Panel_bottom.setOpaque(false);
-        main_Panel_bottom.setPreferredSize(new Dimension(400,50));
+        main_Panel_bottom.setPreferredSize(new Dimension(550,70));
         main_bottom.add(main_Panel_bottom);
+        
 //        main_Panel_bottom.setBackground(Color.WHITE);
 //        main_Panel_bottom.setLayout(new FlowLayout(1, 15, 20));
 //        main_Panel_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
-        lbl1 = new JLabel("Số lượng");
+
         btnNhapExcel = new ButtonCustom("Nhập Excel", "green", 14, "/icon/xls_25px.png");
         main_Panel_bottom.add(btnNhapExcel);
 
@@ -260,7 +261,7 @@ public class NhapKho extends JPanel {
 
         pnl1 = new JPanel();
         pnl1.setOpaque(false);
-        pnl1.setLayout(new FlowLayout(1, 50, 0));
+        pnl1.setLayout(new FlowLayout(1, 40, 0));
         main_bottom.add(pnl1);
 
         lbl2 = new JLabel("Tổng tiền");
@@ -273,14 +274,12 @@ public class NhapKho extends JPanel {
         pnl1.add(lblTongTien);
 
         btnNhapKho = new JButton("NHẬP KHO");
-        btnNhapKho.setPreferredSize(new Dimension(150, 40));
+        btnNhapKho.setPreferredSize(new Dimension(180, 40));
         btnNhapKho.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 18));
-        btnNhapKho.setBackground(new Color(0, 200, 83));
+        btnNhapKho.setBackground(new Color(0, 0, 0));
         btnNhapKho.setForeground(Color.white);
         pnl1.add(btnNhapKho);
 
-        main_Panel_bottom.add(btnDeleteSanPham);
-        main_bottom.add(main_Panel_bottom, BorderLayout.CENTER);
     }
 
     public void loadDataTableSanPham(ArrayList<DTO.SanPhamDTO> result) {
