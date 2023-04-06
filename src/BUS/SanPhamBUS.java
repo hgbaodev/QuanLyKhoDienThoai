@@ -21,6 +21,7 @@ public class SanPhamBUS  {
     public SanPhamDTO getByIndex(int index){
         return this.listSP.get(index);
     }
+     
      public int getIndexByMaLH(int maloaihang){
          int i = 0;
         int vitri = -1;

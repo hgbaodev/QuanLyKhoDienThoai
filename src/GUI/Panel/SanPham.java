@@ -252,7 +252,7 @@ public class SanPham extends JPanel implements ActionListener {
         } else if (e.getSource() == mainFunction.btnEdit) {
             int index = tableSanPham.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần sửa");
             } else {
                 SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chỉnh sửa sản phẩm", true, "update", listSP.get(index));
             }

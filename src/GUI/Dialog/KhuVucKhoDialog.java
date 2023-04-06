@@ -4,8 +4,10 @@
  */
 package GUI.Dialog;
 
+import BUS.SanPhamBUS;
 import DAO.KhuVucKhoDAO;
 import DTO.KhuVucKhoDTO;
+import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
@@ -17,12 +19,21 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
-public class KhuVucKhoDialog extends JDialog implements ActionListener{
+public class KhuVucKhoDialog extends JDialog implements ActionListener {
 
     private KhuVucKho jpkvk;
     private HeaderTitle titlePage;
@@ -31,19 +42,20 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener{
     private InputForm tenkhuvuc;
     private InputForm ghichu;
     private KhuVucKhoDTO kvk;
-    
+
     public KhuVucKhoDialog(KhuVucKho jpkvk, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
         this.jpkvk = jpkvk;
         initComponents(title, type);
     }
+
     public KhuVucKhoDialog(KhuVucKho jpkvk, JFrame owner, String title, boolean modal, String type, KhuVucKhoDTO kvk) {
         super(owner, title, modal);
         this.jpkvk = jpkvk;
         this.kvk = kvk;
         initComponents(title, type);
     }
-    
+
     public void initComponents(String title, String type) {
         this.setSize(new Dimension(500, 360));
         this.setLayout(new BorderLayout(0, 0));
@@ -76,9 +88,48 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener{
                 pnbottom.add(btnCapNhat);
                 initInfo();
                 break;
-//            case "view":
-//                initInfo();
-//                break;
+            case "view":
+                this.setSize(new Dimension(500, 400));
+                BoxLayout boxly = new BoxLayout(pnmain, BoxLayout.Y_AXIS);
+                pnmain.setLayout(boxly);
+                pnmain.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+                JScrollPane scrollTableSanPham = new JScrollPane();
+                JTable tableSanPham = new JTable();
+                tableSanPham.setSize(new Dimension(500,300));
+                SanPhamBUS spBUS = new SanPhamBUS();
+                DefaultTableModel tblModel = new DefaultTableModel();
+                ArrayList<SanPhamDTO> spbus = spBUS.getAll();
+                tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
+                        new Object[][]{},
+                        new String[]{}
+                ));
+                tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
+                tblModel = new DefaultTableModel();
+                String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Tên đơn vị tính","Tên loại hàng","Tên khu vực"};
+                tblModel.setColumnIdentifiers(header);
+                tableSanPham.setModel(tblModel);
+                scrollTableSanPham.setViewportView(tableSanPham);
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+                TableColumnModel columnModel = tableSanPham.getColumnModel();
+                columnModel.getColumn(0).setCellRenderer(centerRenderer);
+                columnModel.getColumn(1).setCellRenderer(centerRenderer);
+                columnModel.getColumn(2).setCellRenderer(centerRenderer);
+                tblModel.setRowCount(0);
+                for (DTO.SanPhamDTO sp : spbus) {
+                    tblModel.addRow(new Object[]{
+                        sp.getMasp(), sp.getTensp(), sp.getMaDVT(), sp.getMaloaihang(), sp.getMakhuvuc()
+                    });
+                }
+                scrollTableSanPham.add(tableSanPham);
+                scrollTableSanPham.setBackground(Color.red);
+                pnmain.add(scrollTableSanPham);
+                btnCapNhat.setVisible(false);
+                btnThem.setVisible(false);
+                tenkhuvuc.setVisible(false);
+                ghichu.setVisible(false);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -88,12 +139,14 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener{
         this.add(pnbottom, BorderLayout.SOUTH);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+
     }
 
     public void initInfo() {
         tenkhuvuc.setText(kvk.getTenkhuvuc());
         ghichu.setText(kvk.getGhichu());
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnThem) {
@@ -113,5 +166,5 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener{
             dispose();
         }
     }
-    
+
 }
