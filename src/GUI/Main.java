@@ -22,6 +22,7 @@ import javax.swing.*;
 import GUI.Component.MenuTaskbar;
 import GUI.Component.NavigationBar;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Main extends javax.swing.JFrame {
 
@@ -70,99 +71,97 @@ public class Main extends javax.swing.JFrame {
         trangChu = new TrangChu();
         MainContent.add(trangChu).setVisible(true);
 
-        menuTaskbar.pnl[0].addMouseListener(new MouseAdapter() {
+        menuTaskbar.listitem[0].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 trangChu = new TrangChu();
                 setPanel(trangChu);
             }
         });
 
-        menuTaskbar.pnl[1].addMouseListener(new MouseAdapter() {
+        menuTaskbar.listitem[1].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 sanPham = new SanPham();
                 setPanel(sanPham);
 
             }
         });
-        menuTaskbar.pnl[2].addMouseListener(new MouseAdapter() {
+        menuTaskbar.listitem[2].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 donViTinh = new DonViTinh();
                 setPanel(donViTinh);
             }
         });
-        menuTaskbar.pnl[3].addMouseListener(new MouseAdapter() {
+        menuTaskbar.listitem[3].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 loaiHang = new LoaiHang();
                 setPanel(loaiHang);
             }
         });
-        menuTaskbar.pnl[4].addMouseListener(new MouseAdapter() {
+        menuTaskbar.listitem[4].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 quanLyKho = new QuanLyKho();
                 setPanel(quanLyKho);
             }
         });
-        menuTaskbar.pnl[5].addMouseListener(new MouseAdapter() {
+        menuTaskbar.listitem[5].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 chuyenKho = new ChuyenKho();
                 setPanel(chuyenKho);
             }
         });
 
-        menuTaskbar.pnl[6].addMouseListener(new MouseAdapter() {
+        menuTaskbar.listitem[6].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 phieuNhap = new PhieuNhap(Main.this);
                 setPanel(phieuNhap);
             }
         });
-        menuTaskbar.pnl[7].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.listitem[7].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 phieuXuat = new PhieuXuat(Main.this);
                 setPanel(phieuXuat);
             }
         });
-        menuTaskbar.pnl[8].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.listitem[8].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 khachHang = new KhachHang();
                 setPanel(khachHang);
-
             }
         });
-        menuTaskbar.pnl[9].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.listitem[9].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 nhacungcap = new NhaCungCap();
                 setPanel(nhacungcap);
             }
         });
 
-        menuTaskbar.pnl[10].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.listitem[10].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-
+            public void mousePressed(MouseEvent evt) {
                 nhanVien = new NhanVien();
                 setPanel(nhanVien);
             }
         });
-        menuTaskbar.pnl[11].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.listitem[11].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 taiKhoan = new TaiKhoan();
                 setPanel(taiKhoan);
             }
         });
-        menuTaskbar.pnl[12].addMouseListener(new java.awt.event.MouseAdapter() {
+        menuTaskbar.listitem[12].addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 phanQuyen = new PhanQuyen();
                 setPanel(phanQuyen);
             }
@@ -184,6 +183,8 @@ public class Main extends javax.swing.JFrame {
         UIManager.setLookAndFeel(new FlatMacLightLaf());
         UIManager.put("Table.showVerticalLines", true);
         UIManager.put("Table.showHorizontalLines", true);
+        UIManager.put("ScrollBar.trackArc", 999);
+        UIManager.put("ScrollBar.thumbArc", 999);
         UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
         UIManager.put("ScrollBar.track", new Color(0xe0e0e0));

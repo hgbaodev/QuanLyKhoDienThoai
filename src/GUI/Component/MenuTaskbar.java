@@ -1,18 +1,27 @@
 package GUI.Component;
 
-import com.formdev.flatlaf.FlatLightLaf;
+import DTO.DanhMucChucNangDTO;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javax.swing.*;
 //import GUI.Component.itemTaskbar;
 
 public class MenuTaskbar extends JPanel {
-
-    private final int n = 20;
     String st[] = {"Trang chủ", "Sản phẩm", "Đơn vị tính", "Loại hàng", "Khu vực kho", "Kiểm kê", "Phiếu nhập", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
     String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/length_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/estimates_30px.png", "/icon/In Transit_30px.png", "/icon/supply_chain_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
-
-    public JPanel pnl[], pnlDangxuat;
-    JLabel lbl[], lblIcon[], info;
+    
+    String[][] itemMenu = {
+        {"Trang chủ","home_30px","trangchu"},
+        {"Sản phẩm","product_30px","sanpham"},
+        {"Đơn vị tính", "length_30px", "donvitinh"}
+    };
+    
+    ArrayList<DanhMucChucNangDTO> dmcn;
+    public itemTaskbar[] listitem;
+ 
+    JLabel info;
     JScrollPane scrollPane;
 
     //tasbarMenu chia thành 3 phần chính là pnlCenter, pnlTop, pnlBottom
@@ -28,16 +37,10 @@ public class MenuTaskbar extends JPanel {
     }
 
     private void initComponent() {
-        FlatLightLaf.setup();
-        System.setProperty("sun.java2d.uiScale", "1.0");
-
+        listitem = new itemTaskbar[st.length];
         this.setOpaque(true);
         this.setBackground(DefaultColor);
         this.setLayout(new BorderLayout(0, 0));
-
-        pnl = new JPanel[n];
-        lbl = new JLabel[n];
-        lblIcon = new JLabel[n];
 
         // bar1, bar là các đường kẻ mỏng giữa taskbarMenu và MainContent
         pnlTop = new JPanel();
@@ -84,87 +87,41 @@ public class MenuTaskbar extends JPanel {
 
         // Dùng vòng lặp đẻ hiển thị, nếu đến "Đăng xuất" thì sẽ được add vào pnlBottom để nó xuống dưới cuối
         for (int i = 0; i < st.length; i++) {
-            pnl[i] = new JPanel();
-            lblIcon[i] = new JLabel();
-            lbl[i] = new JLabel(st[i]);
-
             if (i + 1 == st.length) {
-                itemTaskbar(pnl[i], lblIcon[i], lbl[i], iconst[i], st[i], pnlBottom);
+                listitem[i] = new itemTaskbar(iconst[i], st[i]);
+                pnlBottom.add(listitem[i]);
             } else {
-                itemTaskbar(pnl[i], lblIcon[i], lbl[i], iconst[i], st[i], pnlCenter);
+                listitem[i] = new itemTaskbar(iconst[i], st[i]);
+                pnlCenter.add(listitem[i]);
             }
-
+            System.out.println(st[i]);
         }
-        pnl[0].setBackground(HowerBackgroundColor);
-        lbl[0].setForeground(HowerFontColor);
+        
+        listitem[0].setBackground(HowerBackgroundColor);
+        listitem[0].setForeground(HowerFontColor);
 
         for (int i = 0; i < st.length; i++) {
-            pnl[i].addMouseListener(new java.awt.event.MouseAdapter() {
+            listitem[i].addMouseListener(new MouseAdapter() {
                 @Override
-                public void mousePressed(java.awt.event.MouseEvent evt) {
+                public void mouseClicked(MouseEvent evt) {
                     pnlMenuTaskbarMouseClicked(evt);
-
                 }
-
-                @Override
-                public void mouseClicked(java.awt.event.MouseEvent evt) {
-//                    pnlMenuTaskbarMouseEntered(evt);
-                }
-
             });
         }
-
     }
 
-    public void pnlMenuTaskbarMouseEntered(java.awt.event.MouseEvent evt) {
+
+    public void pnlMenuTaskbarMouseClicked(MouseEvent evt) {
         for (int i = 0; i < st.length; i++) {
-            if (evt.getSource() == pnl[i]) {
-                pnl[i].setBackground(HowerBackgroundColor);
-                lbl[i].setForeground(HowerFontColor);
-//                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $semibold.font");
+            if (evt.getSource() == listitem[i]) {
+                listitem[i].isSelected = true;
+                listitem[i].setBackground(HowerBackgroundColor);
+                listitem[i].setForeground(HowerFontColor);
             } else {
-                pnl[i].setBackground(DefaultColor);
-                lbl[i].setForeground(FontColor);
-//                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $medium.font");
+                listitem[i].isSelected = false;
+                listitem[i].setBackground(DefaultColor);
+                listitem[i].setForeground(FontColor);
             }
         }
     }
-
-    public void pnlMenuTaskbarMouseClicked(java.awt.event.MouseEvent evt) {
-        for (int i = 0; i < st.length; i++) {
-            if (evt.getSource() == pnl[i]) {
-                pnl[i].setBackground(HowerBackgroundColor);
-                lbl[i].setForeground(HowerFontColor);
-//                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $semibold.font");
-            } else {
-                pnl[i].setBackground(DefaultColor);
-                lbl[i].setForeground(FontColor);
-//                lbl[i].putClientProperty("FlatLaf.style", "font: 150% $medium.font");
-            }
-
-        }
-    }
-
-    private void itemTaskbar(JPanel pnlItem, JLabel lblIcon, JLabel pnlContent, String linkIcon, String content, JPanel pnlMain) {
-//        pnlItem = new JPanel();
-        pnlItem.setLayout(new FlowLayout(1, 10, 7));
-        pnlItem.setPreferredSize(new Dimension(250, 45));
-        pnlItem.setBackground(DefaultColor);
-
-//        lblIcon = new JLabel();
-        lblIcon.setPreferredSize(new Dimension(30, 30));
-        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource(linkIcon)));
-
-        pnlItem.add(lblIcon);
-
-//        pnlContent = new JLabel(content);
-        pnlContent.setPreferredSize(new Dimension(170, 30));
-        pnlContent.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
-        pnlContent.setForeground(FontColor);
-
-        pnlItem.add(pnlContent);
-
-        pnlMain.add(pnlItem);
-    }
-
 }
