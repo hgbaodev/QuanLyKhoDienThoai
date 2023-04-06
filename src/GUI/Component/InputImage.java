@@ -36,7 +36,7 @@ public class InputImage extends JPanel implements ActionListener {
 
     private JButton btnChooseImg;
     private JLabel img;
-    private static String url_img;
+    private  String url_img;
 
     public InputImage() {
 
@@ -74,7 +74,9 @@ public class InputImage extends JPanel implements ActionListener {
         int returnValue = jfc.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             System.out.println(jfc.getSelectedFile().getPath());
-            this.setUrl_img((String)jfc.getSelectedFile().getPath());
+            //this.setUrl_img((String)jfc.getSelectedFile().getPath());
+            this.url_img = (String)jfc.getSelectedFile().getPath();
+            System.out.println(url_img);
             File file = jfc.getSelectedFile();
             ImageIcon imgicon = new ImageIcon(String.valueOf(jfc.getSelectedFile()));
             BufferedImage b;
@@ -93,5 +95,6 @@ public class InputImage extends JPanel implements ActionListener {
 
         }
     }
+
 
 }
