@@ -153,7 +153,7 @@ public class DonViTinh extends JPanel implements ActionListener {
             });
         }
     }
-
+    
     public void openFile(String file) {
         try {
             File path = new File(file);
@@ -232,8 +232,10 @@ public class DonViTinh extends JPanel implements ActionListener {
         for (DTO.DonViTinhDTO donViTinh : listExcel) {
             DonViTinhDAO.getInstance().insert(donViTinh);
         }
-        loadDataTalbe(listdvt);
+//        loadDataTalbe(listdvt);
     }
+
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -15,11 +15,12 @@ public class SanPhamDTO {
     private String tensp;
     private String xuatxu;
     private double gianhap;
-    private double giaban;
+    private double giaxuat;
     private String hinhanh;
     private int maDVT;
     private int maloaihang;
     private int makhuvuc;
+    private int soluong;
     
 
     public SanPhamDTO() {
@@ -57,12 +58,12 @@ public class SanPhamDTO {
         this.gianhap = gianhap;
     }
 
-    public double getGiaban() {
-        return giaban;
+    public double getGiaxuat() {
+        return giaxuat;
     }
 
-    public void setGiaban(double giaban) {
-        this.giaban = giaban;
+    public void setGiaxuat(double giaxuat) {
+        this.giaxuat = giaxuat;
     }
 
     public String getHinhanh() {
@@ -97,30 +98,40 @@ public class SanPhamDTO {
         this.makhuvuc = makhuvuc;
     }
 
-    public SanPhamDTO(int masp, String tensp, String xuatxu, double gianhap, double giaban, String hinhanh, int maDVT, int maloaihang, int makhuvuc) {
+    public int getSoluong() {
+        return soluong;
+    }
+
+    public void setSoluong(int soluong) {
+        this.soluong = soluong;
+    }
+
+    public SanPhamDTO(int masp, String tensp, String xuatxu, double gianhap, double giaxuat, String hinhanh, int maDVT, int maloaihang, int makhuvuc,int soluong) {
         this.masp = masp;
         this.tensp = tensp;
         this.xuatxu = xuatxu;
         this.gianhap = gianhap;
-        this.giaban = giaban;
+        this.giaxuat = giaxuat;
         this.hinhanh = hinhanh;
         this.maDVT = maDVT;
         this.maloaihang = maloaihang;
         this.makhuvuc = makhuvuc;
+        this.soluong = soluong;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 47 * hash + this.masp;
-        hash = 47 * hash + Objects.hashCode(this.tensp);
-        hash = 47 * hash + Objects.hashCode(this.xuatxu);
-        hash = 47 * hash + (int) (Double.doubleToLongBits(this.gianhap) ^ (Double.doubleToLongBits(this.gianhap) >>> 32));
-        hash = 47 * hash + (int) (Double.doubleToLongBits(this.giaban) ^ (Double.doubleToLongBits(this.giaban) >>> 32));
-        hash = 47 * hash + Objects.hashCode(this.hinhanh);
-        hash = 47 * hash + this.maDVT;
-        hash = 47 * hash + this.maloaihang;
-        hash = 47 * hash + this.makhuvuc;
+        hash = 17 * hash + this.masp;
+        hash = 17 * hash + Objects.hashCode(this.tensp);
+        hash = 17 * hash + Objects.hashCode(this.xuatxu);
+        hash = 17 * hash + (int) (Double.doubleToLongBits(this.gianhap) ^ (Double.doubleToLongBits(this.gianhap) >>> 32));
+        hash = 17 * hash + (int) (Double.doubleToLongBits(this.giaxuat) ^ (Double.doubleToLongBits(this.giaxuat) >>> 32));
+        hash = 17 * hash + Objects.hashCode(this.hinhanh);
+        hash = 17 * hash + this.maDVT;
+        hash = 17 * hash + this.maloaihang;
+        hash = 17 * hash + this.makhuvuc;
+        hash = 17 * hash + this.soluong;
         return hash;
     }
 
@@ -141,9 +152,10 @@ public class SanPhamDTO {
 
     @Override
     public String toString() {
-        return "SanPham{" + "masp=" + masp + ", tensp=" + tensp + ", xuatxu=" + xuatxu + ", gianhap=" + gianhap + ", giaban=" + giaban + ", hinhanh=" + hinhanh + ", maDVT=" + maDVT + ", maloaihang=" + maloaihang + ", makhuvuc=" + makhuvuc + '}';
+        return "SanPhamDTO{" + "masp=" + masp + ", tensp=" + tensp + ", xuatxu=" + xuatxu + ", gianhap=" + gianhap + ", giaxuat=" + giaxuat + ", hinhanh=" + hinhanh + ", maDVT=" + maDVT + ", maloaihang=" + maloaihang + ", makhuvuc=" + makhuvuc + ", soluong=" + soluong + '}';
     }
 
+    
 }
 
     

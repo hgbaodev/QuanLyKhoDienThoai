@@ -1,6 +1,8 @@
 package GUI.Panel;
 
+import BUS.KhuVucKhoBUS;
 import BUS.NhaCungCapBUS;
+import DTO.KhuVucKhoDTO;
 import DTO.NhaCungCapDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -8,6 +10,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import GUI.Dialog.KhuVucKhoDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -19,40 +22,41 @@ import java.awt.event.KeyEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-public class QuanLyKho extends JPanel implements ActionListener, ItemListener {
+public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
 
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
-    JTable tableKhoHang;
+    JTable tableKhuvuc;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     Color BackgroundColor = new Color(240, 247, 250);
     DefaultTableModel tblModel;
-    NhaCungCapBUS nccBUS = new NhaCungCapBUS();
-    ArrayList<NhaCungCapDTO> listncc = nccBUS.getAll();
+    public KhuVucKhoBUS kvkBUS = new KhuVucKhoBUS();
+    public ArrayList<KhuVucKhoDTO> listKVK = kvkBUS.getAll();
 
     private void initComponent() {
-        tableKhoHang = new JTable();
+        tableKhuvuc = new JTable();
         scrollTableSanPham = new JScrollPane();
-        tableKhoHang.setModel(new javax.swing.table.DefaultTableModel(
+        tableKhuvuc.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{}
         ));
-        tableKhoHang.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        tableKhuvuc.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã kho", "Tên kho hàng", "Địa chỉ", "Mô tả"};
+        String[] header = new String[]{"Mã kho", "Tên kho hàng", "Ghi chú"};
         tblModel.setColumnIdentifiers(header);
-        tableKhoHang.setModel(tblModel);
-        scrollTableSanPham.setViewportView(tableKhoHang);
+        tableKhuvuc.setModel(tblModel);
+        scrollTableSanPham.setViewportView(tableKhuvuc);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        TableColumnModel columnModel = tableKhoHang.getColumnModel();
+        TableColumnModel columnModel = tableKhuvuc.getColumnModel();
         columnModel.getColumn(0).setCellRenderer(centerRenderer);
         columnModel.getColumn(0).setPreferredWidth(2);
         columnModel.getColumn(2).setPreferredWidth(300);
-        columnModel.getColumn(3).setCellRenderer(centerRenderer);
+        columnModel.getColumn(1).setCellRenderer(centerRenderer);
+        columnModel.getColumn(2).setCellRenderer(centerRenderer);
 
 
         this.setBackground(BackgroundColor);
@@ -103,14 +107,14 @@ public class QuanLyKho extends JPanel implements ActionListener, ItemListener {
         mainFunction.btnNhapExcel.addActionListener(this);
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Mã khu vực kho", "Tên khu vực kho"});
         search.cbxChoose.addItemListener(this);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 String type = (String) search.cbxChoose.getSelectedItem();
                 String txt = search.txtSearchForm.getText();
-                listncc = nccBUS.search(txt, type);
-                loadDataTalbe(listncc);
+                //listKVK = kvkBUS.search(txt, type);
+                loadDataTalbe(listKVK);
             }
         });
 
@@ -126,17 +130,17 @@ public class QuanLyKho extends JPanel implements ActionListener, ItemListener {
         main.add(scrollTableSanPham);
     }
 
-    public QuanLyKho() {
+    public KhuVucKho() {
         initComponent();
-        tableKhoHang.setDefaultEditor(Object.class, null);
-        loadDataTalbe(listncc);
+        tableKhuvuc.setDefaultEditor(Object.class, null);
+        loadDataTalbe(listKVK);
     }
 
-    public void loadDataTalbe(ArrayList<NhaCungCapDTO> result) {
+    public void loadDataTalbe(ArrayList<KhuVucKhoDTO> result) {
         tblModel.setRowCount(0);
-        for (NhaCungCapDTO ncc : result) {
+        for (KhuVucKhoDTO kvk : result) {
             tblModel.addRow(new Object[]{
-                ncc.getMancc(), ncc.getTenncc(), ncc.getDiachi(), ncc.getEmail(), ncc.getSdt()
+                kvk.getMakhuvuckho(),kvk.getTenkhuvuc(),kvk.getGhichu()
             });
         }
     }
@@ -144,38 +148,38 @@ public class QuanLyKho extends JPanel implements ActionListener, ItemListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-//            NhaCungCapDialog dvtDialog = new NhaCungCapDialog(this, owner, "Thêm nhà cung cấp", true, "create");
+            KhuVucKhoDialog kvkDialog = new KhuVucKhoDialog(this, owner, "Thêm khu vực kho", true, "create");
         } else if (e.getSource() == mainFunction.btnEdit) {
-            int index = tableKhoHang.getSelectedRow();
+            int index = tableKhuvuc.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần sửa");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn khu vực cần sửa");
             } else {
-//                NhaCungCapDialog nccDialog = new NhaCungCapDialog(this, owner, "Chỉnh sửa nhà cung cấp", true, "update", listncc.get(index));
+                KhuVucKhoDialog kvkDialog = new KhuVucKhoDialog(this, owner, "Chỉnh sửa khu vực kho", true, "update", listKVK.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
-            int index = tableKhoHang.getSelectedRow();
+            int index = tableKhuvuc.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần xóa");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn khu vực cần xóa");
             } else {
                 int input = JOptionPane.showConfirmDialog(null,
-                        "Bạn có chắc chắn muốn xóa nhà cung cấp!", "Xóa nhà cung cấp",
+                        "Bạn có chắc chắn muốn xóa khu vực!", "Xóa khu vực kho",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    nccBUS.delete(listncc.get(index), index);
-                    loadDataTalbe(listncc);
+                    kvkBUS.delete(listKVK.get(index), index);
+                    loadDataTalbe(listKVK);
                 }
             }
         } else if (e.getSource() == mainFunction.btnDetail) {
-            int index = tableKhoHang.getSelectedRow();
+            int index = tableKhuvuc.getSelectedRow();
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần xem");
             } else {
-//                NhaCungCapDialog nccDialog = new NhaCungCapDialog(this, owner, "Chi tiết nhà cung cấp", true, "view", listncc.get(index));
+//                NhaCungCapDialog nccDialog = new NhaCungCapDialog(this, owner, "Chi tiết nhà cung cấp", true, "view", listKVK.get(index));
             }
         } else if (e.getSource() == search.btnReset) {
             search.txtSearchForm.setText("");
-            listncc = nccBUS.getAll();
-            loadDataTalbe(listncc);
+            listKVK = kvkBUS.getAll();
+            loadDataTalbe(listKVK);
         }
     }
 
@@ -183,7 +187,7 @@ public class QuanLyKho extends JPanel implements ActionListener, ItemListener {
     public void itemStateChanged(ItemEvent e) {
         String type = (String) search.cbxChoose.getSelectedItem();
         String txt = search.txtSearchForm.getText();
-        listncc = nccBUS.search(txt, type);
-        loadDataTalbe(listncc);
+        //listKVK = kvkBUS.search(txt, type);
+        loadDataTalbe(listKVK);
     }
 }

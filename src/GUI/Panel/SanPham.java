@@ -62,7 +62,7 @@ public class SanPham extends JPanel implements ActionListener {
         ));
         tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá bán", "Hình ảnh", "Mã đơn vị tính", "Mã loại hàng", "Mã khu vực"};
+        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá xuất", "Hình ảnh", "Mã đơn vị tính", "Mã loại hàng", "Mã khu vực"};
         tblModel.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableSanPham);
@@ -156,7 +156,7 @@ public class SanPham extends JPanel implements ActionListener {
         tblModel.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
             tblModel.addRow(new Object[]{
-                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), sp.getGianhap(), sp.getGiaban(), sp.getHinhanh(), sp.getMaDVT(), sp.getMaloaihang(), sp.getMakhuvuc()
+                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), sp.getGianhap(), sp.getGiaxuat(), sp.getHinhanh(), sp.getMaDVT(), sp.getMaloaihang(), sp.getMakhuvuc()
             });
         }
     }

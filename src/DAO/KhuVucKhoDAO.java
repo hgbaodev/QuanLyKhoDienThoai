@@ -12,21 +12,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DTO.KhuVucKho;
+import DTO.KhuVucKhoDTO;
 
-public class KhuVucKhoDAO implements DAOinterface<KhuVucKho>{
-    public static KhuVucKhoDAO getInstance(){
+public class KhuVucKhoDAO implements DAOinterface<KhuVucKhoDTO> {
+
+    public static KhuVucKhoDAO getInstance() {
         return new KhuVucKhoDAO();
     }
+
     @Override
-    public int insert(KhuVucKho t) {
+    public int insert(KhuVucKhoDTO t) {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `khuvuckho`(`makhucvuckho`, `tenkhuvuc`) VALUES (?,?)";
+            String sql = "INSERT INTO `khuvuckho`(`makhuvuc`, `tenkhuvuc`,`ghichu`,`trangthai`) VALUES (?,?,?,1)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getMakhuvuckho());
             pst.setString(2, t.getTenkhuvuc());
+            pst.setString(3, t.getGhichu());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -36,17 +39,15 @@ public class KhuVucKhoDAO implements DAOinterface<KhuVucKho>{
     }
 
     @Override
-    public int update(KhuVucKho t) {
-       int result = 0;
+    public int update(KhuVucKhoDTO t) {
+        int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `khuvuckho` SET `makhuvuckho`='?',`tenkhuvuc'?',`makhohang`='?' WHERE makhuvuckho=? AND makhohang=?";
+            String sql = "UPDATE `khuvuckho` SET `tenkhuvuc`=?,`ghichu`=? WHERE `makhuvuc`=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setInt(1, t.getMakhuvuckho());
-            pst.setString(2, t.getTenkhuvuc());
-//            pst.setString(3, t.getMakhohang());
-            pst.setInt(4, t.getMakhuvuckho());
-//            pst.setString(5, t.getMakhohang());
+            pst.setString(1, t.getTenkhuvuc());
+            pst.setString(2, t.getGhichu());
+            pst.setInt(3, t.getMakhuvuckho());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -57,33 +58,75 @@ public class KhuVucKhoDAO implements DAOinterface<KhuVucKho>{
 
     @Override
     public int delete(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = 0;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "UPDATE `khuvuckho` SET `trangthai` = 0 WHERE  makhuvuc = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(KhuVucKhoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
 
     @Override
-    public ArrayList<KhuVucKho> selectAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<KhuVucKhoDTO> selectAll() {
+        ArrayList<KhuVucKhoDTO> result = new ArrayList<KhuVucKhoDTO>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM khuvuckho WHERE trangthai = 1";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                int makhuvuc = rs.getInt("makhuvuc");
+                String tenkhuvuc = rs.getString("tenkhuvuc");
+                String ghichu = rs.getString("ghichu");
+                KhuVucKhoDTO kvk = new KhuVucKhoDTO(makhuvuc, tenkhuvuc, ghichu);
+                result.add(kvk);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+        }
+        return result;
     }
 
     @Override
-    public KhuVucKho selectById(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public KhuVucKhoDTO selectById(String t) {
+        KhuVucKhoDTO result = null;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM khuvuckho WHERE makhuvuc='?'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, t);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                int makhuvuc = rs.getInt("makhuvuc");
+                String tenkhuvuc = rs.getString("tenkhuvuc");
+                String ghichu = rs.getString("ghichu");
+                result = new KhuVucKhoDTO(makhuvuc, tenkhuvuc, ghichu);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+        }
+        return result;
     }
-    
+
     @Override
     public int getAutoIncrement() {
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'warehousemanagement' AND   TABLE_NAME   = 'khuvuckho'";
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'khuvuckho'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
-            if (!rs2.isBeforeFirst() ) {
+            if (!rs2.isBeforeFirst()) {
                 System.out.println("No data");
             } else {
-                while ( rs2.next() ) {
+                while (rs2.next()) {
                     result = rs2.getInt("AUTO_INCREMENT");
-                    
+
                 }
             }
         } catch (SQLException ex) {
@@ -91,5 +134,5 @@ public class KhuVucKhoDAO implements DAOinterface<KhuVucKho>{
         }
         return result;
     }
-    
+
 }

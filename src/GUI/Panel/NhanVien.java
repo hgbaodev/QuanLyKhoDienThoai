@@ -4,6 +4,7 @@ import BUS.NhanVienBUS;
 import DAO.DonViTinhDAO;
 import DAO.NhanVienDAO;
 import DTO.DonViTinhDTO;
+import DTO.NhanVienDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -96,7 +97,7 @@ public class NhanVien extends JPanel {
         mainFunction.btnXuatExcel.addActionListener(nvBus);
         search.btnReset.addActionListener(nvBus);
         search.cbxChoose.addActionListener(nvBus);
-        search.txtSearchForm.getDocument().addDocumentListener(new NhanVienBUS(search.txtSearchForm));
+        search.txtSearchForm.getDocument().addDocumentListener(new NhanVienBUS(search.txtSearchForm,this));
         
         // main là phần ở dưới để thống kê bảng biểu
         main = new PanelBorderRadius();
@@ -115,7 +116,8 @@ public class NhanVien extends JPanel {
                 new String[]{}
         ));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MNV","Họ tên","Giởi tính","Ngày Sinh","SDT"};
+        String[] header = new String[]{"MNV","Họ tên","Giới tính","Ngày Sinh","SDT","Email"};
+        
         tblModel.setColumnIdentifiers(header);
         tableNhanVien.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableNhanVien);
@@ -138,94 +140,17 @@ public class NhanVien extends JPanel {
         return listnv.get(tableNhanVien.getSelectedRow());
     }
     
+    
+    
     public void loadDataTalbe(ArrayList<DTO.NhanVienDTO> list) {
         tblModel.setRowCount(0);
         for (DTO.NhanVienDTO nhanVien : list) {
             tblModel.addRow(new Object[]{
-                nhanVien.getManv(),nhanVien.getHoten(),nhanVien.getGioitinh()==1?"Nam":"Nữ",nhanVien.getNgaysinh(),nhanVien.getSdt()
+                nhanVien.getManv(),nhanVien.getHoten(),nhanVien.getGioitinh()==1?"Nam":"Nữ",nhanVien.getNgaysinh(),nhanVien.getSdt(),nhanVien.getEmail()
             });
         }
     }
     
-    public void openFile(String file) {
-        try {
-            File path = new File(file);
-            Desktop.getDesktop().open(path);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-    public void exportExcel() {
-        try {
-            JFileChooser jFileChooser = new JFileChooser();
-            jFileChooser.showSaveDialog(this);
-            File saveFile = jFileChooser.getSelectedFile();
-            if (saveFile != null) {
-                saveFile = new File(saveFile.toString() + ".xlsx");
-                Workbook wb = new XSSFWorkbook();
-                Sheet sheet = wb.createSheet("Đơn vị tính");
-                Row rowCol = sheet.createRow(0);
-                for (int i = 0; i < tableNhanVien.getColumnCount(); i++) {
-                    Cell cell = rowCol.createCell(i);
-                    cell.setCellValue(tableNhanVien.getColumnName(i));
-                }
-                for (int j = 0; j < tableNhanVien.getRowCount(); j++) {
-                    Row row = sheet.createRow(j + 1);
-                    for (int k = 0; k < tableNhanVien.getColumnCount(); k++) {
-                        Cell cell = row.createCell(k);
-                        if (tableNhanVien.getValueAt(j, k) != null) {
-                            cell.setCellValue(tableNhanVien.getValueAt(j, k).toString());
-                        }
-                    }
-                }
-                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
-                wb.write(out);
-                wb.close();
-                out.close();
-                openFile(saveFile.toString());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void importExcel() {
-        File excelFile;
-        FileInputStream excelFIS = null;
-        BufferedInputStream excelBIS = null;
-        XSSFWorkbook excelJTableImport = null;
-        ArrayList<DTO.DonViTinhDTO> listExcel = new ArrayList<DTO.DonViTinhDTO>();
-        JFileChooser jf = new JFileChooser();
-        int result = jf.showOpenDialog(null);
-        jf.setDialogTitle("Open file");
-        Workbook workbook = null;
-        if (result == JFileChooser.APPROVE_OPTION) {
-            try {
-                excelFile = jf.getSelectedFile();
-                excelFIS = new FileInputStream(excelFile);
-                excelBIS = new BufferedInputStream(excelFIS);
-                excelJTableImport = new XSSFWorkbook(excelBIS);
-                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
-                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
-                    XSSFRow excelRow = excelSheet.getRow(row);
-//                    int id = getAutoIncrement();
-                    String tenDvt = excelRow.getCell(0).getStringCellValue();
-//                    DTO.DonViTinhDTO dv = new DTO.DonViTinhDTO(id, tenDvt);
-//                    dvtBUS.getAll().add(dv);
-//                    listExcel.add(dv);
-                    tblModel.setRowCount(0);
-                }
-            } catch (FileNotFoundException ex) {
-                System.out.println("Lỗi đọc file");
-            } catch (IOException ex) {
-                System.out.println("Lỗi đọc file");
-            }
-        }
-
-        for (DTO.DonViTinhDTO donViTinh : listExcel) {
-            DonViTinhDAO.getInstance().insert(donViTinh);
-        }
-//        loadDataTalbe(listdvt);
-    }
+    
 
 }
