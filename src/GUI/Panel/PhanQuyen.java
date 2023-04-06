@@ -92,7 +92,6 @@ public class PhanQuyen extends JPanel implements ActionListener {
         tblNhomQuyen = new JTable();
         tblNhomQuyen.setDefaultEditor(Object.class, null);
         scrollTable = new JScrollPane();
-        tblNhomQuyen.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã nhóm quyền", "Tên nhóm quyền"};
         tblModel.setColumnIdentifiers(header);

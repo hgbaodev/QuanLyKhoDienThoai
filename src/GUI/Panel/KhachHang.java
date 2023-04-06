@@ -55,11 +55,6 @@ public class KhachHang extends JPanel implements ActionListener {
 
         tableKhachHang = new JTable();
         scrollTableKhachHang = new JScrollPane();
-        tableKhachHang.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
-        tableKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại"};
         tblModel.setColumnIdentifiers(header);

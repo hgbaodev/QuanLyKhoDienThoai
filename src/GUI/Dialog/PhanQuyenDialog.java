@@ -13,6 +13,7 @@ import DTO.DanhMucChucNangDTO;
 import DTO.NhomQuyenDTO;
 import GUI.Panel.PhanQuyen;
 import GUI.Component.ButtonCustom;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -74,7 +75,7 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
         jpLeft.setBackground(Color.WHITE);
         jpLeft.setBorder(new EmptyBorder(0, 20, 0, 14));
         JLabel dmcnl = new JLabel("Danh mục chức năng ");
-        dmcnl.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        dmcnl.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 15));
         jpLeft.add(dmcnl);
         for (DanhMucChucNangDTO i : dmcn) {
             JLabel lblTenchucnang = new JLabel(i.getTenchucnang());

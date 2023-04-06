@@ -38,11 +38,6 @@ public class PhieuNhap extends JPanel implements ActionListener {
 
         tablePhieuNhap = new JTable();
         scrollTablePhieuNhap = new JScrollPane();
-        tablePhieuNhap.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
-        tablePhieuNhap.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã khu vực kho", "Tên khu vực", "Mã kho hàng"};
         tblModel.setColumnIdentifiers(header);

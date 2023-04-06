@@ -68,11 +68,11 @@ public class SanPham extends JPanel implements ActionListener {
         public String getTenloaihang(int maloaihang){
         String tenlh="";
         LoaiHangBUS lhBUS = new LoaiHangBUS();
-        ArrayList<LoaiHangDTO> listLH = lhBUS.getAll();
-        for(int i=0;i<listLH.size();i++){
-            if(maloaihang==listLH.get(i).getMaloaihang()){
-                tenlh=listLH.get(i).getTenloaihang();
-            }
+            ArrayList<LoaiHangDTO> listLH = lhBUS.getAll();
+            for (int i = 0; i < listLH.size(); i++) {
+                if (maloaihang == listLH.get(i).getMaloaihang()) {
+                    tenlh = listLH.get(i).getTenloaihang();
+                }
         }
         return tenlh;
     }
@@ -95,11 +95,6 @@ public class SanPham extends JPanel implements ActionListener {
 
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
-        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
-        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá xuất", "Đơn vị tính", "Loại hàng", "Khu vực kho"};
         tblModel.setColumnIdentifiers(header);

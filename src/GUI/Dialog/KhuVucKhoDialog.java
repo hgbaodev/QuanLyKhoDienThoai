@@ -89,7 +89,7 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
                 initInfo();
                 break;
             case "view":
-                this.setSize(new Dimension(500, 400));
+                this.setSize(new Dimension(800, 400));
                 BoxLayout boxly = new BoxLayout(pnmain, BoxLayout.Y_AXIS);
                 pnmain.setLayout(boxly);
                 pnmain.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -127,6 +127,7 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
                 scrollTableSanPham.add(tableSanPham);
                 scrollTableSanPham.setBackground(Color.red);
                 pnmain.add(scrollTableSanPham);
+                
                 btnCapNhat.setVisible(false);
                 btnThem.setVisible(false);
                 tenkhuvuc.setVisible(false);

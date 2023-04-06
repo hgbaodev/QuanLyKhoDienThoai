@@ -4,6 +4,7 @@
  */
 package GUI.Component;
 
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,7 +27,7 @@ public class HeaderTitle extends JPanel{
         
         
         lblTitle = new JLabel();
-        lblTitle.setFont(new Font("Segoe UI", 1, 18));
+        lblTitle.setFont(new Font(FlatRobotoFont.FAMILY, 1, 18));
         lblTitle.setForeground(new Color(255, 255, 255));
         lblTitle.setHorizontalAlignment(JLabel.CENTER);
         lblTitle.setText(title);

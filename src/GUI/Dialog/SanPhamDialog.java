@@ -119,6 +119,19 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         pnmainright.setBackground(Color.WHITE);
         pnCenter.add(pnmainright);
         
+        
+        tenSP = new InputForm("Tên sản phẩm");
+        idSP = new InputForm("Mã sản phẩm");
+        xuatxu = new InputForm("Xuất xứ");
+        gianhap = new InputForm("Giá nhập");
+        giaxuat = new InputForm("Giá bán");
+        donvitinh = new SelectForm("Đơn vị tính", getdonvitinh());
+        loaihang = new SelectForm("Loại hàng", getloaihang());
+        soluong = new InputForm("Số lượng");
+        khuvuc = new SelectForm("Khu vực kho", getkhuvuc());
+        hinhanh = new InputImage("Hình minh họa");
+
+        
         pnmain.add(tenSP);
         pnmain.add(xuatxu);
         pnmain.add(donvitinh);
@@ -143,22 +156,23 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         
         switch (type) {
             case "create" ->
-            {;
+            {
+                soluong.setVisible(false);
                 pnbottom.add(btnThemSanPham);
             }
             case "update" ->
             {
-                soluong.setVisible(false);
+                soluong.setDisable();
+                initInfomation(this.spDTO);
                 pnbottom.add(btnCapNhat);
             }
             case "view" ->
             {
                 pnmain.add(idSP);
                 pnmain.add(soluong);
-                soluong.setDisable();
-                
+                initInfomation(this.spDTO);
+                soluong.setDisable();  
             }
-                
             default ->
                 throw new AssertionError();
         }
@@ -175,57 +189,29 @@ public class SanPhamDialog extends JDialog implements MouseListener {
     public SanPhamDialog(SanPham jpSP, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
         this.jpSP = jpSP;
-        tenSP = new InputForm("Tên sản phẩm");
-        idSP = new InputForm("Mã sản phẩm");
-        xuatxu = new InputForm("Xuất xứ");
-        gianhap = new InputForm("Giá nhập");
-        giaxuat = new InputForm("Giá bán");
-        donvitinh = new SelectForm("Đơn vị tính", getdonvitinh());
-        loaihang = new SelectForm("Loại hàng", getloaihang());
-        soluong = new InputForm("Số lượng");
-        khuvuc = new SelectForm("Khu vực kho", getkhuvuc());
-        hinhanh = new InputImage("Hình minh họa");
         initComponents(title, type);
     }
     
     public SanPhamDialog(GUI.Panel.SanPham jpSP, JFrame owner, String title, boolean modal, String type, SanPhamDTO sp) {
         super(owner, title, modal);
-        idSP = new InputForm("Mã sản phẩm");
-        tenSP = new InputForm("Tên sản phẩm");
-        xuatxu = new InputForm("Xuất xứ");
-        gianhap = new InputForm("Giá nhập");
-        giaxuat = new InputForm("Giá bán");
-        soluong = new InputForm("Số lượng");
+        this.jpSP = jpSP;
+        this.spDTO=sp;
+        initComponents(title, type);
+    }
+    
+    public void initInfomation(SanPhamDTO sp) {
         setNoidung(tenSP,sp.getTensp());
         setNoidung(xuatxu,sp.getXuatxu());
         setNoidung(gianhap, String.valueOf(sp.getGianhap()));
         setNoidung(giaxuat, String.valueOf(sp.getGiaxuat()));
         setIdSP(Integer.toString(sp.getMasp()));
         setNoidung(soluong,String.valueOf(sp.getSoluong()));
-        
-        donvitinh = new SelectForm("Đơn vị tính", getdonvitinh());
         donvitinh.setSelectedIndex(setdonvitinh(sp.getMaDVT()));
-        
-        
-        loaihang = new SelectForm("Loại hàng", getloaihang());
         loaihang.setSelectedIndex(setloaihang(sp.getMaloaihang()));
-        
-        
-        khuvuc = new SelectForm("Khu vực kho", getkhuvuc());
         khuvuc.setSelectedIndex(setkhuvuc(sp.getMakhuvuc()));
-        
-        
-        
-        hinhanh = new InputImage("Hình minh họa");
         hinhanh.setUrl_img(sp.getHinhanh());
         urlImage=sp.getHinhanh();
-        
-        this.jpSP = jpSP;
-        this.spDTO=sp;
-        initComponents(title, type);
     }
-    
-    
     
     public void setNoidung(InputForm inputForm, String text) {
         inputForm.setText(text);

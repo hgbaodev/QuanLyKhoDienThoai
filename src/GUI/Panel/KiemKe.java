@@ -84,10 +84,6 @@ public class KiemKe extends JPanel {
 
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
-        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
         tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Hình ảnh"};
