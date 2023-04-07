@@ -4,8 +4,11 @@
  */
 package GUI.Component;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -15,21 +18,22 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Tran Nhat Sinh
  */
-public class InputForm extends JPanel {
+public final class InputForm extends JPanel {
 
     private JLabel lblTitle;
     private JTextField txtForm;
-
+    
     public InputForm(String title) {
-        this.setLayout(new GridLayout(2, 1));
+        this.setLayout(new GridLayout(1, 1));
         this.setBackground(Color.white);
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
         lblTitle = new JLabel(title);
         txtForm = new JTextField();
-        
         this.add(lblTitle);
         this.add(txtForm);
     }
+    
+
     
     public String getText() {
         return txtForm.getText();
@@ -42,4 +46,5 @@ public class InputForm extends JPanel {
     public void setDisable(){
         txtForm.setEnabled(false);
     }
+    
 }
