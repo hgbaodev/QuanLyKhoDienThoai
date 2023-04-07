@@ -114,7 +114,7 @@ public class NhapKho extends JPanel {
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModelSanPham = new DefaultTableModel();
-        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Giá nhập", "Giá bán"};
+        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Giá nhập", "Giá bán"};
         tblModelSanPham.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModelSanPham);
         scrollTableSanPham.setViewportView(tableSanPham);

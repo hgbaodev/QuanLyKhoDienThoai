@@ -5,10 +5,8 @@
         <group>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Main.java</file>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/PhieuNhap.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Component/ButtonCustom.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/NhaCungCap.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Dialog/PhanQuyenDialog.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/ChuyenKho.java</file>
+            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/DAO/NhaCungCapDAO.java</file>
+            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/DAO/PhieuNhapDAO.java</file>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/NhapKho.java</file>
         </group>
     </open-files>

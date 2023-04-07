@@ -16,7 +16,6 @@ import GUI.Panel.NhaCungCap;
 import GUI.Panel.ChuyenKho;
 import GUI.Panel.KhuVucKho;
 import GUI.Panel.PhieuXuat;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.*;
 import javax.swing.*;
 import GUI.Component.MenuTaskbar;
@@ -194,9 +193,9 @@ public class Main extends javax.swing.JFrame {
         UIManager.put("ScrollBar.thumbArc", 999);
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
         UIManager.put("Button.iconTextGap", 10);
-        UIManager.put("Table.selectionBackground", new Color(51, 102, 255));
         FlatIntelliJLaf.registerCustomDefaultsSource("style");
         FlatIntelliJLaf.setup();
+        UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
         Main main = new Main();
         main.setVisible(true);
     }
