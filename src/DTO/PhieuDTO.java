@@ -4,7 +4,7 @@
  */
 package DTO;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -16,18 +16,13 @@ public class PhieuDTO {
     private int maphieu;
     private int manguoitao;
     private Timestamp thoigiantao;
-    ArrayList<ChiTietPhieuDTO> CTPhieu;
     private double tongTien;
     private int trangthai;
 
-    public PhieuDTO() {
-    }
-
-    public PhieuDTO(int maphieu, int manguoitao, Timestamp thoigiantao, ArrayList<ChiTietPhieuDTO> CTPhieu, double tongTien, int trangthai) {
+    public PhieuDTO(int maphieu, int manguoitao, Timestamp thoigiantao, double tongTien, int trangthai) {
         this.maphieu = maphieu;
         this.manguoitao = manguoitao;
         this.thoigiantao = thoigiantao;
-        this.CTPhieu = CTPhieu;
         this.tongTien = tongTien;
         this.trangthai = trangthai;
     }
@@ -56,14 +51,6 @@ public class PhieuDTO {
         this.thoigiantao = thoigiantao;
     }
 
-    public ArrayList<ChiTietPhieuDTO> getCTPhieu() {
-        return CTPhieu;
-    }
-
-    public void setCTPhieu(ArrayList<ChiTietPhieuDTO> CTPhieu) {
-        this.CTPhieu = CTPhieu;
-    }
-
     public double getTongTien() {
         return tongTien;
     }
@@ -83,12 +70,11 @@ public class PhieuDTO {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + this.maphieu;
-        hash = 79 * hash + this.manguoitao;
-        hash = 79 * hash + Objects.hashCode(this.thoigiantao);
-        hash = 79 * hash + Objects.hashCode(this.CTPhieu);
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.tongTien) ^ (Double.doubleToLongBits(this.tongTien) >>> 32));
-        hash = 79 * hash + this.trangthai;
+        hash = 67 * hash + this.maphieu;
+        hash = 67 * hash + this.manguoitao;
+        hash = 67 * hash + Objects.hashCode(this.thoigiantao);
+        hash = 67 * hash + (int) (Double.doubleToLongBits(this.tongTien) ^ (Double.doubleToLongBits(this.tongTien) >>> 32));
+        hash = 67 * hash + this.trangthai;
         return hash;
     }
 
@@ -116,18 +102,13 @@ public class PhieuDTO {
         if (this.trangthai != other.trangthai) {
             return false;
         }
-        if (!Objects.equals(this.thoigiantao, other.thoigiantao)) {
-            return false;
-        }
-        return Objects.equals(this.CTPhieu, other.CTPhieu);
+        return Objects.equals(this.thoigiantao, other.thoigiantao);
     }
 
     @Override
     public String toString() {
-        return "PhieuDTO{" + "maphieu=" + maphieu + ", manguoitao=" + manguoitao + ", thoigiantao=" + thoigiantao + ", CTPhieu=" + CTPhieu + ", tongTien=" + tongTien + ", trangthai=" + trangthai + '}';
+        return "PhieuDTO{" + "maphieu=" + maphieu + ", manguoitao=" + manguoitao + ", thoigiantao=" + thoigiantao + ", tongTien=" + tongTien + ", trangthai=" + trangthai + '}';
     }
-    
-    
-    
+
     
 }

@@ -2,6 +2,7 @@ package GUI.Component;
 
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -25,10 +26,11 @@ public class IntegratedSearch extends JPanel {
         cbxChoose.setModel(new DefaultComboBoxModel<>(str));
         cbxChoose.setPreferredSize(new Dimension(130, 0));
         cbxChoose.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 14));
+        cbxChoose.setFocusable(false);
         jpSearch.add(cbxChoose,BorderLayout.WEST);
 
         txtSearchForm = new JTextField();
-        txtSearchForm.setFont(new Font("Segoe UI", 0, 14));
+        txtSearchForm.setFont(new Font(FlatRobotoFont.FAMILY, 0, 13));
         txtSearchForm.putClientProperty("JTextField.placeholderText", "Tìm kiếm gì đi...");
         txtSearchForm.putClientProperty("JTextField.showClearButton", true);
         jpSearch.add(txtSearchForm);
@@ -37,7 +39,8 @@ public class IntegratedSearch extends JPanel {
         btnReset.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 14));
         btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/reset_30px.png")));
         btnReset.setPreferredSize(new Dimension(140, 0));
-        btnReset.addActionListener(new java.awt.event.ActionListener() {
+        btnReset.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 btnResetActionPerformed(e);
             }
