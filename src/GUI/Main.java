@@ -195,6 +195,7 @@ public class Main extends javax.swing.JFrame {
         UIManager.put("ScrollBar.thumbArc", 999);
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
         UIManager.put("Button.iconTextGap", 10);
+        UIManager.put("showTrailingVerticalLine", true);
         FlatIntelliJLaf.registerCustomDefaultsSource("style");
         FlatIntelliJLaf.setup();
         UIManager.put("Table.selectionBackground", new Color(1, 4, 77));

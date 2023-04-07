@@ -126,8 +126,9 @@ public class NhanVien extends JPanel {
     
     
     public void loadDataTalbe(ArrayList<DTO.NhanVienDTO> list) {
+        listnv = list;
         tblModel.setRowCount(0);
-        for (DTO.NhanVienDTO nhanVien : list) {
+        for (DTO.NhanVienDTO nhanVien : listnv) {
             tblModel.addRow(new Object[]{
                 nhanVien.getManv(),nhanVien.getHoten(),nhanVien.getGioitinh()==1?"Nam":"Nữ",nhanVien.getNgaysinh(),nhanVien.getSdt(),nhanVien.getEmail()
             });

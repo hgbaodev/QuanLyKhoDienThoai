@@ -96,6 +96,7 @@ public class TaiKhoan extends JPanel {
                 }
         ));
         scrollTableSanPham.setViewportView(tableSanPham);
+        main.add(scrollTableSanPham);
     }
 
     public TaiKhoan() {

@@ -99,7 +99,8 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                 
             }
             case "XUẤT EXCEL" -> {
-                exportExcel(listNv);
+                String[] header = new String[]{"MãNV","Tên nhân viên","Email nhân viên","Số điên thoại","Giới tính","Ngày sinh"};
+                exportExcel(listNv,header);
             }
 
         }
@@ -163,7 +164,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
             System.out.println(e);
         }
     }
-    public void exportExcel(ArrayList<NhanVienDTO> list) {
+    public void exportExcel(ArrayList<NhanVienDTO> list, String[] header) {
         try {
             if(list.size()>0){
             JFileChooser jFileChooser = new JFileChooser();
@@ -173,7 +174,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                 saveFile = new File(saveFile.toString() + ".xlsx");
                 Workbook wb = new XSSFWorkbook();
                 Sheet sheet = wb.createSheet("Nhân viên");
-                String[] header = new String[]{"MãNV","Tên nhân viên","Email nhân viên","Số điên thoại","Giới tính","Ngày sinh"};
+                
                 writeHeader(header,sheet,0);
                 int rowIndex = 1;
                 for (NhanVienDTO nv : list) {
