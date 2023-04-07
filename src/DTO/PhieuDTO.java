@@ -12,22 +12,24 @@ import java.util.Objects;
  *
  * @author 84907
  */
-public class Phieu {
+public class PhieuDTO {
     private int maphieu;
     private int manguoitao;
     private Timestamp thoigiantao;
     ArrayList<ChiTietPhieuDTO> CTPhieu;
     private double tongTien;
+    private int trangthai;
 
-    public Phieu() {
+    public PhieuDTO() {
     }
 
-    public Phieu(int maphieu, int manguoitao, Timestamp thoigiantao, ArrayList<ChiTietPhieuDTO> CTPhieu, double tongTien) {
+    public PhieuDTO(int maphieu, int manguoitao, Timestamp thoigiantao, ArrayList<ChiTietPhieuDTO> CTPhieu, double tongTien, int trangthai) {
         this.maphieu = maphieu;
         this.manguoitao = manguoitao;
         this.thoigiantao = thoigiantao;
         this.CTPhieu = CTPhieu;
         this.tongTien = tongTien;
+        this.trangthai = trangthai;
     }
 
     public int getMaphieu() {
@@ -70,14 +72,23 @@ public class Phieu {
         this.tongTien = tongTien;
     }
 
+    public int getTrangthai() {
+        return trangthai;
+    }
+
+    public void setTrangthai(int trangthai) {
+        this.trangthai = trangthai;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
         hash = 79 * hash + this.maphieu;
         hash = 79 * hash + this.manguoitao;
         hash = 79 * hash + Objects.hashCode(this.thoigiantao);
         hash = 79 * hash + Objects.hashCode(this.CTPhieu);
         hash = 79 * hash + (int) (Double.doubleToLongBits(this.tongTien) ^ (Double.doubleToLongBits(this.tongTien) >>> 32));
+        hash = 79 * hash + this.trangthai;
         return hash;
     }
 
@@ -92,14 +103,31 @@ public class Phieu {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Phieu other = (Phieu) obj;
-        return true;
+        final PhieuDTO other = (PhieuDTO) obj;
+        if (this.maphieu != other.maphieu) {
+            return false;
+        }
+        if (this.manguoitao != other.manguoitao) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.tongTien) != Double.doubleToLongBits(other.tongTien)) {
+            return false;
+        }
+        if (this.trangthai != other.trangthai) {
+            return false;
+        }
+        if (!Objects.equals(this.thoigiantao, other.thoigiantao)) {
+            return false;
+        }
+        return Objects.equals(this.CTPhieu, other.CTPhieu);
     }
 
     @Override
     public String toString() {
-        return "Phieu{" + "maphieu=" + maphieu + ", manguoitao=" + manguoitao + ", thoigiantao=" + thoigiantao + ", CTPhieu=" + CTPhieu + ", tongTien=" + tongTien + '}';
+        return "PhieuDTO{" + "maphieu=" + maphieu + ", manguoitao=" + manguoitao + ", thoigiantao=" + thoigiantao + ", CTPhieu=" + CTPhieu + ", tongTien=" + tongTien + ", trangthai=" + trangthai + '}';
     }
+    
+    
     
     
 }

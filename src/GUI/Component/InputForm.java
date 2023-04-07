@@ -24,7 +24,7 @@ public final class InputForm extends JPanel {
     private JTextField txtForm;
     
     public InputForm(String title) {
-        this.setLayout(new GridLayout(1, 1));
+        this.setLayout(new GridLayout(2, 1));
         this.setBackground(Color.white);
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
         lblTitle = new JLabel(title);

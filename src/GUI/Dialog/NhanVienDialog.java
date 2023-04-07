@@ -81,7 +81,7 @@ public class NhanVienDialog extends JDialog {
     }
 
     public void init(String title, String type) {
-        this.setSize(new Dimension(500, 550));
+        this.setSize(new Dimension(450, 590));
         this.setLayout(new BorderLayout(0, 0));
 
         titlePage = new HeaderTitle(title.toUpperCase());
