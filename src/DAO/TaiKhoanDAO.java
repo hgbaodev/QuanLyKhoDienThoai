@@ -1,7 +1,8 @@
 package DAO;
 
+import DTO.NhanVienDTO;
 import config.JDBCUtil;
-import DTO.Taikhoan;
+import DTO.TaiKhoanDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,46 +15,45 @@ import java.util.logging.Logger;
  *
  * @author robot
  */
-public class TaikhoanDAO implements DAOinterface<Taikhoan>{
+public class TaiKhoanDAO implements DAOinterface<TaiKhoanDTO>{
     
-    public static TaikhoanDAO getInstance(){
-        return new TaikhoanDAO();
+    public static TaiKhoanDAO getInstance(){
+        return new TaiKhoanDAO();
     }
 
     @Override
-    public int insert(Taikhoan t) {
+    public int insert(TaiKhoanDTO t) {
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `taikhoan`(`trangthai`,``) VALUES (1,)";
+            String sql = "INSERT INTO `taikhoan`(`manv`,`username`,`matkhau`,`manhomquyen`,`trangthai`) VALUES (?,?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            
+            pst.setInt(1, t.getManv());
+            pst.setString(2, t.getUsername());
+            pst.setString(3, t.getMatkhau());
+            pst.setInt(4, t.getManhomquyen());
+            pst.setInt(5, t.getTrangthai());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(TaikhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaiKhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
-    public int update(Taikhoan t) {
+    public int update(TaiKhoanDTO t) {
           int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "UPDATE `taikhoan` SET `email`='?',`hoten`='?',`matkhau`='?',`trangthai`='?',"
                     + "`makhohang`='?',`manhomquyen`='?' WHERE email=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t.getHoten());
-            pst.setString(2, t.getMatkhau());
-            pst.setInt(3, t.getTrangthai());
-            pst.setString(4, t.getMakhohang());
-            pst.setString(5, t.getManhomquyen());
-            pst.setString(6, t.getEmail());
+            
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(TaikhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaiKhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -69,29 +69,27 @@ public class TaikhoanDAO implements DAOinterface<Taikhoan>{
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(TaikhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaiKhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
-    public ArrayList<Taikhoan> selectAll() {
-        ArrayList<Taikhoan> result = new ArrayList<Taikhoan>();
+    public ArrayList<TaiKhoanDTO> selectAll() {
+        ArrayList<TaiKhoanDTO> result = new ArrayList<TaiKhoanDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM taikhoan";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
-                String email = rs.getString("email");
-                String hoten = rs.getString("hoten");
+                int manv = rs.getInt("manv");
+                String username = rs.getString("username");
                 String matkhau = rs.getString("matkhau");
+                int manhomquyen = rs.getInt("manhomquyen");
                 int trangthai = rs.getInt("trangthai");
-                String makhohang = rs.getString("makhohang");
-                String manhomquyen = rs.getString("manhomquyen");
-                
-                Taikhoan us = new Taikhoan(email, hoten, matkhau, trangthai, makhohang, manhomquyen);
-                result.add(us);
+                TaiKhoanDTO tk = new TaiKhoanDTO(manv, username, matkhau, manhomquyen, trangthai);
+                result.add(tk);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
@@ -100,8 +98,8 @@ public class TaikhoanDAO implements DAOinterface<Taikhoan>{
     }
 
     @Override
-    public Taikhoan selectById(String t) {
-        Taikhoan result = null;
+    public TaiKhoanDTO selectById(String t) {
+        TaiKhoanDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM taikhoan WHERE email='?'";
@@ -116,7 +114,6 @@ public class TaikhoanDAO implements DAOinterface<Taikhoan>{
                 String makhohang = rs.getString("makhohang");
                 String manhomquyen = rs.getString("manhomquyen");
                 
-                result = new Taikhoan(email, hoten, matkhau, trangthai, makhohang, manhomquyen);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {

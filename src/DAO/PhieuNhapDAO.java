@@ -44,5 +44,17 @@ public class PhieuNhapDAO implements DAOinterface<>{
     public int getAutoIncrement() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public ArrayList<<any>> selectAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public <any> selectById(String t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }
+FlatIntelliJLaf.registerCustomDefaultsSource("style");
+        FlatIntelliJLaf.setup();

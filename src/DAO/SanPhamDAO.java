@@ -73,7 +73,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `sanpham` SET `trangthai`=0 WHERE masanpham = '?'";
+            String sql = "UPDATE `sanpham` SET `trangthai`=0 WHERE masanpham = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();

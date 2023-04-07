@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class SanPhamBUS  {
      private final SanPhamDAO spDAO = new SanPhamDAO();
     private ArrayList<SanPhamDTO> listSP = new ArrayList<>();
-
     public SanPhamBUS() {
         listSP=spDAO.selectAll();
     }

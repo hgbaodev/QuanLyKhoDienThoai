@@ -54,35 +54,38 @@ public class SanPham extends JPanel implements ActionListener {
     Color BackgroundColor = new Color(240, 247, 250);
     Color FontColor = new Color(96, 125, 139);
     Color DefaultColor = new Color(255, 255, 255);
-    public String getTenDVT(int maDVT){
-        String tendvt="";
+
+    public String getTenDVT(int maDVT) {
+        String tendvt = "";
         DonViTinhBUS dvtbus = new DonViTinhBUS();
         ArrayList<DonViTinhDTO> listDVT = dvtbus.getAll();
-        for(int i=0;i<listDVT.size();i++){
-            if(maDVT==listDVT.get(i).getMaDVT()){
-                tendvt=listDVT.get(i).getTenDVT();
+        for (int i = 0; i < listDVT.size(); i++) {
+            if (maDVT == listDVT.get(i).getMaDVT()) {
+                tendvt = listDVT.get(i).getTenDVT();
             }
         }
         return tendvt;
     }
-        public String getTenloaihang(int maloaihang){
-        String tenlh="";
+
+    public String getTenloaihang(int maloaihang) {
+        String tenlh = "";
         LoaiHangBUS lhBUS = new LoaiHangBUS();
-            ArrayList<LoaiHangDTO> listLH = lhBUS.getAll();
-            for (int i = 0; i < listLH.size(); i++) {
-                if (maloaihang == listLH.get(i).getMaloaihang()) {
-                    tenlh = listLH.get(i).getTenloaihang();
-                }
+        ArrayList<LoaiHangDTO> listLH = lhBUS.getAll();
+        for (int i = 0; i < listLH.size(); i++) {
+            if (maloaihang == listLH.get(i).getMaloaihang()) {
+                tenlh = listLH.get(i).getTenloaihang();
+            }
         }
         return tenlh;
     }
-         public String getTenkhuvuc(int makhuvuc){
-        String tenkv="";
+
+    public String getTenkhuvuc(int makhuvuc) {
+        String tenkv = "";
         KhuVucKhoBUS kvkbus = new KhuVucKhoBUS();
         ArrayList<KhuVucKhoDTO> listKVK = kvkbus.getAll();
-        for(int i=0;i<listKVK.size();i++){
-            if(makhuvuc==listKVK.get(i).getMakhuvuckho()){
-                tenkv=listKVK.get(i).getTenkhuvuc();
+        for (int i = 0; i < listKVK.size(); i++) {
+            if (makhuvuc == listKVK.get(i).getMakhuvuckho()) {
+                tenkv = listKVK.get(i).getTenkhuvuc();
             }
         }
         return tenkv;
@@ -135,14 +138,13 @@ public class SanPham extends JPanel implements ActionListener {
         contentCenter.setBackground(BackgroundColor);
         contentCenter.setLayout(new BorderLayout(20, 20));
         this.add(contentCenter, BorderLayout.CENTER);
-        
+
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new PanelBorderRadius();
         functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        
         mainFunction = new MainFunction();
         //Add Event MouseListener
         mainFunction.btnAdd.addActionListener(this);
@@ -288,7 +290,7 @@ public class SanPham extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-            SanPhamDialog spDialog = new SanPhamDialog(this,owner,"Thêm sản phẩm mới",true,"create");
+            SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Thêm sản phẩm mới", true, "create");
         } else if (e.getSource() == mainFunction.btnEdit) {
             int index = tableSanPham.getSelectedRow();
             if (index == -1) {
@@ -305,7 +307,9 @@ public class SanPham extends JPanel implements ActionListener {
                         "Bạn có chắc chắn muốn xóa Sản phẩm :)!", "Xóa sản phẩm",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    JOptionPane.showMessageDialog(null, listSP.get(index));
+                    File file = new File("./src/img_product/"+listSP.get(index).getHinhanh());
+                    if(file.delete()){
+                    }
                     spBUS.delete(listSP.get(index));
                     loadDataTalbe(listSP);
                 }
@@ -326,4 +330,5 @@ public class SanPham extends JPanel implements ActionListener {
             importExcel();
         }
     }
+
 }

@@ -23,7 +23,18 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -43,17 +54,17 @@ import javax.swing.text.View;
  * @author Tran Nhat Sinh
  */
 public class SanPhamDialog extends JDialog implements MouseListener {
-    
+
     private HeaderTitle titlePage;
     private JPanel pnmain, pnbottom, pnCenter, pnmainright;
     private ButtonCustom btnThemSanPham, btnCapNhat, btnHuyBo;
-    InputForm tenSP, xuatxu, gianhap, giaxuat,soluong,idSP;
+    InputForm tenSP, xuatxu, gianhap, giaxuat, soluong, idSP;
     SelectForm donvitinh, loaihang, khuvuc;
     InputImage hinhanh;
     GUI.Panel.SanPham jpSP;
     SanPhamDTO spDTO;
     String urlImage;
-    
+
     ArrayList<DonViTinhDTO> dvt = DonViTinhDAO.getInstance().selectAll();
     ArrayList<LoaiHangDTO> lh = LoaiHangDAO.getInstance().selectAll();
     ArrayList<KhuVucKhoDTO> kvk = KhuVucKhoDAO.getInstance().selectAll();
@@ -65,14 +76,17 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         }
         return tenDVT;
     }
-    public int setdonvitinh(int n){
-        int x=0;
+
+    public int setdonvitinh(int n) {
+        int x = 0;
         for (int i = 0; i < dvt.size(); i++) {
-            if(n==dvt.get(i).getMaDVT())
-                x=i;
+            if (n == dvt.get(i).getMaDVT()) {
+                x = i;
+            }
         }
         return x;
     }
+
     public String[] getloaihang() {
         String tenLH[] = new String[lh.size()];
         for (int i = 0; i < lh.size(); i++) {
@@ -80,32 +94,35 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         }
         return tenLH;
     }
-    public int setloaihang(int n){
-        int x=0;
+
+    public int setloaihang(int n) {
+        int x = 0;
         for (int i = 0; i < lh.size(); i++) {
-            if(n==lh.get(i).getMaloaihang())
-                x=i;
-        }
-        return x;
-    }
-    
-    public String[] getkhuvuc(){
-        String tenkv[] = new String[kvk.size()];
-        for (int i=0;i<kvk.size();i++){
-            tenkv[i]=kvk.get(i).getTenkhuvuc();
-        }
-        return tenkv;
-    }
-    public int setkhuvuc(int n){
-        int x=0;
-        for (int i = 0; i < kvk.size(); i++) {
-            if(n==kvk.get(i).getMakhuvuckho()){
-                x=i;
+            if (n == lh.get(i).getMaloaihang()) {
+                x = i;
             }
         }
         return x;
     }
-    
+
+    public String[] getkhuvuc() {
+        String tenkv[] = new String[kvk.size()];
+        for (int i = 0; i < kvk.size(); i++) {
+            tenkv[i] = kvk.get(i).getTenkhuvuc();
+        }
+        return tenkv;
+    }
+
+    public int setkhuvuc(int n) {
+        int x = 0;
+        for (int i = 0; i < kvk.size(); i++) {
+            if (n == kvk.get(i).getMakhuvuckho()) {
+                x = i;
+            }
+        }
+        return x;
+    }
+
     public void initComponents(String title, String type) {
         this.setSize(new Dimension(1150, 500));
         this.setLayout(new BorderLayout(0, 0));
@@ -114,12 +131,11 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         pnmain = new JPanel(new GridLayout(3, 2, 0, 0));
         pnmain.setBackground(Color.WHITE);
         pnCenter.add(pnmain);
-        
+
         pnmainright = new JPanel();
         pnmainright.setBackground(Color.WHITE);
         pnCenter.add(pnmainright);
-        
-        
+
         tenSP = new InputForm("Tên sản phẩm");
         idSP = new InputForm("Mã sản phẩm");
         xuatxu = new InputForm("Xuất xứ");
@@ -131,7 +147,6 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         khuvuc = new SelectForm("Khu vực kho", getkhuvuc());
         hinhanh = new InputImage("Hình minh họa");
 
-        
         pnmain.add(tenSP);
         pnmain.add(xuatxu);
         pnmain.add(donvitinh);
@@ -141,7 +156,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         pnmain.add(khuvuc);
         pnmain.add(soluong);
         pnmainright.add(hinhanh);
-        
+
         pnbottom = new JPanel(new FlowLayout());
         pnbottom.setBorder(new EmptyBorder(10, 0, 10, 0));
         pnbottom.setBackground(Color.white);
@@ -153,38 +168,35 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         btnThemSanPham.addMouseListener(this);
         btnCapNhat.addMouseListener(this);
         btnHuyBo.addMouseListener(this);
-        
+
         switch (type) {
-            case "create" ->
-            {
+            case "create" -> {
                 soluong.setVisible(false);
                 pnbottom.add(btnThemSanPham);
             }
-            case "update" ->
-            {
+            case "update" -> {
                 soluong.setDisable();
                 initInfomation(this.spDTO);
                 pnbottom.add(btnCapNhat);
             }
-            case "view" ->
-            {
+            case "view" -> {
                 pnmain.add(idSP);
                 pnmain.add(soluong);
                 initInfomation(this.spDTO);
                 idSP.setDisable();
-                soluong.setDisable();  
+                soluong.setDisable();
             }
             default ->
                 throw new AssertionError();
         }
         pnbottom.add(btnHuyBo);
-        
+
         this.add(titlePage, BorderLayout.NORTH);
         this.add(pnCenter, BorderLayout.CENTER);
         this.add(pnbottom, BorderLayout.SOUTH);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        
+
     }
 
     public SanPhamDialog(SanPham jpSP, JFrame owner, String title, boolean modal, String type) {
@@ -192,41 +204,41 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         this.jpSP = jpSP;
         initComponents(title, type);
     }
-    
+
     public SanPhamDialog(GUI.Panel.SanPham jpSP, JFrame owner, String title, boolean modal, String type, SanPhamDTO sp) {
         super(owner, title, modal);
         this.jpSP = jpSP;
-        this.spDTO=sp;
+        this.spDTO = sp;
         initComponents(title, type);
     }
-    
+
     public void initInfomation(SanPhamDTO sp) {
-        setNoidung(tenSP,sp.getTensp());
-        setNoidung(xuatxu,sp.getXuatxu());
+        setNoidung(tenSP, sp.getTensp());
+        setNoidung(xuatxu, sp.getXuatxu());
         setNoidung(gianhap, String.valueOf(sp.getGianhap()));
         setNoidung(giaxuat, String.valueOf(sp.getGiaxuat()));
         setIdSP(Integer.toString(sp.getMasp()));
-        setNoidung(soluong,String.valueOf(sp.getSoluong()));
+        setNoidung(soluong, String.valueOf(sp.getSoluong()));
         donvitinh.setSelectedIndex(setdonvitinh(sp.getMaDVT()));
         loaihang.setSelectedIndex(setloaihang(sp.getMaloaihang()));
         khuvuc.setSelectedIndex(setkhuvuc(sp.getMakhuvuc()));
-        hinhanh.setUrl_img(sp.getHinhanh());
-        urlImage=sp.getHinhanh();
+        hinhanh.setUrl_img("./src/img_product/"+sp.getHinhanh());
+        urlImage = sp.getHinhanh();
     }
-    
+
     public void setNoidung(InputForm inputForm, String text) {
         inputForm.setText(text);
     }
-    
+
     public void setIdSP(String text) {
         this.idSP.setText(text);
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == btnThemSanPham) {
@@ -234,55 +246,68 @@ public class SanPhamDialog extends JDialog implements MouseListener {
             String xuatxu = this.xuatxu.getText();
             double gianhap = Double.valueOf(this.gianhap.getText());
             double giaxuat = Double.valueOf(this.giaxuat.getText());
-            String hinhanh = this.hinhanh.getUrl_img();
+            String hinhanh = addImage(this.hinhanh.getUrl_img());;
             int madonvi = dvt.get(donvitinh.getSelectedIndex()).getMaDVT();
             int maloaihang = lh.get(loaihang.getSelectedIndex()).getMaloaihang();
             int makhuvuc = kvk.get(khuvuc.getSelectedIndex()).getMakhuvuckho();
             int sluong = 0;
             int id = SanPhamDAO.getInstance().getAutoIncrement();
-            JOptionPane.showMessageDialog(rootPane, tensp+"\n"+xuatxu+"\n"+gianhap+"\n"+giaxuat+"\n"+hinhanh+"\n"+madonvi+"\n"
-                    + maloaihang+"\n"+makhuvuc);
-            SanPhamDTO sp = new SanPhamDTO(id, tensp, xuatxu, gianhap, giaxuat, hinhanh, madonvi, maloaihang, makhuvuc,sluong);
+            SanPhamDTO sp = new SanPhamDTO(id, tensp, xuatxu, gianhap, giaxuat, hinhanh, madonvi, maloaihang, makhuvuc, sluong);
             jpSP.spBUS.add(sp);
             jpSP.loadDataTalbe(jpSP.listSP);
             dispose();
         } else if (e.getSource() == btnHuyBo) {
             dispose();
-        } else if (e.getSource() == btnCapNhat) {  
+        } else if (e.getSource() == btnCapNhat) {
             String tensp = this.tenSP.getText();
             String xuatxu = this.xuatxu.getText();
             double gianhap = Double.valueOf(this.gianhap.getText());
             double giaxuat = Double.valueOf(this.giaxuat.getText());
-            String hinhanh=urlImage;
-            if(this.hinhanh.getUrl_img()!=null){
-            hinhanh = this.hinhanh.getUrl_img();
+            String hinhanh = urlImage;
+            if (this.hinhanh.getUrl_img() != null) {
+                hinhanh = this.hinhanh.getUrl_img();
             }
-            //System.out.println(hinhanh);
             int madonvi = dvt.get(donvitinh.getSelectedIndex()).getMaDVT();
             int maloaihang = lh.get(loaihang.getSelectedIndex()).getMaloaihang();
             int makhuvuc = kvk.get(khuvuc.getSelectedIndex()).getMakhuvuckho();
             int sluong = Integer.valueOf(this.soluong.getText());
-            int id= spDTO.getMasp();
-            DTO.SanPhamDTO sp = new DTO.SanPhamDTO(id, tensp, xuatxu, gianhap, giaxuat, hinhanh, madonvi, maloaihang, makhuvuc,sluong);
+            int id = spDTO.getMasp();
+            DTO.SanPhamDTO sp = new DTO.SanPhamDTO(id, tensp, xuatxu, gianhap, giaxuat, hinhanh, madonvi, maloaihang, makhuvuc, sluong);
             jpSP.spBUS.update(sp);
             jpSP.loadDataTalbe(jpSP.listSP);
             dispose();
         }
     }
-    
+
+    public String addImage(String urlImg) {
+        Random randomGenerator = new Random();
+        int ram = randomGenerator.nextInt(1000);
+        File sourceFile = new File(urlImg);
+        String destPath = "./src/img_product";
+        File destFolder = new File(destPath);
+        String newName = ram+sourceFile.getName();
+        try {
+            Path dest = Paths.get(destFolder.getPath(), newName);
+
+            Files.copy(sourceFile.toPath(), dest);
+        } catch (IOException e) {
+        }
+        return newName;
+    }
+
     @Override
     public void mouseReleased(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public void mouseEntered(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }
