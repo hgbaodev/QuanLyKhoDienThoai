@@ -43,11 +43,6 @@ public class PhieuXuat extends JPanel implements ActionListener{
 
         tablePhieuXuat = new JTable();
         scrollTablePhieuXuat = new JScrollPane();
-        tablePhieuXuat.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
-        tablePhieuXuat.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã khu vực kho", "Tên khu vực", "Mã kho hàng"};
         tblModel.setColumnIdentifiers(header);

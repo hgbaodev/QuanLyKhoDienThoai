@@ -4,6 +4,7 @@
  */
 package GUI.Component;
 
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JButton;
@@ -14,7 +15,7 @@ import javax.swing.JButton;
  */
 public class ButtonToolBar extends JButton{
     public ButtonToolBar(String text, String linkicon) {
-        this.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        this.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 1, 14));
         this.setForeground(new Color(1, 88, 155));
         this.setIcon(new javax.swing.ImageIcon(getClass().getResource(linkicon)));
         this.setText(text);

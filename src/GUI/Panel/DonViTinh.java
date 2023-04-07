@@ -50,7 +50,6 @@ public class DonViTinh extends JPanel implements ActionListener {
         tableSanPham = new JTable();
         tableSanPham.setDefaultEditor(Object.class, null);
         scrollTableSanPham = new JScrollPane();
-        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã đơn vị tính", "Tên đơn vị tính"};
         tblModel.setColumnIdentifiers(header);

@@ -22,6 +22,8 @@ import javax.swing.*;
 import GUI.Component.MenuTaskbar;
 import GUI.Component.NavigationBar;
 import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -181,13 +183,18 @@ public class Main extends javax.swing.JFrame {
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
+        FlatRobotoFont.install();
+        FlatLaf.setPreferredFontFamily(FlatRobotoFont.FAMILY);
+        FlatLaf.setPreferredLightFontFamily(FlatRobotoFont.FAMILY_LIGHT);
+        FlatLaf.setPreferredSemiboldFontFamily(FlatRobotoFont.FAMILY_SEMIBOLD);
         UIManager.setLookAndFeel(new FlatMacLightLaf());
         UIManager.put("Table.showVerticalLines", true);
         UIManager.put("Table.showHorizontalLines", true);
         UIManager.put("TextComponent.arc", 5);
         UIManager.put("ScrollBar.thumbArc", 999);
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
-        UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
+        UIManager.put("Button.iconTextGap", 10);
+//        UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
         Main main = new Main();
         main.setVisible(true);
     }

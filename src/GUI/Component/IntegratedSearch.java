@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -23,7 +24,7 @@ public class IntegratedSearch extends JPanel {
         cbxChoose = new JComboBox();
         cbxChoose.setModel(new DefaultComboBoxModel<>(str));
         cbxChoose.setPreferredSize(new Dimension(130, 0));
-        cbxChoose.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        cbxChoose.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 14));
         jpSearch.add(cbxChoose,BorderLayout.WEST);
 
         txtSearchForm = new JTextField();
@@ -33,9 +34,9 @@ public class IntegratedSearch extends JPanel {
         jpSearch.add(txtSearchForm);
 
         btnReset = new JButton("Làm mới");
-        btnReset.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 14));
+        btnReset.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 14));
         btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/reset_30px.png")));
-        btnReset.setPreferredSize(new Dimension(130, 0));
+        btnReset.setPreferredSize(new Dimension(140, 0));
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 btnResetActionPerformed(e);

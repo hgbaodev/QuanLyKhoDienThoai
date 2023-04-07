@@ -127,7 +127,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'warehousemanagement' AND   TABLE_NAME   = 'nhacungcap'";
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'nhacungcap'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
             if (!rs2.isBeforeFirst() ) {

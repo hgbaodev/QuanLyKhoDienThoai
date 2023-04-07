@@ -39,11 +39,6 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
     private void initComponent() {
         tableKhuvuc = new JTable();
         scrollTableSanPham = new JScrollPane();
-        tableKhuvuc.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
-        tableKhuvuc.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã kho", "Tên kho hàng", "Ghi chú"};
         tblModel.setColumnIdentifiers(header);

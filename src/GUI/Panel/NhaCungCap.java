@@ -40,7 +40,6 @@ public class NhaCungCap extends JPanel implements ActionListener, ItemListener {
         //Set model table
         tableNhaCungCap = new JTable();
         scrollTableSanPham = new JScrollPane();
-        tableNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã NCC", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"};
         tblModel.setColumnIdentifiers(header);

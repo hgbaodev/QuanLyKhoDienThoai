@@ -5,17 +5,17 @@ import DTO.SanPhamDTO;
 import DTO.NhaCungCapDTO;
 import DAO.NhaCungCapDAO;
 import GUI.Component.ButtonCustom;
-import GUI.Component.ButtonToolBar;
 import GUI.Component.IntegratedSearch;
-import GUI.Component.MainFunction;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
-import GUI.Component.SelectForm;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.border.TitledBorder;
+import static javax.swing.border.TitledBorder.DEFAULT_POSITION;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,21 +29,20 @@ public class NhapKho extends JPanel {
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left, main, pnl[], pnl1;
     JTable tableSanPham, tableNhapKho;
     JScrollPane scrollTableSanPham, scrTableNhapKho;
-    JLabel lbl1, lblImage, lbl[], lbl2, lblTongTien;
-    JTextField txtSoLuong, txt[];
+    JLabel lbl1, lbl[], lbl2, lblTongTien;
+    JTextField txt[];
+    JSpinner txtSoLuong;
     DefaultTableModel tblModelSanPham, tblModelNhapKho;
-    JButton btnAddSoLuong, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnNhapHang, btnNhapKho;
+    JButton btnAddSoLuong, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnNhapKho;
     JComboBox slfNhaCungCap;
 
-    MainFunction mainFunction;
     IntegratedSearch search;
 
     public SanPhamBUS sanphamBUS = new SanPhamBUS();
     public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
     SanPhamDTO sp = new SanPhamDTO();
 
-    Color BackgroundColor = new Color(239, 235, 233);
-    Color buttonColor = new Color(1, 87, 155);
+    Color BackgroundColor = new Color(240, 247, 250);
 
     public NhapKho() {
         initComponent();
@@ -100,10 +99,9 @@ public class NhapKho extends JPanel {
         contentCenter.add(left, BorderLayout.WEST);
 
         left_top = new PanelBorderRadius();
-        left_top.setPreferredSize(new Dimension(0, 120));
-        BoxLayout b1 = new BoxLayout(left_top, BoxLayout.Y_AXIS);
-        left_top.setLayout(b1);
-        left_top.setBorder(new EmptyBorder(5, 20, 20, 20));
+        left_top.setPreferredSize(new Dimension(0, 90));
+        left_top.setLayout(new GridLayout(1, 1));
+        left_top.setBorder(new EmptyBorder(5, 5, 5, 5));
         left.add(left_top, BorderLayout.NORTH);
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
@@ -124,11 +122,6 @@ public class NhapKho extends JPanel {
 
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
-        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
-        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModelSanPham = new DefaultTableModel();
         String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Giá nhập", "Giá bán"};
         tblModelSanPham.setColumnIdentifiers(header);
@@ -150,10 +143,11 @@ public class NhapKho extends JPanel {
 
         lbl1 = new JLabel("Số lượng");
         left_bottom.add(lbl1);
-        txtSoLuong = new JTextField();
+        txtSoLuong = new JSpinner();
+        txtSoLuong.setValue(1);
         txtSoLuong.setPreferredSize(new Dimension(70, 30));
         left_bottom.add(txtSoLuong);
-        btnAddSoLuong = new ButtonCustom("Thêm", "blue", 14, "/icon/Plus_25px.png");
+        btnAddSoLuong = new ButtonCustom("Thêm vào phiếu", "success", 13, "/icon/Plus_25px.png",160,40);
         left_bottom.add(btnAddSoLuong);
 
         // main là phần ở dưới để thống kê bảng biểu
@@ -214,11 +208,6 @@ public class NhapKho extends JPanel {
 
         tableNhapKho = new JTable();
         scrTableNhapKho = new JScrollPane();
-        tableNhapKho.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
-        tableNhapKho.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModelNhapKho = new DefaultTableModel();
         String[] header1 = new String[]{"Số thứ tự", "Mã sản phẩm", "Tên sẩn phẩm", "Số lượng", "Đơn giá"};
         tblModelNhapKho.setColumnIdentifiers(header1);
@@ -236,51 +225,49 @@ public class NhapKho extends JPanel {
 
         main_bottom = new PanelBorderRadius();
         main_bottom.setPreferredSize(new Dimension(0, 140));
-        main_bottom.setLayout(new FlowLayout(1,10, 10));
+        main_bottom.setLayout(new FlowLayout(1,5, 5));
         main_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
         main.add(main_bottom, BorderLayout.SOUTH);
 
         JPanel main_Panel_bottom = new JPanel();
-        main_Panel_bottom.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14)));
         main_Panel_bottom.setOpaque(false);
-        main_Panel_bottom.setPreferredSize(new Dimension(400,50));
+        main_Panel_bottom.setPreferredSize(new Dimension(550,70));
         main_bottom.add(main_Panel_bottom);
+        
 //        main_Panel_bottom.setBackground(Color.WHITE);
 //        main_Panel_bottom.setLayout(new FlowLayout(1, 15, 20));
 //        main_Panel_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
-        lbl1 = new JLabel("Số lượng");
-        btnNhapExcel = new ButtonCustom("Nhập Excel", "green", 14, "/icon/xls_25px.png");
+
+        btnNhapExcel = new ButtonCustom("Nhập Excel", "excel", 14, "/icon/xls_25px.png");
         main_Panel_bottom.add(btnNhapExcel);
 
-        btnEditSoLuong = new ButtonCustom("Sửa số lượng", "yellow", 14, "/icon/edit_25px.png");
+        btnEditSoLuong = new ButtonCustom("Sửa số lượng", "warning", 14, "/icon/edit_25px.png",160,40);
         main_Panel_bottom.add(btnEditSoLuong);
 
-        btnDeleteSanPham = new ButtonCustom("Xóa sản phẩm", "red", 14, "/icon/delete_25px.png");
+        btnDeleteSanPham = new ButtonCustom("Xóa sản phẩm", "danger", 14, "/icon/delete_25px.png",160,40);
         main_Panel_bottom.add(btnDeleteSanPham);
 
         pnl1 = new JPanel();
         pnl1.setOpaque(false);
-        pnl1.setLayout(new FlowLayout(1, 50, 0));
+        pnl1.setLayout(new FlowLayout(1, 40, 0));
         main_bottom.add(pnl1);
 
         lbl2 = new JLabel("Tổng tiền");
-        lbl2.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
+        lbl2.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18));
         pnl1.add(lbl2);
 
         lblTongTien = new JLabel("0 VNĐ");
-        lblTongTien.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
+        lblTongTien.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 20));
         lblTongTien.setForeground(Color.RED);
         pnl1.add(lblTongTien);
 
         btnNhapKho = new JButton("NHẬP KHO");
-        btnNhapKho.setPreferredSize(new Dimension(150, 40));
-        btnNhapKho.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 18));
-        btnNhapKho.setBackground(new Color(0, 200, 83));
+        btnNhapKho.setPreferredSize(new Dimension(180, 40));
+        btnNhapKho.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18));
+        btnNhapKho.setBackground(new Color(0, 0, 0));
         btnNhapKho.setForeground(Color.white);
         pnl1.add(btnNhapKho);
 
-        main_Panel_bottom.add(btnDeleteSanPham);
-        main_bottom.add(main_Panel_bottom, BorderLayout.CENTER);
     }
 
     public void loadDataTableSanPham(ArrayList<DTO.SanPhamDTO> result) {

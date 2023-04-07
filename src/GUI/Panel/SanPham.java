@@ -1,8 +1,14 @@
 package GUI.Panel;
 
+import BUS.DonViTinhBUS;
+import BUS.KhuVucKhoBUS;
+import BUS.LoaiHangBUS;
 import GUI.Dialog.SanPhamDialog;
 import BUS.SanPhamBUS;
 import DAO.SanPhamDAO;
+import DTO.DonViTinhDTO;
+import DTO.KhuVucKhoDTO;
+import DTO.LoaiHangDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -48,6 +54,39 @@ public class SanPham extends JPanel implements ActionListener {
     Color BackgroundColor = new Color(240, 247, 250);
     Color FontColor = new Color(96, 125, 139);
     Color DefaultColor = new Color(255, 255, 255);
+    public String getTenDVT(int maDVT){
+        String tendvt="";
+        DonViTinhBUS dvtbus = new DonViTinhBUS();
+        ArrayList<DonViTinhDTO> listDVT = dvtbus.getAll();
+        for(int i=0;i<listDVT.size();i++){
+            if(maDVT==listDVT.get(i).getMaDVT()){
+                tendvt=listDVT.get(i).getTenDVT();
+            }
+        }
+        return tendvt;
+    }
+        public String getTenloaihang(int maloaihang){
+        String tenlh="";
+        LoaiHangBUS lhBUS = new LoaiHangBUS();
+            ArrayList<LoaiHangDTO> listLH = lhBUS.getAll();
+            for (int i = 0; i < listLH.size(); i++) {
+                if (maloaihang == listLH.get(i).getMaloaihang()) {
+                    tenlh = listLH.get(i).getTenloaihang();
+                }
+        }
+        return tenlh;
+    }
+         public String getTenkhuvuc(int makhuvuc){
+        String tenkv="";
+        KhuVucKhoBUS kvkbus = new KhuVucKhoBUS();
+        ArrayList<KhuVucKhoDTO> listKVK = kvkbus.getAll();
+        for(int i=0;i<listKVK.size();i++){
+            if(makhuvuc==listKVK.get(i).getMakhuvuckho()){
+                tenkv=listKVK.get(i).getTenkhuvuc();
+            }
+        }
+        return tenkv;
+    }
 
     private void initComponent() {
         this.setBackground(BackgroundColor);
@@ -56,13 +95,8 @@ public class SanPham extends JPanel implements ActionListener {
 
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
-        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
-        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá xuất", "Hình ảnh", "Mã đơn vị tính", "Mã loại hàng", "Mã khu vực"};
+        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá xuất", "Đơn vị tính", "Loại hàng", "Khu vực kho"};
         tblModel.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableSanPham);
@@ -70,6 +104,12 @@ public class SanPham extends JPanel implements ActionListener {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableSanPham.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
 
         pnlBorder1 = new JPanel();
         pnlBorder1.setPreferredSize(new Dimension(0, 20));
@@ -156,7 +196,7 @@ public class SanPham extends JPanel implements ActionListener {
         tblModel.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
             tblModel.addRow(new Object[]{
-                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), sp.getGianhap(), sp.getGiaxuat(), sp.getHinhanh(), sp.getMaDVT(), sp.getMaloaihang(), sp.getMakhuvuc()
+                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), sp.getGianhap(), sp.getGiaxuat(), getTenDVT(sp.getMaDVT()), getTenloaihang(sp.getMaloaihang()), getTenkhuvuc(sp.getMakhuvuc())
             });
         }
     }

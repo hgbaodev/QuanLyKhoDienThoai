@@ -55,11 +55,6 @@ public class LoaiHang extends JPanel implements ActionListener{
 
         tableLoaiHang = new JTable();
         scrollTableLoaiHang = new JScrollPane();
-        tableLoaiHang.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
-        tableLoaiHang.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã loại hàng", "Tên loại hàng"};
         tblModel.setColumnIdentifiers(header);
