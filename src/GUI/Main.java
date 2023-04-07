@@ -188,7 +188,7 @@ public class Main extends javax.swing.JFrame {
         FlatLaf.setPreferredFontFamily(FlatRobotoFont.FAMILY);
         FlatLaf.setPreferredLightFontFamily(FlatRobotoFont.FAMILY_LIGHT);
         FlatLaf.setPreferredSemiboldFontFamily(FlatRobotoFont.FAMILY_SEMIBOLD);
-        UIManager.setLookAndFeel(new FlatMacLightLaf());
+//        UIManager.setLookAndFeel(new FlatMacLightLaf());
         UIManager.put("Table.showVerticalLines", true);
         UIManager.put("Table.showHorizontalLines", true);
         UIManager.put("TextComponent.arc", 5);

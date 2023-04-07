@@ -114,18 +114,8 @@ public class PhieuNhap extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-
-            int input = JOptionPane.showConfirmDialog(null,
-                    "Chúng tôi sẽ chuyển đến nhập kho.\nBạn đã chắc chắn chưa?", "Chuyển sang nhập kho",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-            if (input == 0) {
-                nhapKho = new NhapKho();
-                m.MainContent.removeAll();
-                m.MainContent.add(nhapKho).setVisible(true);
-                m.MainContent.repaint();
-                m.MainContent.validate();
-            }
-
+            nhapKho = new NhapKho();
+            m.setPanel(nhapKho);
         }
     }
 
