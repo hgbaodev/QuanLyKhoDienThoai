@@ -10,6 +10,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -47,7 +48,6 @@ public class NhapKho extends JPanel {
     public NhapKho() {
         initComponent();
         loadDataTableSanPham(listsp);
-
     }
 
     public String[] getnhacungcap() {
