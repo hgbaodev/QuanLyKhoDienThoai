@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 
 public class TaiKhoan extends JPanel {
-    PanelBorderRadius box1, box2, main, functionBar, bottom;
+    PanelBorderRadius box1, box2, main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tableSanPham;
     JScrollPane scrollTableSanPham;
@@ -90,19 +90,12 @@ public class TaiKhoan extends JPanel {
                 new Object[][]{
                     {"001", "Nồi cơm điện siêu to khổng lồ", "Việt Nam", "201000", "240000"},
                     {"002", "Công", "nhan zien", "2001"},
-                    {null, null, null, null},
-                    {null, null, null, null}
                 },
                 new String[]{
                     "Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá bán",
                 }
         ));
         scrollTableSanPham.setViewportView(tableSanPham);
-
-        bottom = new PanelBorderRadius();
-        bottom.setPreferredSize(new Dimension(00, 160));
-        bottom.setLayout(new FlowLayout(1, 15, 40));
-        contentCenter.add(bottom, BorderLayout.SOUTH);
     }
 
     public TaiKhoan() {

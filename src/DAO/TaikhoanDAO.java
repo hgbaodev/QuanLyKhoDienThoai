@@ -25,14 +25,9 @@ public class TaikhoanDAO implements DAOinterface<Taikhoan>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `taikhoan`(`email`, `hoten`, `matkhau`, `trangthai`, `makhohang`, `manhomquyen`) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO `taikhoan`(`trangthai`,``) VALUES (1,)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t.getEmail());
-            pst.setString(2, t.getHoten());
-            pst.setString(3, t.getMatkhau());
-            pst.setInt(4, t.getTrangthai());
-            pst.setString(5, t.getMakhohang());
-            pst.setString(6, t.getManhomquyen());
+            
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
