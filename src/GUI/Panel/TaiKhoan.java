@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Dialog.DonViTinhDialog;
+import GUI.Dialog.TaiKhoanDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -18,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -39,6 +41,15 @@ public class TaiKhoan extends JPanel implements ActionListener{
     Color BackgroundColor = new Color(240, 247, 250);
 
     private Main m;
+    private DefaultTableModel tblModel;
+    
+    
+    public TaiKhoan() {
+        System.out.println("tai khoản");
+        initComponent();
+//        TaiKhoanDialog addTk = new TaiKhoanDialog(this, owner, "Thêm tài khoản", true, "create");
+    }
+    
     private void initComponent() {
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
@@ -76,12 +87,16 @@ public class TaiKhoan extends JPanel implements ActionListener{
         functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-
         mainFunction = new MainFunction();
+        mainFunction.btnAdd.addActionListener(this);
+        mainFunction.btnEdit.addActionListener(this);
+        mainFunction.btnDetail.addActionListener(this);
+        mainFunction.btnDelete.addActionListener(this);
+        mainFunction.btnXuatExcel.addActionListener(this);
+        mainFunction.btnNhapExcel.addActionListener(this);
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        search = new IntegratedSearch(new String[]{"Tất cả","Tên đăng nhập"});
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
@@ -100,22 +115,14 @@ public class TaiKhoan extends JPanel implements ActionListener{
 
         scrollTableSanPham.setPreferredSize(new Dimension(700, 450));
 
-        tableTaiKhoan.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                    {"001", "Nồi cơm điện siêu to khổng lồ", "Việt Nam", "201000", "240000"},
-                    {"002", "Công", "nhan zien", "2001"},
-                },
-                new String[]{
-                    "Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá bán",
-                }
-        ));
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"Mã đơn vị tính", "Tên đơn vị tính"};
+        tblModel.setColumnIdentifiers(header);
+        tableTaiKhoan.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableTaiKhoan);
         main.add(scrollTableSanPham);
     }
 
-    public TaiKhoan() {
-        initComponent();
-    }
     
     public void openFile(String file) {
         try {
@@ -200,7 +207,10 @@ public class TaiKhoan extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println(e.getActionCommand());
         if (e.getSource() == mainFunction.btnAdd) {
+            System.out.println("btnadd");
+            
         } else if (e.getSource() == mainFunction.btnEdit) {
             int index = tableTaiKhoan.getSelectedRow();
             if (index == -1) {
