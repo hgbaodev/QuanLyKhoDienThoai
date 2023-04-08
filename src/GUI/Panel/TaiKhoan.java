@@ -95,6 +95,13 @@ public class TaiKhoan extends JPanel implements ActionListener{
         mainFunction.btnXuatExcel.addActionListener(this);
         mainFunction.btnNhapExcel.addActionListener(this);
         functionBar.add(mainFunction);
+        mainFunction.btnAdd.addActionListener(this);
+        mainFunction.btnDelete.addActionListener(this);
+        mainFunction.btnEdit.addActionListener(this);
+        mainFunction.btnDetail.addActionListener(this);
+        mainFunction.btnNhapExcel.addActionListener(this);
+        mainFunction.btnXuatExcel.addActionListener(this);
+        
 
         search = new IntegratedSearch(new String[]{"Tất cả","Tên đăng nhập"});
         functionBar.add(search);
@@ -214,16 +221,16 @@ public class TaiKhoan extends JPanel implements ActionListener{
         } else if (e.getSource() == mainFunction.btnEdit) {
             int index = tableTaiKhoan.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần sửa");
             } else {
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
             int index = tableTaiKhoan.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xóa");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần xóa");
             } else {
                 int input = JOptionPane.showConfirmDialog(null,
-                        "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa đơn vị tính",
+                        "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa xóa tài khoản",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
                     
@@ -232,7 +239,7 @@ public class TaiKhoan extends JPanel implements ActionListener{
         } else if (e.getSource() == mainFunction.btnDetail) {
             int index = tableTaiKhoan.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần xem");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần xem");
             } else {
                 
             }
