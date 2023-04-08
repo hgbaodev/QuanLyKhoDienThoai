@@ -128,6 +128,7 @@ public class TaiKhoan extends JPanel implements ActionListener{
         tableTaiKhoan.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableTaiKhoan);
         main.add(scrollTableSanPham);
+        this.add(main);
     }
 
     
