@@ -307,9 +307,6 @@ public class SanPham extends JPanel implements ActionListener {
                         "Bạn có chắc chắn muốn xóa Sản phẩm :)!", "Xóa sản phẩm",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    File file = new File("./src/img_product/"+listSP.get(index).getHinhanh());
-                    if(file.delete()){
-                    }
                     spBUS.delete(listSP.get(index));
                     loadDataTalbe(listSP);
                 }
