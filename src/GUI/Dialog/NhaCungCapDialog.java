@@ -90,6 +90,7 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
                 break;
             case "view":
                 initInfo();
+                initView();
                 break;
             default:
                 throw new AssertionError();
@@ -107,6 +108,14 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
         diachi.setText(nccDTO.getDiachi());
         email.setText(nccDTO.getEmail());
         sodienthoai.setText(nccDTO.getSdt());
+    }
+
+    public void initView() {
+        tenNcc.setEditable(false);
+        diachi.setEditable(false);
+        email.setEditable(false);
+        sodienthoai.setEditable(false);
+
     }
 
     @Override
@@ -127,7 +136,7 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
             String diachi = this.diachi.getText();
             String email = this.email.getText();
             String sodienthoai = this.sodienthoai.getText();
-            jpNcc.nccBUS.update(new NhaCungCapDTO(nccDTO.getMancc(),tenNcc, diachi, email, sodienthoai));
+            jpNcc.nccBUS.update(new NhaCungCapDTO(nccDTO.getMancc(), tenNcc, diachi, email, sodienthoai));
             jpNcc.loadDataTalbe(jpNcc.listncc);
             dispose();
         }
