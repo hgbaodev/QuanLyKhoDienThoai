@@ -23,6 +23,7 @@ import java.util.Random;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -38,7 +39,7 @@ import javax.swing.table.TableColumnModel;
 public final class SanPhamNewDialog extends JDialog implements ActionListener {
 
     private HeaderTitle titlePage;
-    private JPanel pninfosanpham, pnbottom, pnCenter, pninfosanphamright, pnmain, pncard2;
+    private JPanel pninfosanpham, pnbottom, pnCenter, pninfosanphamright, pnmain, pncard2, pn3;
     private ButtonCustom btnThemCHMS, btnHuyBo;
     private ButtonCustom btnaddch, btneditch, btndeletech;
     private ButtonCustom btnaddms, btneditms, btndeletems;
@@ -112,7 +113,7 @@ public final class SanPhamNewDialog extends JDialog implements ActionListener {
     }
 
     public void initCardTwo() {
-        JPanel pnch_ms, pncauhinh, pnmausac,jpch_top, jpch_top_left, jpch_top_right, jpch_bottom, jpms_top, jpms_center, jpms_bottom;
+        JPanel pnch_ms, pncauhinh, pnmausac, jpch_top, jpch_top_left, jpch_top_right, jpch_bottom, jpms_top, jpms_center, jpms_bottom;
         pncard2 = new JPanel(new BorderLayout());
 
         pnch_ms = new JPanel(new GridLayout(1, 2));
@@ -200,7 +201,7 @@ public final class SanPhamNewDialog extends JDialog implements ActionListener {
         pnmausac.add(jpms_center, BorderLayout.CENTER);
         pnmausac.add(jpms_bottom, BorderLayout.SOUTH);
         pnch_ms.add(pnmausac, BorderLayout.EAST);
-        
+
         JPanel pnbottom1 = new JPanel(new FlowLayout());
         pnbottom1.setBorder(new EmptyBorder(20, 0, 10, 0));
         pnbottom1.setBackground(Color.white);
@@ -209,10 +210,35 @@ public final class SanPhamNewDialog extends JDialog implements ActionListener {
         ButtonCustom btnHuyBo1 = new ButtonCustom("Huỷ bỏ", "danger", 14);
         pnbottom1.add(btnThemCHMS1);
         pnbottom1.add(btnHuyBo1);
-        
-        pncard2.add(pnch_ms,BorderLayout.CENTER);
-        pncard2.add(pnbottom1, BorderLayout.SOUTH);
 
+        pncard2.add(pnch_ms, BorderLayout.CENTER);
+        pncard2.add(pnbottom1, BorderLayout.SOUTH);
+    }
+
+    public void initCardThree() {
+        int sl = 9;
+        pn3 = new JPanel(new BorderLayout());
+        JPanel pn3_top = new JPanel(new GridLayout(sl, 5));
+        InputForm[][] ipform = new InputForm[sl][5];
+        String[] textt = {"Dung lượng lưu trữ", "RAM", "Màu sắc", "Giá nhập", "Giá xuất"};
+        for (int i = 0; i < sl; i++) {
+            for (int j = 0; j < 5; j++) {
+                ipform[i][j] = new InputForm(textt[j]);
+                pn3_top.add(ipform[i][j]);
+            }
+        }
+        JScrollPane jcr = new JScrollPane(pn3_top,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        
+        JPanel pnbottom2 = new JPanel(new FlowLayout());
+        pnbottom2.setBorder(new EmptyBorder(6, 0, 6, 0));
+        pnbottom2.setBackground(Color.white);
+        ButtonCustom btnThemCHMS2 = new ButtonCustom("Tạo giá cấu hình", "success", 14);
+        btnThemCHMS2.addActionListener(this);
+        ButtonCustom btnHuyBo2 = new ButtonCustom("Huỷ bỏ", "danger", 14);
+        pnbottom2.add(btnThemCHMS2);
+        pnbottom2.add(btnHuyBo2);
+        pn3.add(jcr, BorderLayout.CENTER);
+        pn3.add(pnbottom2, BorderLayout.SOUTH);
     }
 
     public void initComponents(String title, String type) {
@@ -225,9 +251,11 @@ public final class SanPhamNewDialog extends JDialog implements ActionListener {
 
         initCardOne();
         initCardTwo();
+        initCardThree();
 
         pnmain.add(pnCenter);
         pnmain.add(pncard2);
+        pnmain.add(pn3);
 
         this.add(titlePage, BorderLayout.NORTH);
         this.add(pnmain, BorderLayout.CENTER);
@@ -252,11 +280,13 @@ public final class SanPhamNewDialog extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Object source = e.getSource();
-        if (source == btnThemCHMS) {
-            CardLayout c = (CardLayout) pnmain.getLayout();
-            c.next(pnmain);
-        }
+//        Object source = e.getSource();
+//        if (source == btnThemCHMS) {
+//            CardLayout c = (CardLayout) pnmain.getLayout();
+//            c.next(pnmain);
+//        }
+        CardLayout c = (CardLayout) pnmain.getLayout();
+        c.next(pnmain);
     }
 
 }
