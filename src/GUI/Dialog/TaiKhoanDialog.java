@@ -36,6 +36,8 @@ public class TaiKhoanDialog extends JDialog{
     public TaiKhoanDialog(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal, String type){
         super(owner, title, modal);
         init(title, type);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
     
     public void init(String title, String type){
