@@ -10,18 +10,18 @@ import java.util.Objects;
  *
  * @author robot
  */
-public class AccountDTO {
+public class TaiKhoanDTO {
     private int manv;
     private String username;
     private String matkhau;
     private int manhomquyen;
     private int trangthai;
 
-    public AccountDTO() {
+    public TaiKhoanDTO() {
         
     }
     
-    public AccountDTO(int manv, String username, String matkhau, int manhomquyen, int trangthai) {
+    public TaiKhoanDTO(int manv, String username, String matkhau, int manhomquyen, int trangthai) {
         this.manv = manv;
         this.username = username;
         this.matkhau = matkhau;
@@ -91,7 +91,7 @@ public class AccountDTO {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AccountDTO other = (AccountDTO) obj;
+        final TaiKhoanDTO other = (TaiKhoanDTO) obj;
         if (this.manv != other.manv) {
             return false;
         }

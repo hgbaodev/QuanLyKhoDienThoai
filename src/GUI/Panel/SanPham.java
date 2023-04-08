@@ -196,7 +196,6 @@ public final class SanPham extends JPanel implements ActionListener {
                         "Bạn có chắc chắn muốn xóa Sản phẩm :)!", "Xóa sản phẩm",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    JOptionPane.showMessageDialog(null, listSP.get(index));
                     spBUS.delete(listSP.get(index));
                     loadDataTalbe(listSP);
                 }
@@ -232,4 +231,5 @@ public final class SanPham extends JPanel implements ActionListener {
         pnlBorder4.setBackground(BackgroundColor);
         this.add(pnlBorder4, BorderLayout.WEST);
     }
+
 }
