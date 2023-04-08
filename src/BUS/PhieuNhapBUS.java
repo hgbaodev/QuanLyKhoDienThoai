@@ -16,15 +16,15 @@ import java.util.ArrayList;
  */
 public class PhieuNhapBUS {
 
-    private final PhieuNhapDAO phieunhapDAO = new PhieuNhapDAO();
-    private final ChiTietPhieuNhapDAO ctPhieuNhapDAO = new ChiTietPhieuNhapDAO();
+    public final PhieuNhapDAO phieunhapDAO = new PhieuNhapDAO();
+    public final ChiTietPhieuNhapDAO ctPhieuNhapDAO = new ChiTietPhieuNhapDAO();
     public ArrayList<PhieuNhapDTO> listPhieuNhap;
 
     public PhieuNhapBUS() {
-        this.listPhieuNhap = phieunhapDAO.selectAll();
     }
 
     public ArrayList<PhieuNhapDTO> getAll() {
+        this.listPhieuNhap = phieunhapDAO.selectAll();
         return listPhieuNhap;
     }
 
@@ -36,10 +36,10 @@ public class PhieuNhapBUS {
         }
         return check;
     }
-    
+
     public boolean update(PhieuNhapDTO phieu, ArrayList<ChiTietPhieuDTO> ctPhieu) {
         boolean check = phieunhapDAO.update(phieu) != 0;
-        if(check) {
+        if (check) {
             this.removeChiTietPhieu(Integer.toString(phieu.getMaphieu()));
             this.addChiTietPhieu(ctPhieu);
         }
@@ -54,5 +54,26 @@ public class PhieuNhapBUS {
     public boolean removeChiTietPhieu(String maphieu) {
         boolean check = ctPhieuNhapDAO.delete(maphieu) != 0;
         return check;
+    }
+
+    public ChiTietPhieuDTO findCT(ArrayList<ChiTietPhieuDTO> ctphieu, int masp) {
+        ChiTietPhieuDTO p = null;
+        int i = 0;
+        while (i < ctphieu.size() && p == null) {
+            if (ctphieu.get(i).getMasanpham() == masp) {
+                p = ctphieu.get(i);
+            } else {
+                i++;
+            }
+        }
+        return p;
+    }
+
+    public double getTongTien(ArrayList<ChiTietPhieuDTO> ctphieu) {
+        double result = 0;
+        for(ChiTietPhieuDTO item : ctphieu) {
+            result += (item.getDongia() * item.getSoluong());
+        }
+        return result;
     }
 }

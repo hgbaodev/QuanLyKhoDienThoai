@@ -2,13 +2,10 @@ package GUI;
 
 import GUI.Panel.TrangChu;
 import GUI.Panel.TaiKhoan;
-import GUI.Panel.XuatKho;
 import GUI.Panel.PhieuNhap;
-import GUI.Panel.NhapKho;
 import GUI.Panel.KhachHang;
 import GUI.Panel.DonViTinh;
 import GUI.Panel.SanPham;
-import GUI.Panel.KiemKe;
 import GUI.Panel.NhanVien;
 import GUI.Panel.LoaiHang;
 import GUI.Panel.PhanQuyen;
@@ -19,7 +16,6 @@ import GUI.Panel.PhieuXuat;
 import java.awt.*;
 import javax.swing.*;
 import GUI.Component.MenuTaskbar;
-import GUI.Component.NavigationBar;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
@@ -27,9 +23,7 @@ import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Main extends javax.swing.JFrame {
-
-    JPanel pnlThanhDuoi;
+public class Main extends JFrame {
     public JPanel MainContent;
     Color MainColor = new Color(250, 250, 250);
     TrangChu trangChu;
@@ -38,20 +32,15 @@ public class Main extends javax.swing.JFrame {
     LoaiHang loaiHang;
     KhuVucKho quanLyKho;
     ChuyenKho chuyenKho;
-    KiemKe kiemKe;
-    NhapKho nhapKho;
     PhieuNhap phieuNhap;
-    XuatKho xuatKho;
     PhieuXuat phieuXuat;
     KhachHang khachHang;
     NhaCungCap nhacungcap;
     NhanVien nhanVien;
     TaiKhoan taiKhoan;
     PhanQuyen phanQuyen;
-    JLabel lbl;
 
     private MenuTaskbar menuTaskbar;
-    private NavigationBar navbar;
 
     private void initComponent() {
         this.setSize(new Dimension(1400, 800));
@@ -195,7 +184,7 @@ public class Main extends javax.swing.JFrame {
         UIManager.put("ScrollBar.thumbArc", 999);
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
         UIManager.put("Button.iconTextGap", 10);
-        UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
+//        UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
         Main main = new Main();
         main.setVisible(true);
     }
