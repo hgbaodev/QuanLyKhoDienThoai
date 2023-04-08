@@ -25,7 +25,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `donvitinh`(`tendonvitinh`) VALUES (?)";
+            String sql = "INSERT INTO `donvitinh`(`tendonvitinh`,`trangthai`) VALUES (?,1)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getTenDVT());
             result = pst.executeUpdate();
@@ -58,7 +58,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM donvitinh WHERE madonvitinh = ?";
+            String sql = "UPDATE `donvitinh` SET `trangthai`=0 WHERE madonvitinh = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -74,7 +74,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO> {
         ArrayList<DonViTinhDTO> result = new ArrayList<DonViTinhDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM donvitinh";
+            String sql = "SELECT * `FROM donvitinh` WHERE `trangthai`=1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
@@ -115,7 +115,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO> {
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'warehousemanagement' AND   TABLE_NAME   = 'donvitinh'";
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'donvitinh'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
             if (!rs2.isBeforeFirst() ) {
