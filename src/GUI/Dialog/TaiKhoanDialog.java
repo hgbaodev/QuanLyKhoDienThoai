@@ -4,9 +4,12 @@
  */
 package GUI.Dialog;
 
+import DAO.NhomQuyenDAO;
+import DTO.NhomQuyenDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import GUI.Component.SelectForm;
 import GUI.Panel.DonViTinh;
 import GUI.Panel.TaiKhoan;
 import java.awt.BorderLayout;
@@ -14,6 +17,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -32,6 +36,9 @@ public class TaiKhoanDialog extends JDialog{
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
     private InputForm username;
     private InputForm password;
+    private SelectForm maNhomQuyen;
+    private SelectForm trangthai;
+    private ArrayList<NhomQuyenDTO> listNq = NhomQuyenDAO.getInstance().selectAll();
     
     public TaiKhoanDialog(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal, String type){
         super(owner, title, modal);
@@ -41,15 +48,19 @@ public class TaiKhoanDialog extends JDialog{
     }
     
     public void init(String title, String type){
-        this.setSize(new Dimension(500, 270));
+        this.setSize(new Dimension(500, 620));
         this.setLayout(new BorderLayout(0, 0));
         titlePage = new HeaderTitle(title.toUpperCase());
-        pnmain = new JPanel(new GridLayout(1, 1, 20, 0));
+        pnmain = new JPanel(new GridLayout(4, 1, 5, 0));
         pnmain.setBackground(Color.white);
         username = new InputForm("Tên đăng nhập");
-        password = new InputForm("Mật khẩu");
+        password = new InputForm("Mật khẩu","password");
+        maNhomQuyen = new SelectForm("Nhóm quyền", getNhomQuyen());
+        trangthai = new SelectForm("Trạng thái", new String[]{"Hoạt động","Ngưng hoạt động"});
         pnmain.add(username);
         pnmain.add(password);
+        pnmain.add(maNhomQuyen);
+        pnmain.add(trangthai);
         pnbottom = new JPanel(new FlowLayout());
         pnbottom.setBorder(new EmptyBorder(10, 0, 10, 0));
         pnbottom.setBackground(Color.white);
@@ -72,5 +83,13 @@ public class TaiKhoanDialog extends JDialog{
         this.add(titlePage, BorderLayout.NORTH);
         this.add(pnmain, BorderLayout.CENTER);
         this.add(pnbottom, BorderLayout.SOUTH);
+    }
+    
+    public String[] getNhomQuyen(){
+        String[] listNhomQuyen = new String[listNq.size()];
+        for(int i = 0; i < listNq.size(); i++){
+            listNhomQuyen[i] = listNq.get(i).getTennhomquyen();
+        }
+        return listNhomQuyen;
     }
 }
