@@ -45,14 +45,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.View;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-/**
- *
- * @author Tran Nhat Sinh
- */
 public class SanPhamDialog extends JDialog implements MouseListener {
 
     private HeaderTitle titlePage;
@@ -183,8 +175,8 @@ public class SanPhamDialog extends JDialog implements MouseListener {
                 pnmain.add(idSP);
                 pnmain.add(soluong);
                 initInfomation(this.spDTO);
-                idSP.setDisable();
-                soluong.setDisable();
+                idSP.setEditable(false);
+                soluong.setEditable(false);  
             }
             default ->
                 throw new AssertionError();
@@ -196,7 +188,6 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         this.add(pnbottom, BorderLayout.SOUTH);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-
     }
 
     public SanPhamDialog(SanPham jpSP, JFrame owner, String title, boolean modal, String type) {

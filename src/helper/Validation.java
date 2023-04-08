@@ -21,14 +21,14 @@ public class Validation {
         return pat.matcher(email).matches();
     }
     
-    public static Boolean isNumber(String num) {
-        Boolean valid = true;
-        if(num == null) valid = false;
+    public static int isNumber(String num) {
+        int result = -1;
+        if(num == null) result = -1;
         try {
-            Double a = Double.parseDouble(num);
-        } catch (Exception e) {
-            valid = false;
+            result = Integer.parseInt(num);
+        } catch (NumberFormatException e) {
+            
         }
-        return valid;
+        return result;
     }
 }

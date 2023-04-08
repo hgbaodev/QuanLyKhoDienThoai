@@ -5,40 +5,28 @@ import BUS.KhuVucKhoBUS;
 import BUS.LoaiHangBUS;
 import GUI.Dialog.SanPhamDialog;
 import BUS.SanPhamBUS;
-import DAO.SanPhamDAO;
 import DTO.DonViTinhDTO;
 import DTO.KhuVucKhoDTO;
 import DTO.LoaiHangDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import javax.swing.table.TableColumnModel;
 
-public class SanPham extends JPanel implements ActionListener {
+public final class SanPham extends JPanel implements ActionListener {
 
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -52,8 +40,6 @@ public class SanPham extends JPanel implements ActionListener {
     public ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
-    Color FontColor = new Color(96, 125, 139);
-    Color DefaultColor = new Color(255, 255, 255);
 
     public String getTenDVT(int maDVT) {
         String tendvt = "";
@@ -99,40 +85,21 @@ public class SanPham extends JPanel implements ActionListener {
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá xuất", "Đơn vị tính", "Loại hàng", "Khu vực kho"};
+        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá xuất", "Đơn vị tính", "Loại hàng", "Khu vực kho"};
         tblModel.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableSanPham);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tableSanPham.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        tableSanPham.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        tableSanPham.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        tableSanPham.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-        tableSanPham.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
-        tableSanPham.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
-        tableSanPham.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
+        TableColumnModel columnModel = tableSanPham.getColumnModel();
+        for (int i = 0; i < 8; i++) {
+            if(i != 1) columnModel.getColumn(i).setCellRenderer(centerRenderer);
+        }
+        tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(500);
+        tableSanPham.setFocusable(false);
+        tableSanPham.setDefaultEditor(Object.class, null);
 
-        pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 20));
-        pnlBorder1.setBackground(BackgroundColor);
-        this.add(pnlBorder1, BorderLayout.NORTH);
-
-        pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 20));
-        pnlBorder2.setBackground(BackgroundColor);
-        this.add(pnlBorder2, BorderLayout.SOUTH);
-
-        pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(20, 0));
-        pnlBorder3.setBackground(BackgroundColor);
-        this.add(pnlBorder3, BorderLayout.EAST);
-
-        pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(20, 0));
-        pnlBorder4.setBackground(BackgroundColor);
-        this.add(pnlBorder4, BorderLayout.WEST);
+        initPadding();
 
         contentCenter = new JPanel();
         contentCenter.setBackground(BackgroundColor);
@@ -157,6 +124,7 @@ public class SanPham extends JPanel implements ActionListener {
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyReleased(KeyEvent e) {
                 String txt = search.txtSearchForm.getText();
                 listSP = spBUS.search(txt);
@@ -165,13 +133,10 @@ public class SanPham extends JPanel implements ActionListener {
 
         });
 
-        search.btnReset.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                search.txtSearchForm.setText("");
-                listSP = spBUS.getAll();
-                loadDataTalbe(listSP);
-            }
+        search.btnReset.addActionListener((ActionEvent e) -> {
+            search.txtSearchForm.setText("");
+            listSP = spBUS.getAll();
+            loadDataTalbe(listSP);
         });
         functionBar.add(search);
 
@@ -190,7 +155,6 @@ public class SanPham extends JPanel implements ActionListener {
 
     public SanPham() {
         initComponent();
-        tableSanPham.setDefaultEditor(Object.class, null);
         loadDataTalbe(listSP);
     }
 
@@ -198,7 +162,7 @@ public class SanPham extends JPanel implements ActionListener {
         tblModel.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
             tblModel.addRow(new Object[]{
-                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), sp.getGianhap(), sp.getGiaxuat(), getTenDVT(sp.getMaDVT()), getTenloaihang(sp.getMaloaihang()), getTenkhuvuc(sp.getMakhuvuc())
+                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), Formater.FormatVND(sp.getGianhap()), Formater.FormatVND(sp.getGiaxuat()), getTenDVT(sp.getMaDVT()), getTenloaihang(sp.getMaloaihang()), getTenkhuvuc(sp.getMakhuvuc())
             });
         }
     }
@@ -210,81 +174,6 @@ public class SanPham extends JPanel implements ActionListener {
         } catch (IOException e) {
             System.out.println(e);
         }
-    }
-
-    public void exportExcel() {
-        try {
-            JFileChooser jFileChooser = new JFileChooser();
-            jFileChooser.showSaveDialog(this);
-            File saveFile = jFileChooser.getSelectedFile();
-            if (saveFile != null) {
-                saveFile = new File(saveFile.toString() + ".xlsx");
-                Workbook wb = new XSSFWorkbook();
-                Sheet sheet = wb.createSheet("SẢN PHẨM");
-                Row rowCol = sheet.createRow(0);
-                for (int i = 0; i < tableSanPham.getColumnCount(); i++) {
-                    Cell cell = rowCol.createCell(i);
-                    cell.setCellValue(tableSanPham.getColumnName(i));
-                }
-
-                for (int j = 0; j < tableSanPham.getRowCount(); j++) {
-                    Row row = sheet.createRow(j + 1);
-                    for (int k = 0; k < tableSanPham.getColumnCount(); k++) {
-                        Cell cell = row.createCell(k);
-                        if (tableSanPham.getValueAt(j, k) != null) {
-                            cell.setCellValue(tableSanPham.getValueAt(j, k).toString());
-                        }
-
-                    }
-                }
-                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
-                wb.write(out);
-                wb.close();
-                out.close();
-                openFile(saveFile.toString());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void importExcel() {
-        File excelFile;
-        FileInputStream excelFIS = null;
-        BufferedInputStream excelBIS = null;
-        XSSFWorkbook excelJTableImport = null;
-        ArrayList<DTO.SanPhamDTO> listExcel = new ArrayList<DTO.SanPhamDTO>();
-        JFileChooser jf = new JFileChooser();
-        int result = jf.showOpenDialog(null);
-        jf.setDialogTitle("Open file");
-        Workbook workbook = null;
-        if (result == JFileChooser.APPROVE_OPTION) {
-            try {
-                excelFile = jf.getSelectedFile();
-                excelFIS = new FileInputStream(excelFile);
-                excelBIS = new BufferedInputStream(excelFIS);
-                excelJTableImport = new XSSFWorkbook(excelBIS);
-                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
-                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
-                    XSSFRow excelRow = excelSheet.getRow(row);
-//                    int id = getAutoIncrement();
-//                    String tenSP = excelRow.getCell(0).getStringCellValue();
-//                    DTO.SanPham dv = new DTO.SanPham(id, tenLH);
-//                    spBUS.getAll().add(dv);
-//                    listExcel.add(dv);
-                    tblModel.setRowCount(0);
-                }
-            } catch (FileNotFoundException ex) {
-                System.out.println("Lỗi đọc file");
-            } catch (IOException ex) {
-                System.out.println("Lỗi đọc file");
-            }
-        }
-
-        for (DTO.SanPhamDTO sp : listExcel) {
-            SanPhamDAO.getInstance().insert(sp);
-        }
-        loadDataTalbe(listExcel);
     }
 
     @Override
@@ -319,13 +208,28 @@ public class SanPham extends JPanel implements ActionListener {
                 SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chi tiêt sản phẩm", true, "view", listSP.get(index));
             }
         }
-        if (e.getSource() == mainFunction.btnXuatExcel) {
-            exportExcel();
-        }
+    }
 
-        if (e.getSource() == mainFunction.btnNhapExcel) {
-            importExcel();
-        }
+    private void initPadding() {
+        pnlBorder1 = new JPanel();
+        pnlBorder1.setPreferredSize(new Dimension(0, 20));
+        pnlBorder1.setBackground(BackgroundColor);
+        this.add(pnlBorder1, BorderLayout.NORTH);
+
+        pnlBorder2 = new JPanel();
+        pnlBorder2.setPreferredSize(new Dimension(0, 20));
+        pnlBorder2.setBackground(BackgroundColor);
+        this.add(pnlBorder2, BorderLayout.SOUTH);
+
+        pnlBorder3 = new JPanel();
+        pnlBorder3.setPreferredSize(new Dimension(20, 0));
+        pnlBorder3.setBackground(BackgroundColor);
+        this.add(pnlBorder3, BorderLayout.EAST);
+
+        pnlBorder4 = new JPanel();
+        pnlBorder4.setPreferredSize(new Dimension(20, 0));
+        pnlBorder4.setBackground(BackgroundColor);
+        this.add(pnlBorder4, BorderLayout.WEST);
     }
 
 }

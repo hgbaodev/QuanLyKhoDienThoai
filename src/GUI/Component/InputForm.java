@@ -22,7 +22,7 @@ public final class InputForm extends JPanel {
 
     private JLabel lblTitle;
     private JTextField txtForm;
-    
+
     public InputForm(String title) {
         this.setLayout(new GridLayout(2, 1));
         this.setBackground(Color.white);
@@ -32,19 +32,21 @@ public final class InputForm extends JPanel {
         this.add(lblTitle);
         this.add(txtForm);
     }
-    
 
-    
     public String getText() {
         return txtForm.getText();
     }
-    
+
     public void setText(String content) {
         txtForm.setText(content);
     }
-    
-    public void setDisable(){
+
+    public void setDisable() {
         txtForm.setEnabled(false);
     }
-    
+
+    public void setEditable(boolean value) {
+        txtForm.setEditable(value);
+    }
+
 }

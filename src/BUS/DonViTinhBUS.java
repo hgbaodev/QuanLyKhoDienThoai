@@ -28,6 +28,18 @@ public class DonViTinhBUS {
         return this.listDvt.get(index);
     }
     
+    public String getTenDVT(int maDVT) {
+        String tendvt = "";
+        DonViTinhBUS dvtbus = new DonViTinhBUS();
+        ArrayList<DonViTinhDTO> listDVT = dvtbus.getAll();
+        for (int i = 0; i < listDVT.size(); i++) {
+            if (maDVT == listDVT.get(i).getMaDVT()) {
+                tendvt = listDVT.get(i).getTenDVT();
+            }
+        }
+        return tendvt;
+    }
+    
     public int getIndexByMaDV(int madonvi){
         int i = 0;
         int vitri = -1;

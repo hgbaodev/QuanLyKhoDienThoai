@@ -4,10 +4,16 @@
  */
 package helper;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Tran Nhat Sinh
  */
-public class Format {
-    
+public class Formater {
+
+    public static String FormatVND(double vnd) {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        return formatter.format(vnd) + "đ";
+    }
 }

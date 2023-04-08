@@ -1,46 +1,52 @@
 package GUI.Panel;
 
+import BUS.PhieuNhapBUS;
 import BUS.SanPhamBUS;
 import DTO.SanPhamDTO;
 import DTO.NhaCungCapDTO;
 import DAO.NhaCungCapDAO;
+import DTO.ChiTietPhieuDTO;
 import GUI.Component.ButtonCustom;
-import GUI.Component.InputForm;
 import GUI.Component.InputFormInline;
 import GUI.Component.IntegratedSearch;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import helper.Formater;
+import helper.Validation;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import javax.swing.border.TitledBorder;
-import static javax.swing.border.TitledBorder.DEFAULT_POSITION;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
-public class NhapKho extends JPanel {
+public final class NhapKho extends JPanel implements ActionListener {
 
     PanelBorderRadius left_top, left_center, left_bottom, main_top, main_center, main_bottom;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left, main, pnl[], pnl1;
+    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left, main, pnl1;
     JTable tableSanPham, tableNhapKho;
     JScrollPane scrollTableSanPham, scrTableNhapKho;
-    JLabel lbl1, lbl[], lbl2, lblTongTien;
-    JTextField txt[];
+    JLabel lbl1, lbl2, lblTongTien;
     JSpinner txtSoLuong;
     DefaultTableModel tblModelSanPham, tblModelNhapKho;
     JButton btnAddSoLuong, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnNhapKho;
-    JComboBox slfNhaCungCap;
     IntegratedSearch search;
+    Color BackgroundColor = new Color(240, 247, 250);
+    InputFormInline txtmaphieu, txtnhanvien, txtnhacungcap;
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 
     public SanPhamBUS sanphamBUS = new SanPhamBUS();
+    public PhieuNhapBUS phieunhapBUS = new PhieuNhapBUS();
     public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
-    SanPhamDTO sp = new SanPhamDTO();
-    Color BackgroundColor = new Color(240, 247, 250);
+    public ArrayList<ChiTietPhieuDTO> chitietphieu = new ArrayList<>();
+    private int maphieu = phieunhapBUS.phieunhapDAO.getAutoIncrement();
+    private double tongtien = 0;
 
     public NhapKho() {
         initComponent();
@@ -114,12 +120,20 @@ public class NhapKho extends JPanel {
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModelSanPham = new DefaultTableModel();
-        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Giá nhập", "Giá bán"};
+        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng", "Giá xuất"};
         tblModelSanPham.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModelSanPham);
         scrollTableSanPham.setViewportView(tableSanPham);
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tableSanPham.setDefaultRenderer(Object.class, centerRenderer);
+        TableColumnModel columnModel = tableSanPham.getColumnModel();
+        for (int i = 0; i < 4; i++) {
+            if (i != 1) {
+                columnModel.getColumn(i).setCellRenderer(centerRenderer);
+            }
+        }
+        tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(400);
+        tableSanPham.setFocusable(false);
+        tableSanPham.setDefaultEditor(Object.class, null);
         left_center.add(scrollTableSanPham);
 
         // Add bottom bar
@@ -135,10 +149,11 @@ public class NhapKho extends JPanel {
         txtSoLuong.setPreferredSize(new Dimension(70, 30));
         left_bottom.add(txtSoLuong);
         btnAddSoLuong = new ButtonCustom("Thêm vào phiếu", "success", 13, "/icon/Plus_25px.png", 160, 40);
+        btnAddSoLuong.addActionListener(this);
         left_bottom.add(btnAddSoLuong);
     }
 
-    public void initrightContent() {
+    public void initRightContent() {
         main = new JPanel();
         main.setLayout(new BorderLayout(0, 5));
         main.setOpaque(false);
@@ -151,12 +166,12 @@ public class NhapKho extends JPanel {
         main_top.setBorder(new EmptyBorder(5, 20, 20, 20));
         main.add(main_top, BorderLayout.NORTH);
 
-        InputFormInline maphieu = new InputFormInline("Mã phiếu nhập");
-        InputFormInline nhanvien = new InputFormInline("Mã phiếu nhập");
-        InputFormInline nhacungcap = new InputFormInline("Nhà cung cấp", getnhacungcap());
-        main_top.add(maphieu);
-        main_top.add(nhanvien);
-        main_top.add(nhacungcap);
+        txtmaphieu = new InputFormInline("Mã phiếu nhập");
+        txtnhanvien = new InputFormInline("Nhân viên nhập");
+        txtnhacungcap = new InputFormInline("Nhà cung cấp", getnhacungcap());
+        main_top.add(txtmaphieu);
+        main_top.add(txtnhanvien);
+        main_top.add(txtnhacungcap);
 
         main_center = new PanelBorderRadius();
         BoxLayout b4 = new BoxLayout(main_center, BoxLayout.Y_AXIS);
@@ -173,7 +188,15 @@ public class NhapKho extends JPanel {
         scrTableNhapKho.setViewportView(tableNhapKho);
         DefaultTableCellRenderer centerRenderer1 = new DefaultTableCellRenderer();
         centerRenderer1.setHorizontalAlignment(JLabel.CENTER);
-        tableNhapKho.setDefaultRenderer(Object.class, centerRenderer);
+        TableColumnModel columnModel = tableNhapKho.getColumnModel();
+        for (int i = 0; i < 4; i++) {
+            if (i != 2) {
+                columnModel.getColumn(i).setCellRenderer(centerRenderer);
+            }
+        }
+        tableNhapKho.getColumnModel().getColumn(2).setPreferredWidth(400);
+        tableNhapKho.setFocusable(false);
+        tableNhapKho.setDefaultEditor(Object.class, null);
 
         main_center.add(scrTableNhapKho);
 
@@ -189,17 +212,20 @@ public class NhapKho extends JPanel {
         main_bottom.add(main_Panel_bottom);
 
         btnNhapExcel = new ButtonCustom("Nhập Excel", "excel", 14, "/icon/xls_25px.png");
+        btnNhapExcel.addActionListener(this);
         main_Panel_bottom.add(btnNhapExcel);
 
         btnEditSoLuong = new ButtonCustom("Sửa số lượng", "warning", 14, "/icon/edit_25px.png", 160, 40);
+        btnEditSoLuong.addActionListener(this);
         main_Panel_bottom.add(btnEditSoLuong);
 
         btnDeleteSanPham = new ButtonCustom("Xóa sản phẩm", "danger", 14, "/icon/delete_25px.png", 160, 40);
+        btnDeleteSanPham.addActionListener(this);
         main_Panel_bottom.add(btnDeleteSanPham);
 
         pnl1 = new JPanel();
         pnl1.setOpaque(false);
-        pnl1.setLayout(new FlowLayout(1, 40, 0));
+        pnl1.setLayout(new FlowLayout(1, 60, 0));
         main_bottom.add(pnl1);
 
         lbl2 = new JLabel("Tổng tiền");
@@ -234,17 +260,105 @@ public class NhapKho extends JPanel {
         this.add(contentCenter, BorderLayout.CENTER);
 
         initLeftContent();
-        initrightContent();
+        initRightContent();
+        initPhieuNhap();
+    }
 
+    public void initPhieuNhap() {
+        this.txtmaphieu.setText(Integer.toString(this.maphieu));
+        this.txtnhanvien.setText("Nhat Sinh");
+        this.txtmaphieu.setEditable(false);
+        this.txtnhanvien.setEditable(false);
     }
 
     public void loadDataTableSanPham(ArrayList<DTO.SanPhamDTO> result) {
         tblModelSanPham.setRowCount(0);
         for (DTO.SanPhamDTO sanPham : result) {
             tblModelSanPham.addRow(new Object[]{
-                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaxuat()
+                sanPham.getMasp(), sanPham.getTensp(), sanPham.getSoluong(), Formater.FormatVND(sanPham.getGiaxuat())
             });
         }
     }
 
+    public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> result) {
+        tblModelNhapKho.setRowCount(0);
+        for (int i = 0; i < result.size(); i++) {
+            SanPhamDTO sp = sanphamBUS.getByMaSP(result.get(i).getMasanpham());
+            tblModelNhapKho.addRow(new Object[]{
+                i + 1, result.get(i).getMasanpham(), sp.getTensp(), result.get(i).getSoluong(), Formater.FormatVND(sp.getGiaxuat())
+            });
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object btn = e.getSource();
+        if (btn == btnAddSoLuong) {
+            ActionBtnAdd();
+        } else if(btn == btnDeleteSanPham) {
+            ActionBtnDelete();
+        } else if(btn == btnEditSoLuong) {
+            ActionBtnEdit();
+        }
+    }
+
+    public void ActionBtnAdd() {
+        int index = getRowSelected(tableSanPham);
+        if (index != -1) {
+            int soluong = (int) txtSoLuong.getValue();
+            if (soluong > 0) {
+                ChiTietPhieuDTO ctphieu = phieunhapBUS.findCT(chitietphieu, listsp.get(index).getMasp());
+                if (ctphieu == null) {
+                    ctphieu = new ChiTietPhieuDTO(maphieu, listsp.get(index).getMasp(), soluong, listsp.get(index).getGiaxuat());
+                    this.chitietphieu.add(ctphieu);
+                } else {
+                    ctphieu.setSoluong(ctphieu.getSoluong() + soluong);
+                }
+                loadDataNhapHang(chitietphieu);
+            } else {
+                JOptionPane.showMessageDialog(this, "Số lượng phải là số nguyên và lớn hơn 0");
+            }
+        }
+    }
+
+    public void ActionBtnDelete() {
+        int index = getRowSelected(tableNhapKho);
+        if (index != -1) {
+            int input = JOptionPane.showConfirmDialog(null,
+                    "Bạn có chắc chắn muốn xóa sản phẩm khỏi phiếu", "Xóa sản phẩm khỏi phiếu",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            if (input == 0) {
+                chitietphieu.remove(index);
+                loadDataNhapHang(chitietphieu);
+            }
+        }
+    }
+    
+    public void ActionBtnEdit() {
+        int index = getRowSelected(tableNhapKho);
+        if (index != -1) {
+            String newSL = JOptionPane.showInputDialog(this, "Nhập số lượng cần thay đổi", "Thay đổi số lượng", QUESTION_MESSAGE);
+            int soluong = Validation.isNumber(newSL);
+            if (soluong > 0) {
+                chitietphieu.get(index).setSoluong(soluong);
+                loadDataNhapHang(chitietphieu);
+            } else {
+                JOptionPane.showMessageDialog(this, "Số lượng phải là số nguyên và lớn hơn 0");
+            }
+        }
+    }
+
+    public void loadDataNhapHang(ArrayList<ChiTietPhieuDTO> ctphieu) {
+        loadDataTableChiTietPhieu(ctphieu);
+        lblTongTien.setText(Formater.FormatVND(phieunhapBUS.getTongTien(ctphieu)));
+    }
+
+    public int getRowSelected(JTable tbl) {
+        int index = tbl.getSelectedRow();
+        if (tbl.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm");
+            return -1;
+        }
+        return index;
+    }
 }
