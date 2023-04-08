@@ -17,8 +17,6 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.Action;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -26,7 +24,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
-import org.apache.commons.compress.harmony.unpack200.bytecode.forms.ThisFieldRefForm;
 
 /**
  *
@@ -46,7 +43,7 @@ public class InputImage extends JPanel implements ActionListener {
         this.setBackground(Color.white);
         btnChooseImg = new JButton(title);
         img = new JLabel();
-        img.setPreferredSize(new Dimension(400, 300));
+        img.setPreferredSize(new Dimension(250, 290));
         btnChooseImg.addActionListener(this);
         this.add(btnChooseImg);
     }
@@ -94,8 +91,8 @@ public class InputImage extends JPanel implements ActionListener {
     }
 
     public Image scale(ImageIcon x) {
-        int WIDTH = 400;
-        int HEIGHT = 300;
+        int WIDTH = 250;
+        int HEIGHT = 290;
         Image scaledImage = x.getImage().getScaledInstance(WIDTH, HEIGHT, Image.SCALE_SMOOTH);
         return scaledImage;
     }
