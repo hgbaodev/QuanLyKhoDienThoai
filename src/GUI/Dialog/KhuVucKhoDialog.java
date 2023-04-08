@@ -150,8 +150,8 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
         titlePage = new HeaderTitle(title.toUpperCase());
         pnmain = new JPanel(new GridLayout(2, 2, 20, 0));
         pnmain.setBackground(Color.white);
-        tenkhuvuc = new InputForm("Tên khu vực kho");
-        ghichu = new InputForm("Ghi chú");
+        tenkhuvuc = new InputForm("Tên khu vực kho", "password");
+        ghichu = new InputForm("Ghi chú", "password");
 
         pnmain.add(tenkhuvuc);
         pnmain.add(ghichu);

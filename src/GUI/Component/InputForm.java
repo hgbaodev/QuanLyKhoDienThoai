@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -22,6 +23,7 @@ public final class InputForm extends JPanel {
 
     private JLabel lblTitle;
     private JTextField txtForm;
+    private JPasswordField txtPass;
 
     public InputForm(String title) {
         this.setLayout(new GridLayout(2, 1));
@@ -31,6 +33,18 @@ public final class InputForm extends JPanel {
         txtForm = new JTextField();
         this.add(lblTitle);
         this.add(txtForm);
+    }
+    
+    public InputForm(String title, String style){
+        this.setLayout(new GridLayout(2, 1));
+        this.setBackground(Color.white);
+        this.setBorder(new EmptyBorder(10, 10, 10, 10));
+        lblTitle = new JLabel(title);
+        this.add(lblTitle);
+        if(style.equals("password")){
+            txtPass = new JPasswordField();
+            this.add(txtPass);
+        }
     }
 
     public String getText() {

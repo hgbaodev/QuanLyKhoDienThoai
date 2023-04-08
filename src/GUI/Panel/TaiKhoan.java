@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Dialog.DonViTinhDialog;
+import GUI.Dialog.ListNhanVien;
 import GUI.Dialog.TaiKhoanDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +30,8 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class TaiKhoan extends JPanel implements ActionListener{
+public class TaiKhoan extends JPanel implements ActionListener {
+
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tableTaiKhoan;
@@ -41,18 +43,17 @@ public class TaiKhoan extends JPanel implements ActionListener{
     DefaultTableModel tblModel;
 
     private Main m;
-    
-    
+
     public TaiKhoan() {
         initComponent();
     }
-    
+
     private void initComponent() {
         tableTaiKhoan = new JTable();
         tableTaiKhoan.setDefaultEditor(Object.class, null);
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MaNV","Tên đăng nhập","Nhóm quyền","Trạng thái"};
+        String[] header = new String[]{"MaNV", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
         tblModel.setColumnIdentifiers(header);
         tableTaiKhoan.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableTaiKhoan);
@@ -60,7 +61,7 @@ public class TaiKhoan extends JPanel implements ActionListener{
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableTaiKhoan.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableTaiKhoan.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        
+
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -97,8 +98,13 @@ public class TaiKhoan extends JPanel implements ActionListener{
         functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
-
         mainFunction = new MainFunction();
+        mainFunction.btnAdd.addActionListener(this);
+        mainFunction.btnEdit.addActionListener(this);
+        mainFunction.btnDetail.addActionListener(this);
+        mainFunction.btnDelete.addActionListener(this);
+        mainFunction.btnXuatExcel.addActionListener(this);
+        mainFunction.btnNhapExcel.addActionListener(this);
         functionBar.add(mainFunction);
         search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
@@ -115,7 +121,6 @@ public class TaiKhoan extends JPanel implements ActionListener{
         main.add(scrollTableSanPham);
     }
 
-    
     public void openFile(String file) {
         try {
             File path = new File(file);
@@ -124,6 +129,7 @@ public class TaiKhoan extends JPanel implements ActionListener{
             System.out.println(e);
         }
     }
+
     public void exportExcel() {
         try {
             JFileChooser jFileChooser = new JFileChooser();
@@ -199,10 +205,9 @@ public class TaiKhoan extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getActionCommand());
         if (e.getSource() == mainFunction.btnAdd) {
-            System.out.println("btnadd");
-            
+            ListNhanVien listNV = new ListNhanVien(this, owner, "Chọn tài khoản", true);
+//            TaiKhoanDialog addTk = new TaiKhoanDialog(this, owner, "Thêm tài khoản", true, "create");
         } else if (e.getSource() == mainFunction.btnEdit) {
             int index = tableTaiKhoan.getSelectedRow();
             if (index == -1) {
@@ -218,7 +223,7 @@ public class TaiKhoan extends JPanel implements ActionListener{
                         "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa xóa tài khoản",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    
+
                 }
             }
         } else if (e.getSource() == mainFunction.btnDetail) {
@@ -226,7 +231,7 @@ public class TaiKhoan extends JPanel implements ActionListener{
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần xem");
             } else {
-                
+
             }
         }
         if (e.getSource() == mainFunction.btnXuatExcel) {
@@ -237,6 +242,5 @@ public class TaiKhoan extends JPanel implements ActionListener{
             importExcel();
         }
     }
-    
 
 }
