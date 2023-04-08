@@ -38,7 +38,7 @@ public class TaiKhoan extends JPanel implements ActionListener {
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
-    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
+    public JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     Color BackgroundColor = new Color(240, 247, 250);
     DefaultTableModel tblModel;
 
