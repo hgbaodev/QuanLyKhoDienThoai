@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -29,28 +30,37 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class TaiKhoan extends JPanel implements ActionListener{
-    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
-    PanelBorderRadius box1, box2, main, functionBar;
+    PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tableTaiKhoan;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
-    JLabel lblImage;
-
+    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     Color BackgroundColor = new Color(240, 247, 250);
+    DefaultTableModel tblModel;
 
     private Main m;
-    private DefaultTableModel tblModel;
     
     
     public TaiKhoan() {
-        System.out.println("tai khoản");
         initComponent();
-//        TaiKhoanDialog addTk = new TaiKhoanDialog(this, owner, "Thêm tài khoản", true, "create");
     }
     
     private void initComponent() {
+        tableTaiKhoan = new JTable();
+        tableTaiKhoan.setDefaultEditor(Object.class, null);
+        scrollTableSanPham = new JScrollPane();
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"MaNV","Tên đăng nhập","Nhóm quyền","Trạng thái"};
+        tblModel.setColumnIdentifiers(header);
+        tableTaiKhoan.setModel(tblModel);
+        scrollTableSanPham.setViewportView(tableTaiKhoan);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tableTaiKhoan.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tableTaiKhoan.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -87,23 +97,10 @@ public class TaiKhoan extends JPanel implements ActionListener{
         functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
-        mainFunction = new MainFunction();
-        mainFunction.btnAdd.addActionListener(this);
-        mainFunction.btnEdit.addActionListener(this);
-        mainFunction.btnDetail.addActionListener(this);
-        mainFunction.btnDelete.addActionListener(this);
-        mainFunction.btnXuatExcel.addActionListener(this);
-        mainFunction.btnNhapExcel.addActionListener(this);
-        functionBar.add(mainFunction);
-        mainFunction.btnAdd.addActionListener(this);
-        mainFunction.btnDelete.addActionListener(this);
-        mainFunction.btnEdit.addActionListener(this);
-        mainFunction.btnDetail.addActionListener(this);
-        mainFunction.btnNhapExcel.addActionListener(this);
-        mainFunction.btnXuatExcel.addActionListener(this);
-        
 
-        search = new IntegratedSearch(new String[]{"Tất cả","Tên đăng nhập"});
+        mainFunction = new MainFunction();
+        functionBar.add(mainFunction);
+        search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
@@ -112,23 +109,10 @@ public class TaiKhoan extends JPanel implements ActionListener{
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20,20,20,20));
+        main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
-        tableTaiKhoan = new JTable();
-        scrollTableSanPham = new JScrollPane();
-
-        tableTaiKhoan.setFont(new java.awt.Font("Segoe UI", 0, 14));
-
-        scrollTableSanPham.setPreferredSize(new Dimension(700, 450));
-
-        tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã đơn vị tính", "Tên đơn vị tính"};
-        tblModel.setColumnIdentifiers(header);
-        tableTaiKhoan.setModel(tblModel);
-        scrollTableSanPham.setViewportView(tableTaiKhoan);
         main.add(scrollTableSanPham);
-        this.add(main);
     }
 
     
