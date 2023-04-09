@@ -104,6 +104,34 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO>{
         }
         return result;
     }
+    
+    public ArrayList<NhanVienDTO> selectAllNV() {
+        ArrayList<NhanVienDTO> result = new ArrayList<NhanVienDTO>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM nhanvien nv where nv.trangthai = 1 and not EXISTS(" +
+            "SELECT * FROM taikhoan tk WHERE nv.manv=tk.manv" +
+            ")";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                int manv = rs.getInt("manv");
+                String hoten = rs.getString("hoten");
+                int gioitinh = rs.getInt("gioitinh");
+                Date ngaysinh = rs.getDate("ngaysinh");
+                String sdt = rs.getString("sdt");
+                int trangthai = rs.getInt("trangthai");
+                String email = rs.getString("email");
+                NhanVienDTO nv = new NhanVienDTO(manv,hoten,gioitinh,ngaysinh,sdt,trangthai,email);
+                result.add(nv);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
 
     @Override
     public NhanVienDTO selectById(String t) {

@@ -43,7 +43,7 @@ public class ListNhanVien extends JDialog implements MouseListener {
     private JTable tableNhanVien;
     private JScrollPane scrollTableSanPham;
     private DefaultTableModel tblModel;
-    private ArrayList<NhanVienDTO> listnv = NhanVienDAO.getInstance().selectAll();
+    private ArrayList<NhanVienDTO> listnv = NhanVienDAO.getInstance().selectAllNV();
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     
     public ListNhanVien(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal){
