@@ -30,6 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,7 +43,8 @@ public class ListNhanVien extends JDialog implements MouseListener {
     private JTable tableNhanVien;
     private JScrollPane scrollTableSanPham;
     private DefaultTableModel tblModel;
-    private ArrayList<NhanVienDTO> listnv = NhanVienDAO.getInstance().selectAll();
+    private ArrayList<NhanVienDTO> listnv = NhanVienDAO.getInstance().selectAllNV();
+    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     
     public ListNhanVien(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal){
         super(owner, title, modal);
@@ -102,6 +104,7 @@ public class ListNhanVien extends JDialog implements MouseListener {
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"MNV","Họ tên","Giới tính","Ngày Sinh","SDT","Email"};
         tblModel.setColumnIdentifiers(header);
+        tableNhanVien.setDefaultRenderer(Object.class, centerRenderer);
         tableNhanVien.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableNhanVien);
         jPanelTable.add(scrollTableSanPham);

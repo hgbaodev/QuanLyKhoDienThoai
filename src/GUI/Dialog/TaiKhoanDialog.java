@@ -16,6 +16,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -64,9 +66,25 @@ public class TaiKhoanDialog extends JDialog{
         pnbottom = new JPanel(new FlowLayout());
         pnbottom.setBorder(new EmptyBorder(10, 0, 10, 0));
         pnbottom.setBackground(Color.white);
-        btnThem = new ButtonCustom("Thêm đơn vị", "success", 14);
+        btnThem = new ButtonCustom("Thêm tài khoản", "success", 14);
         btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
+        btnThem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Manv:"+manv);
+                System.out.println("Username:"+username.getText());
+                System.out.println("Password:"+password.getText());
+                System.out.println("Nhom quyen:"+maNhomQuyen.getSelectedItem());
+                System.out.println("Trang thai:"+trangthai.getSelectedIndex());
+            }
+        });
+        btnHuyBo.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
         
         switch (type) {
             case "create" -> pnbottom.add(btnThem);
