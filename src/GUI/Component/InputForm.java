@@ -6,6 +6,7 @@ package GUI.Component;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -25,10 +26,16 @@ public final class InputForm extends JPanel {
     private JTextField txtForm;
     private JPasswordField txtPass;
 
+    public InputForm() {
+    }
+
+    
+    
     public InputForm(String title) {
         this.setLayout(new GridLayout(2, 1));
         this.setBackground(Color.white);
-        this.setBorder(new EmptyBorder(10, 10, 10, 10));
+        this.setBorder(new EmptyBorder(0, 10, 10, 10));
+        this.setPreferredSize(new Dimension(100,100));
         lblTitle = new JLabel(title);
         txtForm = new JTextField();
         this.add(lblTitle);

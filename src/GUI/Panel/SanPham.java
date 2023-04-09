@@ -14,6 +14,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import GUI.Dialog.SanPhamNewDialog;
 import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -179,7 +180,7 @@ public final class SanPham extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-            SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Thêm sản phẩm mới", true, "create");
+            SanPhamNewDialog spDialog = new SanPhamNewDialog(this, owner, "Thêm sản phẩm mới", true, "create");
         } else if (e.getSource() == mainFunction.btnEdit) {
             int index = tableSanPham.getSelectedRow();
             if (index == -1) {
