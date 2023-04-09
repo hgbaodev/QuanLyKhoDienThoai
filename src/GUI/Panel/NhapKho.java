@@ -2,7 +2,7 @@ package GUI.Panel;
 
 import BUS.PhieuNhapBUS;
 import BUS.DanhMucSanPhamBUS;
-import DTO.SanPhamDTO;
+import DTO.DanhMucSanPhamDTO;
 import DTO.NhaCungCapDTO;
 import DAO.NhaCungCapDAO;
 import DTO.ChiTietPhieuDTO;
@@ -43,7 +43,7 @@ public final class NhapKho extends JPanel implements ActionListener {
 
     public DanhMucSanPhamBUS sanphamBUS = new DanhMucSanPhamBUS();
     public PhieuNhapBUS phieunhapBUS = new PhieuNhapBUS();
-    public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
+    public ArrayList<DanhMucSanPhamDTO> listsp = sanphamBUS.getAll();
     public ArrayList<ChiTietPhieuDTO> chitietphieu = new ArrayList<>();
     private int maphieu = phieunhapBUS.phieunhapDAO.getAutoIncrement();
     private double tongtien = 0;
@@ -271,9 +271,9 @@ public final class NhapKho extends JPanel implements ActionListener {
         this.txtnhanvien.setEditable(false);
     }
 
-    public void loadDataTableSanPham(ArrayList<DTO.SanPhamDTO> result) {
+    public void loadDataTableSanPham(ArrayList<DTO.DanhMucSanPhamDTO> result) {
         tblModelSanPham.setRowCount(0);
-        for (DTO.SanPhamDTO sanPham : result) {
+        for (DTO.DanhMucSanPhamDTO sanPham : result) {
             tblModelSanPham.addRow(new Object[]{
 //                sanPham.getMasp(), sanPham.getTensp(), sanPham.getSoluong(), Formater.FormatVND(sanPham.getGiaxuat())
             });
@@ -283,7 +283,7 @@ public final class NhapKho extends JPanel implements ActionListener {
     public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> result) {
         tblModelNhapKho.setRowCount(0);
         for (int i = 0; i < result.size(); i++) {
-            SanPhamDTO sp = sanphamBUS.getByMaSP(result.get(i).getMasanpham());
+            DanhMucSanPhamDTO sp = sanphamBUS.getByMaSP(result.get(i).getMasanpham());
             tblModelNhapKho.addRow(new Object[]{
 //                i + 1, result.get(i).getMasanpham(), sp.getTensp(), result.get(i).getSoluong(), Formater.FormatVND(sp.getGiaxuat())
             });

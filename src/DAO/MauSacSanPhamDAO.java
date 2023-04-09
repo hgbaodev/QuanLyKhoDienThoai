@@ -22,7 +22,22 @@ public class MauSacSanPhamDAO implements ChiTietInterface<MauSacSanPhamDTO> {
 
     @Override
     public int insert(ArrayList<MauSacSanPhamDTO> t) {
-        
+        int result = 0;
+        for (int i = 0; i < t.size(); i++) {
+            try {
+                Connection con = (Connection) JDBCUtil.getConnection();
+                String sql = "INSERT INTO `mausacsanpham`(`madmsp`,`mamau`,`tenmau`) VALUES (?,?,?)";
+                PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+                pst.setInt(1, t.get(i).getMadmsp());
+                pst.setInt(2, t.get(i).getMamau());
+                pst.setString(3, t.get(i).getTenmau());
+                result = pst.executeUpdate();
+                JDBCUtil.closeConnection(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(MauSacSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return result;
     }
 
     @Override

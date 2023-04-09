@@ -1,11 +1,17 @@
 package GUI.Dialog;
 
+import BUS.KhuVucKhoBUS;
+import BUS.ThuongHieuBUS;
+import DTO.CauHinhSanPhamDTO;
+import DTO.DanhMucSanPhamDTO;
+import DTO.MauSacSanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Component.InputImage;
 import GUI.Component.SelectForm;
 import GUI.Panel.SanPham;
+import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -19,10 +25,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -50,8 +58,15 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     DefaultTableModel tblModelch, tblModelmausac;
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     GUI.Panel.SanPham jpSP;
-    String[] arrkhuvuc = {"Khu vực A", "Khu vực B", "Khu vực C"};
-    String[] arrthuonghieu = {"Apple", "Oppo", "Xiaomi", "Samsung"};
+
+    KhuVucKhoBUS kvkhoBus = new KhuVucKhoBUS();
+    ThuongHieuBUS thuonghieuBus = new ThuongHieuBUS();
+
+    ArrayList<CauHinhSanPhamDTO> listch = new ArrayList<>();
+    ArrayList<MauSacSanPhamDTO> listms = new ArrayList<>();
+
+    String[] arrkhuvuc = kvkhoBus.getArrTenKhuVuc();
+    String[] arrthuonghieu = thuonghieuBus.getArrTenThuongHieu();
 
     public SanPhamDialog(SanPham jpSP, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
@@ -224,8 +239,8 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
                 pn3_top.add(ipform[i][j]);
             }
         }
-        JScrollPane jcr = new JScrollPane(pn3_top,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        
+        JScrollPane jcr = new JScrollPane(pn3_top, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
         JPanel pnbottom2 = new JPanel(new FlowLayout());
         pnbottom2.setBorder(new EmptyBorder(6, 0, 6, 0));
         pnbottom2.setBackground(Color.white);
@@ -277,18 +292,61 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-//        Object source = e.getSource();
-//        if (source == btnThemCHMS) {
-//            CardLayout c = (CardLayout) pnmain.getLayout();
-//            c.next(pnmain);
-//        }
-        CardLayout c = (CardLayout) pnmain.getLayout();
-        c.next(pnmain);
+        Object source = e.getSource();
+        if (source == btnThemCHMS) {
+            if (validateCardOne()) {
+                getInfo();
+                CardLayout c = (CardLayout) pnmain.getLayout();
+                c.next(pnmain);
+            }
+        }
     }
-    
+
+    public DanhMucSanPhamDTO getInfo() {
+        String hinhanh = this.hinhanh.getUrl_img();
+        String vtensp = tenSP.getText();
+        String vxuatxu = xuatxu.getText();
+        String vchipxuly = chipxuly.getText();
+        int vdungluongpin = Integer.parseInt(dungluongpin.getText());
+        double ktman = Double.parseDouble(kichthuocman.getText());
+        String hdh = hedieuhanh.getText();
+        String camsau = camerasau.getText();
+        String camtruoc = cameratruoc.getText();
+        int tgbh = Integer.parseInt(thoigianbaohanh.getText());
+        int pb = Integer.parseInt(phienbanhdh.getText());
+        int thuonghieu = thuonghieuBus.getAll().get(this.thuonghieu.getSelectedIndex()).getMathuonghieu();
+        int khuvuckho = kvkhoBus.getAll().get(this.khuvuc.getSelectedIndex()).getMakhuvuckho();
+        DanhMucSanPhamDTO result = new DanhMucSanPhamDTO(jpSP.spBUS.spDAO.getAutoIncrement(), vtensp, hinhanh, vxuatxu, vchipxuly, vdungluongpin, ktman, hdh, pb, camsau, camtruoc, tgbh, thuonghieu, khuvuckho, 0);
+        JOptionPane.showMessageDialog(this, result);
+        return result;
+    }
+
     public boolean validateCardOne() {
-        
-        return false;
-        
+        boolean check = true;
+        if (Validation.isEmpty(tenSP.getText()) && Validation.isEmpty(xuatxu.getText())
+                && Validation.isEmpty(chipxuly.getText()) && Validation.isEmpty(dungluongpin.getText())
+                && Validation.isEmpty(kichthuocman.getText()) && Validation.isEmpty(hedieuhanh.getText())
+                && Validation.isEmpty(camerasau.getText()) && Validation.isEmpty(cameratruoc.getText())
+                && Validation.isEmpty(thoigianbaohanh.getText()) && Validation.isEmpty(phienbanhdh.getText())) {
+            check = false;
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !");
+        } else {
+            // Check number 
+        }
+        return check;
+    }
+
+    public void loadDataToTableCauHinh() {
+        tblModelch.setRowCount(0);
+        for (int i = 0; i < listch.size(); i++) {
+            tblModelch.addRow(new Object[]{i + 1, listch.get(i).getRom(), listch.get(i).getRam()});
+        }
+    }
+
+    public void loadDataToTableMauSac() {
+        tblModelmausac.setRowCount(0);
+        for (int i = 0; i < listms.size(); i++) {
+            tblModelmausac.addRow(new Object[]{i + 1, listms.get(i).getTenmau()});
+        }
     }
 }

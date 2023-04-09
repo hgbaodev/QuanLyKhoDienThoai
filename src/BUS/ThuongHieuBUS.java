@@ -13,52 +13,76 @@ import java.util.ArrayList;
  * @author 84907
  */
 public class ThuongHieuBUS {
+
     private final ThuongHieuDAO lhDAO = new ThuongHieuDAO();
     private ArrayList<ThuongHieuDTO> listLH = new ArrayList<>();
 
     public ThuongHieuBUS() {
-        listLH=lhDAO.selectAll();
+        listLH = lhDAO.selectAll();
     }
-    public ArrayList<ThuongHieuDTO>getAll(){
+
+    public ArrayList<ThuongHieuDTO> getAll() {
         return this.listLH;
     }
-    public ThuongHieuDTO getByIndex(int index){
+
+    public ThuongHieuDTO getByIndex(int index) {
         return this.listLH.get(index);
     }
-     public int getIndexByMaLH(int maloaihang){
-         int i = 0;
+
+    public int getIndexByMaLH(int maloaihang) {
+        int i = 0;
         int vitri = -1;
-        while(i < this.listLH.size() && vitri == -1) {
-            if(listLH.get(i).getMathuonghieu()== maloaihang) {
+        while (i < this.listLH.size() && vitri == -1) {
+            if (listLH.get(i).getMathuonghieu() == maloaihang) {
                 vitri = i;
-            } else i++;
+            } else {
+                i++;
+            }
         }
         return vitri;
-     }
-     public Boolean add(String name) {
-        ThuongHieuDTO lh = new ThuongHieuDTO(lhDAO.getAutoIncrement(),name);
+    }
+
+    public Boolean add(String name) {
+        ThuongHieuDTO lh = new ThuongHieuDTO(lhDAO.getAutoIncrement(), name);
         boolean check = lhDAO.insert(lh) != 0;
-        if(check) this.listLH.add(lh);
+        if (check) {
+            this.listLH.add(lh);
+        }
         return check;
     }
+
     public Boolean delete(ThuongHieuDTO lh) {
         boolean check = lhDAO.delete(Integer.toString(lh.getMathuonghieu())) != 0;
-        if(check) this.listLH.remove(lh);
+        if (check) {
+            this.listLH.remove(lh);
+        }
         return check;
     }
-    
+
     public Boolean update(ThuongHieuDTO lh) {
         boolean check = lhDAO.update(lh) != 0;
-        if(check) this.listLH.set(getIndexByMaLH(lh.getMathuonghieu()), lh);
+        if (check) {
+            this.listLH.set(getIndexByMaLH(lh.getMathuonghieu()), lh);
+        }
         return check;
     }
+
     public ArrayList<ThuongHieuDTO> search(String text) {
         text = text.toLowerCase();
         ArrayList<ThuongHieuDTO> result = new ArrayList<>();
-        for(ThuongHieuDTO i : this.listLH) {
-            if(Integer.toString(i.getMathuonghieu()).toLowerCase().contains(text) || i.getTenthuonghieu().toLowerCase().contains(text)) {
+        for (ThuongHieuDTO i : this.listLH) {
+            if (Integer.toString(i.getMathuonghieu()).toLowerCase().contains(text) || i.getTenthuonghieu().toLowerCase().contains(text)) {
                 result.add(i);
             }
+        }
+        return result;
+    }
+
+    public String[] getArrTenThuongHieu() {
+        int size = listLH.size();
+        String[] result = new String[size];
+        for (int i = 0; i < size; i++) {
+            result[i] = listLH.get(i).getTenthuonghieu();
         }
         return result;
     }

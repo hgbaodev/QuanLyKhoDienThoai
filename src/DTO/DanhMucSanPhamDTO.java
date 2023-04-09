@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author 84907
  */
-public class SanPhamDTO {
+public class DanhMucSanPhamDTO {
 
     private int madanhmuc;
     private String tendanhmuc;
@@ -28,10 +28,10 @@ public class SanPhamDTO {
     private int khuvuckho;
     private int soluongton;
 
-    public SanPhamDTO() {
+    public DanhMucSanPhamDTO() {
     }
 
-    public SanPhamDTO(int madanhmuc, String tendanhmuc, String hinhanh, String xuatxu, String chipxuly, int dungluongpin, double kichthuocman, String hedieuhanh, int phienbanhdh, String camerasau, String cameratruoc, int thoigianbaohanh, int thuonghieu, int khuvuckho, int soluongton) {
+    public DanhMucSanPhamDTO(int madanhmuc, String tendanhmuc, String hinhanh, String xuatxu, String chipxuly, int dungluongpin, double kichthuocman, String hedieuhanh, int phienbanhdh, String camerasau, String cameratruoc, int thoigianbaohanh, int thuonghieu, int khuvuckho, int soluongton) {
         this.madanhmuc = madanhmuc;
         this.tendanhmuc = tendanhmuc;
         this.hinhanh = hinhanh;
@@ -186,7 +186,7 @@ public class SanPhamDTO {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SanPhamDTO other = (SanPhamDTO) obj;
+        final DanhMucSanPhamDTO other = (DanhMucSanPhamDTO) obj;
         if (this.madanhmuc != other.madanhmuc) {
             return false;
         }

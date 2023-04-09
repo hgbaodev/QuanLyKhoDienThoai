@@ -1,26 +1,26 @@
 package BUS;
 
 import DAO.DanhMucSanPhamDAO;
-import DTO.SanPhamDTO;
+import DTO.DanhMucSanPhamDTO;
 import java.util.ArrayList;
 
 public class DanhMucSanPhamBUS {
 
-    private final DanhMucSanPhamDAO spDAO = new DanhMucSanPhamDAO();
-    private ArrayList<SanPhamDTO> listSP = new ArrayList<>();
+    public final DanhMucSanPhamDAO spDAO = new DanhMucSanPhamDAO();
+    private ArrayList<DanhMucSanPhamDTO> listSP = new ArrayList<>();
     public DanhMucSanPhamBUS() {
         listSP = spDAO.selectAll();
     }
 
-    public ArrayList<SanPhamDTO> getAll() {
+    public ArrayList<DanhMucSanPhamDTO> getAll() {
         return this.listSP;
     }
 
-    public SanPhamDTO getByIndex(int index) {
+    public DanhMucSanPhamDTO getByIndex(int index) {
         return this.listSP.get(index);
     }
     
-    public SanPhamDTO getByMaSP(int masp) {
+    public DanhMucSanPhamDTO getByMaSP(int masp) {
         int vitri = -1;
         int i = 0;
         while(i <= this.listSP.size() && vitri == -1) {
@@ -44,7 +44,7 @@ public class DanhMucSanPhamBUS {
         return vitri;
     }
 
-    public Boolean add(SanPhamDTO lh) {
+    public Boolean add(DanhMucSanPhamDTO lh) {
         boolean check = spDAO.insert(lh) != 0;
         if (check) {
             this.listSP.add(lh);
@@ -52,7 +52,7 @@ public class DanhMucSanPhamBUS {
         return check;
     }
 
-    public Boolean delete(SanPhamDTO lh) {
+    public Boolean delete(DanhMucSanPhamDTO lh) {
         boolean check = spDAO.delete(Integer.toString(lh.getMadanhmuc())) != 0;
         if (check) {
             this.listSP.remove(lh);
@@ -60,7 +60,7 @@ public class DanhMucSanPhamBUS {
         return check;
     }
 
-    public Boolean update(SanPhamDTO lh) {
+    public Boolean update(DanhMucSanPhamDTO lh) {
         boolean check = spDAO.update(lh) != 0;
         if (check) {
             this.listSP.set(getIndexByMaSP(lh.getMadanhmuc()), lh);
@@ -68,9 +68,9 @@ public class DanhMucSanPhamBUS {
         return check;
     }
 
-    public ArrayList<SanPhamDTO> getByMakhuvuc(int makv) {
-        ArrayList<SanPhamDTO> result = new ArrayList<>();
-        for (SanPhamDTO i : this.listSP) {
+    public ArrayList<DanhMucSanPhamDTO> getByMakhuvuc(int makv) {
+        ArrayList<DanhMucSanPhamDTO> result = new ArrayList<>();
+        for (DanhMucSanPhamDTO i : this.listSP) {
             if (i.getKhuvuckho()== makv) {
                 result.add(i);
             }
@@ -78,10 +78,10 @@ public class DanhMucSanPhamBUS {
         return result;
     }
 
-    public ArrayList<SanPhamDTO> search(String text) {
+    public ArrayList<DanhMucSanPhamDTO> search(String text) {
         text = text.toLowerCase();
-        ArrayList<SanPhamDTO> result = new ArrayList<>();
-        for (SanPhamDTO i : this.listSP) {
+        ArrayList<DanhMucSanPhamDTO> result = new ArrayList<>();
+        for (DanhMucSanPhamDTO i : this.listSP) {
             if (Integer.toString(i.getMadanhmuc()).toLowerCase().contains(text) || i.getTendanhmuc().toLowerCase().contains(text)) {
                 result.add(i);
             }
