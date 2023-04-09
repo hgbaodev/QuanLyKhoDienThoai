@@ -1,6 +1,6 @@
 package GUI.Panel;
 
-import DAO.DonViTinhDAO;
+import DAO.MauSacSanPhamDAO;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -8,9 +8,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
-import GUI.Dialog.DonViTinhDialog;
 import GUI.Dialog.ListNhanVien;
-import GUI.Dialog.TaiKhoanDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -198,7 +196,7 @@ public class TaiKhoan extends JPanel implements ActionListener {
         }
 
         for (DTO.DonViTinhDTO donViTinh : listExcel) {
-            DonViTinhDAO.getInstance().insert(donViTinh);
+            MauSacSanPhamDAO.getInstance().insert(donViTinh);
         }
 //        loadDataTalbe(listdvt);
     }

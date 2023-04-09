@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import java.sql.Connection;
@@ -14,28 +10,33 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import DTO.SanPhamDTO;
 
+public class SanPhamDAO implements DAOinterface<SanPhamDTO> {
 
-public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
-    public static SanPhamDAO getInstance(){
+    public static SanPhamDAO getInstance() {
         return new SanPhamDAO();
     }
 
     @Override
     public int insert(SanPhamDTO t) {
-        int result = 0 ;
+        int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `sanpham`(`masanpham`, `tensanpham`, `xuatxu`, `gianhap`, `giaxuat`,`hinhanh`,`madonvitinh`,`maloaihang`,`makhuvuc`,`soluong`,`trangthai`) VALUES (?,?,?,?,?,?,?,?,?,0,1)";
+            String sql = "INSERT INTO `danhmucsanpham`(`madmcsp`, `tendmsp`, `hinhanh`, `xuatxu`, `chipxuly`, `dungluongpin`, `kichthuocman`, `hedieuhanh`, `phienbanhdh`, `camerasau`, `cameratruoc`, `thoigianbaohanh`, `thuonghieu`, `khuvuckho`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setInt(1, t.getMasp());
-            pst.setString(2,t.getTensp());
-            pst.setString(3, t.getXuatxu());
-            pst.setDouble(4,t.getGianhap());
-            pst.setDouble(5,t.getGiaxuat());
-            pst.setString(6,t.getHinhanh());
-            pst.setInt(7,t.getMaDVT());
-            pst.setInt(8,t.getMaloaihang());
-            pst.setInt(9,t.getMakhuvuc());
+            pst.setInt(1, t.getMadanhmuc());
+            pst.setString(2, t.getTendanhmuc());
+            pst.setString(3, t.getHinhanh());
+            pst.setString(4, t.getXuatxu());
+            pst.setString(5, t.getChipxuly());
+            pst.setInt(6, t.getDungluongpin());
+            pst.setDouble(7, t.getKichthuocman());
+            pst.setString(8, t.getHedieuhanh());
+            pst.setInt(9, t.getPhienbanhdh());
+            pst.setString(10, t.getCamerasau());
+            pst.setString(11, t.getCameratruoc());
+            pst.setInt(12, t.getThoigianbaohanh());
+            pst.setInt(13, t.getThuonghieu());
+            pst.setInt(14, t.getKhuvuckho());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -46,20 +47,25 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
 
     @Override
     public int update(SanPhamDTO t) {
-        int result = 0 ;
+        int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `sanpham` SET `tensanpham`=?,`xuatxu`=?,`gianhap`=?,`giaxuat`=?,`hinhanh`=?,`madonvitinh`=?,`maloaihang`=?,`makhuvuc`=? WHERE `masanpham`=?";
+            String sql = "UPDATE `danhmucsanpham` SET `tendmsp`=?,`hinhanh`=?,`xuatxu`=?,`chipxuly`=?,`dungluongpin`=?,`kichthuocman`=?,`hedieuhanh`=?,`phienbanhdh`=?,`camerasau`=?,`cameratruoc`=?,`thoigianbaohanh`=?,`thuonghieu`=?,`khuvuckho`=? WHERE `madmcsp`=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1,t.getTensp());
-            pst.setString(2, t.getXuatxu());
-            pst.setDouble(3,t.getGianhap());
-            pst.setDouble(4,t.getGiaxuat());
-            pst.setString(5,t.getHinhanh());
-            pst.setInt(6,t.getMaDVT());
-            pst.setInt(7,t.getMaloaihang());
-            pst.setInt(8,t.getMakhuvuc());
-            pst.setInt(9, t.getMasp());
+            pst.setString(1, t.getTendanhmuc());
+            pst.setString(2, t.getHinhanh());
+            pst.setString(3, t.getXuatxu());
+            pst.setString(4, t.getChipxuly());
+            pst.setInt(5, t.getDungluongpin());
+            pst.setDouble(6, t.getKichthuocman());
+            pst.setString(7, t.getHedieuhanh());
+            pst.setInt(8, t.getPhienbanhdh());
+            pst.setString(9, t.getCamerasau());
+            pst.setString(100, t.getCameratruoc());
+            pst.setInt(11, t.getThoigianbaohanh());
+            pst.setInt(12, t.getThuonghieu());
+            pst.setInt(13, t.getKhuvuckho());
+            pst.setInt(14, t.getMadanhmuc());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -70,10 +76,10 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
 
     @Override
     public int delete(String t) {
-        int result = 0 ;
+        int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `sanpham` SET `trangthai`=0 WHERE masanpham = ?";
+            String sql = "UPDATE `danhmucsanpham` SET `trangthai`=0 WHERE madmcsp = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -89,21 +95,26 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
         ArrayList<SanPhamDTO> result = new ArrayList<SanPhamDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM sanpham WHERE `trangthai`= 1";
+            String sql = "SELECT * FROM danhmucsanpham WHERE `trangthai`= 1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
-                int masp = rs.getInt("masanpham");
-                String tensp= rs.getString("tensanpham");
-                String xuatxu = rs.getString("xuatxu");
-                int gianhap = rs.getInt("gianhap");
-                int giaxuat = rs.getInt("giaxuat");
+            while (rs.next()) {
+                int madm = rs.getInt("madmsp");
+                String tendm = rs.getString("tendmsp");
                 String hinhanh = rs.getString("hinhanh");
-                int maDVT = rs.getInt("madonvitinh");
-                int maloaihang = rs.getInt("maloaihang");
-                int makhuvuc = rs.getInt("makhuvuc");
-                int soluong = rs.getInt("soluong");
-                SanPhamDTO sp = new SanPhamDTO(masp,tensp,xuatxu,gianhap,giaxuat,hinhanh,maDVT,maloaihang,makhuvuc,soluong);
+                String xuatxu = rs.getString("xuatxu");
+                String chipxuly = rs.getString("chipxuly");
+                int dungluongpin = rs.getInt("dungluongpin");
+                double kichthuocman = rs.getDouble("kichthuocman");
+                String hedieuhanh = rs.getString("hedieuhanh");
+                int phienbanhdh = rs.getInt("phienbanhdh");
+                String camerasau = rs.getString("camerasau");
+                String cameratruoc = rs.getString("cameratruoc");
+                int thoigianbaohanh = rs.getInt("thoigianbaohanh");
+                int thuonghieu = rs.getInt("thuonghieu");
+                int khuvuckho = rs.getInt("khuvuckho");
+                int soluongton = rs.getInt("soluongton");
+                SanPhamDTO sp = new SanPhamDTO(madm, tendm, hinhanh, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, phienbanhdh, camerasau, cameratruoc, thoigianbaohanh, thuonghieu, khuvuckho, soluongton);
                 result.add(sp);
             }
             JDBCUtil.closeConnection(con);
@@ -117,25 +128,30 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
         SanPhamDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM sanpham WHERE masanpham='?'";
+            String sql = "SELECT * FROM danhmucsanpham WHERE masanpham='?'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
-                int masp = rs.getInt("masanpham");
-                String tensp= rs.getString("tensanpham");
-                String xuatxu = rs.getString("xuatxu");
-                int gianhap = rs.getInt("gianhap");
-                int giaxuat = rs.getInt("giaxuat");
+            while (rs.next()) {
+                int madm = rs.getInt("madmsp");
+                String tendm = rs.getString("tendmsp");
                 String hinhanh = rs.getString("hinhanh");
-                int maDVT = rs.getInt("madonvitinh");
-                int maloaihang = rs.getInt("maloaihang");
-                int makhuvuc = rs.getInt("makhuvuc");
-                int soluong = rs.getInt("soluong");
-                result = new SanPhamDTO(masp,tensp,xuatxu,gianhap,giaxuat,hinhanh,maDVT,maloaihang,makhuvuc,soluong);
+                String xuatxu = rs.getString("xuatxu");
+                String chipxuly = rs.getString("chipxuly");
+                int dungluongpin = rs.getInt("dungluongpin");
+                double kichthuocman = rs.getDouble("kichthuocman");
+                String hedieuhanh = rs.getString("hedieuhanh");
+                int phienbanhdh = rs.getInt("phienbanhdh");
+                String camerasau = rs.getString("camerasau");
+                String cameratruoc = rs.getString("cameratruoc");
+                int thoigianbaohanh = rs.getInt("thoigianbaohanh");
+                int thuonghieu = rs.getInt("thuonghieu");
+                int khuvuckho = rs.getInt("khuvuckho");
+                int soluongton = rs.getInt("soluongton");
+                result = new SanPhamDTO(madm, tendm, hinhanh, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, phienbanhdh, camerasau, cameratruoc, thoigianbaohanh, thuonghieu, khuvuckho, soluongton);
             }
             JDBCUtil.closeConnection(con);
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return result;
     }
@@ -145,21 +161,21 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO>{
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'sanpham'";
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'danhmucsanpham'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
-            if (!rs2.isBeforeFirst() ) {
+            if (!rs2.isBeforeFirst()) {
                 System.out.println("No data");
             } else {
-                while ( rs2.next() ) {
+                while (rs2.next()) {
                     result = rs2.getInt("AUTO_INCREMENT");
-                    
+
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaiKhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
-    
+
 }

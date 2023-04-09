@@ -105,7 +105,7 @@ public class KiemKe extends JPanel {
         tblModel.setRowCount(0);
         for (DTO.SanPhamDTO sanPham : result) {
             tblModel.addRow(new Object[]{
-                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaxuat()
+//                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaxuat()
             });
         }
     }

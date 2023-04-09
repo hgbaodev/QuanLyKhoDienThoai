@@ -1,194 +1,57 @@
 package GUI.Dialog;
 
-import DAO.DonViTinhDAO;
-import DAO.KhuVucKhoDAO;
-import DAO.LoaiHangDAO;
-import DAO.SanPhamDAO;
-import DTO.DonViTinhDTO;
-import DTO.KhuVucKhoDTO;
-import DTO.LoaiHangDTO;
-import DTO.SanPhamDTO;
-import GUI.Panel.SanPham;
 import GUI.Component.ButtonCustom;
-import com.formdev.flatlaf.FlatLightLaf;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.JFrame;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Component.InputImage;
 import GUI.Component.SelectForm;
+import GUI.Panel.SanPham;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.BoxLayout;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.View;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
-public class SanPhamDialog extends JDialog implements MouseListener {
+/**
+ *
+ * @author Tran Nhat Sinh
+ */
+public final class SanPhamDialog extends JDialog implements ActionListener {
 
     private HeaderTitle titlePage;
-    private JPanel pnmain, pnbottom, pnCenter, pnmainright;
-    private ButtonCustom btnThemSanPham, btnCapNhat, btnHuyBo;
-    InputForm tenSP, xuatxu, gianhap, giaxuat, soluong, idSP;
-    SelectForm donvitinh, loaihang, khuvuc;
+    private JPanel pninfosanpham, pnbottom, pnCenter, pninfosanphamright, pnmain, pncard2, pn3;
+    private ButtonCustom btnThemCHMS, btnHuyBo;
+    private ButtonCustom btnaddch, btneditch, btndeletech;
+    private ButtonCustom btnaddms, btneditms, btndeletems;
+    InputForm tenSP, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, thoigianbaohanh, phienbanhdh, camerasau, cameratruoc;
+    InputForm dungluong, ram, mausac;
+    SelectForm thuonghieu, khuvuc;
     InputImage hinhanh;
+    JTable tblcauhinh, tblmausac;
+    JScrollPane scrolltblcauhinh, scrolltblmausac;
+    DefaultTableModel tblModelch, tblModelmausac;
+    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     GUI.Panel.SanPham jpSP;
-    SanPhamDTO spDTO;
-    String urlImage;
-
-    ArrayList<DonViTinhDTO> dvt = DonViTinhDAO.getInstance().selectAll();
-    ArrayList<LoaiHangDTO> lh = LoaiHangDAO.getInstance().selectAll();
-    ArrayList<KhuVucKhoDTO> kvk = KhuVucKhoDAO.getInstance().selectAll();
-
-    public String[] getdonvitinh() {
-        String tenDVT[] = new String[dvt.size()];
-        for (int i = 0; i < dvt.size(); i++) {
-            tenDVT[i] = dvt.get(i).getTenDVT();
-        }
-        return tenDVT;
-    }
-
-    public int setdonvitinh(int n) {
-        int x = 0;
-        for (int i = 0; i < dvt.size(); i++) {
-            if (n == dvt.get(i).getMaDVT()) {
-                x = i;
-            }
-        }
-        return x;
-    }
-
-    public String[] getloaihang() {
-        String tenLH[] = new String[lh.size()];
-        for (int i = 0; i < lh.size(); i++) {
-            tenLH[i] = lh.get(i).getTenloaihang();
-        }
-        return tenLH;
-    }
-
-    public int setloaihang(int n) {
-        int x = 0;
-        for (int i = 0; i < lh.size(); i++) {
-            if (n == lh.get(i).getMaloaihang()) {
-                x = i;
-            }
-        }
-        return x;
-    }
-
-    public String[] getkhuvuc() {
-        String tenkv[] = new String[kvk.size()];
-        for (int i = 0; i < kvk.size(); i++) {
-            tenkv[i] = kvk.get(i).getTenkhuvuc();
-        }
-        return tenkv;
-    }
-
-    public int setkhuvuc(int n) {
-        int x = 0;
-        for (int i = 0; i < kvk.size(); i++) {
-            if (n == kvk.get(i).getMakhuvuckho()) {
-                x = i;
-            }
-        }
-        return x;
-    }
-
-    public void initComponents(String title, String type) {
-        this.setSize(new Dimension(1150, 500));
-        this.setLayout(new BorderLayout(0, 0));
-        titlePage = new HeaderTitle(title.toUpperCase());
-        pnCenter = new JPanel(new GridLayout(1, 2));
-        pnmain = new JPanel(new GridLayout(3, 2, 0, 0));
-        pnmain.setBackground(Color.WHITE);
-        pnCenter.add(pnmain);
-
-        pnmainright = new JPanel();
-        pnmainright.setBackground(Color.WHITE);
-        pnCenter.add(pnmainright);
-
-        tenSP = new InputForm("Tên sản phẩm");
-        idSP = new InputForm("Mã sản phẩm");
-        xuatxu = new InputForm("Xuất xứ");
-        gianhap = new InputForm("Giá nhập");
-        giaxuat = new InputForm("Giá bán");
-        donvitinh = new SelectForm("Đơn vị tính", getdonvitinh());
-        loaihang = new SelectForm("Loại hàng", getloaihang());
-        soluong = new InputForm("Số lượng");
-        khuvuc = new SelectForm("Khu vực kho", getkhuvuc());
-        hinhanh = new InputImage("Hình minh họa");
-
-        pnmain.add(tenSP);
-        pnmain.add(xuatxu);
-        pnmain.add(donvitinh);
-        pnmain.add(gianhap);
-        pnmain.add(giaxuat);
-        pnmain.add(loaihang);
-        pnmain.add(khuvuc);
-        pnmain.add(soluong);
-        pnmainright.add(hinhanh);
-
-        pnbottom = new JPanel(new FlowLayout());
-        pnbottom.setBorder(new EmptyBorder(10, 0, 10, 0));
-        pnbottom.setBackground(Color.white);
-        btnThemSanPham = new ButtonCustom("Thêm Sản Phẩm", "success", 14);
-        btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
-        btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
-
-        //Add MouseListener btn
-        btnThemSanPham.addMouseListener(this);
-        btnCapNhat.addMouseListener(this);
-        btnHuyBo.addMouseListener(this);
-
-        switch (type) {
-            case "create" -> {
-                soluong.setVisible(false);
-                pnbottom.add(btnThemSanPham);
-            }
-            case "update" -> {
-                soluong.setDisable();
-                initInfomation(this.spDTO);
-                pnbottom.add(btnCapNhat);
-            }
-            case "view" -> {
-                pnmain.add(idSP);
-                pnmain.add(soluong);
-                initInfomation(this.spDTO);
-                idSP.setEditable(false);
-                soluong.setEditable(false);  
-            }
-            default ->
-                throw new AssertionError();
-        }
-        pnbottom.add(btnHuyBo);
-
-        this.add(titlePage, BorderLayout.NORTH);
-        this.add(pnCenter, BorderLayout.CENTER);
-        this.add(pnbottom, BorderLayout.SOUTH);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-    }
+    String[] arrkhuvuc = {"Khu vực A", "Khu vực B", "Khu vực C"};
+    String[] arrthuonghieu = {"Apple", "Oppo", "Xiaomi", "Samsung"};
 
     public SanPhamDialog(SanPham jpSP, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
@@ -196,78 +59,205 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         initComponents(title, type);
     }
 
-    public SanPhamDialog(GUI.Panel.SanPham jpSP, JFrame owner, String title, boolean modal, String type, SanPhamDTO sp) {
-        super(owner, title, modal);
-        this.jpSP = jpSP;
-        this.spDTO = sp;
-        initComponents(title, type);
+    public void initCardOne() {
+        pnCenter = new JPanel(new BorderLayout());
+        pninfosanpham = new JPanel(new GridLayout(3, 4, 0, 0));
+        pninfosanpham.setBackground(Color.WHITE);
+        pnCenter.add(pninfosanpham, BorderLayout.CENTER);
+
+        pninfosanphamright = new JPanel();
+        pninfosanphamright.setBackground(Color.WHITE);
+        pninfosanphamright.setPreferredSize(new Dimension(300, 600));
+        pninfosanphamright.setBorder(new EmptyBorder(0, 10, 0, 10));
+        pnCenter.add(pninfosanphamright, BorderLayout.WEST);
+
+        tenSP = new InputForm("Tên sản phẩm");
+        xuatxu = new InputForm("Xuất xứ");
+        chipxuly = new InputForm("Chip xử lý");
+        dungluongpin = new InputForm("Dung lượng pin");
+        kichthuocman = new InputForm("Kích thước màn");
+        hedieuhanh = new InputForm("Hệ điều hành");
+        phienbanhdh = new InputForm("Phiên bản hđh");
+        thoigianbaohanh = new InputForm("Thời gian bảo hành");
+        camerasau = new InputForm("Camera sau");
+        cameratruoc = new InputForm("Camera trước");
+        thuonghieu = new SelectForm("Thương hiệu", arrthuonghieu);
+        khuvuc = new SelectForm("Khu vực kho", arrkhuvuc);
+        hinhanh = new InputImage("Hình minh họa");
+
+        pninfosanpham.add(tenSP);
+        pninfosanpham.add(xuatxu);
+        pninfosanpham.add(chipxuly);
+        pninfosanpham.add(dungluongpin);
+        pninfosanpham.add(kichthuocman);
+        pninfosanpham.add(hedieuhanh);
+        pninfosanpham.add(camerasau);
+        pninfosanpham.add(cameratruoc);
+        pninfosanpham.add(phienbanhdh);
+        pninfosanpham.add(thoigianbaohanh);
+        pninfosanpham.add(thuonghieu);
+        pninfosanpham.add(khuvuc);
+        pninfosanphamright.add(hinhanh);
+
+        pnbottom = new JPanel(new FlowLayout());
+        pnbottom.setBorder(new EmptyBorder(20, 0, 10, 0));
+        pnbottom.setBackground(Color.white);
+        btnThemCHMS = new ButtonCustom("Tạo cấu hình", "success", 14);
+        btnThemCHMS.addActionListener(this);
+        btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
+        pnbottom.add(btnThemCHMS);
+        pnbottom.add(btnHuyBo);
+        pnCenter.add(pnbottom, BorderLayout.SOUTH);
     }
 
-    public void initInfomation(SanPhamDTO sp) {
-        setNoidung(tenSP, sp.getTensp());
-        setNoidung(xuatxu, sp.getXuatxu());
-        setNoidung(gianhap, String.valueOf(sp.getGianhap()));
-        setNoidung(giaxuat, String.valueOf(sp.getGiaxuat()));
-        setIdSP(Integer.toString(sp.getMasp()));
-        setNoidung(soluong, String.valueOf(sp.getSoluong()));
-        donvitinh.setSelectedIndex(setdonvitinh(sp.getMaDVT()));
-        loaihang.setSelectedIndex(setloaihang(sp.getMaloaihang()));
-        khuvuc.setSelectedIndex(setkhuvuc(sp.getMakhuvuc()));
-        hinhanh.setUrl_img("./src/img_product/"+sp.getHinhanh());
-        urlImage = sp.getHinhanh();
+    public void initCardTwo() {
+        JPanel pnch_ms, pncauhinh, pnmausac, jpch_top, jpch_top_left, jpch_top_right, jpch_bottom, jpms_top, jpms_center, jpms_bottom;
+        pncard2 = new JPanel(new BorderLayout());
+
+        pnch_ms = new JPanel(new GridLayout(1, 2));
+        pncauhinh = new JPanel(new BorderLayout());
+        pncauhinh.setBackground(Color.WHITE);
+
+        jpch_top = new JPanel(new BorderLayout());
+        jpch_top.setBackground(Color.WHITE);
+        jpch_top.setPreferredSize(new Dimension(100, 300));
+
+        jpch_top_left = new JPanel(new GridLayout(2, 1));
+        dungluong = new InputForm("Dung lượng lưu trữ");
+        ram = new InputForm("Dung lượng RAM");
+        jpch_top_left.add(dungluong);
+        jpch_top_left.add(ram);
+
+        jpch_top_right = new JPanel(new GridLayout(3, 1, 20, 20));
+        jpch_top_right.setBorder(new EmptyBorder(15, 5, 15, 5));
+        jpch_top_right.setBackground(Color.WHITE);
+        btnaddch = new ButtonCustom("Thêm cấu hình", "success", 14);
+        btneditch = new ButtonCustom("Sửa cấu hình", "warning", 14);
+        btndeletech = new ButtonCustom("Xoá cấu hình", "danger", 14);
+        jpch_top_right.add(btnaddch);
+        jpch_top_right.add(btneditch);
+        jpch_top_right.add(btndeletech);
+
+        jpch_top.add(jpch_top_left, BorderLayout.CENTER);
+        jpch_top.add(jpch_top_right, BorderLayout.EAST);
+
+        jpch_bottom = new JPanel(new FlowLayout());
+        jpch_bottom.setBackground(Color.WHITE);
+        tblcauhinh = new JTable();
+        tblcauhinh.setPreferredSize(new Dimension(550, 80));
+        scrolltblcauhinh = new JScrollPane();
+        tblModelch = new DefaultTableModel();
+        String[] header = new String[]{"STT", "Dung lượng lưu trữ", "RAM"};
+        tblModelch.setColumnIdentifiers(header);
+        tblcauhinh.setModel(tblModelch);
+        scrolltblcauhinh.setViewportView(tblcauhinh);
+        tblcauhinh.setDefaultRenderer(Object.class, centerRenderer);
+
+        tblcauhinh.setPreferredScrollableViewportSize(tblcauhinh.getPreferredSize());
+        tblcauhinh.setFillsViewportHeight(true);
+        jpch_bottom.add(scrolltblcauhinh);
+
+        pncauhinh.add(jpch_top, BorderLayout.CENTER);
+        pncauhinh.add(jpch_bottom, BorderLayout.SOUTH);
+
+        pnch_ms.add(pncauhinh, BorderLayout.CENTER);
+
+        pnmausac = new JPanel(new BorderLayout());
+        pnmausac.setBackground(Color.WHITE);
+
+        jpms_top = new JPanel(new GridLayout(1, 1));
+        jpms_top.setPreferredSize(new Dimension(100, 100));
+        mausac = new InputForm("Màu sắc");
+        jpms_top.add(mausac);
+
+        jpms_center = new JPanel(new FlowLayout(1, 10, 10));
+        jpms_center.setBackground(Color.WHITE);
+        btnaddms = new ButtonCustom("Thêm màu sắc", "success", 14);
+        btneditms = new ButtonCustom("Sửa màu sắc", "warning", 14);
+        btndeletems = new ButtonCustom("Xoá màu sắc", "danger", 14);
+        jpms_center.add(btnaddms);
+        jpms_center.add(btneditms);
+        jpms_center.add(btndeletems);
+
+        jpms_bottom = new JPanel();
+        jpms_bottom.setBackground(Color.WHITE);
+        tblmausac = new JTable();
+        tblmausac.setPreferredSize(new Dimension(550, 80));
+        scrolltblmausac = new JScrollPane();
+        tblModelmausac = new DefaultTableModel();
+        String[] headerms = new String[]{"STT", "Màu sắc"};
+        tblModelmausac.setColumnIdentifiers(headerms);
+        tblmausac.setModel(tblModelmausac);
+        scrolltblmausac.setViewportView(tblmausac);
+        tblmausac.setDefaultRenderer(Object.class, centerRenderer);
+        tblmausac.setPreferredScrollableViewportSize(tblmausac.getPreferredSize());
+        tblmausac.setFillsViewportHeight(true);
+        jpms_bottom.add(scrolltblmausac);
+
+        pnmausac.add(jpms_top, BorderLayout.NORTH);
+        pnmausac.add(jpms_center, BorderLayout.CENTER);
+        pnmausac.add(jpms_bottom, BorderLayout.SOUTH);
+        pnch_ms.add(pnmausac, BorderLayout.EAST);
+
+        JPanel pnbottom1 = new JPanel(new FlowLayout());
+        pnbottom1.setBorder(new EmptyBorder(20, 0, 10, 0));
+        pnbottom1.setBackground(Color.white);
+        ButtonCustom btnThemCHMS1 = new ButtonCustom("Tạo giá cấu hình", "success", 14);
+        btnThemCHMS1.addActionListener(this);
+        ButtonCustom btnHuyBo1 = new ButtonCustom("Huỷ bỏ", "danger", 14);
+        pnbottom1.add(btnThemCHMS1);
+        pnbottom1.add(btnHuyBo1);
+
+        pncard2.add(pnch_ms, BorderLayout.CENTER);
+        pncard2.add(pnbottom1, BorderLayout.SOUTH);
     }
 
-    public void setNoidung(InputForm inputForm, String text) {
-        inputForm.setText(text);
-    }
-
-    public void setIdSP(String text) {
-        this.idSP.setText(text);
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if (e.getSource() == btnThemSanPham) {
-            String tensp = this.tenSP.getText();
-            String xuatxu = this.xuatxu.getText();
-            double gianhap = Double.valueOf(this.gianhap.getText());
-            double giaxuat = Double.valueOf(this.giaxuat.getText());
-            String hinhanh = addImage(this.hinhanh.getUrl_img());;
-            int madonvi = dvt.get(donvitinh.getSelectedIndex()).getMaDVT();
-            int maloaihang = lh.get(loaihang.getSelectedIndex()).getMaloaihang();
-            int makhuvuc = kvk.get(khuvuc.getSelectedIndex()).getMakhuvuckho();
-            int sluong = 0;
-            int id = SanPhamDAO.getInstance().getAutoIncrement();
-            SanPhamDTO sp = new SanPhamDTO(id, tensp, xuatxu, gianhap, giaxuat, hinhanh, madonvi, maloaihang, makhuvuc, sluong);
-            jpSP.spBUS.add(sp);
-            jpSP.loadDataTalbe(jpSP.listSP);
-            dispose();
-        } else if (e.getSource() == btnHuyBo) {
-            dispose();
-        } else if (e.getSource() == btnCapNhat) {
-            String tensp = this.tenSP.getText();
-            String xuatxu = this.xuatxu.getText();
-            double gianhap = Double.valueOf(this.gianhap.getText());
-            double giaxuat = Double.valueOf(this.giaxuat.getText());
-            String hinhanh = urlImage;
-            if (this.hinhanh.getUrl_img() != null) {
-                hinhanh = this.hinhanh.getUrl_img();
+    public void initCardThree() {
+        int sl = 9;
+        pn3 = new JPanel(new BorderLayout());
+        JPanel pn3_top = new JPanel(new GridLayout(sl, 5));
+        InputForm[][] ipform = new InputForm[sl][5];
+        String[] textt = {"Dung lượng lưu trữ", "RAM", "Màu sắc", "Giá nhập", "Giá xuất"};
+        for (int i = 0; i < sl; i++) {
+            for (int j = 0; j < 5; j++) {
+                ipform[i][j] = new InputForm(textt[j]);
+                pn3_top.add(ipform[i][j]);
             }
-            int madonvi = dvt.get(donvitinh.getSelectedIndex()).getMaDVT();
-            int maloaihang = lh.get(loaihang.getSelectedIndex()).getMaloaihang();
-            int makhuvuc = kvk.get(khuvuc.getSelectedIndex()).getMakhuvuckho();
-            int sluong = Integer.valueOf(this.soluong.getText());
-            int id = spDTO.getMasp();
-            DTO.SanPhamDTO sp = new DTO.SanPhamDTO(id, tensp, xuatxu, gianhap, giaxuat, hinhanh, madonvi, maloaihang, makhuvuc, sluong);
-            jpSP.spBUS.update(sp);
-            jpSP.loadDataTalbe(jpSP.listSP);
-            dispose();
         }
+        JScrollPane jcr = new JScrollPane(pn3_top,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        
+        JPanel pnbottom2 = new JPanel(new FlowLayout());
+        pnbottom2.setBorder(new EmptyBorder(6, 0, 6, 0));
+        pnbottom2.setBackground(Color.white);
+        ButtonCustom btnThemCHMS2 = new ButtonCustom("Tạo giá cấu hình", "success", 14);
+        btnThemCHMS2.addActionListener(this);
+        ButtonCustom btnHuyBo2 = new ButtonCustom("Huỷ bỏ", "danger", 14);
+        pnbottom2.add(btnThemCHMS2);
+        pnbottom2.add(btnHuyBo2);
+        pn3.add(jcr, BorderLayout.CENTER);
+        pn3.add(pnbottom2, BorderLayout.SOUTH);
+    }
+
+    public void initComponents(String title, String type) {
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        this.setSize(new Dimension(1150, 480));
+        this.setLayout(new BorderLayout(0, 0));
+        titlePage = new HeaderTitle(title.toUpperCase());
+
+        pnmain = new JPanel(new CardLayout());
+
+        initCardOne();
+        initCardTwo();
+        initCardThree();
+
+        pnmain.add(pnCenter);
+        pnmain.add(pncard2);
+        pnmain.add(pn3);
+
+        this.add(titlePage, BorderLayout.NORTH);
+        this.add(pnmain, BorderLayout.CENTER);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     public String addImage(String urlImg) {
@@ -276,10 +266,9 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         File sourceFile = new File(urlImg);
         String destPath = "./src/img_product";
         File destFolder = new File(destPath);
-        String newName = ram+sourceFile.getName();
+        String newName = ram + sourceFile.getName();
         try {
             Path dest = Paths.get(destFolder.getPath(), newName);
-
             Files.copy(sourceFile.toPath(), dest);
         } catch (IOException e) {
         }
@@ -287,18 +276,19 @@ public class SanPhamDialog extends JDialog implements MouseListener {
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void actionPerformed(ActionEvent e) {
+//        Object source = e.getSource();
+//        if (source == btnThemCHMS) {
+//            CardLayout c = (CardLayout) pnmain.getLayout();
+//            c.next(pnmain);
+//        }
+        CardLayout c = (CardLayout) pnmain.getLayout();
+        c.next(pnmain);
     }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    public boolean validateCardOne() {
+        
+        return false;
+        
     }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
 }

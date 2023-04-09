@@ -11,59 +11,58 @@ import java.util.Objects;
  * @author 84907
  */
 public class SanPhamDTO {
-    private int masp;
-    private String tensp;
-    private String xuatxu;
-    private double gianhap;
-    private double giaxuat;
+
+    private int madanhmuc;
+    private String tendanhmuc;
     private String hinhanh;
-    private int maDVT;
-    private int maloaihang;
-    private int makhuvuc;
-    private int soluong;
-    
+    private String xuatxu;
+    private String chipxuly;
+    private int dungluongpin;
+    private double kichthuocman;
+    private String hedieuhanh;
+    private int phienbanhdh;
+    private String camerasau;
+    private String cameratruoc;
+    private int thoigianbaohanh;
+    private int thuonghieu;
+    private int khuvuckho;
+    private int soluongton;
 
     public SanPhamDTO() {
     }
 
-    public int getMasp() {
-        return masp;
-    }
-
-    public void setMasp(int masp) {
-        this.masp = masp;
-    }
-
-    public String getTensp() {
-        return tensp;
-    }
-
-    public void setTensp(String tensp) {
-        this.tensp = tensp;
-    }
-
-    public String getXuatxu() {
-        return xuatxu;
-    }
-
-    public void setXuatxu(String xuatxu) {
+    public SanPhamDTO(int madanhmuc, String tendanhmuc, String hinhanh, String xuatxu, String chipxuly, int dungluongpin, double kichthuocman, String hedieuhanh, int phienbanhdh, String camerasau, String cameratruoc, int thoigianbaohanh, int thuonghieu, int khuvuckho, int soluongton) {
+        this.madanhmuc = madanhmuc;
+        this.tendanhmuc = tendanhmuc;
+        this.hinhanh = hinhanh;
         this.xuatxu = xuatxu;
+        this.chipxuly = chipxuly;
+        this.dungluongpin = dungluongpin;
+        this.kichthuocman = kichthuocman;
+        this.hedieuhanh = hedieuhanh;
+        this.phienbanhdh = phienbanhdh;
+        this.camerasau = camerasau;
+        this.cameratruoc = cameratruoc;
+        this.thoigianbaohanh = thoigianbaohanh;
+        this.thuonghieu = thuonghieu;
+        this.khuvuckho = khuvuckho;
+        this.soluongton = soluongton;
     }
 
-    public double getGianhap() {
-        return gianhap;
+    public int getMadanhmuc() {
+        return madanhmuc;
     }
 
-    public void setGianhap(double gianhap) {
-        this.gianhap = gianhap;
+    public void setMadanhmuc(int madanhmuc) {
+        this.madanhmuc = madanhmuc;
     }
 
-    public double getGiaxuat() {
-        return giaxuat;
+    public String getTendanhmuc() {
+        return tendanhmuc;
     }
 
-    public void setGiaxuat(double giaxuat) {
-        this.giaxuat = giaxuat;
+    public void setTendanhmuc(String tendanhmuc) {
+        this.tendanhmuc = tendanhmuc;
     }
 
     public String getHinhanh() {
@@ -74,64 +73,105 @@ public class SanPhamDTO {
         this.hinhanh = hinhanh;
     }
 
-    public int getMaDVT() {
-        return maDVT;
+    public String getXuatxu() {
+        return xuatxu;
     }
 
-    public void setMaDVT(int maDVT) {
-        this.maDVT = maDVT;
-    }
-
-    public int getMaloaihang() {
-        return maloaihang;
-    }
-
-    public void setMaloaihang(int maloaihang) {
-        this.maloaihang = maloaihang;
-    }
-
-    public int getMakhuvuc() {
-        return makhuvuc;
-    }
-
-    public void setMakhuvuc(int makhuvuc) {
-        this.makhuvuc = makhuvuc;
-    }
-
-    public int getSoluong() {
-        return soluong;
-    }
-
-    public void setSoluong(int soluong) {
-        this.soluong = soluong;
-    }
-
-    public SanPhamDTO(int masp, String tensp, String xuatxu, double gianhap, double giaxuat, String hinhanh, int maDVT, int maloaihang, int makhuvuc,int soluong) {
-        this.masp = masp;
-        this.tensp = tensp;
+    public void setXuatxu(String xuatxu) {
         this.xuatxu = xuatxu;
-        this.gianhap = gianhap;
-        this.giaxuat = giaxuat;
-        this.hinhanh = hinhanh;
-        this.maDVT = maDVT;
-        this.maloaihang = maloaihang;
-        this.makhuvuc = makhuvuc;
-        this.soluong = soluong;
+    }
+
+    public String getChipxuly() {
+        return chipxuly;
+    }
+
+    public void setChipxuly(String chipxuly) {
+        this.chipxuly = chipxuly;
+    }
+
+    public int getDungluongpin() {
+        return dungluongpin;
+    }
+
+    public void setDungluongpin(int dungluongpin) {
+        this.dungluongpin = dungluongpin;
+    }
+
+    public double getKichthuocman() {
+        return kichthuocman;
+    }
+
+    public void setKichthuocman(double kichthuocman) {
+        this.kichthuocman = kichthuocman;
+    }
+
+    public String getHedieuhanh() {
+        return hedieuhanh;
+    }
+
+    public void setHedieuhanh(String hedieuhanh) {
+        this.hedieuhanh = hedieuhanh;
+    }
+
+    public int getPhienbanhdh() {
+        return phienbanhdh;
+    }
+
+    public void setPhienbanhdh(int phienbanhdh) {
+        this.phienbanhdh = phienbanhdh;
+    }
+
+    public String getCamerasau() {
+        return camerasau;
+    }
+
+    public void setCamerasau(String camerasau) {
+        this.camerasau = camerasau;
+    }
+
+    public String getCameratruoc() {
+        return cameratruoc;
+    }
+
+    public void setCameratruoc(String cameratruoc) {
+        this.cameratruoc = cameratruoc;
+    }
+
+    public int getThoigianbaohanh() {
+        return thoigianbaohanh;
+    }
+
+    public void setThoigianbaohanh(int thoigianbaohanh) {
+        this.thoigianbaohanh = thoigianbaohanh;
+    }
+
+    public int getThuonghieu() {
+        return thuonghieu;
+    }
+
+    public void setThuonghieu(int thuonghieu) {
+        this.thuonghieu = thuonghieu;
+    }
+
+    public int getKhuvuckho() {
+        return khuvuckho;
+    }
+
+    public void setKhuvuckho(int khuvuckho) {
+        this.khuvuckho = khuvuckho;
+    }
+
+    public int getSoluongton() {
+        return soluongton;
+    }
+
+    public void setSoluongton(int soluongton) {
+        this.soluongton = soluongton;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + this.masp;
-        hash = 17 * hash + Objects.hashCode(this.tensp);
-        hash = 17 * hash + Objects.hashCode(this.xuatxu);
-        hash = 17 * hash + (int) (Double.doubleToLongBits(this.gianhap) ^ (Double.doubleToLongBits(this.gianhap) >>> 32));
-        hash = 17 * hash + (int) (Double.doubleToLongBits(this.giaxuat) ^ (Double.doubleToLongBits(this.giaxuat) >>> 32));
-        hash = 17 * hash + Objects.hashCode(this.hinhanh);
-        hash = 17 * hash + this.maDVT;
-        hash = 17 * hash + this.maloaihang;
-        hash = 17 * hash + this.makhuvuc;
-        hash = 17 * hash + this.soluong;
         return hash;
     }
 
@@ -147,15 +187,54 @@ public class SanPhamDTO {
             return false;
         }
         final SanPhamDTO other = (SanPhamDTO) obj;
-        return true;
+        if (this.madanhmuc != other.madanhmuc) {
+            return false;
+        }
+        if (this.tendanhmuc != other.tendanhmuc) {
+            return false;
+        }
+        if (this.dungluongpin != other.dungluongpin) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.kichthuocman) != Double.doubleToLongBits(other.kichthuocman)) {
+            return false;
+        }
+        if (this.phienbanhdh != other.phienbanhdh) {
+            return false;
+        }
+        if (this.thoigianbaohanh != other.thoigianbaohanh) {
+            return false;
+        }
+        if (this.thuonghieu != other.thuonghieu) {
+            return false;
+        }
+        if (this.khuvuckho != other.khuvuckho) {
+            return false;
+        }
+        if (this.soluongton != other.soluongton) {
+            return false;
+        }
+        if (!Objects.equals(this.hinhanh, other.hinhanh)) {
+            return false;
+        }
+        if (!Objects.equals(this.xuatxu, other.xuatxu)) {
+            return false;
+        }
+        if (!Objects.equals(this.chipxuly, other.chipxuly)) {
+            return false;
+        }
+        if (!Objects.equals(this.hedieuhanh, other.hedieuhanh)) {
+            return false;
+        }
+        if (!Objects.equals(this.camerasau, other.camerasau)) {
+            return false;
+        }
+        return Objects.equals(this.cameratruoc, other.cameratruoc);
     }
 
     @Override
     public String toString() {
-        return "SanPhamDTO{" + "masp=" + masp + ", tensp=" + tensp + ", xuatxu=" + xuatxu + ", gianhap=" + gianhap + ", giaxuat=" + giaxuat + ", hinhanh=" + hinhanh + ", maDVT=" + maDVT + ", maloaihang=" + maloaihang + ", makhuvuc=" + makhuvuc + ", soluong=" + soluong + '}';
+        return "SanPhamDTO{" + "madanhmuc=" + madanhmuc + ", tendanhmuc=" + tendanhmuc + ", hinhanh=" + hinhanh + ", xuatxu=" + xuatxu + ", chipxuly=" + chipxuly + ", dungluongpin=" + dungluongpin + ", kichthuocman=" + kichthuocman + ", hedieuhanh=" + hedieuhanh + ", phienbanhdh=" + phienbanhdh + ", camerasau=" + camerasau + ", cameratruoc=" + cameratruoc + ", thoigianbaohanh=" + thoigianbaohanh + ", thuonghieu=" + thuonghieu + ", khuvuckho=" + khuvuckho + ", soluongton=" + soluongton + '}';
     }
 
-    
 }
-
-    

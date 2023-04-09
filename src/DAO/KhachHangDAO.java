@@ -141,7 +141,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KhachHangDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

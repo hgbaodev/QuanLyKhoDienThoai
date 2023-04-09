@@ -4,7 +4,7 @@
  */
 package BUS;
 
-import DAO.DonViTinhDAO;
+import DAO.MauSacSanPhamDAO;
 import DAO.NhanVienDAO;
 import DTO.DonViTinhDTO;
 import DTO.NhanVienDTO;
@@ -288,7 +288,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
 //        }
 //
 //        for (DTO.DonViTinhDTO donViTinh : listExcel) {
-//            DonViTinhDAO.getInstance().insert(donViTinh);
+//            MauSacSanPhamDAO.getInstance().insert(donViTinh);
 //        }
 //        loadDataTalbe(listdvt);
 //    }

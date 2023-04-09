@@ -1,6 +1,5 @@
 package GUI.Panel;
 
-import BUS.DonViTinhBUS;
 import BUS.KhuVucKhoBUS;
 import BUS.LoaiHangBUS;
 import GUI.Dialog.SanPhamDialog;
@@ -14,7 +13,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
-import GUI.Dialog.SanPhamNewDialog;
+import GUI.Dialog.SanPhamDialog;
 import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,17 +41,6 @@ public final class SanPham extends JPanel implements ActionListener {
 
     Color BackgroundColor = new Color(240, 247, 250);
 
-    public String getTenDVT(int maDVT) {
-        String tendvt = "";
-        DonViTinhBUS dvtbus = new DonViTinhBUS();
-        ArrayList<DonViTinhDTO> listDVT = dvtbus.getAll();
-        for (int i = 0; i < listDVT.size(); i++) {
-            if (maDVT == listDVT.get(i).getMaDVT()) {
-                tendvt = listDVT.get(i).getTenDVT();
-            }
-        }
-        return tendvt;
-    }
 
     public String getTenloaihang(int maloaihang) {
         String tenlh = "";
@@ -163,7 +151,7 @@ public final class SanPham extends JPanel implements ActionListener {
         tblModel.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
             tblModel.addRow(new Object[]{
-                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), Formater.FormatVND(sp.getGianhap()), Formater.FormatVND(sp.getGiaxuat()), getTenDVT(sp.getMaDVT()), getTenloaihang(sp.getMaloaihang()), getTenkhuvuc(sp.getMakhuvuc())
+//                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), Formater.FormatVND(sp.getGianhap()), Formater.FormatVND(sp.getGiaxuat()), getTenDVT(sp.getMaDVT()), getTenloaihang(sp.getMaloaihang()), getTenkhuvuc(sp.getMakhuvuc())
             });
         }
     }
@@ -180,13 +168,13 @@ public final class SanPham extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-            SanPhamNewDialog spDialog = new SanPhamNewDialog(this, owner, "Thêm sản phẩm mới", true, "create");
+            SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Thêm sản phẩm mới", true, "create");
         } else if (e.getSource() == mainFunction.btnEdit) {
             int index = tableSanPham.getSelectedRow();
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần sửa");
             } else {
-                SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chỉnh sửa sản phẩm", true, "update", listSP.get(index));
+//                SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chỉnh sửa sản phẩm", true, "update", listSP.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
             int index = tableSanPham.getSelectedRow();
@@ -206,7 +194,7 @@ public final class SanPham extends JPanel implements ActionListener {
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn loại hàng cần xem");
             } else {
-                SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chi tiêt sản phẩm", true, "view", listSP.get(index));
+//                SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chi tiêt sản phẩm", true, "view", listSP.get(index));
             }
         }
     }

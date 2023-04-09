@@ -14,10 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import DTO.DonViTinhDTO;
 
-public class DonViTinhDAO implements DAOinterface<DonViTinhDTO> {
+public class MauSacSanPhamDAO implements DAOinterface<DonViTinhDTO> {
 
-    public static DonViTinhDAO getInstance() {
-        return new DonViTinhDAO();
+    public static MauSacSanPhamDAO getInstance() {
+        return new MauSacSanPhamDAO();
     }
 
     @Override
@@ -25,13 +25,13 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `donvitinh`(`tendonvitinh`,`trangthai`) VALUES (?,1)";
+            String sql = "INSERT INTO `mausacsanpham`(`masanpham`,`mamausac`,`tenmausac`, `trangthai`) VALUES (?,?,?,1)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getTenDVT());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MauSacSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -41,14 +41,14 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `donvitinh` SET`tendonvitinh`=? WHERE  `madonvitinh`=?";
+            String sql = "UPDATE `mausacsanpham` SET`tenmausac`=? WHERE  `mamausac`=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getTenDVT());
             pst.setInt(2, t.getMaDVT());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MauSacSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -64,7 +64,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO> {
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MauSacSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -127,7 +127,7 @@ public class DonViTinhDAO implements DAOinterface<DonViTinhDTO> {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MauSacSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

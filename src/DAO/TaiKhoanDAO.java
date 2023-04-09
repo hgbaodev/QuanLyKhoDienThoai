@@ -138,7 +138,7 @@ public class TaiKhoanDAO implements DAOinterface<TaiKhoanDTO>{
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaiKhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

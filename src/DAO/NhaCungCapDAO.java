@@ -138,7 +138,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NhaCungCapDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

@@ -124,7 +124,7 @@ public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoaiHangDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
