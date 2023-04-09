@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI.Dialog;
 
-import DTO.LoaiHangDTO;
-import GUI.Panel.LoaiHang;
+import DTO.ThuongHieuDTO;
+import GUI.Panel.ThuongHieu;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
@@ -26,22 +22,22 @@ import javax.swing.border.EmptyBorder;
  *
  * @author 84907
  */
-public class LoaiHangDialog extends JDialog implements MouseListener {
+public class ThuongHieuDialog extends JDialog implements MouseListener {
 
-    private LoaiHang jpLH;
+    private ThuongHieu jpLH;
     private HeaderTitle titlePage;
     private JPanel pnmain, pnbottom;
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
     private InputForm tenLH;
-    private LoaiHangDTO loaihangDto;
+    private ThuongHieuDTO loaihangDto;
 
-    public LoaiHangDialog(LoaiHang jpLH, JFrame owner, String title, boolean modal, String type) {
+    public ThuongHieuDialog(ThuongHieu jpLH, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
         this.jpLH = jpLH;
         initComponents(title, type);
     }
 
-    public LoaiHangDialog(LoaiHang jpLH, JFrame owner, String title, boolean modal, String type, DTO.LoaiHangDTO lh) {
+    public ThuongHieuDialog(ThuongHieu jpLH, JFrame owner, String title, boolean modal, String type, DTO.ThuongHieuDTO lh) {
         super(owner, title, modal);
         this.jpLH = jpLH;
         this.loaihangDto = lh;
@@ -54,13 +50,13 @@ public class LoaiHangDialog extends JDialog implements MouseListener {
         titlePage = new HeaderTitle(title.toUpperCase());
         pnmain = new JPanel(new GridLayout(1, 1, 20, 0));
         pnmain.setBackground(Color.white);
-        tenLH = new InputForm("Tên loại hàng hóa");
+        tenLH = new InputForm("Tên thương hiệu hóa");
         pnmain.add(tenLH);
 
         pnbottom = new JPanel(new FlowLayout());
         pnbottom.setBorder(new EmptyBorder(10, 0, 10, 0));
         pnbottom.setBackground(Color.white);
-        btnThem = new ButtonCustom("Thêm loại hàng", "success", 14);
+        btnThem = new ButtonCustom("Thêm thương hiệu", "success", 14);
         btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
 
@@ -75,10 +71,10 @@ public class LoaiHangDialog extends JDialog implements MouseListener {
             }
             case "update" -> {
                 pnbottom.add(btnCapNhat);
-                tenLH.setText(loaihangDto.getTenloaihang());
+                tenLH.setText(loaihangDto.getTenthuonghieu());
             }
             case "view" -> {
-                tenLH.setText(loaihangDto.getTenloaihang());
+                tenLH.setText(loaihangDto.getTenthuonghieu());
             }
             default ->
                 throw new AssertionError();
@@ -107,8 +103,8 @@ public class LoaiHangDialog extends JDialog implements MouseListener {
             dispose();
         } else if (e.getSource() == btnCapNhat) {
             String name = tenLH.getText();
-            int id = loaihangDto.getMaloaihang();
-            DTO.LoaiHangDTO lh = new DTO.LoaiHangDTO(id, name);
+            int id = loaihangDto.getMathuonghieu();
+            DTO.ThuongHieuDTO lh = new DTO.ThuongHieuDTO(id, name);
             jpLH.lhBUS.update(lh);
             tenLH.setText(name);
             jpLH.loadDataTalbe(jpLH.listLH);

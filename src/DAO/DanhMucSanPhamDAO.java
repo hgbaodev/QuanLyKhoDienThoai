@@ -10,10 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import DTO.SanPhamDTO;
 
-public class SanPhamDAO implements DAOinterface<SanPhamDTO> {
+public class DanhMucSanPhamDAO implements DAOinterface<SanPhamDTO> {
 
-    public static SanPhamDAO getInstance() {
-        return new SanPhamDAO();
+    public static DanhMucSanPhamDAO getInstance() {
+        return new DanhMucSanPhamDAO();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO> {
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DanhMucSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -69,7 +69,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO> {
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DanhMucSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -85,7 +85,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO> {
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DanhMucSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

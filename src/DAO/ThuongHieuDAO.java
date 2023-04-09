@@ -4,7 +4,7 @@
  */
 package DAO;
 
-import DTO.LoaiHangDTO;
+import DTO.ThuongHieuDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,39 +14,39 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
-    public static LoaiHangDAO getInstance(){
-        return new LoaiHangDAO();
+public class ThuongHieuDAO implements DAOinterface<ThuongHieuDTO>{
+    public static ThuongHieuDAO getInstance(){
+        return new ThuongHieuDAO();
     }
     @Override
-    public int insert(LoaiHangDTO t) {
+    public int insert(ThuongHieuDTO t) {
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `loaihang`(`tenloaihang`,`trangthai`) VALUES (?,1)";
+            String sql = "INSERT INTO `thuonghieu`(`tenthuonghieu`) VALUES (?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t.getTenloaihang());
+            pst.setString(1, t.getTenthuonghieu());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(LoaiHangDTO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ThuongHieuDTO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
-    public int update(LoaiHangDTO t) {
+    public int update(ThuongHieuDTO t) {
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `loaihang` SET`tenloaihang`=? WHERE `maloaihang`=?";
+            String sql = "UPDATE `thuonghieu` SET`tenthuonghieu`=? WHERE `mathuonghieu`=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t.getTenloaihang());
-            pst.setInt(2, t.getMaloaihang());
+            pst.setString(1, t.getTenthuonghieu());
+            pst.setInt(2, t.getMathuonghieu());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(LoaiHangDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ThuongHieuDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -56,29 +56,30 @@ public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `loaihang` SET `trangthai` = 0 WHERE `maloaihang`= ?";
+            String sql = "UPDATE `thuonghieu` SET `trangthai` = 0 WHERE `mathuonghieu`= ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, t);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(LoaiHangDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ThuongHieuDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
-    public ArrayList<LoaiHangDTO> selectAll() {
-        ArrayList<LoaiHangDTO> result = new ArrayList<LoaiHangDTO>();
+    public ArrayList<ThuongHieuDTO> selectAll() {
+        ArrayList<ThuongHieuDTO> result = new ArrayList<ThuongHieuDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM loaihang WHERE `trangthai`=1";
+            String sql = "SELECT * FROM thuonghieu WHERE `trangthai`=1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
-                int maloaihang = rs.getInt("maloaihang");
-                String tenloaihang = rs.getString("tenloaihang");
+                int mathuonghieu = rs.getInt("mathuonghieu");
+                String tenthuonghieu = rs.getString("tenthuonghieu");
                 
-                LoaiHangDTO lh = new LoaiHangDTO(maloaihang, tenloaihang);
+                ThuongHieuDTO lh = new ThuongHieuDTO(mathuonghieu, tenthuonghieu);
                 result.add(lh);
             }
             JDBCUtil.closeConnection(con);
@@ -88,18 +89,18 @@ public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
     }
 
     @Override
-    public LoaiHangDTO selectById(String t) {
-        LoaiHangDTO result = null;
+    public ThuongHieuDTO selectById(String t) {
+        ThuongHieuDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM loaihang WHERE maloaihang='?'";
+            String sql = "SELECT * FROM thuonghieu WHERE mathuonghieu='?'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
-                int maloaihang = rs.getInt("maloaihang");
-                String tenloaihang = rs.getString("tenloaihang");
-                result = new LoaiHangDTO(maloaihang, tenloaihang);
+                int mathuonghieu = rs.getInt("mathuonghieu");
+                String tenloaihang = rs.getString("tenthuonghieu");
+                result = new ThuongHieuDTO(mathuonghieu, tenloaihang);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
@@ -112,7 +113,7 @@ public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'loaihang'";
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'thuonghieu'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
             if (!rs2.isBeforeFirst() ) {
@@ -124,7 +125,7 @@ public class LoaiHangDAO implements DAOinterface<LoaiHangDTO>{
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(LoaiHangDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ThuongHieuDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

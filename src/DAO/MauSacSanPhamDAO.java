@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import DTO.MauSacSanPhamDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,124 +13,32 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DTO.DonViTinhDTO;
 
-public class MauSacSanPhamDAO implements DAOinterface<DonViTinhDTO> {
+public class MauSacSanPhamDAO implements ChiTietInterface<MauSacSanPhamDTO> {
 
     public static MauSacSanPhamDAO getInstance() {
         return new MauSacSanPhamDAO();
     }
 
     @Override
-    public int insert(DonViTinhDTO t) {
-        int result = 0;
-        try {
-            Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `mausacsanpham`(`masanpham`,`mamausac`,`tenmausac`, `trangthai`) VALUES (?,?,?,1)";
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t.getTenDVT());
-            result = pst.executeUpdate();
-            JDBCUtil.closeConnection(con);
-        } catch (SQLException ex) {
-            Logger.getLogger(MauSacSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return result;
-    }
-
-    @Override
-    public int update(DonViTinhDTO t) {
-        int result = 0;
-        try {
-            Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `mausacsanpham` SET`tenmausac`=? WHERE  `mamausac`=?";
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t.getTenDVT());
-            pst.setInt(2, t.getMaDVT());
-            result = pst.executeUpdate();
-            JDBCUtil.closeConnection(con);
-        } catch (SQLException ex) {
-            Logger.getLogger(MauSacSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return result;
+    public int insert(ArrayList<MauSacSanPhamDTO> t) {
+        
     }
 
     @Override
     public int delete(String t) {
-        int result = 0;
-        try {
-            Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `donvitinh` SET `trangthai`=0 WHERE madonvitinh = ?";
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t);
-            result = pst.executeUpdate();
-            JDBCUtil.closeConnection(con);
-        } catch (SQLException ex) {
-            Logger.getLogger(MauSacSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return result;
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public ArrayList<DonViTinhDTO> selectAll() {
-        ArrayList<DonViTinhDTO> result = new ArrayList<DonViTinhDTO>();
-        try {
-            Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * `FROM donvitinh` WHERE `trangthai`=1";
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet rs = (ResultSet) pst.executeQuery();
-            while (rs.next()) {
-                int mandvt = rs.getInt("madonvitinh");
-                String tendvt = rs.getString("tendonvitinh");
-
-                DonViTinhDTO dvt = new DonViTinhDTO(mandvt, tendvt);
-                result.add(dvt);
-            }
-            JDBCUtil.closeConnection(con);
-        } catch (Exception e) {
-        }
-        return result;
+    public int update(ArrayList<MauSacSanPhamDTO> t, String pk) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public DonViTinhDTO selectById(String t) {
-        DonViTinhDTO result = null;
-        try {
-            Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM donvitinh WHERE madonvitinh='?'";
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t);
-            ResultSet rs = (ResultSet) pst.executeQuery();
-            while (rs.next()) {
-                int mancc = rs.getInt("madonvitinh");
-                String tenncc = rs.getString("tendonvitinh");
-                result = new DonViTinhDTO(mancc, tenncc);
-            }
-            JDBCUtil.closeConnection(con);
-        } catch (Exception e) {
-        }
-        return result;
+    public ArrayList<MauSacSanPhamDTO> selectAll(String t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public int getAutoIncrement() {
-        int result = -1;
-        try {
-            Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'donvitinh'";
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet rs2 = pst.executeQuery(sql);
-            if (!rs2.isBeforeFirst() ) {
-                System.out.println("No data");
-            } else {
-                while ( rs2.next() ) {
-                    result = rs2.getInt("AUTO_INCREMENT");
-                    
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(MauSacSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return result;
-    }
     
 }

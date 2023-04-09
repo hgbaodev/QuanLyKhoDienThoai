@@ -1,14 +1,14 @@
 package BUS;
 
-import DAO.SanPhamDAO;
+import DAO.DanhMucSanPhamDAO;
 import DTO.SanPhamDTO;
 import java.util.ArrayList;
 
-public class SanPhamBUS {
+public class DanhMucSanPhamBUS {
 
-    private final SanPhamDAO spDAO = new SanPhamDAO();
+    private final DanhMucSanPhamDAO spDAO = new DanhMucSanPhamDAO();
     private ArrayList<SanPhamDTO> listSP = new ArrayList<>();
-    public SanPhamBUS() {
+    public DanhMucSanPhamBUS() {
         listSP = spDAO.selectAll();
     }
 

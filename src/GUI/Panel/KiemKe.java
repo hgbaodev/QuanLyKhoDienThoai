@@ -1,7 +1,7 @@
 package GUI.Panel;
 
 import DTO.SanPhamDTO;
-import BUS.SanPhamBUS;
+import BUS.DanhMucSanPhamBUS;
 
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -24,7 +24,7 @@ public class KiemKe extends JPanel {
     IntegratedSearch search;
     JLabel lbl1, lblImage;
     DefaultTableModel tblModel;
-    public SanPhamBUS sanphamBUS = new SanPhamBUS();
+    public DanhMucSanPhamBUS sanphamBUS = new DanhMucSanPhamBUS();
     public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
     SanPhamDTO sp = new SanPhamDTO();
 

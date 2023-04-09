@@ -5,7 +5,6 @@
 package DAO;
 
 import DTO.DanhMucChucNangDTO;
-import DTO.DonViTinhDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

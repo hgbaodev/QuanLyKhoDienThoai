@@ -1,9 +1,9 @@
 package GUI.Panel;
 
-import GUI.Dialog.LoaiHangDialog;
-import BUS.LoaiHangBUS;
-import DAO.LoaiHangDAO;
-import DTO.LoaiHangDTO;
+import GUI.Dialog.ThuongHieuDialog;
+import BUS.ThuongHieuBUS;
+import DAO.ThuongHieuDAO;
+import DTO.ThuongHieuDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -23,15 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class LoaiHang extends JPanel implements ActionListener{
+public final class ThuongHieu extends JPanel implements ActionListener{
 
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -41,8 +34,8 @@ public class LoaiHang extends JPanel implements ActionListener{
     MainFunction mainFunction;
     IntegratedSearch search;
     DefaultTableModel tblModel;
-    public LoaiHangBUS lhBUS = new LoaiHangBUS();
-    public ArrayList<LoaiHangDTO> listLH = lhBUS.getAll();
+    public ThuongHieuBUS lhBUS = new ThuongHieuBUS();
+    public ArrayList<ThuongHieuDTO> listLH = lhBUS.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
     Color FontColor = new Color(96, 125, 139);
@@ -56,7 +49,7 @@ public class LoaiHang extends JPanel implements ActionListener{
         tableLoaiHang = new JTable();
         scrollTableLoaiHang = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã loại hàng", "Tên loại hàng"};
+        String[] header = new String[]{"Mã thương hiệu", "Tên thương hiệu"};
         tblModel.setColumnIdentifiers(header);
         tableLoaiHang.setModel(tblModel);
         scrollTableLoaiHang.setViewportView(tableLoaiHang);
@@ -110,6 +103,7 @@ public class LoaiHang extends JPanel implements ActionListener{
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyReleased(KeyEvent e) {
                 String txt = search.txtSearchForm.getText();
                 listLH = lhBUS.search(txt);
@@ -117,13 +111,10 @@ public class LoaiHang extends JPanel implements ActionListener{
             }
         });
 
-        search.btnReset.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                search.txtSearchForm.setText("");
-                listLH = lhBUS.getAll();
-                loadDataTalbe(listLH);
-            }
+        search.btnReset.addActionListener((ActionEvent e) -> {
+            search.txtSearchForm.setText("");
+            listLH = lhBUS.getAll();
+            loadDataTalbe(listLH);
         });
         functionBar.add(search);
 
@@ -141,16 +132,16 @@ public class LoaiHang extends JPanel implements ActionListener{
 
     }
 
-    public LoaiHang() {
+    public ThuongHieu() {
         initComponent();
         tableLoaiHang.setDefaultEditor(Object.class, null);
         loadDataTalbe(listLH);
     }
-    public void loadDataTalbe(ArrayList<LoaiHangDTO> result) {
+    public void loadDataTalbe(ArrayList<ThuongHieuDTO> result) {
         tblModel.setRowCount(0);
-        for (DTO.LoaiHangDTO lh : result) {
+        for (DTO.ThuongHieuDTO lh : result) {
             tblModel.addRow(new Object[]{
-                lh.getMaloaihang(), lh.getTenloaihang()
+                lh.getMathuonghieu(), lh.getTenthuonghieu()
             });
         }
     }
@@ -163,103 +154,28 @@ public class LoaiHang extends JPanel implements ActionListener{
         }
     }
 
-    public void exportExcel() {
-        try {
-            JFileChooser jFileChooser = new JFileChooser();
-            jFileChooser.showSaveDialog(this);
-            File saveFile = jFileChooser.getSelectedFile();
-            if (saveFile != null) {
-                saveFile = new File(saveFile.toString() + ".xlsx");
-                Workbook wb = new XSSFWorkbook();
-                Sheet sheet = wb.createSheet("Loại hàng hóa");
-                Row rowCol = sheet.createRow(0);
-                for (int i = 0; i < tableLoaiHang.getColumnCount(); i++) {
-                    Cell cell = rowCol.createCell(i);
-                    cell.setCellValue(tableLoaiHang.getColumnName(i));
-                }
-
-                for (int j = 0; j < tableLoaiHang.getRowCount(); j++) {
-                    Row row = sheet.createRow(j + 1);
-                    for (int k = 0; k < tableLoaiHang.getColumnCount(); k++) {
-                        Cell cell = row.createCell(k);
-                        if (tableLoaiHang.getValueAt(j, k) != null) {
-                            cell.setCellValue(tableLoaiHang.getValueAt(j, k).toString());
-                        }
-
-                    }
-                }
-                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
-                wb.write(out);
-                wb.close();
-                out.close();
-                openFile(saveFile.toString());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void importExcel() {
-        File excelFile;
-        FileInputStream excelFIS = null;
-        BufferedInputStream excelBIS = null;
-        XSSFWorkbook excelJTableImport = null;
-        ArrayList<DTO.LoaiHangDTO> listExcel = new ArrayList<DTO.LoaiHangDTO>();
-        JFileChooser jf = new JFileChooser();
-        int result = jf.showOpenDialog(null);
-        jf.setDialogTitle("Open file");
-        Workbook workbook = null;
-        if (result == JFileChooser.APPROVE_OPTION) {
-            try {
-                excelFile = jf.getSelectedFile();
-                excelFIS = new FileInputStream(excelFile);
-                excelBIS = new BufferedInputStream(excelFIS);
-                excelJTableImport = new XSSFWorkbook(excelBIS);
-                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
-                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
-                    XSSFRow excelRow = excelSheet.getRow(row);
-//                    int id = getAutoIncrement();
-                    String tenLH = excelRow.getCell(0).getStringCellValue();
-//                    DTO.LoaiHangDTO dv = new DTO.LoaiHangDTO(id, tenLH);
-//                    lhBUS.getAll().add(dv);
-//                    listExcel.add(dv);
-                    tblModel.setRowCount(0);
-                }
-            } catch (FileNotFoundException ex) {
-                System.out.println("Lỗi đọc file");
-            } catch (IOException ex) {
-                System.out.println("Lỗi đọc file");
-            }
-        }
-
-        for (DTO.LoaiHangDTO donViTinh : listExcel) {
-            LoaiHangDAO.getInstance().insert(donViTinh);
-        }
-        loadDataTalbe(listExcel);
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-            LoaiHangDialog lhDialog = new LoaiHangDialog(this, owner, "Thêm loại hàng", true, "create");
+            ThuongHieuDialog lhDialog = new ThuongHieuDialog(this, owner, "Thêm thương hiệu", true, "create");
         } else if (e.getSource() == mainFunction.btnEdit) {
             int index = tableLoaiHang.getSelectedRow();
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính cần sửa");
             } else {
                 System.out.println(listLH.get(index));
-                LoaiHangDialog lhDialog = new LoaiHangDialog(this, owner, "Chỉnh sửa loại hàng", true, "update", listLH.get(index));
+                ThuongHieuDialog lhDialog = new ThuongHieuDialog(this, owner, "Chỉnh sửa thương hiệu", true, "update", listLH.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
             int index = tableLoaiHang.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn loại hàng cần xóa");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn thương hiệu cần xóa");
             } else {
                 int input = JOptionPane.showConfirmDialog(null,
-                        "Bạn có chắc chắn muốn xóa loại hàng :)!", "Xóa loại hàng",
+                        "Bạn có chắc chắn muốn xóa thương hiệu :)!", "Xóa thương hiệu",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    JOptionPane.showMessageDialog(null, "Đã xóa "+listLH.get(index).getTenloaihang());
+                    JOptionPane.showMessageDialog(null, "Đã xóa "+listLH.get(index).getTenthuonghieu());
                     lhBUS.delete(listLH.get(index));
                     loadDataTalbe(listLH);
                 }
@@ -267,17 +183,10 @@ public class LoaiHang extends JPanel implements ActionListener{
         } else if (e.getSource() == mainFunction.btnDetail) {
             int index = tableLoaiHang.getSelectedRow();
             if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn loại hàng cần xem");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn thương hiệu cần xem");
             } else {
-                LoaiHangDialog lhDialog = new LoaiHangDialog(this, owner, "Chi tiêt loại hàng", true, "view", listLH.get(index));
+                ThuongHieuDialog lhDialog = new ThuongHieuDialog(this, owner, "Chi tiêt thương hiệu", true, "view", listLH.get(index));
             }
-        }
-        if (e.getSource() == mainFunction.btnXuatExcel) {
-            exportExcel();
-        }
-
-        if (e.getSource() == mainFunction.btnNhapExcel) {
-            importExcel();
         }
     }
 }

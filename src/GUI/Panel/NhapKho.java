@@ -1,7 +1,7 @@
 package GUI.Panel;
 
 import BUS.PhieuNhapBUS;
-import BUS.SanPhamBUS;
+import BUS.DanhMucSanPhamBUS;
 import DTO.SanPhamDTO;
 import DTO.NhaCungCapDTO;
 import DAO.NhaCungCapDAO;
@@ -41,7 +41,7 @@ public final class NhapKho extends JPanel implements ActionListener {
     InputFormInline txtmaphieu, txtnhanvien, txtnhacungcap;
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 
-    public SanPhamBUS sanphamBUS = new SanPhamBUS();
+    public DanhMucSanPhamBUS sanphamBUS = new DanhMucSanPhamBUS();
     public PhieuNhapBUS phieunhapBUS = new PhieuNhapBUS();
     public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
     public ArrayList<ChiTietPhieuDTO> chitietphieu = new ArrayList<>();

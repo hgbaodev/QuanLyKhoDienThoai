@@ -6,7 +6,7 @@ import GUI.Panel.PhieuNhap;
 import GUI.Panel.KhachHang;
 import GUI.Panel.SanPham;
 import GUI.Panel.NhanVien;
-import GUI.Panel.LoaiHang;
+import GUI.Panel.ThuongHieu;
 import GUI.Panel.PhanQuyen;
 import GUI.Panel.NhaCungCap;
 import GUI.Panel.ChuyenKho;
@@ -27,7 +27,7 @@ public class Main extends JFrame {
     Color MainColor = new Color(250, 250, 250);
     TrangChu trangChu;
     SanPham sanPham;
-    LoaiHang loaiHang;
+    ThuongHieu loaiHang;
     KhuVucKho quanLyKho;
     ChuyenKho chuyenKho;
     PhieuNhap phieuNhap;
@@ -80,7 +80,7 @@ public class Main extends JFrame {
         menuTaskbar.listitem[2].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                loaiHang = new LoaiHang();
+                loaiHang = new ThuongHieu();
                 setPanel(loaiHang);
             }
         });

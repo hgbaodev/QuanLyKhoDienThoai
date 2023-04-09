@@ -4,7 +4,7 @@
  */
 package GUI.Dialog;
 
-import BUS.SanPhamBUS;
+import BUS.DanhMucSanPhamBUS;
 import DAO.KhuVucKhoDAO;
 import DTO.KhuVucKhoDTO;
 import DTO.SanPhamDTO;
@@ -96,7 +96,7 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
                 JScrollPane scrollTableSanPham = new JScrollPane();
                 JTable tableSanPham = new JTable();
                 tableSanPham.setSize(new Dimension(480,300));
-                SanPhamBUS spBUS = new SanPhamBUS();
+                DanhMucSanPhamBUS spBUS = new DanhMucSanPhamBUS();
                 DefaultTableModel tblModel = new DefaultTableModel();
                 ArrayList<SanPhamDTO> spbus = spBUS.getByMakhuvuc(kvk.getMakhuvuckho());
                 tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));

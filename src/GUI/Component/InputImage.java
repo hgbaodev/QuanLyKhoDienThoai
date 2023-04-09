@@ -43,7 +43,7 @@ public class InputImage extends JPanel implements ActionListener {
         this.setBackground(Color.white);
         btnChooseImg = new JButton(title);
         img = new JLabel();
-        img.setPreferredSize(new Dimension(250, 290));
+        img.setPreferredSize(new Dimension(250, 280));
         btnChooseImg.addActionListener(this);
         this.add(btnChooseImg);
     }
@@ -92,7 +92,7 @@ public class InputImage extends JPanel implements ActionListener {
 
     public Image scale(ImageIcon x) {
         int WIDTH = 250;
-        int HEIGHT = 290;
+        int HEIGHT = 280;
         Image scaledImage = x.getImage().getScaledInstance(WIDTH, HEIGHT, Image.SCALE_SMOOTH);
         return scaledImage;
     }

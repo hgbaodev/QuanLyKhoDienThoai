@@ -1,12 +1,6 @@
 package GUI.Panel;
 
-import BUS.KhuVucKhoBUS;
-import BUS.LoaiHangBUS;
-import GUI.Dialog.SanPhamDialog;
-import BUS.SanPhamBUS;
-import DTO.DonViTinhDTO;
-import DTO.KhuVucKhoDTO;
-import DTO.LoaiHangDTO;
+import BUS.DanhMucSanPhamBUS;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -14,7 +8,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Dialog.SanPhamDialog;
-import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -27,7 +20,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 public final class SanPham extends JPanel implements ActionListener {
-
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -36,35 +28,10 @@ public final class SanPham extends JPanel implements ActionListener {
     MainFunction mainFunction;
     IntegratedSearch search;
     DefaultTableModel tblModel;
-    public SanPhamBUS spBUS = new SanPhamBUS();
+    public DanhMucSanPhamBUS spBUS = new DanhMucSanPhamBUS();
     public ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
-
-
-    public String getTenloaihang(int maloaihang) {
-        String tenlh = "";
-        LoaiHangBUS lhBUS = new LoaiHangBUS();
-        ArrayList<LoaiHangDTO> listLH = lhBUS.getAll();
-        for (int i = 0; i < listLH.size(); i++) {
-            if (maloaihang == listLH.get(i).getMaloaihang()) {
-                tenlh = listLH.get(i).getTenloaihang();
-            }
-        }
-        return tenlh;
-    }
-
-    public String getTenkhuvuc(int makhuvuc) {
-        String tenkv = "";
-        KhuVucKhoBUS kvkbus = new KhuVucKhoBUS();
-        ArrayList<KhuVucKhoDTO> listKVK = kvkbus.getAll();
-        for (int i = 0; i < listKVK.size(); i++) {
-            if (makhuvuc == listKVK.get(i).getMakhuvuckho()) {
-                tenkv = listKVK.get(i).getTenkhuvuc();
-            }
-        }
-        return tenkv;
-    }
 
     private void initComponent() {
         this.setBackground(BackgroundColor);
@@ -139,7 +106,6 @@ public final class SanPham extends JPanel implements ActionListener {
         contentCenter.add(main, BorderLayout.CENTER);
 
         main.add(scrollTableSanPham);
-
     }
 
     public SanPham() {
