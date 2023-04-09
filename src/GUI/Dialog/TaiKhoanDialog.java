@@ -10,7 +10,6 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Component.SelectForm;
-import GUI.Panel.DonViTinh;
 import GUI.Panel.TaiKhoan;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 /**

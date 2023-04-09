@@ -1,7 +1,7 @@
 package GUI.Panel;
 
 import BUS.PhieuNhapBUS;
-import BUS.SanPhamBUS;
+import BUS.DanhMucSanPhamBUS;
 import DTO.SanPhamDTO;
 import DTO.NhaCungCapDTO;
 import DAO.NhaCungCapDAO;
@@ -41,7 +41,7 @@ public final class NhapKho extends JPanel implements ActionListener {
     InputFormInline txtmaphieu, txtnhanvien, txtnhacungcap;
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 
-    public SanPhamBUS sanphamBUS = new SanPhamBUS();
+    public DanhMucSanPhamBUS sanphamBUS = new DanhMucSanPhamBUS();
     public PhieuNhapBUS phieunhapBUS = new PhieuNhapBUS();
     public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
     public ArrayList<ChiTietPhieuDTO> chitietphieu = new ArrayList<>();
@@ -275,7 +275,7 @@ public final class NhapKho extends JPanel implements ActionListener {
         tblModelSanPham.setRowCount(0);
         for (DTO.SanPhamDTO sanPham : result) {
             tblModelSanPham.addRow(new Object[]{
-                sanPham.getMasp(), sanPham.getTensp(), sanPham.getSoluong(), Formater.FormatVND(sanPham.getGiaxuat())
+//                sanPham.getMasp(), sanPham.getTensp(), sanPham.getSoluong(), Formater.FormatVND(sanPham.getGiaxuat())
             });
         }
     }
@@ -285,7 +285,7 @@ public final class NhapKho extends JPanel implements ActionListener {
         for (int i = 0; i < result.size(); i++) {
             SanPhamDTO sp = sanphamBUS.getByMaSP(result.get(i).getMasanpham());
             tblModelNhapKho.addRow(new Object[]{
-                i + 1, result.get(i).getMasanpham(), sp.getTensp(), result.get(i).getSoluong(), Formater.FormatVND(sp.getGiaxuat())
+//                i + 1, result.get(i).getMasanpham(), sp.getTensp(), result.get(i).getSoluong(), Formater.FormatVND(sp.getGiaxuat())
             });
         }
     }
@@ -307,9 +307,9 @@ public final class NhapKho extends JPanel implements ActionListener {
         if (index != -1) {
             int soluong = (int) txtSoLuong.getValue();
             if (soluong > 0) {
-                ChiTietPhieuDTO ctphieu = phieunhapBUS.findCT(chitietphieu, listsp.get(index).getMasp());
+                ChiTietPhieuDTO ctphieu = phieunhapBUS.findCT(chitietphieu, listsp.get(index).getMadanhmuc());
                 if (ctphieu == null) {
-                    ctphieu = new ChiTietPhieuDTO(maphieu, listsp.get(index).getMasp(), soluong, listsp.get(index).getGiaxuat());
+//                    ctphieu = new ChiTietPhieuDTO(maphieu, listsp.get(index).getMadanhmuc(), soluong, listsp.get(index).getGiaxuat());
                     this.chitietphieu.add(ctphieu);
                 } else {
                     ctphieu.setSoluong(ctphieu.getSoluong() + soluong);

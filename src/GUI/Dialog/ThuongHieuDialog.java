@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI.Dialog;
 
-import DTO.DonViTinhDTO;
-import GUI.Panel.DonViTinh;
+import DTO.ThuongHieuDTO;
+import GUI.Panel.ThuongHieu;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
@@ -14,9 +10,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,29 +20,27 @@ import javax.swing.border.EmptyBorder;
 
 /**
  *
- * @author Tran Nhat Sinh
+ * @author 84907
  */
-public class DonViTinhDialog extends JDialog implements ActionListener {
+public class ThuongHieuDialog extends JDialog implements MouseListener {
 
-    private DonViTinh jpDVT;
+    private ThuongHieu jpLH;
     private HeaderTitle titlePage;
     private JPanel pnmain, pnbottom;
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
-    private InputForm tenDv;
-    private JTextField idDvt;
-    private DonViTinhDTO dvtDTO;
+    private InputForm tenLH;
+    private ThuongHieuDTO loaihangDto;
 
-    public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type) {
+    public ThuongHieuDialog(ThuongHieu jpLH, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
-        this.jpDVT = jpDVT;
-        idDvt = new JTextField("");
+        this.jpLH = jpLH;
         initComponents(title, type);
     }
 
-    public DonViTinhDialog(DonViTinh jpDVT, JFrame owner, String title, boolean modal, String type, DTO.DonViTinhDTO dvt) {
+    public ThuongHieuDialog(ThuongHieu jpLH, JFrame owner, String title, boolean modal, String type, DTO.ThuongHieuDTO lh) {
         super(owner, title, modal);
-        this.jpDVT = jpDVT;
-        this.dvtDTO = dvt;
+        this.jpLH = jpLH;
+        this.loaihangDto = lh;
         initComponents(title, type);
     }
 
@@ -57,31 +50,35 @@ public class DonViTinhDialog extends JDialog implements ActionListener {
         titlePage = new HeaderTitle(title.toUpperCase());
         pnmain = new JPanel(new GridLayout(1, 1, 20, 0));
         pnmain.setBackground(Color.white);
-        tenDv = new InputForm("Tên đơn vị tính");
-        pnmain.add(tenDv);
+        tenLH = new InputForm("Tên thương hiệu hóa");
+        pnmain.add(tenLH);
 
         pnbottom = new JPanel(new FlowLayout());
         pnbottom.setBorder(new EmptyBorder(10, 0, 10, 0));
         pnbottom.setBackground(Color.white);
-        btnThem = new ButtonCustom("Thêm đơn vị", "success", 14);
+        btnThem = new ButtonCustom("Thêm thương hiệu", "success", 14);
         btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
 
         //Add MouseListener btn
-        btnThem.addActionListener(this);
-        btnCapNhat.addActionListener(this);
-        btnHuyBo.addActionListener(this);
+        btnThem.addMouseListener(this);
+        btnCapNhat.addMouseListener(this);
+        btnHuyBo.addMouseListener(this);
 
         switch (type) {
-            case "create" -> pnbottom.add(btnThem);
-            case "update" -> {
-                initInfo();
-                pnbottom.add(btnCapNhat);
+            case "create" -> {
+                pnbottom.add(btnThem);
             }
-            case "view" -> initInfo();
-            default -> throw new AssertionError();
+            case "update" -> {
+                pnbottom.add(btnCapNhat);
+                tenLH.setText(loaihangDto.getTenthuonghieu());
+            }
+            case "view" -> {
+                tenLH.setText(loaihangDto.getTenthuonghieu());
+            }
+            default ->
+                throw new AssertionError();
         }
-        
         pnbottom.add(btnHuyBo);
 
         this.add(titlePage, BorderLayout.NORTH);
@@ -91,26 +88,40 @@ public class DonViTinhDialog extends JDialog implements ActionListener {
         this.setVisible(true);
     }
 
-    public void initInfo() {
-        tenDv.setText(dvtDTO.getTenDVT());
+    @Override
+    public void mouseClicked(MouseEvent e) {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void mousePressed(MouseEvent e) {
         if (e.getSource() == btnThem) {
-            String name = tenDv.getText();
-            jpDVT.dvtBUS.add(name);
-            jpDVT.loadDataTalbe(jpDVT.listdvt);
+            String name = tenLH.getText();
+            jpLH.lhBUS.add(name);
+            jpLH.loadDataTalbe(jpLH.listLH);
             dispose();
         } else if (e.getSource() == btnHuyBo) {
             dispose();
         } else if (e.getSource() == btnCapNhat) {
-            String name = tenDv.getText();
-            int id = dvtDTO.getMaDVT();
-            DTO.DonViTinhDTO dvt = new DTO.DonViTinhDTO(id, name);
-            jpDVT.dvtBUS.update(dvt);
-            jpDVT.loadDataTalbe(jpDVT.listdvt);
+            String name = tenLH.getText();
+            int id = loaihangDto.getMathuonghieu();
+            DTO.ThuongHieuDTO lh = new DTO.ThuongHieuDTO(id, name);
+            jpLH.lhBUS.update(lh);
+            tenLH.setText(name);
+            jpLH.loadDataTalbe(jpLH.listLH);
             dispose();
         }
     }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
 }

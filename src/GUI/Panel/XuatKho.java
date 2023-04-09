@@ -1,8 +1,8 @@
 package GUI.Panel;
 
-import BUS.SanPhamBUS;
+import BUS.DanhMucSanPhamBUS;
 import DAO.KhachHangDAO;
-import DAO.SanPhamDAO;
+import DAO.DanhMucSanPhamDAO;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuDTO;
 import DTO.KhachHangDTO;
@@ -44,7 +44,7 @@ public class XuatKho extends JPanel implements ActionListener {
     MainFunction mainFunction;
     IntegratedSearch search;
 
-    public SanPhamBUS sanphamBUS = new SanPhamBUS();
+    public DanhMucSanPhamBUS sanphamBUS = new DanhMucSanPhamBUS();
     public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
     SanPhamDTO sp = new SanPhamDTO();
     public ArrayList<ChiTietPhieuDTO> CTPhieu = new ArrayList<>();
@@ -288,7 +288,7 @@ public class XuatKho extends JPanel implements ActionListener {
         tblModelSanPham.setRowCount(0);
         for (DTO.SanPhamDTO sanPham : result) {
             tblModelSanPham.addRow(new Object[]{
-                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaxuat()
+//                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaxuat()
             });
         }
     }
@@ -308,7 +308,7 @@ public class XuatKho extends JPanel implements ActionListener {
 //        } else {
 //                int ma = Integer.parseInt(tableSanPham.getValueAt(selectedIndex, 0).toString());
 //                String sluong = tableSanPham.getValueAt(selectedIndex, 4).toString();
-//                SanPhamDTO sp = SanPhamDAO.getInstance().selectById(String.valueOf(ma));
+//                SanPhamDTO sp = DanhMucSanPhamDAO.getInstance().selectById(String.valueOf(ma));
 //                
 //                if (Integer.parseInt(txtSoLuong.getText()) > sp.getSoluong()) {
 //                    JOptionPane.showMessageDialog(this, "Kho không thể đáp ứng số lượng\nVui lòng nhập số lượng thấp hơn");

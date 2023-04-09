@@ -1,15 +1,14 @@
 package BUS;
 
-import DAO.SanPhamDAO;
-import DTO.DonViTinhDTO;
+import DAO.DanhMucSanPhamDAO;
 import DTO.SanPhamDTO;
 import java.util.ArrayList;
 
-public class SanPhamBUS {
+public class DanhMucSanPhamBUS {
 
-    private final SanPhamDAO spDAO = new SanPhamDAO();
+    private final DanhMucSanPhamDAO spDAO = new DanhMucSanPhamDAO();
     private ArrayList<SanPhamDTO> listSP = new ArrayList<>();
-    public SanPhamBUS() {
+    public DanhMucSanPhamBUS() {
         listSP = spDAO.selectAll();
     }
 
@@ -25,7 +24,7 @@ public class SanPhamBUS {
         int vitri = -1;
         int i = 0;
         while(i <= this.listSP.size() && vitri == -1) {
-            if(this.listSP.get(i).getMasp() == masp) {
+            if(this.listSP.get(i).getMadanhmuc() == masp) {
                 vitri = i;
             } else i++;
         }
@@ -36,7 +35,7 @@ public class SanPhamBUS {
         int i = 0;
         int vitri = -1;
         while (i < this.listSP.size() && vitri == -1) {
-            if (listSP.get(i).getMasp() == masanpham) {
+            if (listSP.get(i).getMadanhmuc() == masanpham) {
                 vitri = i;
             } else {
                 i++;
@@ -54,7 +53,7 @@ public class SanPhamBUS {
     }
 
     public Boolean delete(SanPhamDTO lh) {
-        boolean check = spDAO.delete(Integer.toString(lh.getMasp())) != 0;
+        boolean check = spDAO.delete(Integer.toString(lh.getMadanhmuc())) != 0;
         if (check) {
             this.listSP.remove(lh);
         }
@@ -64,7 +63,7 @@ public class SanPhamBUS {
     public Boolean update(SanPhamDTO lh) {
         boolean check = spDAO.update(lh) != 0;
         if (check) {
-            this.listSP.set(getIndexByMaSP(lh.getMasp()), lh);
+            this.listSP.set(getIndexByMaSP(lh.getMadanhmuc()), lh);
         }
         return check;
     }
@@ -72,7 +71,7 @@ public class SanPhamBUS {
     public ArrayList<SanPhamDTO> getByMakhuvuc(int makv) {
         ArrayList<SanPhamDTO> result = new ArrayList<>();
         for (SanPhamDTO i : this.listSP) {
-            if (i.getMakhuvuc() == makv) {
+            if (i.getKhuvuckho()== makv) {
                 result.add(i);
             }
         }
@@ -83,7 +82,7 @@ public class SanPhamBUS {
         text = text.toLowerCase();
         ArrayList<SanPhamDTO> result = new ArrayList<>();
         for (SanPhamDTO i : this.listSP) {
-            if (Integer.toString(i.getMasp()).toLowerCase().contains(text) || i.getTensp().toLowerCase().contains(text)) {
+            if (Integer.toString(i.getMadanhmuc()).toLowerCase().contains(text) || i.getTendanhmuc().toLowerCase().contains(text)) {
                 result.add(i);
             }
         }

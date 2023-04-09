@@ -4,7 +4,7 @@
  */
 package GUI.Dialog;
 
-import BUS.SanPhamBUS;
+import BUS.DanhMucSanPhamBUS;
 import DAO.KhuVucKhoDAO;
 import DTO.KhuVucKhoDTO;
 import DTO.SanPhamDTO;
@@ -25,7 +25,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
@@ -97,13 +96,9 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
                 JScrollPane scrollTableSanPham = new JScrollPane();
                 JTable tableSanPham = new JTable();
                 tableSanPham.setSize(new Dimension(480,300));
-                SanPhamBUS spBUS = new SanPhamBUS();
+                DanhMucSanPhamBUS spBUS = new DanhMucSanPhamBUS();
                 DefaultTableModel tblModel = new DefaultTableModel();
                 ArrayList<SanPhamDTO> spbus = spBUS.getByMakhuvuc(kvk.getMakhuvuckho());
-                tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
-                        new Object[][]{},
-                        new String[]{}
-                ));
                 tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
                 tblModel = new DefaultTableModel();
                 String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Tên đơn vị tính","Tên loại hàng"};
@@ -113,15 +108,11 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
                 DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
                 centerRenderer.setHorizontalAlignment(JLabel.CENTER);
                 TableColumnModel columnModel = tableSanPham.getColumnModel();
-                columnModel.getColumn(0).setCellRenderer(centerRenderer);
                 columnModel.getColumn(0).setPreferredWidth(30);
-                columnModel.getColumn(1).setCellRenderer(centerRenderer);
-                columnModel.getColumn(2).setCellRenderer(centerRenderer);
-                columnModel.getColumn(3).setCellRenderer(centerRenderer);
                 tblModel.setRowCount(0);
                 for (DTO.SanPhamDTO sp : spbus) {
                     tblModel.addRow(new Object[]{
-                        sp.getMasp(), sp.getTensp(), sp.getMaDVT(), sp.getMaloaihang()
+//                        sp.getMasp(), sp.getTensp(), sp.getMaDVT(), sp.getMaloaihang()
                     });
                 }
                 scrollTableSanPham.add(tableSanPham);

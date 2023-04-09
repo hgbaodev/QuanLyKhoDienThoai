@@ -130,7 +130,7 @@ public class KhuVucKhoDAO implements DAOinterface<KhuVucKhoDTO> {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DonViTinhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KhuVucKhoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
