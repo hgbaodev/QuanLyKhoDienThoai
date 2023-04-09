@@ -38,11 +38,13 @@ public class TaiKhoanDialog extends JDialog{
     private InputForm password;
     private SelectForm maNhomQuyen;
     private SelectForm trangthai;
+    int manv;
     private ArrayList<NhomQuyenDTO> listNq = NhomQuyenDAO.getInstance().selectAll();
     
-    public TaiKhoanDialog(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal, String type){
+    public TaiKhoanDialog(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal, String type, int manv){
         super(owner, title, modal);
         init(title, type);
+        this.manv = manv;
         setLocationRelativeTo(null);
         setVisible(true);
     }
