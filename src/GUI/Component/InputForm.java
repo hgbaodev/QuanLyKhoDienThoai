@@ -53,6 +53,14 @@ public final class InputForm extends JPanel {
             this.add(txtPass);
         }
     }
+    
+    public String getPass(){
+        return txtPass.getText();
+    }
+    
+    public void setPass(String s){
+        txtPass.setText(s);
+    }
 
     public String getText() {
         return txtForm.getText();
@@ -62,6 +70,10 @@ public final class InputForm extends JPanel {
         txtForm.setText(content);
     }
 
+    public void setDisablePass(){
+        txtPass.setEnabled(false);
+    }
+    
     public void setDisable() {
         txtForm.setEnabled(false);
     }

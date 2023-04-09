@@ -1,5 +1,8 @@
 package GUI.Panel;
 
+import BUS.TaiKhoanBUS;
+import DAO.TaiKhoanDAO;
+import DTO.TaiKhoanDTO;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -8,10 +11,12 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Dialog.ListNhanVien;
+import GUI.Dialog.TaiKhoanDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,11 +31,14 @@ public class TaiKhoan extends JPanel implements ActionListener {
     public JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     Color BackgroundColor = new Color(240, 247, 250);
     DefaultTableModel tblModel;
+    public TaiKhoanBUS taiKhoanBus = new TaiKhoanBUS();
+    ArrayList<TaiKhoanDTO> listTk = taiKhoanBus.getTaiKhoanAll();
 
     private Main m;
 
     public TaiKhoan() {
         initComponent();
+        loadTable(listTk);
     }
 
     private void initComponent() {
@@ -43,6 +51,7 @@ public class TaiKhoan extends JPanel implements ActionListener {
         tableTaiKhoan.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableTaiKhoan);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        tableTaiKhoan.setDefaultRenderer(Object.class, centerRenderer);
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableTaiKhoan.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableTaiKhoan.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
@@ -106,6 +115,34 @@ public class TaiKhoan extends JPanel implements ActionListener {
         main.add(scrollTableSanPham);
     }
 
+    public void loadTable(ArrayList<TaiKhoanDTO> list) {
+        tblModel.setRowCount(0);
+        for (TaiKhoanDTO taiKhoanDTO : list) {
+            int tt = taiKhoanDTO.getTrangthai();
+            String trangthaiString = "";
+            switch (tt) {
+                case 1 -> {
+                    trangthaiString = "Hoạt động";
+                }
+                case 0 -> {
+                    trangthaiString = "Ngưng hoạt động";
+                }
+                case -1 -> {
+                    trangthaiString = "Đã xóa";
+                }
+            }
+            tblModel.addRow(new Object[]{
+                taiKhoanDTO.getManv(), taiKhoanDTO.getUsername(), taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getManhomquyen()).getTennhomquyen(), trangthaiString
+            });
+        }
+//        tblModel.setRowCount(0);
+//        for (DTO.ThuongHieuDTO lh : result) {
+//            tblModel.addRow(new Object[]{
+//                lh.getMathuonghieu(), lh.getTenthuonghieu()
+//            });
+//        }
+    }
+
     public void openFile(String file) {
         try {
             File path = new File(file);
@@ -113,6 +150,10 @@ public class TaiKhoan extends JPanel implements ActionListener {
         } catch (IOException e) {
             System.out.println(e);
         }
+    }
+
+    public int getRow() {
+        return tableTaiKhoan.getSelectedRow();
     }
 
     @Override
@@ -125,6 +166,7 @@ public class TaiKhoan extends JPanel implements ActionListener {
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần sửa");
             } else {
+                TaiKhoanDialog add = new TaiKhoanDialog(this, owner, "Thêm tài khoản", true, "update", listTk.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
             int index = tableTaiKhoan.getSelectedRow();
@@ -132,10 +174,13 @@ public class TaiKhoan extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần xóa");
             } else {
                 int input = JOptionPane.showConfirmDialog(null,
-                        "Bạn có chắc chắn muốn xóa đơn vị tính :)!", "Xóa xóa tài khoản",
+                        "Bạn có chắc chắn muốn xóa tài khoản :)!", "Xóa xóa tài khoản",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-
+                    TaiKhoanDAO.getInstance().delete(index + "");
+                    TaiKhoanDTO tkDelete = listTk.get(index);
+                    tkDelete.setTrangthai(-1);
+                    taiKhoanBus.updateAcc(index, tkDelete);
                 }
             }
         } else if (e.getSource() == mainFunction.btnDetail) {
@@ -143,7 +188,7 @@ public class TaiKhoan extends JPanel implements ActionListener {
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần xem");
             } else {
-
+                TaiKhoanDialog add = new TaiKhoanDialog(this, owner, "Thêm tài khoản", true, "view", listTk.get(index));
             }
         }
     }
