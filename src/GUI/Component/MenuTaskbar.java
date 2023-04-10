@@ -46,6 +46,7 @@ public class MenuTaskbar extends JPanel {
     Color DefaultColor = new Color(255, 255, 255);
     Color HowerFontColor = new Color(1, 87, 155);
     Color HowerBackgroundColor = new Color(187, 222, 251);
+    private ArrayList<ChiTietQuyenDTO> listQuyen;
 
     public MenuTaskbar() {
         initComponent();
