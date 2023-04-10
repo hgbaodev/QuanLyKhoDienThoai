@@ -61,12 +61,12 @@ public class KhuVucKhoBUS {
     public boolean update(KhuVucKhoDTO kvk) {
         boolean check = kvkDAO.update(kvk) != 0;
         if (check) {
-            this.listKVK.set(getIndexByMaNCC(kvk.getMakhuvuckho()), kvk);
+            this.listKVK.set(getIndexByMaKVK(kvk.getMakhuvuckho()), kvk);
         }
         return check;
     }
 
-    public int getIndexByMaNCC(int makvk) {
+    public int getIndexByMaKVK(int makvk) {
         int i = 0;
         int vitri = -1;
         while (i < this.listKVK.size() && vitri == -1) {

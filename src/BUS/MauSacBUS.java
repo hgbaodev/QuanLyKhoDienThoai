@@ -31,4 +31,41 @@ public class MauSacBUS {
         }
         return result;
     }
+     public boolean add(MauSacDTO msac) {
+        boolean check = mausacDAO.insert(msac) != 0;
+        if (check) {
+            this.listMauSac.add(msac);
+        }
+        return check;
+    }
+
+    public boolean delete(MauSacDTO msac, int index) {
+        boolean check = mausacDAO.delete(Integer.toString(msac.getMamau())) != 0;
+        if (check) {
+            this.listMauSac.remove(index);
+        }
+        return check;
+    }
+        public int getIndexByMaMau(int mamau) {
+        int i = 0;
+        int vitri = -1;
+        while (i < this.listMauSac.size() && vitri == -1) {
+            if (listMauSac.get(i).getMamau()== mamau) {
+                vitri = i;
+                break;
+            } else {
+                i++;
+            }
+        }
+        return vitri;
+    }
+
+    public boolean update(MauSacDTO msac) {
+        boolean check = mausacDAO.update(msac) != 0;
+        if (check) {
+            this.listMauSac.set(getIndexByMaMau(msac.getMamau()), msac);
+        }
+        return check;
+    }
+
 }
