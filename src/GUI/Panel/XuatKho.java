@@ -2,14 +2,17 @@ package GUI.Panel;
 
 import DAO.KhachHangDAO;
 import DAO.DanhMucSanPhamDAO;
+import BUS.DanhMucSanPhamBUS;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuDTO;
 import DTO.KhachHangDTO;
 import DTO.DanhMucSanPhamDTO;
 import GUI.Component.ButtonCustom;
+import GUI.Component.InputForm;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import GUI.Component.PanelBorderRadius;
+import GUI.Main;
 
 import java.awt.*;
 import javax.swing.*;
@@ -35,10 +38,15 @@ public class XuatKho extends JPanel implements ActionListener {
     JTable tableSanPham, tableXuatKho;
     JScrollPane scrollTableSanPham, scrTableNhapKho;
     JLabel lbl1, lblImage, lbl[], lbl2, lblTongTien;
-    JTextField txtSoLuong, txt[];
+    JTextField txtSoLuong, txt[], maDM;
+    InputForm tenDM, xuatxu, hedieuhanh, thuonghieu, khuvuckho;
     DefaultTableModel tblModelSanPham, tblModelXuatKho;
-    JButton btnAddSoLuong, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnXuatHang, btnXuatKho;
+    JButton btnReturn, btnChonSanPham, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnXuatHang, btnXuatKho;
     JComboBox<String> slfKhachHang;
+
+    public DanhMucSanPhamBUS danhmucsanphamBUS = new DanhMucSanPhamBUS();
+    public ArrayList<DanhMucSanPhamDTO> listkh = danhmucsanphamBUS.getAll();
+    DanhMucSanPhamDTO dmsp = new DanhMucSanPhamDTO();
 
     MainFunction mainFunction;
     IntegratedSearch search;
@@ -51,11 +59,9 @@ public class XuatKho extends JPanel implements ActionListener {
     Color BackgroundColor = new Color(245, 229, 240);
     Color buttonColor = new Color(1, 87, 155);
 
-//    public NhapKho() {
-//        initComponent();
-//        loadDataTableSanPham(listsp);
-//
-//    }
+    Main m;
+    PhieuXuat phieuXuat;
+
     public String[] getKhachHang() {
         ArrayList<KhachHangDTO> khachhang = KhachHangDAO.getInstance().selectAll();
         String tenKH[] = new String[khachhang.size()];
@@ -99,10 +105,9 @@ public class XuatKho extends JPanel implements ActionListener {
         this.add(contentCenter, BorderLayout.CENTER);
 
         left = new JPanel();
-        left.setPreferredSize(new Dimension(500, 0));
         left.setLayout(new BorderLayout(0, 5));
         left.setOpaque(false);
-        contentCenter.add(left, BorderLayout.WEST);
+        contentCenter.add(left, BorderLayout.CENTER);
 
         left_top = new PanelBorderRadius();
         left_top.setPreferredSize(new Dimension(0, 100));
@@ -153,26 +158,27 @@ public class XuatKho extends JPanel implements ActionListener {
         left_bottom.setLayout(new FlowLayout(1, 30, 20));
         left.add(left_bottom, BorderLayout.SOUTH);
 
-        lbl1 = new JLabel("Số lượng");
-        left_bottom.add(lbl1);
-        txtSoLuong = new JTextField("1");
-        txtSoLuong.setPreferredSize(new Dimension(100, 30));
-        left_bottom.add(txtSoLuong);
-        btnAddSoLuong = new ButtonCustom("Thêm", "blue", 14, "/icon/Plus_25px.png");
-        left_bottom.add(btnAddSoLuong);
+        btnReturn = new ButtonCustom("Trở lại", "success", 14, "/icon/Plus_25px.png", 160, 40);
+        btnReturn.addActionListener(this);
+        left_bottom.add(btnReturn);
+
+        btnChonSanPham = new ButtonCustom("Chọn sản phẩm", "success", 13, "/icon/Plus_25px.png", 160, 40);
+        btnChonSanPham.addActionListener(this);
+        left_bottom.add(btnChonSanPham);
 
         // main là phần ở dưới để thống kê bảng biểu
         main = new JPanel();
+        main.setPreferredSize(new Dimension(500, 0));
         main.setLayout(new BorderLayout(0, 5));
         main.setOpaque(false);
-        contentCenter.add(main, BorderLayout.CENTER);
+        contentCenter.add(main, BorderLayout.EAST);
 
         main_top = new PanelBorderRadius();
         main_top.setPreferredSize(new Dimension(0, 220));
         BoxLayout b3 = new BoxLayout(main_top, BoxLayout.Y_AXIS);
         main_top.setLayout(b3);
         main_top.setBorder(new EmptyBorder(5, 20, 20, 20));
-        main.add(main_top, BorderLayout.NORTH);
+//        main.add(main_top, BorderLayout.NORTH);
 
         pnl = new JPanel[n];
         lbl = new JLabel[n];
@@ -217,31 +223,9 @@ public class XuatKho extends JPanel implements ActionListener {
         main_center.setBorder(new EmptyBorder(20, 20, 20, 20));
         main.add(main_center, BorderLayout.CENTER);
 
-        tableXuatKho = new JTable();
-        scrTableNhapKho = new JScrollPane();
-        tableXuatKho.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
-        tableXuatKho.setFont(new java.awt.Font("Segoe UI", 0, 14));
-        tblModelXuatKho = new DefaultTableModel();
-        String[] header1 = new String[]{"Mã sản phẩm", "Tên sẩn phẩm", "Số lượng", "Đơn giá"};
-        tblModelXuatKho.setColumnIdentifiers(header1);
-        tableXuatKho.setModel(tblModelXuatKho);
-        scrTableNhapKho.setViewportView(tableXuatKho);
-        DefaultTableCellRenderer centerRenderer1 = new DefaultTableCellRenderer();
-        centerRenderer1.setHorizontalAlignment(JLabel.CENTER);
-        tableXuatKho.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tableXuatKho.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        tableXuatKho.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        tableXuatKho.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        //tableXuatKho.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-
-        main_center.add(scrTableNhapKho);
-
         main_bottom = new PanelBorderRadius();
         main_bottom.setPreferredSize(new Dimension(0, 140));
-        main_bottom.setLayout(new FlowLayout(1,5, 5));
+        main_bottom.setLayout(new FlowLayout(1, 5, 5));
         main_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
         main.add(main_bottom, BorderLayout.SOUTH);
 
@@ -251,13 +235,13 @@ public class XuatKho extends JPanel implements ActionListener {
         main_Panel_bottom.setPreferredSize(new Dimension(550, 70));
         main_bottom.add(main_Panel_bottom);
 
-        btnNhapExcel = new ButtonCustom("Nhập Excel", "green", 14, "/icon/xls_25px.png");
+        btnNhapExcel = new ButtonCustom("Nhập Excel", "excel", 13, "/icon/xls_25px.png", 150, 40);
         main_Panel_bottom.add(btnNhapExcel);
 
-        btnEditSoLuong = new ButtonCustom("Sửa số lượng", "yellow", 14, "/icon/edit_25px.png");
+        btnEditSoLuong = new ButtonCustom("Sửa số lượng", "warning", 13, "/icon/edit_25px.png", 150, 40);
         main_Panel_bottom.add(btnEditSoLuong);
 
-        btnDeleteSanPham = new ButtonCustom("Xóa sản phẩm", "red", 14, "/icon/delete_25px.png");
+        btnDeleteSanPham = new ButtonCustom("Xóa sản phẩm", "danger", 13, "/icon/delete_25px.png", 150, 40);
         main_Panel_bottom.add(btnDeleteSanPham);
 
         JPanel pnl1 = new JPanel();
@@ -287,18 +271,27 @@ public class XuatKho extends JPanel implements ActionListener {
         tblModelSanPham.setRowCount(0);
         for (DTO.DanhMucSanPhamDTO sanPham : result) {
             tblModelSanPham.addRow(new Object[]{
-//                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaxuat()
+                sanPham.getMadanhmuc(), sanPham.getTendanhmuc(), sanPham.getHedieuhanh(), sanPham.getThuonghieu()
             });
         }
     }
 
-    public XuatKho() {
+    public XuatKho(Main m) {
         initComponent();
+        this.m = m;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-//        if(e.getSource()==btnAddSoLuong){
+        Object btn = e.getSource();
+        if (btn == btnChonSanPham) {
+            ActionBtnChoose();
+        }
+        if (btn == btnReturn) {
+            ActionBtnReturn();
+        }
+
+//        if(e.getSource()==btnChonSanPham){
 //            int selectedIndex = tableSanPham.getSelectedRow();
 //        if (listsp.isEmpty()) {
 //            JOptionPane.showMessageDialog(this, "Danh sách sản phẩm rỗng");
@@ -339,6 +332,71 @@ public class XuatKho extends JPanel implements ActionListener {
 //            
 //        }
 //        }
+    }
+
+    public void ActionBtnChoose() {
+        maDM = new JTextField("");
+        setMaDM(Integer.toString(dmsp.getMadanhmuc()));
+        tenDM = new InputForm("Tên danh mục");
+        setTenDM(dmsp.getTendanhmuc());
+        hedieuhanh = new InputForm("Hệ điều hành");
+        setHediehanh(dmsp.getHedieuhanh());
+        thuonghieu = new InputForm("Thương hiệu");
+        setThuonghieu(Integer.toString(dmsp.getThuonghieu()));
+        khuvuckho = new InputForm("Khu vực kho");
+        setKhuvuckho(Integer.toString(dmsp.getKhuvuckho()));
+
+        main_center.add(maDM);
+        main_center.add(tenDM);
+        main_center.add(hedieuhanh);
+        main_center.add(thuonghieu);
+        main_center.add(khuvuckho);
+
+    }
+
+    public void ActionBtnReturn() {
+        phieuXuat = new PhieuXuat(this.m);
+        m.setPanel(phieuXuat);
+    }
+
+    public String getMaDM() {
+        return maDM.getText();
+    }
+
+    public void setMaDM(String id) {
+        this.maDM.setText(id);
+    }
+
+    public String getTenDM() {
+        return tenDM.getText();
+    }
+
+    public void setTenDM(String id) {
+        this.tenDM.setText(id);
+    }
+
+    public String getHedieuhanh() {
+        return hedieuhanh.getText();
+    }
+
+    public void setHediehanh(String id) {
+        this.hedieuhanh.setText(id);
+    }
+
+    public String getThuonghieu() {
+        return thuonghieu.getText();
+    }
+
+    public void setThuonghieu(String id) {
+        this.thuonghieu.setText(id);
+    }
+
+    public String getKhuvuckho() {
+        return khuvuckho.getText();
+    }
+
+    public void setKhuvuckho(String id) {
+        this.khuvuckho.setText(id);
     }
 
 }
