@@ -46,7 +46,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
 
     private HeaderTitle titlePage;
     private JPanel pninfosanpham, pnbottom, pnCenter, pninfosanphamright, pnmain, pncard2;
-    private ButtonCustom btnThemCHMS, btnHuyBo, btnAddCauHinh, btnEditCauHinh, btnDeleteCauHinh, btnAddSanPham;
+    private ButtonCustom btnThemCHMS, btnHuyBo, btnAddCauHinh, btnEditCauHinh, btnDeleteCauHinh, btnAddSanPham, btnBack;
     InputForm tenSP, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, thoigianbaohanh, phienbanhdh, camerasau, cameratruoc;
     InputForm txtrom, txtram, txtmausac, txtgianhap, txtgiaxuat;
     SelectForm thuonghieu, khuvuc;
@@ -140,8 +140,11 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
 
         JPanel cauhinhbottom = new JPanel(new FlowLayout());
         cauhinhbottom.setBackground(Color.white);
-        cauhinhbottom.setBorder(new EmptyBorder(0,0,10,0));
+        cauhinhbottom.setBorder(new EmptyBorder(0, 0, 10, 0));
         btnAddSanPham = new ButtonCustom("Thêm sản phẩm", "success", 14);
+        btnBack = new ButtonCustom("Quay lại trang trước", "warning", 14);
+        btnBack.addActionListener(this);
+        cauhinhbottom.add(btnBack);
         cauhinhbottom.add(btnAddSanPham);
 
         JPanel cauhinhcenter = new JPanel(new BorderLayout());
@@ -163,9 +166,9 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cauhinhcenter_left.add(scrolltblcauhinh);
 
         JPanel cauhinhcenter_right = new JPanel(new FlowLayout());
-        cauhinhcenter_right.setPreferredSize(new Dimension(180,10));
+        cauhinhcenter_right.setPreferredSize(new Dimension(180, 10));
         cauhinhcenter_right.setBackground(Color.white);
-        cauhinhcenter_right.setBorder(new EmptyBorder(0,0, 0, 10));
+        cauhinhcenter_right.setBorder(new EmptyBorder(0, 0, 0, 10));
         btnAddCauHinh = new ButtonCustom("Thêm cấu hình", "success", 14);
         btnEditCauHinh = new ButtonCustom("Sửa cấu hình", "warning", 14);
         btnDeleteCauHinh = new ButtonCustom("Xoá cấu hình", "danger", 14);
@@ -222,6 +225,9 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         if (source == btnThemCHMS) {
             CardLayout c = (CardLayout) pnmain.getLayout();
             c.next(pnmain);
+        } else if (source == btnBack) {
+            CardLayout c = (CardLayout) pnmain.getLayout();
+            c.previous(pnmain);
         }
     }
 

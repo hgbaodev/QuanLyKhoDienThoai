@@ -9,6 +9,7 @@ import java.util.ArrayList;
 /**
  *
  * @author Tran Nhat Sinh
+ * @param <T>
  */
 public interface ChiTietInterface<T> {
     public int insert(ArrayList<T> t);
