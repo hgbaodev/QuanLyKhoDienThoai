@@ -4,10 +4,91 @@
  */
 package BUS;
 
+import DAO.DungLuongRomDAO;
+import DTO.ThuocTinhSanPham.DungLuongRomDTO;
+import java.util.ArrayList;
+
 /**
  *
  * @author Tran Nhat Sinh
  */
 public class DungLuongRomBUS {
+    private final DungLuongRomDAO dlromDAO = new DungLuongRomDAO();
+    private ArrayList<DungLuongRomDTO> listDLRom = new ArrayList<>();
+
+    public DungLuongRomBUS getInstance() {
+        return new DungLuongRomBUS();
+    }
     
+    public DungLuongRomBUS() {
+        listDLRom = dlromDAO.selectAll();
+    }
+
+    public ArrayList<DungLuongRomDTO> getAll() {
+        return this.listDLRom;
+    }
+
+    public DungLuongRomDTO getByIndex(int index) {
+        return this.listDLRom.get(index);
+    }
+
+    public int getIndexByMaRom(int marom) {
+        int i = 0;
+        int vitri = -1;
+        while (i < this.listDLRom.size() && vitri == -1) {
+            if (listDLRom.get(i).getMadungluongrom()== marom) {
+                vitri = i;
+            } else {
+                i++;
+            }
+        }
+        return vitri;
+    }
+
+    public boolean add(DungLuongRomDTO dlrom) {
+        boolean check = dlromDAO.insert(dlrom) != 0;
+        if (check) {
+            this.listDLRom.add(dlrom);
+        }
+        return check;
+    }
+
+    public boolean delete(DungLuongRomDTO dlrom, int index) {
+        boolean check = dlromDAO.delete(Integer.toString(dlrom.getMadungluongrom())) != 0;
+        if (check) {
+            this.listDLRom.remove(index);
+        }
+        return check;
+    }
+
+    public boolean update(DungLuongRomDTO dlrom) {
+        boolean check = dlromDAO.update(dlrom) != 0;
+        if (check) {
+            this.listDLRom.set(getIndexByMaKVK(dlrom.getMadungluongrom()), dlrom);
+        }
+        return check;
+    }
+
+    public int getIndexByMaKVK(int madlrom) {
+        int i = 0;
+        int vitri = -1;
+        while (i < this.listDLRom.size() && vitri == -1) {
+            if (listDLRom.get(i).getMadungluongrom()== madlrom) {
+                vitri = i;
+                break;
+            } else {
+                i++;
+            }
+        }
+        return vitri;
+    }
+    
+    public int[] getArrDungLuongRom() {
+        int size = listDLRom.size();
+        int[] result = new int[size];
+        for(int i = 0; i < size; i++) {
+            result[i] = listDLRom.get(i).getDungluongrom();
+        }
+        return result;
+    }
 }

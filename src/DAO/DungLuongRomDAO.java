@@ -21,21 +21,54 @@ import java.util.ArrayList;
  */
 public class DungLuongRomDAO implements DAOinterface<DungLuongRomDTO>{
 
-    @Override
+        @Override
     public int insert(DungLuongRomDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = 0;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "INSERT INTO `dungluongrom`(`madlrom`, `kichthuocrom`,`trangthai`) VALUES (?,?,1)";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, t.getMadungluongrom());
+            pst.setInt(2, t.getDungluongrom());
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(DungLuongRomDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
 
     @Override
     public int update(DungLuongRomDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = 0;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "UPDATE `dungluongrom` SET `kichthuocrom`=? WHERE `madlrom`=?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, t.getDungluongrom());
+            pst.setInt(2, t.getDungluongrom());
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(DungLuongRomDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
 
     @Override
     public int delete(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = 0;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "UPDATE `dungluongrom` SET `trangthai` = 0 WHERE madlrom = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(DungLuongRomDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
-
     @Override
     public ArrayList<DungLuongRomDTO> selectAll() {
             ArrayList<DungLuongRomDTO> result = new ArrayList<>();
@@ -56,14 +89,44 @@ public class DungLuongRomDAO implements DAOinterface<DungLuongRomDTO>{
         return result;
     }
 
-    @Override
     public DungLuongRomDTO selectById(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        DungLuongRomDTO result = null;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM dungluongrom WHERE madlrom='?'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, t);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                int madlrom = rs.getInt("madlrom");
+                int kichthuorom = rs.getInt("kichthuocrom");
+                result = new DungLuongRomDTO(madlrom, kichthuorom);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+        }
+        return result;
     }
 
     @Override
     public int getAutoIncrement() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = -1;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'dungluongrom'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs2 = pst.executeQuery(sql);
+            if (!rs2.isBeforeFirst()) {
+                System.out.println("No data");
+            } else {
+                while (rs2.next()) {
+                    result = rs2.getInt("AUTO_INCREMENT");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DungLuongRomDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
     
 }
