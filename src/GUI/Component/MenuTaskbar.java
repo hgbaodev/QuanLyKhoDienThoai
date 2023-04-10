@@ -53,9 +53,6 @@ public class MenuTaskbar extends JPanel {
         this.user = tk;
         listQuyen = ChiTietQuyenDAO.getInstance().selectAll(tk.getManhomquyen() + "");
         initComponent();
-        for (int i = 0; i < getSt.length; i++) {
-            System.out.println(getSt[i][0]+"    "+getSt[i][1]);
-        }
     }
 
     private void initComponent() {
