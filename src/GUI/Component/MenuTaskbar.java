@@ -13,25 +13,21 @@ import javax.swing.*;
 //import GUI.Component.itemTaskbar;
 
 public class MenuTaskbar extends JPanel {
-    String st[] = {"Trang chủ", "Sản phẩm", "Thương hiệu", "Khu vực kho", "Kiểm kê", "Phiếu nhập", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
-    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/estimates_30px.png", "/icon/In Transit_30px.png", "/icon/supply_chain_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
     String[][] getSt = {
-        {"Trang chủ", "/icon/home_30px.png", "trangchu"},
-        {"Thương hiệu", "/icon/product_30px.png", "thuonghieu"},
-        {"Khu vực kho", "/icon/categorize_30px.png", "khuvuckho"},
-        {"Kiểm kê", "/icon/account_30px.png", "kiemke"},
-        {"Phiếu nhập", "/icon/estimates_30px.png", "phieunhap"},
-        {"Phiếu xuất", "/icon/In Transit_30px.png", "phieuxuat"},
-        {"Nhà cung cấp", "/icon/supply_chain_30px.png", "nhacungcap"},
-        {"Khách hàng", "/icon/Staff_30px.png", "khachang"},
-        {"Nhân viên", "/icon/Supplier_30px.png", "nhanvien"},
-        {"Tài khoản", "/icon/tool_30px.png", "taikhoan"},
-        {"Phân quyền", "/icon/data_provider_30px.png", "phanquyen"},
-        {"Đăng xuất", "/icon/user_rights_30px.png", "phanquyen"},              
-    };
-    
-    
-    
+        {"Trang chủ", "home_30px.png", "trangchu"},
+        {"Sản phẩm", "product_30px.png", "trangchu"},
+        {"Thương hiệu", "categorize_30px.png", "thuonghieu"},
+        {"Khu vực kho", "account_30px.png", "khuvuckho"},
+        {"Kiểm kê", "estimates_30px.png", "kiemke"},
+        {"Phiếu nhập", "In Transit_30px.png", "phieunhap"},
+        {"Phiếu xuất", "supply_chain_30px.png", "phieuxuat"},
+        {"Nhà cung cấp", "Staff_30px.png", "nhacungcap"},
+        {"Khách hàng", "Supplier_30px.png", "khachang"},
+        {"Nhân viên", "tool_30px.png", "nhanvien"},
+        {"Tài khoản", "data_provider_30px.png", "taikhoan"},
+        {"Phân quyền", "user_rights_30px.png", "phanquyen"},
+        {"Đăng xuất", "logout_30px.png", "dangxuat"},};
+
     Main main;
     TaiKhoanDTO user;
     public itemTaskbar[] listitem;
@@ -57,15 +53,10 @@ public class MenuTaskbar extends JPanel {
         this.user = tk;
         listQuyen = ChiTietQuyenDAO.getInstance().selectAll(tk.getManhomquyen() + "");
         initComponent();
-        for (ChiTietQuyenDTO chiTietQuyenDTO : listQuyen) {
-            if (chiTietQuyenDTO.getHanhdong().equals("view")) {
-                System.out.println(chiTietQuyenDTO);
-            }
-        }
     }
 
     private void initComponent() {
-        listitem = new itemTaskbar[st.length];
+        listitem = new itemTaskbar[getSt.length];
         this.setOpaque(true);
         this.setBackground(DefaultColor);
         this.setLayout(new BorderLayout(0, 0));
@@ -112,20 +103,21 @@ public class MenuTaskbar extends JPanel {
         this.add(pnlBottom, BorderLayout.SOUTH);
 
         // Dùng vòng lặp đẻ hiển thị, nếu đến "Đăng xuất" thì sẽ được add vào pnlBottom để nó xuống dưới cuối
-        for (int i = 0; i < st.length; i++) {
-            if (i + 1 == st.length) {
-                listitem[i] = new itemTaskbar(iconst[i], st[i]);
+        for (int i = 0; i < getSt.length; i++) {
+            if (i + 1 == getSt.length) {
+                listitem[i] = new itemTaskbar(getSt[i][1], getSt[i][0]);
                 pnlBottom.add(listitem[i]);
             } else {
-                listitem[i] = new itemTaskbar(iconst[i], st[i]);
+                listitem[i] = new itemTaskbar(getSt[i][1], getSt[i][0]);
                 pnlCenter.add(listitem[i]);
+//                if(!checkRole(getSt[i][2])) listitem[i].setVisible(false);
             }
         }
 
         listitem[0].setBackground(HowerBackgroundColor);
         listitem[0].setForeground(HowerFontColor);
 
-        for (int i = 0; i < st.length; i++) {
+        for (int i = 0; i < getSt.length; i++) {
             listitem[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent evt) {
@@ -135,8 +127,18 @@ public class MenuTaskbar extends JPanel {
         }
     }
 
+    public boolean checkRole(String s) {
+        boolean check = false;
+        for(int i = 0; i < listQuyen.size(); i++){
+            if (listQuyen.get(i).getHanhdong().equals("view")) {
+                if(s.equals(listQuyen.get(i).getMachucnang())) check = true;
+            }
+        }
+        return check;
+    }
+
     public void pnlMenuTaskbarMousePress(MouseEvent evt) {
-        for (int i = 0; i < st.length; i++) {
+        for (int i = 0; i < getSt.length; i++) {
             if (evt.getSource() == listitem[i]) {
                 listitem[i].isSelected = true;
                 listitem[i].setBackground(HowerBackgroundColor);
