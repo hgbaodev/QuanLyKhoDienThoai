@@ -136,10 +136,19 @@ public class KhachHangDialog extends JDialog implements MouseListener {
             String name = tenKH.getText();
             String phone = sdtKH.getText();
             String address = diachiKH.getText();
-            DTO.KhachHangDTO kh = new DTO.KhachHangDTO(id, name, phone, address);
-            jpKH.khachhangBUS.add(kh);
-            jpKH.loadDataTable(jpKH.listkh);
-            dispose();
+            if (name.equals("") || phone.equals("") || address.equals("")) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
+            } 
+            else if  (!isPhoneNumber(phone)){
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ số điện thoại và là số!");
+
+            } else {
+                DTO.KhachHangDTO kh = new DTO.KhachHangDTO(id, name, phone, address);
+                jpKH.khachhangBUS.add(kh);
+                jpKH.loadDataTable(jpKH.listkh);
+                dispose();
+            }
+
         } else if (e.getSource() == btnHuyBo) {
             dispose();
         } else if (e.getSource() == btnCapNhat) {
@@ -151,6 +160,22 @@ public class KhachHangDialog extends JDialog implements MouseListener {
             jpKH.khachhangBUS.update(kh);
             jpKH.loadDataTable(jpKH.listkh);
             dispose();
+        }
+    }
+
+    public static boolean isPhoneNumber(String str) {
+        // Loại bỏ khoảng trắng và dấu ngoặc đơn nếu có
+        str = str.replaceAll("\\s+", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\-", "");
+
+        // Kiểm tra xem chuỗi có phải là một số điện thoại hợp lệ hay không
+        if (str.matches("\\d{10}")) { // Kiểm tra số điện thoại 10 chữ số
+            return true;
+        } else if (str.matches("\\d{3}-\\d{3}-\\d{4}")) { // Kiểm tra số điện thoại có dấu gạch ngang
+            return true;
+        } else if (str.matches("\\(\\d{3}\\)\\d{3}-\\d{4}")) { // Kiểm tra số điện thoại có dấu ngoặc đơn
+            return true;
+        } else {
+            return false; // Trả về false nếu chuỗi không phải là số điện thoại hợp lệ
         }
     }
 
@@ -168,4 +193,5 @@ public class KhachHangDialog extends JDialog implements MouseListener {
     public void mouseExited(MouseEvent e) {
 //        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
 }

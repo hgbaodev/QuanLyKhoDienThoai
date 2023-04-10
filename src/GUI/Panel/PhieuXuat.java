@@ -122,16 +122,12 @@ public class PhieuXuat extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
 
-            int input = JOptionPane.showConfirmDialog(null,
-                    "Chúng tôi sẽ chuyển đến xuất kho.\nBạn đã chắc chắn chưa?", "Chuyển sang xuất kho",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-            if (input == 0) {
-                xuatKho = new XuatKho();
+
+                xuatKho = new XuatKho(this.m);
                 m.MainContent.removeAll();
                 m.MainContent.add(xuatKho).setVisible(true);
                 m.MainContent.repaint();
                 m.MainContent.validate();
-            }
 
         }
     }
