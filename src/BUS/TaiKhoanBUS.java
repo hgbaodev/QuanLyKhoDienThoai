@@ -33,6 +33,7 @@ public class TaiKhoanBUS {
     }
     
     public NhomQuyenDTO getNhomQuyenDTO(int index){
+        System.out.println("Size:"+listNhomQuyen.size());
         return listNhomQuyen.get(index);
     }
     

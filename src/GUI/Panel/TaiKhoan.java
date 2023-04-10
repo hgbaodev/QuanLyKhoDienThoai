@@ -132,7 +132,7 @@ public class TaiKhoan extends JPanel implements ActionListener {
                 }
             }
             tblModel.addRow(new Object[]{
-                taiKhoanDTO.getManv(), taiKhoanDTO.getUsername(), taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getManhomquyen()).getTennhomquyen(), trangthaiString
+                taiKhoanDTO.getManv(), taiKhoanDTO.getUsername(), taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getManhomquyen()-1).getTennhomquyen(), trangthaiString
             });
         }
 //        tblModel.setRowCount(0);
@@ -181,6 +181,7 @@ public class TaiKhoan extends JPanel implements ActionListener {
                     TaiKhoanDTO tkDelete = listTk.get(index);
                     tkDelete.setTrangthai(-1);
                     taiKhoanBus.updateAcc(index, tkDelete);
+                    loadTable(taiKhoanBus.getTaiKhoanAll());
                 }
             }
         } else if (e.getSource() == mainFunction.btnDetail) {

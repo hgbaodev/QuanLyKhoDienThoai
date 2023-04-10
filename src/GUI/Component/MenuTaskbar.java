@@ -1,6 +1,10 @@
 package GUI.Component;
 
+import DAO.ChiTietQuyenDAO;
+import DTO.ChiTietQuyenDTO;
 import DTO.DanhMucChucNangDTO;
+import DTO.TaiKhoanDTO;
+import GUI.Main;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,16 +15,27 @@ import javax.swing.*;
 public class MenuTaskbar extends JPanel {
     String st[] = {"Trang chủ", "Sản phẩm", "Thương hiệu", "Khu vực kho", "Kiểm kê", "Phiếu nhập", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
     String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/estimates_30px.png", "/icon/In Transit_30px.png", "/icon/supply_chain_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
-    
-    String[][] itemMenu = {
-        {"Trang chủ","home_30px","trangchu"},
-        {"Sản phẩm","product_30px","sanpham"},
-        {"Đơn vị tính", "length_30px", "donvitinh"}
+    String[][] getSt = {
+        {"Trang chủ", "/icon/home_30px.png", "trangchu"},
+        {"Thương hiệu", "/icon/product_30px.png", "thuonghieu"},
+        {"Khu vực kho", "/icon/categorize_30px.png", "khuvuckho"},
+        {"Kiểm kê", "/icon/account_30px.png", "kiemke"},
+        {"Phiếu nhập", "/icon/estimates_30px.png", "phieunhap"},
+        {"Phiếu xuất", "/icon/In Transit_30px.png", "phieuxuat"},
+        {"Nhà cung cấp", "/icon/supply_chain_30px.png", "nhacungcap"},
+        {"Khách hàng", "/icon/Staff_30px.png", "khachang"},
+        {"Nhân viên", "/icon/Supplier_30px.png", "nhanvien"},
+        {"Tài khoản", "/icon/tool_30px.png", "taikhoan"},
+        {"Phân quyền", "/icon/data_provider_30px.png", "phanquyen"},
+        {"Đăng xuất", "/icon/user_rights_30px.png", "phanquyen"},              
     };
     
-    ArrayList<DanhMucChucNangDTO> dmcn;
+    
+    
+    Main main;
+    TaiKhoanDTO user;
     public itemTaskbar[] listitem;
- 
+
     JLabel info;
     JScrollPane scrollPane;
 
@@ -31,9 +46,22 @@ public class MenuTaskbar extends JPanel {
     Color DefaultColor = new Color(255, 255, 255);
     Color HowerFontColor = new Color(1, 87, 155);
     Color HowerBackgroundColor = new Color(187, 222, 251);
+    private ArrayList<ChiTietQuyenDTO> listQuyen;
 
     public MenuTaskbar() {
         initComponent();
+    }
+
+    public MenuTaskbar(Main main, TaiKhoanDTO tk) {
+        this.main = main;
+        this.user = tk;
+        listQuyen = ChiTietQuyenDAO.getInstance().selectAll(tk.getManhomquyen() + "");
+        initComponent();
+        for (ChiTietQuyenDTO chiTietQuyenDTO : listQuyen) {
+            if (chiTietQuyenDTO.getHanhdong().equals("view")) {
+                System.out.println(chiTietQuyenDTO);
+            }
+        }
     }
 
     private void initComponent() {
@@ -93,7 +121,7 @@ public class MenuTaskbar extends JPanel {
                 pnlCenter.add(listitem[i]);
             }
         }
-        
+
         listitem[0].setBackground(HowerBackgroundColor);
         listitem[0].setForeground(HowerFontColor);
 
@@ -106,7 +134,6 @@ public class MenuTaskbar extends JPanel {
             });
         }
     }
-
 
     public void pnlMenuTaskbarMousePress(MouseEvent evt) {
         for (int i = 0; i < st.length; i++) {

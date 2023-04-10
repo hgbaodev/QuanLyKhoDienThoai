@@ -46,13 +46,12 @@ public class TaiKhoanDAO implements DAOinterface<TaiKhoanDTO>{
           int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `taikhoan` SET `tendangnhap`=?,`matkhau`=?,`trangthai`=?,`manhomquyen`=? WHERE manv=?";
+            String sql = "UPDATE `taikhoan` SET `tendangnhap`=?,`trangthai`=?,`manhomquyen`=? WHERE manv=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getUsername());
-            pst.setString(2, t.getMatkhau());
-            pst.setInt(3, t.getTrangthai());
-            pst.setInt(4, t.getManhomquyen());
-            pst.setInt(5, t.getManv());
+            pst.setInt(2, t.getTrangthai());
+            pst.setInt(3, t.getManhomquyen());
+            pst.setInt(4, t.getManv());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -105,18 +104,41 @@ public class TaiKhoanDAO implements DAOinterface<TaiKhoanDTO>{
         TaiKhoanDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM taikhoan WHERE email='?'";
+            String sql = "SELECT * FROM taikhoan WHERE manv=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
-                String email = rs.getString("email");
-                String hoten = rs.getString("hoten");
+                int manv = rs.getInt("manv");
+                String tendangnhap = rs.getString("tendangnhap");
                 String matkhau = rs.getString("matkhau");
                 int trangthai = rs.getInt("trangthai");
-                String makhohang = rs.getString("makhohang");
-                String manhomquyen = rs.getString("manhomquyen");
-                
+                int manhomquyen = rs.getInt("manhomquyen");
+                TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, matkhau, manhomquyen, trangthai);
+                return result;
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+        }
+        return result;
+    }
+    
+    public TaiKhoanDTO selectByUser(String t) {
+        TaiKhoanDTO result = null;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM taikhoan WHERE tendangnhap=?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, t);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                int manv = rs.getInt("manv");
+                String tendangnhap = rs.getString("tendangnhap");
+                String matkhau = rs.getString("matkhau");
+                int trangthai = rs.getInt("trangthai");
+                int manhomquyen = rs.getInt("manhomquyen");
+                TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, matkhau, manhomquyen, trangthai);
+                result = tk;
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
