@@ -169,7 +169,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
             if (saveFile != null) {
                 saveFile = new File(saveFile.toString() + ".xlsx");
                 Workbook wb = new XSSFWorkbook();
-                Sheet sheet = wb.createSheet("Khách hàng");
+                Sheet sheet = wb.createSheet("KHU VỰC KHO");
                 Row rowCol = sheet.createRow(0);
                 for (int i = 0; i < tableKhuvuc.getColumnCount(); i++) {
                     Cell cell = rowCol.createCell(i);
