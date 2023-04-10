@@ -13,6 +13,10 @@ public class KhuVucKhoBUS {
     private final KhuVucKhoDAO kvkDAO = new KhuVucKhoDAO();
     private ArrayList<KhuVucKhoDTO> listKVK = new ArrayList<>();
 
+    public KhuVucKhoBUS getInstance() {
+        return new KhuVucKhoBUS();
+    }
+    
     public KhuVucKhoBUS() {
         listKVK = kvkDAO.selectAll();
     }
@@ -83,6 +87,15 @@ public class KhuVucKhoBUS {
             if (Integer.toString(i.getMakhuvuckho()).toLowerCase().contains(text) || i.getTenkhuvuc().toLowerCase().contains(text)) {
                 result.add(i);
             }
+        }
+        return result;
+    }
+    
+    public String[] getArrTenKhuVuc() {
+        int size = listKVK.size();
+        String[] result = new String[size];
+        for(int i = 0; i < size; i++) {
+            result[i] = listKVK.get(i).getTenkhuvuc();
         }
         return result;
     }

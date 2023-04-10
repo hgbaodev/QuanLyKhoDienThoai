@@ -8,16 +8,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DTO.SanPhamDTO;
+import DTO.DanhMucSanPhamDTO;
 
-public class DanhMucSanPhamDAO implements DAOinterface<SanPhamDTO> {
+public class DanhMucSanPhamDAO implements DAOinterface<DanhMucSanPhamDTO> {
 
     public static DanhMucSanPhamDAO getInstance() {
         return new DanhMucSanPhamDAO();
     }
 
     @Override
-    public int insert(SanPhamDTO t) {
+    public int insert(DanhMucSanPhamDTO t) {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
@@ -46,7 +46,7 @@ public class DanhMucSanPhamDAO implements DAOinterface<SanPhamDTO> {
     }
 
     @Override
-    public int update(SanPhamDTO t) {
+    public int update(DanhMucSanPhamDTO t) {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
@@ -91,8 +91,8 @@ public class DanhMucSanPhamDAO implements DAOinterface<SanPhamDTO> {
     }
 
     @Override
-    public ArrayList<SanPhamDTO> selectAll() {
-        ArrayList<SanPhamDTO> result = new ArrayList<SanPhamDTO>();
+    public ArrayList<DanhMucSanPhamDTO> selectAll() {
+        ArrayList<DanhMucSanPhamDTO> result = new ArrayList<DanhMucSanPhamDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM danhmucsanpham WHERE `trangthai`= 1";
@@ -114,7 +114,7 @@ public class DanhMucSanPhamDAO implements DAOinterface<SanPhamDTO> {
                 int thuonghieu = rs.getInt("thuonghieu");
                 int khuvuckho = rs.getInt("khuvuckho");
                 int soluongton = rs.getInt("soluongton");
-                SanPhamDTO sp = new SanPhamDTO(madm, tendm, hinhanh, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, phienbanhdh, camerasau, cameratruoc, thoigianbaohanh, thuonghieu, khuvuckho, soluongton);
+                DanhMucSanPhamDTO sp = new DanhMucSanPhamDTO(madm, tendm, hinhanh, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, phienbanhdh, camerasau, cameratruoc, thoigianbaohanh, thuonghieu, khuvuckho, soluongton);
                 result.add(sp);
             }
             JDBCUtil.closeConnection(con);
@@ -124,8 +124,8 @@ public class DanhMucSanPhamDAO implements DAOinterface<SanPhamDTO> {
     }
 
     @Override
-    public SanPhamDTO selectById(String t) {
-        SanPhamDTO result = null;
+    public DanhMucSanPhamDTO selectById(String t) {
+        DanhMucSanPhamDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM danhmucsanpham WHERE masanpham='?'";
@@ -148,7 +148,7 @@ public class DanhMucSanPhamDAO implements DAOinterface<SanPhamDTO> {
                 int thuonghieu = rs.getInt("thuonghieu");
                 int khuvuckho = rs.getInt("khuvuckho");
                 int soluongton = rs.getInt("soluongton");
-                result = new SanPhamDTO(madm, tendm, hinhanh, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, phienbanhdh, camerasau, cameratruoc, thoigianbaohanh, thuonghieu, khuvuckho, soluongton);
+                result = new DanhMucSanPhamDTO(madm, tendm, hinhanh, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, phienbanhdh, camerasau, cameratruoc, thoigianbaohanh, thuonghieu, khuvuckho, soluongton);
             }
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {

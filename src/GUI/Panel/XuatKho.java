@@ -6,7 +6,7 @@ import DAO.DanhMucSanPhamDAO;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuDTO;
 import DTO.KhachHangDTO;
-import DTO.SanPhamDTO;
+import DTO.DanhMucSanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -45,8 +45,8 @@ public class XuatKho extends JPanel implements ActionListener {
     IntegratedSearch search;
 
     public DanhMucSanPhamBUS sanphamBUS = new DanhMucSanPhamBUS();
-    public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
-    SanPhamDTO sp = new SanPhamDTO();
+    public ArrayList<DanhMucSanPhamDTO> listsp = sanphamBUS.getAll();
+    DanhMucSanPhamDTO sp = new DanhMucSanPhamDTO();
     public ArrayList<ChiTietPhieuDTO> CTPhieu = new ArrayList<>();
 
     Color BackgroundColor = new Color(245, 229, 240);
@@ -284,9 +284,9 @@ public class XuatKho extends JPanel implements ActionListener {
 
     }
 
-    public void loadDataTableSanPham(ArrayList<DTO.SanPhamDTO> result) {
+    public void loadDataTableSanPham(ArrayList<DTO.DanhMucSanPhamDTO> result) {
         tblModelSanPham.setRowCount(0);
-        for (DTO.SanPhamDTO sanPham : result) {
+        for (DTO.DanhMucSanPhamDTO sanPham : result) {
             tblModelSanPham.addRow(new Object[]{
 //                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaxuat()
             });
@@ -308,7 +308,7 @@ public class XuatKho extends JPanel implements ActionListener {
 //        } else {
 //                int ma = Integer.parseInt(tableSanPham.getValueAt(selectedIndex, 0).toString());
 //                String sluong = tableSanPham.getValueAt(selectedIndex, 4).toString();
-//                SanPhamDTO sp = DanhMucSanPhamDAO.getInstance().selectById(String.valueOf(ma));
+//                DanhMucSanPhamDTO sp = DanhMucSanPhamDAO.getInstance().selectById(String.valueOf(ma));
 //                
 //                if (Integer.parseInt(txtSoLuong.getText()) > sp.getSoluong()) {
 //                    JOptionPane.showMessageDialog(this, "Kho không thể đáp ứng số lượng\nVui lòng nhập số lượng thấp hơn");

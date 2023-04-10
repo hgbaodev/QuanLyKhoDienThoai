@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 public final class SanPham extends JPanel implements ActionListener {
+
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -29,7 +30,7 @@ public final class SanPham extends JPanel implements ActionListener {
     IntegratedSearch search;
     DefaultTableModel tblModel;
     public DanhMucSanPhamBUS spBUS = new DanhMucSanPhamBUS();
-    public ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
+    public ArrayList<DTO.DanhMucSanPhamDTO> listSP = spBUS.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
 
@@ -49,7 +50,9 @@ public final class SanPham extends JPanel implements ActionListener {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         TableColumnModel columnModel = tableSanPham.getColumnModel();
         for (int i = 0; i < 8; i++) {
-            if(i != 1) columnModel.getColumn(i).setCellRenderer(centerRenderer);
+            if (i != 1) {
+                columnModel.getColumn(i).setCellRenderer(centerRenderer);
+            }
         }
         tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(500);
         tableSanPham.setFocusable(false);
@@ -113,11 +116,10 @@ public final class SanPham extends JPanel implements ActionListener {
         loadDataTalbe(listSP);
     }
 
-    public void loadDataTalbe(ArrayList<DTO.SanPhamDTO> result) {
+    public void loadDataTalbe(ArrayList<DTO.DanhMucSanPhamDTO> result) {
         tblModel.setRowCount(0);
-        for (DTO.SanPhamDTO sp : result) {
-            tblModel.addRow(new Object[]{
-//                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), Formater.FormatVND(sp.getGianhap()), Formater.FormatVND(sp.getGiaxuat()), getTenDVT(sp.getMaDVT()), getTenloaihang(sp.getMaloaihang()), getTenkhuvuc(sp.getMakhuvuc())
+        for (DTO.DanhMucSanPhamDTO sp : result) {
+            tblModel.addRow(new Object[]{ //                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), Formater.FormatVND(sp.getGianhap()), Formater.FormatVND(sp.getGiaxuat()), getTenDVT(sp.getMaDVT()), getTenloaihang(sp.getMaloaihang()), getTenkhuvuc(sp.getMakhuvuc())
             });
         }
     }
@@ -136,17 +138,13 @@ public final class SanPham extends JPanel implements ActionListener {
         if (e.getSource() == mainFunction.btnAdd) {
             SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Thêm sản phẩm mới", true, "create");
         } else if (e.getSource() == mainFunction.btnEdit) {
-            int index = tableSanPham.getSelectedRow();
-            if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần sửa");
-            } else {
+            int index = getRowSelected();
+            if (index != -1) {
 //                SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chỉnh sửa sản phẩm", true, "update", listSP.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
-            int index = tableSanPham.getSelectedRow();
-            if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần xóa");
-            } else {
+            int index = getRowSelected();
+            if (index != -1) {
                 int input = JOptionPane.showConfirmDialog(null,
                         "Bạn có chắc chắn muốn xóa Sản phẩm :)!", "Xóa sản phẩm",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -156,13 +154,19 @@ public final class SanPham extends JPanel implements ActionListener {
                 }
             }
         } else if (e.getSource() == mainFunction.btnDetail) {
-            int index = tableSanPham.getSelectedRow();
-            if (index == -1) {
+            int index = getRowSelected();
+            if (index != -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn loại hàng cần xem");
-            } else {
-//                SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chi tiêt sản phẩm", true, "view", listSP.get(index));
             }
         }
+    }
+
+    public int getRowSelected() {
+        int index = tableSanPham.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm");
+        }
+        return index;
     }
 
     private void initPadding() {
