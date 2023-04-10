@@ -128,6 +128,10 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     public void insertNv(NhanVienDTO nv) {
         listNv.add(nv);
     }
+    
+    public void updateNv(int index, NhanVienDTO nv){
+        listNv.set(index, nv);
+    }
 
     public int getIndex() {
         return nv.getRow();

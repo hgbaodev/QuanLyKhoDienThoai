@@ -2,6 +2,7 @@ package GUI.Panel;
 
 import BUS.KhuVucKhoBUS;
 import BUS.NhaCungCapBUS;
+import DAO.KhuVucKhoDAO;
 import DTO.KhuVucKhoDTO;
 import DTO.NhaCungCapDTO;
 import GUI.Component.IntegratedSearch;
@@ -19,8 +20,21 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
 
@@ -108,8 +122,8 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
             public void keyReleased(KeyEvent e) {
                 String type = (String) search.cbxChoose.getSelectedItem();
                 String txt = search.txtSearchForm.getText();
-                //listKVK = kvkBUS.search(txt, type);
-                loadDataTalbe(listKVK);
+                listKVK = kvkBUS.search(txt, type);
+                loadDataTable(listKVK);
             }
         });
 
@@ -128,16 +142,96 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
     public KhuVucKho() {
         initComponent();
         tableKhuvuc.setDefaultEditor(Object.class, null);
-        loadDataTalbe(listKVK);
+        loadDataTable(listKVK);
     }
 
-    public void loadDataTalbe(ArrayList<KhuVucKhoDTO> result) {
+    public void loadDataTable(ArrayList<KhuVucKhoDTO> result) {
         tblModel.setRowCount(0);
         for (KhuVucKhoDTO kvk : result) {
             tblModel.addRow(new Object[]{
                 kvk.getMakhuvuckho(),kvk.getTenkhuvuc(),kvk.getGhichu()
             });
         }
+    }
+    public void openFile(String file) {
+        try {
+            File path = new File(file);
+            Desktop.getDesktop().open(path);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+    public void exportExcel() {
+        try {
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.showSaveDialog(this);
+            File saveFile = jFileChooser.getSelectedFile();
+            if (saveFile != null) {
+                saveFile = new File(saveFile.toString() + ".xlsx");
+                Workbook wb = new XSSFWorkbook();
+                Sheet sheet = wb.createSheet("Khách hàng");
+                Row rowCol = sheet.createRow(0);
+                for (int i = 0; i < tableKhuvuc.getColumnCount(); i++) {
+                    Cell cell = rowCol.createCell(i);
+                    cell.setCellValue(tableKhuvuc.getColumnName(i));
+                }
+
+                for (int j = 0; j < tableKhuvuc.getRowCount(); j++) {
+                    Row row = sheet.createRow(j + 1);
+                    for (int k = 0; k < tableKhuvuc.getColumnCount(); k++) {
+                        Cell cell = row.createCell(k);
+                        if (tableKhuvuc.getValueAt(j, k) != null) {
+                            cell.setCellValue(tableKhuvuc.getValueAt(j, k).toString());
+                        }
+                    }
+                }
+                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
+                wb.write(out);
+                wb.close();
+                out.close();
+                openFile(saveFile.toString());
+                JOptionPane.showMessageDialog(this, "Xuất file excel thành công");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi xuất file");
+        }
+    }
+
+    public void importExcel() {
+        File excelFile;
+        FileInputStream excelFIS = null;
+        BufferedInputStream excelBIS = null;
+        XSSFWorkbook excelJTableImport = null;
+        ArrayList<KhuVucKhoDTO> listExcel = new ArrayList<KhuVucKhoDTO>();
+        JFileChooser jf = new JFileChooser();
+        int result = jf.showOpenDialog(null);
+        jf.setDialogTitle("Open file");
+        Workbook workbook = null;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                excelFile = jf.getSelectedFile();
+                excelFIS = new FileInputStream(excelFile);
+                excelBIS = new BufferedInputStream(excelFIS);
+                excelJTableImport = new XSSFWorkbook(excelBIS);
+                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
+                    XSSFRow excelRow = excelSheet.getRow(row);
+                    int id = KhuVucKhoDAO.getInstance().getAutoIncrement();
+                    String tenkvk = excelRow.getCell(0).getStringCellValue();
+                    String ghichu = excelRow.getCell(1).getStringCellValue();
+                    kvkBUS.add(new KhuVucKhoDTO(id,tenkvk,ghichu));
+                    tblModel.setRowCount(0);
+                    loadDataTable(listKVK);
+                }
+            } catch (FileNotFoundException ex) {
+                System.out.println("Lỗi đọc file");
+            } catch (IOException ex) {
+                System.out.println("Lỗi đọc file");
+            }
+        }
+
+        loadDataTable(listKVK);
     }
 
     @Override
@@ -161,7 +255,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
                     kvkBUS.delete(listKVK.get(index), index);
-                    loadDataTalbe(listKVK);
+                    loadDataTable(listKVK);
                 }
             }
         } else if (e.getSource() == mainFunction.btnDetail) {
@@ -174,7 +268,13 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         } else if (e.getSource() == search.btnReset) {
             search.txtSearchForm.setText("");
             listKVK = kvkBUS.getAll();
-            loadDataTalbe(listKVK);
+            loadDataTable(listKVK);
+        }
+        else if(e.getSource()==mainFunction.btnNhapExcel){
+            importExcel();
+        }
+        else if(e.getSource()==mainFunction.btnXuatExcel){
+            exportExcel();
         }
     }
 
@@ -182,7 +282,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
     public void itemStateChanged(ItemEvent e) {
         String type = (String) search.cbxChoose.getSelectedItem();
         String txt = search.txtSearchForm.getText();
-        //listKVK = kvkBUS.search(txt, type);
-        loadDataTalbe(listKVK);
+        listKVK = kvkBUS.search(txt, type);
+        loadDataTable(listKVK);
     }
 }

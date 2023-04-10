@@ -191,7 +191,7 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
             String tenkhuvuc = this.tenkhuvuc.getText();
             String ghichu = this.ghichu.getText();
             jpkvk.kvkBUS.add(new KhuVucKhoDTO(makhuvuc, tenkhuvuc, ghichu));
-            jpkvk.loadDataTalbe(jpkvk.listKVK);
+            jpkvk.loadDataTable(jpkvk.listKVK);
             dispose();
         } else if (e.getSource() == btnHuyBo) {
             dispose();
@@ -199,7 +199,7 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
             String tenkhuvuc = this.tenkhuvuc.getText();
             String ghichu = this.ghichu.getText();
             jpkvk.kvkBUS.update(new KhuVucKhoDTO(kvk.getMakhuvuckho(), tenkhuvuc, ghichu));
-            jpkvk.loadDataTalbe(jpkvk.listKVK);
+            jpkvk.loadDataTable(jpkvk.listKVK);
             dispose();
         }
     }

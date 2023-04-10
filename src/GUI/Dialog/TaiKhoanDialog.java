@@ -5,12 +5,15 @@
 package GUI.Dialog;
 
 import DAO.NhomQuyenDAO;
+import DAO.TaiKhoanDAO;
 import DTO.NhomQuyenDTO;
+import DTO.TaiKhoanDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Component.SelectForm;
 import GUI.Panel.TaiKhoan;
+import helper.BCrypt;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -45,6 +48,20 @@ public class TaiKhoanDialog extends JDialog{
         super(owner, title, modal);
         init(title, type);
         this.manv = manv;
+        this.taiKhoan = taiKhoan;
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+    
+    public TaiKhoanDialog(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal, String type, TaiKhoanDTO tk){
+        super(owner, title, modal);
+        init(title, type);
+        this.manv = tk.getManv();
+        this.taiKhoan = taiKhoan;
+        username.setText(tk.getUsername());
+        password.setPass(tk.getMatkhau());
+        maNhomQuyen.setSelectedIndex(tk.getManhomquyen());
+        trangthai.setSelectedIndex(tk.getTrangthai());
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -58,7 +75,7 @@ public class TaiKhoanDialog extends JDialog{
         username = new InputForm("Tên đăng nhập");
         password = new InputForm("Mật khẩu","password");
         maNhomQuyen = new SelectForm("Nhóm quyền", getNhomQuyen());
-        trangthai = new SelectForm("Trạng thái", new String[]{"Hoạt động","Ngưng hoạt động"});
+        trangthai = new SelectForm("Trạng thái", new String[]{"Ngưng hoạt động","Hoạt động"});
         pnmain.add(username);
         pnmain.add(password);
         pnmain.add(maNhomQuyen);
@@ -74,9 +91,32 @@ public class TaiKhoanDialog extends JDialog{
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Manv:"+manv);
                 System.out.println("Username:"+username.getText());
-                System.out.println("Password:"+password.getText());
-                System.out.println("Nhom quyen:"+maNhomQuyen.getSelectedItem());
+                System.out.println("Password:"+password.getPass());
+                System.out.println("Nhom quyen:"+maNhomQuyen.getSelectedIndex());
                 System.out.println("Trang thai:"+trangthai.getSelectedIndex());
+                String tendangnhap = username.getText();
+                String pass = BCrypt.hashpw(password.getPass(), BCrypt.gensalt(12));
+                int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getManhomquyen();
+                int tt = trangthai.getSelectedIndex();
+                TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, pass, manhom, tt);
+                TaiKhoanDAO.getInstance().insert(tk);
+                taiKhoan.taiKhoanBus.addAcc(tk);
+                taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());
+                dispose();
+            }
+        });
+        btnCapNhat.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String tendangnhap = username.getText();
+                String pass = BCrypt.hashpw(password.getPass(), BCrypt.gensalt(12));
+                int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getManhomquyen();
+                int tt = trangthai.getSelectedIndex();
+                TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, pass, manhom, tt);
+                TaiKhoanDAO.getInstance().update(tk);
+                taiKhoan.taiKhoanBus.updateAcc(taiKhoan.getRow(), tk);
+                taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());
+                dispose();
             }
         });
         btnHuyBo.addActionListener(new ActionListener(){
@@ -92,6 +132,8 @@ public class TaiKhoanDialog extends JDialog{
                 pnbottom.add(btnCapNhat);
             }
             case "view" -> {
+                username.setDisable();
+                password.setDisablePass();
                 
             }
             default -> throw new AssertionError();
