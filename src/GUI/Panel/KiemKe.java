@@ -1,7 +1,7 @@
 package GUI.Panel;
 
-import DTO.DanhMucSanPhamDTO;
-import BUS.DanhMucSanPhamBUS;
+import DTO.SanPhamDTO;
+import BUS.SanPhamBUS;
 
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -24,9 +24,9 @@ public class KiemKe extends JPanel {
     IntegratedSearch search;
     JLabel lbl1, lblImage;
     DefaultTableModel tblModel;
-    public DanhMucSanPhamBUS sanphamBUS = new DanhMucSanPhamBUS();
-    public ArrayList<DanhMucSanPhamDTO> listsp = sanphamBUS.getAll();
-    DanhMucSanPhamDTO sp = new DanhMucSanPhamDTO();
+    public SanPhamBUS sanphamBUS = new SanPhamBUS();
+    public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
+    SanPhamDTO sp = new SanPhamDTO();
 
     Color BackgroundColor = new Color(239, 235, 233);
 
@@ -101,9 +101,9 @@ public class KiemKe extends JPanel {
 
     }
 
-    public void loadDataTable(ArrayList<DTO.DanhMucSanPhamDTO> result) {
+    public void loadDataTable(ArrayList<DTO.SanPhamDTO> result) {
         tblModel.setRowCount(0);
-        for (DTO.DanhMucSanPhamDTO sanPham : result) {
+        for (DTO.SanPhamDTO sanPham : result) {
             tblModel.addRow(new Object[]{
 //                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaxuat()
             });

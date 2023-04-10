@@ -113,9 +113,6 @@ public class CauHinhSanPhamDTO {
             return false;
         }
         final CauHinhSanPhamDTO other = (CauHinhSanPhamDTO) obj;
-        if (this.macauhinh != other.macauhinh) {
-            return false;
-        }
         if (this.masp != other.masp) {
             return false;
         }
@@ -123,12 +120,6 @@ public class CauHinhSanPhamDTO {
             return false;
         }
         if (this.rom != other.rom) {
-            return false;
-        }
-        if (this.gianhap != other.gianhap) {
-            return false;
-        }
-        if (this.giaxuat != other.giaxuat) {
             return false;
         }
         return Objects.equals(this.mausac, other.mausac);

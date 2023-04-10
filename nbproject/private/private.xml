@@ -5,10 +5,10 @@
         <group>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Dialog/SanPhamDialog.java</file>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/DAO/MauSacDAO.java</file>
+            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/BUS/CauHinhSanPhamBUS.java</file>
+            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/DAO/ChiTietQuyenDAO.java</file>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Main.java</file>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/DAO/CauHinhSanPhamDAO.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/DAO/KhuVucKhoDAO.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/DTO/ThuocTinhSanPham/MauSacDTO.java</file>
         </group>
     </open-files>
 </project-private>

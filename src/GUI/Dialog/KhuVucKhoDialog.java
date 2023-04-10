@@ -4,10 +4,10 @@
  */
 package GUI.Dialog;
 
-import BUS.DanhMucSanPhamBUS;
+import BUS.SanPhamBUS;
 import DAO.KhuVucKhoDAO;
 import DTO.KhuVucKhoDTO;
-import DTO.DanhMucSanPhamDTO;
+import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
@@ -96,9 +96,9 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
                 JScrollPane scrollTableSanPham = new JScrollPane();
                 JTable tableSanPham = new JTable();
                 tableSanPham.setSize(new Dimension(480,300));
-                DanhMucSanPhamBUS spBUS = new DanhMucSanPhamBUS();
+                SanPhamBUS spBUS = new SanPhamBUS();
                 DefaultTableModel tblModel = new DefaultTableModel();
-                ArrayList<DanhMucSanPhamDTO> spbus = spBUS.getByMakhuvuc(kvk.getMakhuvuckho());
+                ArrayList<SanPhamDTO> spbus = spBUS.getByMakhuvuc(kvk.getMakhuvuckho());
                 tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
                 tblModel = new DefaultTableModel();
                 String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Tên đơn vị tính","Tên loại hàng"};
@@ -110,7 +110,7 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
                 TableColumnModel columnModel = tableSanPham.getColumnModel();
                 columnModel.getColumn(0).setPreferredWidth(30);
                 tblModel.setRowCount(0);
-                for (DTO.DanhMucSanPhamDTO sp : spbus) {
+                for (DTO.SanPhamDTO sp : spbus) {
                     tblModel.addRow(new Object[]{
 //                        sp.getMasp(), sp.getTensp(), sp.getMaDVT(), sp.getMaloaihang()
                     });

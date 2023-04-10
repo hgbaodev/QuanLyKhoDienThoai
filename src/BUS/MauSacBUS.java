@@ -13,25 +13,31 @@ import java.util.ArrayList;
  * @author Tran Nhat Sinh
  */
 public class MauSacBUS {
+
     private MauSacDAO mausacDAO = new MauSacDAO();
     private ArrayList<MauSacDTO> listMauSac = new ArrayList<>();
 
     public MauSacBUS() {
         this.listMauSac = mausacDAO.selectAll();
     }
-    
+
     public ArrayList<MauSacDTO> getAll() {
         return this.listMauSac;
     }
-    
+
     public String[] getArrTenMauSac() {
         String[] result = new String[listMauSac.size()];
-        for(int i = 0; i < listMauSac.size(); i++) {
+        for (int i = 0; i < listMauSac.size(); i++) {
             result[i] = listMauSac.get(i).getTenmau();
         }
         return result;
     }
-     public boolean add(MauSacDTO msac) {
+    
+    public MauSacDTO getByIndex(int index) {
+        return this.listMauSac.get(index);
+    }
+
+    public boolean add(MauSacDTO msac) {
         boolean check = mausacDAO.insert(msac) != 0;
         if (check) {
             this.listMauSac.add(msac);
@@ -46,18 +52,23 @@ public class MauSacBUS {
         }
         return check;
     }
-        public int getIndexByMaMau(int mamau) {
+
+    public int getIndexByMaMau(int mamau) {
         int i = 0;
         int vitri = -1;
         while (i < this.listMauSac.size() && vitri == -1) {
-            if (listMauSac.get(i).getMamau()== mamau) {
+            if (listMauSac.get(i).getMamau() == mamau) {
                 vitri = i;
                 break;
-            } else {
-                i++;
-            }
+            } else i++;
         }
         return vitri;
+    }
+    
+    public String getTenMau(int mamau) {
+        int index = this.getIndexByMaMau(mamau);
+        System.out.println(index);
+        return this.listMauSac.get(index).getTenmau();
     }
 
     public boolean update(MauSacDTO msac) {

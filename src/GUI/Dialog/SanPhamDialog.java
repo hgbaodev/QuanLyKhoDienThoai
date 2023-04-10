@@ -6,7 +6,7 @@ import BUS.KhuVucKhoBUS;
 import BUS.MauSacBUS;
 import BUS.ThuongHieuBUS;
 import DTO.CauHinhSanPhamDTO;
-import DTO.DanhMucSanPhamDTO;
+import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
@@ -245,6 +245,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
             if(validateCardTwo()) {
                 listch.add(getCauHinh());
                 loadDataToTableCauHinh();
+                resetFormCauHinh();
             }
         }
     }
@@ -257,7 +258,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         return index;
     }
 
-    public DanhMucSanPhamDTO getInfo() {
+    public SanPhamDTO getInfo() {
         String hinhanh = this.hinhanh.getUrl_img();
         String vtensp = tenSP.getText();
         String vxuatxu = xuatxu.getText();
@@ -271,15 +272,15 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         int pb = Integer.parseInt(phienbanhdh.getText());
         int vthuonghieu = thuonghieuBus.getAll().get(this.thuonghieu.getSelectedIndex()).getMathuonghieu();
         int khuvuckho = kvkhoBus.getAll().get(this.khuvuc.getSelectedIndex()).getMakhuvuckho();
-        DanhMucSanPhamDTO result = new DanhMucSanPhamDTO(maloaisp, vtensp, hinhanh, vxuatxu, vchipxuly, vdungluongpin, ktman, hdh, pb, camsau, camtruoc, tgbh, vthuonghieu, khuvuckho, 0);
+        SanPhamDTO result = new SanPhamDTO(maloaisp, vtensp, hinhanh, vxuatxu, vchipxuly, vdungluongpin, ktman, hdh, pb, camsau, camtruoc, tgbh, vthuonghieu, khuvuckho, 0);
         JOptionPane.showMessageDialog(this, result);
         return result;
     }
 
     public CauHinhSanPhamDTO getCauHinh() {
-        int rom = cbxRom.getSelectedIndex();
-        int ram = cbxRam.getSelectedIndex();
-        int mausac = cbxMausac.getSelectedIndex();
+        int rom = romBus.getByIndex(cbxRom.getSelectedIndex()).getMadungluongrom();
+        int ram = ramBus.getByIndex(cbxRam.getSelectedIndex()).getMadlram();
+        int mausac = mausacBus.getByIndex(cbxMausac.getSelectedIndex()).getMamau();
         int gianhap = Integer.parseInt(txtgianhap.getText());
         int giaban = Integer.parseInt(txtgiaxuat.getText());
         CauHinhSanPhamDTO chsp = new CauHinhSanPhamDTO(0, 0, ram, rom, mausac, gianhap, giaban);
@@ -315,9 +316,20 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     public void loadDataToTableCauHinh() {
         tblModelch.setRowCount(0);
         for (int i = 0; i < listch.size(); i++) {
-            tblModelch.addRow(new Object[]{i + 1, listch.get(i).getRam(), listch.get(i).getRom(), 
-                listch.get(i).getMausac(), Formater.FormatVND(listch.get(i).getGianhap()), Formater.FormatVND(listch.get(i).getGiaxuat())
+            String mau = mausacBus.getTenMau(listch.get(i).getMausac());
+            int ram = ramBus.getKichThuocById(listch.get(i).getRam());
+            int rom = romBus.getKichThuocById(listch.get(i).getRom());
+            tblModelch.addRow(new Object[]{i + 1, ram+"GB", rom+"GB", 
+                mau, Formater.FormatVND(listch.get(i).getGianhap()), Formater.FormatVND(listch.get(i).getGiaxuat())
             });
         }
     }
-}
+    
+    public void resetFormCauHinh() {
+        cbxMausac.setSelectedIndex(0);
+        cbxRam.setSelectedIndex(0);
+        cbxRom.setSelectedIndex(0);
+        txtgianhap.setText("");
+        txtgiaxuat.setText("");
+    }
+} 

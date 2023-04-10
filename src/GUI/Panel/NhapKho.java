@@ -1,8 +1,8 @@
 package GUI.Panel;
 
 import BUS.PhieuNhapBUS;
-import BUS.DanhMucSanPhamBUS;
-import DTO.DanhMucSanPhamDTO;
+import BUS.SanPhamBUS;
+import DTO.SanPhamDTO;
 import DTO.NhaCungCapDTO;
 import DAO.NhaCungCapDAO;
 import DTO.ChiTietPhieuDTO;
@@ -41,9 +41,9 @@ public final class NhapKho extends JPanel implements ActionListener {
     InputFormInline txtmaphieu, txtnhanvien, txtnhacungcap;
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 
-    public DanhMucSanPhamBUS sanphamBUS = new DanhMucSanPhamBUS();
+    public SanPhamBUS sanphamBUS = new SanPhamBUS();
     public PhieuNhapBUS phieunhapBUS = new PhieuNhapBUS();
-    public ArrayList<DanhMucSanPhamDTO> listsp = sanphamBUS.getAll();
+    public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
     public ArrayList<ChiTietPhieuDTO> chitietphieu = new ArrayList<>();
     private int maphieu = phieunhapBUS.phieunhapDAO.getAutoIncrement();
     private double tongtien = 0;
@@ -271,9 +271,9 @@ public final class NhapKho extends JPanel implements ActionListener {
         this.txtnhanvien.setEditable(false);
     }
 
-    public void loadDataTableSanPham(ArrayList<DTO.DanhMucSanPhamDTO> result) {
+    public void loadDataTableSanPham(ArrayList<DTO.SanPhamDTO> result) {
         tblModelSanPham.setRowCount(0);
-        for (DTO.DanhMucSanPhamDTO sanPham : result) {
+        for (DTO.SanPhamDTO sanPham : result) {
             tblModelSanPham.addRow(new Object[]{
 //                sanPham.getMasp(), sanPham.getTensp(), sanPham.getSoluong(), Formater.FormatVND(sanPham.getGiaxuat())
             });
@@ -283,7 +283,7 @@ public final class NhapKho extends JPanel implements ActionListener {
     public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> result) {
         tblModelNhapKho.setRowCount(0);
         for (int i = 0; i < result.size(); i++) {
-            DanhMucSanPhamDTO sp = sanphamBUS.getByMaSP(result.get(i).getMasanpham());
+            SanPhamDTO sp = sanphamBUS.getByMaSP(result.get(i).getMasanpham());
             tblModelNhapKho.addRow(new Object[]{
 //                i + 1, result.get(i).getMasanpham(), sp.getTensp(), result.get(i).getSoluong(), Formater.FormatVND(sp.getGiaxuat())
             });
@@ -307,7 +307,7 @@ public final class NhapKho extends JPanel implements ActionListener {
         if (index != -1) {
             int soluong = (int) txtSoLuong.getValue();
             if (soluong > 0) {
-                ChiTietPhieuDTO ctphieu = phieunhapBUS.findCT(chitietphieu, listsp.get(index).getMadanhmuc());
+                ChiTietPhieuDTO ctphieu = phieunhapBUS.findCT(chitietphieu, listsp.get(index).getMasp());
                 if (ctphieu == null) {
 //                    ctphieu = new ChiTietPhieuDTO(maphieu, listsp.get(index).getMadanhmuc(), soluong, listsp.get(index).getGiaxuat());
                     this.chitietphieu.add(ctphieu);

@@ -1,6 +1,6 @@
 package GUI.Panel;
 
-import BUS.DanhMucSanPhamBUS;
+import BUS.SanPhamBUS;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -29,8 +29,8 @@ public final class SanPham extends JPanel implements ActionListener {
     MainFunction mainFunction;
     IntegratedSearch search;
     DefaultTableModel tblModel;
-    public DanhMucSanPhamBUS spBUS = new DanhMucSanPhamBUS();
-    public ArrayList<DTO.DanhMucSanPhamDTO> listSP = spBUS.getAll();
+    public SanPhamBUS spBUS = new SanPhamBUS();
+    public ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
 
@@ -116,9 +116,9 @@ public final class SanPham extends JPanel implements ActionListener {
         loadDataTalbe(listSP);
     }
 
-    public void loadDataTalbe(ArrayList<DTO.DanhMucSanPhamDTO> result) {
+    public void loadDataTalbe(ArrayList<DTO.SanPhamDTO> result) {
         tblModel.setRowCount(0);
-        for (DTO.DanhMucSanPhamDTO sp : result) {
+        for (DTO.SanPhamDTO sp : result) {
             tblModel.addRow(new Object[]{ //                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), Formater.FormatVND(sp.getGianhap()), Formater.FormatVND(sp.getGiaxuat()), getTenDVT(sp.getMaDVT()), getTenloaihang(sp.getMaloaihang()), getTenkhuvuc(sp.getMakhuvuc())
             });
         }

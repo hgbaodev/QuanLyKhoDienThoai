@@ -80,6 +80,10 @@ public class DungLuongRamBUS {
         return vitri;
     }
     
+    public int getKichThuocById(int madlram) {
+        return this.listDLRam.get(this.getIndexById(madlram)).getDungluongram();
+    }
+    
     public String[] getArrKichThuoc() {
         String[] result = new String[listDLRam.size()];
         for(int i = 0; i < listDLRam.size(); i++) {

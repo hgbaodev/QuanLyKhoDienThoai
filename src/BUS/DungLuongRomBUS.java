@@ -64,23 +64,24 @@ public class DungLuongRomBUS {
     public boolean update(DungLuongRomDTO dlrom) {
         boolean check = dlromDAO.update(dlrom) != 0;
         if (check) {
-            this.listDLRom.set(getIndexByMaKVK(dlrom.getMadungluongrom()), dlrom);
+            this.listDLRom.set(getIndexById(dlrom.getMadungluongrom()), dlrom);
         }
         return check;
     }
 
-    public int getIndexByMaKVK(int madlrom) {
+    public int getIndexById(int madlrom) {
         int i = 0;
         int vitri = -1;
         while (i < this.listDLRom.size() && vitri == -1) {
             if (listDLRom.get(i).getMadungluongrom()== madlrom) {
                 vitri = i;
-                break;
-            } else {
-                i++;
-            }
+            } else i++;
         }
         return vitri;
+    }
+    
+    public int getKichThuocById(int madlrom) {
+        return this.listDLRom.get(this.getIndexById(madlrom)).getDungluongrom();
     }
     
     public String[] getArrKichThuoc() {

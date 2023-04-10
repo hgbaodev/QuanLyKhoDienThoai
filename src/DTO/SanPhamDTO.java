@@ -10,10 +10,10 @@ import java.util.Objects;
  *
  * @author 84907
  */
-public class DanhMucSanPhamDTO {
+public class SanPhamDTO {
 
-    private int madanhmuc;
-    private String tendanhmuc;
+    private int masp;
+    private String tensp;
     private String hinhanh;
     private String xuatxu;
     private String chipxuly;
@@ -28,12 +28,12 @@ public class DanhMucSanPhamDTO {
     private int khuvuckho;
     private int soluongton;
 
-    public DanhMucSanPhamDTO() {
+    public SanPhamDTO() {
     }
 
-    public DanhMucSanPhamDTO(int madanhmuc, String tendanhmuc, String hinhanh, String xuatxu, String chipxuly, int dungluongpin, double kichthuocman, String hedieuhanh, int phienbanhdh, String camerasau, String cameratruoc, int thoigianbaohanh, int thuonghieu, int khuvuckho, int soluongton) {
-        this.madanhmuc = madanhmuc;
-        this.tendanhmuc = tendanhmuc;
+    public SanPhamDTO(int masp, String tensp, String hinhanh, String xuatxu, String chipxuly, int dungluongpin, double kichthuocman, String hedieuhanh, int phienbanhdh, String camerasau, String cameratruoc, int thoigianbaohanh, int thuonghieu, int khuvuckho, int soluongton) {
+        this.masp = masp;
+        this.tensp = tensp;
         this.hinhanh = hinhanh;
         this.xuatxu = xuatxu;
         this.chipxuly = chipxuly;
@@ -49,20 +49,20 @@ public class DanhMucSanPhamDTO {
         this.soluongton = soluongton;
     }
 
-    public int getMadanhmuc() {
-        return madanhmuc;
+    public int getMasp() {
+        return masp;
     }
 
-    public void setMadanhmuc(int madanhmuc) {
-        this.madanhmuc = madanhmuc;
+    public void setMasp(int masp) {
+        this.masp = masp;
     }
 
-    public String getTendanhmuc() {
-        return tendanhmuc;
+    public String getTensp() {
+        return tensp;
     }
 
-    public void setTendanhmuc(String tendanhmuc) {
-        this.tendanhmuc = tendanhmuc;
+    public void setTensp(String tensp) {
+        this.tensp = tensp;
     }
 
     public String getHinhanh() {
@@ -172,6 +172,21 @@ public class DanhMucSanPhamDTO {
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 53 * hash + this.masp;
+        hash = 53 * hash + Objects.hashCode(this.tensp);
+        hash = 53 * hash + Objects.hashCode(this.hinhanh);
+        hash = 53 * hash + Objects.hashCode(this.xuatxu);
+        hash = 53 * hash + Objects.hashCode(this.chipxuly);
+        hash = 53 * hash + this.dungluongpin;
+        hash = 53 * hash + (int) (Double.doubleToLongBits(this.kichthuocman) ^ (Double.doubleToLongBits(this.kichthuocman) >>> 32));
+        hash = 53 * hash + Objects.hashCode(this.hedieuhanh);
+        hash = 53 * hash + this.phienbanhdh;
+        hash = 53 * hash + Objects.hashCode(this.camerasau);
+        hash = 53 * hash + Objects.hashCode(this.cameratruoc);
+        hash = 53 * hash + this.thoigianbaohanh;
+        hash = 53 * hash + this.thuonghieu;
+        hash = 53 * hash + this.khuvuckho;
+        hash = 53 * hash + this.soluongton;
         return hash;
     }
 
@@ -186,11 +201,8 @@ public class DanhMucSanPhamDTO {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DanhMucSanPhamDTO other = (DanhMucSanPhamDTO) obj;
-        if (this.madanhmuc != other.madanhmuc) {
-            return false;
-        }
-        if (this.tendanhmuc != other.tendanhmuc) {
+        final SanPhamDTO other = (SanPhamDTO) obj;
+        if (this.masp != other.masp) {
             return false;
         }
         if (this.dungluongpin != other.dungluongpin) {
@@ -214,6 +226,9 @@ public class DanhMucSanPhamDTO {
         if (this.soluongton != other.soluongton) {
             return false;
         }
+        if (!Objects.equals(this.tensp, other.tensp)) {
+            return false;
+        }
         if (!Objects.equals(this.hinhanh, other.hinhanh)) {
             return false;
         }
@@ -234,7 +249,6 @@ public class DanhMucSanPhamDTO {
 
     @Override
     public String toString() {
-        return "SanPhamDTO{" + "madanhmuc=" + madanhmuc + ", tendanhmuc=" + tendanhmuc + ", hinhanh=" + hinhanh + ", xuatxu=" + xuatxu + ", chipxuly=" + chipxuly + ", dungluongpin=" + dungluongpin + ", kichthuocman=" + kichthuocman + ", hedieuhanh=" + hedieuhanh + ", phienbanhdh=" + phienbanhdh + ", camerasau=" + camerasau + ", cameratruoc=" + cameratruoc + ", thoigianbaohanh=" + thoigianbaohanh + ", thuonghieu=" + thuonghieu + ", khuvuckho=" + khuvuckho + ", soluongton=" + soluongton + '}';
+        return "SanPhamDTO{" + "masp=" + masp + ", tensp=" + tensp + ", hinhanh=" + hinhanh + ", xuatxu=" + xuatxu + ", chipxuly=" + chipxuly + ", dungluongpin=" + dungluongpin + ", kichthuocman=" + kichthuocman + ", hedieuhanh=" + hedieuhanh + ", phienbanhdh=" + phienbanhdh + ", camerasau=" + camerasau + ", cameratruoc=" + cameratruoc + ", thoigianbaohanh=" + thoigianbaohanh + ", thuonghieu=" + thuonghieu + ", khuvuckho=" + khuvuckho + ", soluongton=" + soluongton + '}';
     }
-
 }

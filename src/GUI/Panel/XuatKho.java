@@ -1,12 +1,12 @@
 package GUI.Panel;
 
 import DAO.KhachHangDAO;
-import DAO.DanhMucSanPhamDAO;
-import BUS.DanhMucSanPhamBUS;
+import DAO.SanPhamDAO;
+import BUS.SanPhamBUS;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuDTO;
 import DTO.KhachHangDTO;
-import DTO.DanhMucSanPhamDTO;
+import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.InputForm;
 import GUI.Component.IntegratedSearch;
@@ -44,16 +44,16 @@ public class XuatKho extends JPanel implements ActionListener {
     JButton btnReturn, btnChonSanPham, btnNhapExcel, btnEditSoLuong, btnDeleteSanPham, btnXuatHang, btnXuatKho;
     JComboBox<String> slfKhachHang;
 
-    public DanhMucSanPhamBUS danhmucsanphamBUS = new DanhMucSanPhamBUS();
-    public ArrayList<DanhMucSanPhamDTO> listkh = danhmucsanphamBUS.getAll();
-    DanhMucSanPhamDTO dmsp = new DanhMucSanPhamDTO();
+    public SanPhamBUS danhmucsanphamBUS = new SanPhamBUS();
+    public ArrayList<SanPhamDTO> listkh = danhmucsanphamBUS.getAll();
+    SanPhamDTO dmsp = new SanPhamDTO();
 
     MainFunction mainFunction;
     IntegratedSearch search;
 
-//    public DanhMucSanPhamBUS sanphamBUS = new DanhMucSanPhamBUS();
+//    public SanPhamBUS sanphamBUS = new SanPhamBUS();
 //    public ArrayList<DanhMucSanPhamDTO> listsp = sanphamBUS.getAll();
-    DanhMucSanPhamDTO sp = new DanhMucSanPhamDTO();
+    SanPhamDTO sp = new SanPhamDTO();
     public ArrayList<ChiTietPhieuDTO> CTPhieu = new ArrayList<>();
 
     Color BackgroundColor = new Color(245, 229, 240);
@@ -267,11 +267,11 @@ public class XuatKho extends JPanel implements ActionListener {
 
     }
 
-    public void loadDataTableSanPham(ArrayList<DTO.DanhMucSanPhamDTO> result) {
+    public void loadDataTableSanPham(ArrayList<DTO.SanPhamDTO> result) {
         tblModelSanPham.setRowCount(0);
-        for (DTO.DanhMucSanPhamDTO sanPham : result) {
+        for (DTO.SanPhamDTO sanPham : result) {
             tblModelSanPham.addRow(new Object[]{
-                sanPham.getMadanhmuc(), sanPham.getTendanhmuc(), sanPham.getHedieuhanh(), sanPham.getThuonghieu()
+                sanPham.getMasp(), sanPham.getTensp(), sanPham.getHedieuhanh(), sanPham.getThuonghieu()
             });
         }
     }
@@ -300,7 +300,7 @@ public class XuatKho extends JPanel implements ActionListener {
 //        } else {
 //                int ma = Integer.parseInt(tableSanPham.getValueAt(selectedIndex, 0).toString());
 //                String sluong = tableSanPham.getValueAt(selectedIndex, 4).toString();
-//                DanhMucSanPhamDTO sp = DanhMucSanPhamDAO.getInstance().selectById(String.valueOf(ma));
+//                SanPhamDTO sp = SanPhamDAO.getInstance().selectById(String.valueOf(ma));
 //                
 //                if (Integer.parseInt(txtSoLuong.getText()) > sp.getSoluong()) {
 //                    JOptionPane.showMessageDialog(this, "Kho không thể đáp ứng số lượng\nVui lòng nhập số lượng thấp hơn");
@@ -336,9 +336,9 @@ public class XuatKho extends JPanel implements ActionListener {
 
     public void ActionBtnChoose() {
         maDM = new JTextField("");
-        setMaDM(Integer.toString(dmsp.getMadanhmuc()));
+        setMaDM(Integer.toString(dmsp.getMasp()));
         tenDM = new InputForm("Tên danh mục");
-        setTenDM(dmsp.getTendanhmuc());
+        setTenDM(dmsp.getTensp());
         hedieuhanh = new InputForm("Hệ điều hành");
         setHediehanh(dmsp.getHedieuhanh());
         thuonghieu = new InputForm("Thương hiệu");
