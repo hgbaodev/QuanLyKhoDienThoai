@@ -89,11 +89,7 @@ public class TaiKhoanDialog extends JDialog{
         btnThem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Manv:"+manv);
-                System.out.println("Username:"+username.getText());
-                System.out.println("Password:"+password.getPass());
-                System.out.println("Nhom quyen:"+maNhomQuyen.getSelectedIndex());
-                System.out.println("Trang thai:"+trangthai.getSelectedIndex());
+              
                 String tendangnhap = username.getText();
                 String pass = BCrypt.hashpw(password.getPass(), BCrypt.gensalt(12));
                 int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getManhomquyen();
@@ -113,7 +109,6 @@ public class TaiKhoanDialog extends JDialog{
                 int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getManhomquyen();
                 int tt = trangthai.getSelectedIndex();
                 TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, pass, manhom, tt);
-                System.out.println(tk);
                 TaiKhoanDAO.getInstance().update(tk);
                 taiKhoan.taiKhoanBus.updateAcc(taiKhoan.getRow(), tk);
                 taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());

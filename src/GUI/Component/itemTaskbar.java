@@ -23,7 +23,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
         this.addMouseListener(this);
         lblIcon = new JLabel();
         lblIcon.setPreferredSize(new Dimension(30, 30));
-        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource(linkIcon)));
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/"+linkIcon)));
         this.add(lblIcon);
 
         pnlContent = new JLabel(content);
