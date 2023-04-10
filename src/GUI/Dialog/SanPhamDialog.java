@@ -4,7 +4,6 @@ import BUS.KhuVucKhoBUS;
 import BUS.ThuongHieuBUS;
 import DTO.CauHinhSanPhamDTO;
 import DTO.DanhMucSanPhamDTO;
-import DTO.MauSacSanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
@@ -27,6 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -45,17 +45,15 @@ import javax.swing.table.DefaultTableModel;
 public final class SanPhamDialog extends JDialog implements ActionListener {
 
     private HeaderTitle titlePage;
-    private JPanel pninfosanpham, pnbottom, pnCenter, pninfosanphamright, pnmain, pncard2, pn3;
-    private ButtonCustom btnThemCHMS, btnHuyBo;
-    private ButtonCustom btnaddch, btneditch, btndeletech;
-    private ButtonCustom btnaddms, btneditms, btndeletems;
+    private JPanel pninfosanpham, pnbottom, pnCenter, pninfosanphamright, pnmain, pncard2;
+    private ButtonCustom btnThemCHMS, btnHuyBo, btnAddCauHinh, btnEditCauHinh, btnDeleteCauHinh, btnAddSanPham;
     InputForm tenSP, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, thoigianbaohanh, phienbanhdh, camerasau, cameratruoc;
-    InputForm dungluong, ram, mausac;
+    InputForm txtrom, txtram, txtmausac, txtgianhap, txtgiaxuat;
     SelectForm thuonghieu, khuvuc;
     InputImage hinhanh;
-    JTable tblcauhinh, tblmausac;
-    JScrollPane scrolltblcauhinh, scrolltblmausac;
-    DefaultTableModel tblModelch, tblModelmausac;
+    JTable tblcauhinh;
+    JScrollPane scrolltblcauhinh;
+    DefaultTableModel tblModelch;
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     GUI.Panel.SanPham jpSP;
 
@@ -63,14 +61,15 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     ThuongHieuBUS thuonghieuBus = new ThuongHieuBUS();
 
     ArrayList<CauHinhSanPhamDTO> listch = new ArrayList<>();
-    ArrayList<MauSacSanPhamDTO> listms = new ArrayList<>();
 
     String[] arrkhuvuc = kvkhoBus.getArrTenKhuVuc();
     String[] arrthuonghieu = thuonghieuBus.getArrTenThuongHieu();
+    final int maloaisp;
 
     public SanPhamDialog(SanPham jpSP, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
         this.jpSP = jpSP;
+        maloaisp = jpSP.spBUS.spDAO.getAutoIncrement();
         initComponents(title, type);
     }
 
@@ -126,131 +125,60 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     }
 
     public void initCardTwo() {
-        JPanel pnch_ms, pncauhinh, pnmausac, jpch_top, jpch_top_left, jpch_top_right, jpch_bottom, jpms_top, jpms_center, jpms_bottom;
         pncard2 = new JPanel(new BorderLayout());
+        JPanel cauhinhtop = new JPanel(new GridLayout(1, 5));
+        txtrom = new InputForm("ROM");
+        txtram = new InputForm("RAM");
+        txtmausac = new InputForm("Màu sắc");
+        txtgianhap = new InputForm("Giá nhập");
+        txtgiaxuat = new InputForm("Giá xuất");
+        cauhinhtop.add(txtrom);
+        cauhinhtop.add(txtram);
+        cauhinhtop.add(txtmausac);
+        cauhinhtop.add(txtgianhap);
+        cauhinhtop.add(txtgiaxuat);
 
-        pnch_ms = new JPanel(new GridLayout(1, 2));
-        pncauhinh = new JPanel(new BorderLayout());
-        pncauhinh.setBackground(Color.WHITE);
+        JPanel cauhinhbottom = new JPanel(new FlowLayout());
+        cauhinhbottom.setBackground(Color.white);
+        cauhinhbottom.setBorder(new EmptyBorder(0,0,10,0));
+        btnAddSanPham = new ButtonCustom("Thêm sản phẩm", "success", 14);
+        cauhinhbottom.add(btnAddSanPham);
 
-        jpch_top = new JPanel(new BorderLayout());
-        jpch_top.setBackground(Color.WHITE);
-        jpch_top.setPreferredSize(new Dimension(100, 300));
+        JPanel cauhinhcenter = new JPanel(new BorderLayout());
 
-        jpch_top_left = new JPanel(new GridLayout(2, 1));
-        dungluong = new InputForm("Dung lượng lưu trữ");
-        ram = new InputForm("Dung lượng RAM");
-        jpch_top_left.add(dungluong);
-        jpch_top_left.add(ram);
-
-        jpch_top_right = new JPanel(new GridLayout(3, 1, 20, 20));
-        jpch_top_right.setBorder(new EmptyBorder(15, 5, 15, 5));
-        jpch_top_right.setBackground(Color.WHITE);
-        btnaddch = new ButtonCustom("Thêm cấu hình", "success", 14);
-        btneditch = new ButtonCustom("Sửa cấu hình", "warning", 14);
-        btndeletech = new ButtonCustom("Xoá cấu hình", "danger", 14);
-        jpch_top_right.add(btnaddch);
-        jpch_top_right.add(btneditch);
-        jpch_top_right.add(btndeletech);
-
-        jpch_top.add(jpch_top_left, BorderLayout.CENTER);
-        jpch_top.add(jpch_top_right, BorderLayout.EAST);
-
-        jpch_bottom = new JPanel(new FlowLayout());
-        jpch_bottom.setBackground(Color.WHITE);
+        JPanel cauhinhcenter_left = new JPanel();
+        BoxLayout bl = new BoxLayout(cauhinhcenter_left, BoxLayout.Y_AXIS);
+        cauhinhcenter_left.setPreferredSize(new Dimension(100, 226));
+        cauhinhcenter_left.setBorder(new EmptyBorder(10, 10, 10, 10));
+        cauhinhcenter_left.setLayout(bl);
+        cauhinhcenter_left.setBackground(Color.WHITE);
         tblcauhinh = new JTable();
-        tblcauhinh.setPreferredSize(new Dimension(550, 80));
-        scrolltblcauhinh = new JScrollPane();
+        scrolltblcauhinh = new JScrollPane(tblcauhinh);
         tblModelch = new DefaultTableModel();
-        String[] header = new String[]{"STT", "Dung lượng lưu trữ", "RAM"};
+        String[] header = new String[]{"STT", "RAM", "ROM", "Màu sắc", "Giá nhập", "Giá xuất"};
         tblModelch.setColumnIdentifiers(header);
         tblcauhinh.setModel(tblModelch);
         scrolltblcauhinh.setViewportView(tblcauhinh);
         tblcauhinh.setDefaultRenderer(Object.class, centerRenderer);
+        cauhinhcenter_left.add(scrolltblcauhinh);
 
-        tblcauhinh.setPreferredScrollableViewportSize(tblcauhinh.getPreferredSize());
-        tblcauhinh.setFillsViewportHeight(true);
-        jpch_bottom.add(scrolltblcauhinh);
+        JPanel cauhinhcenter_right = new JPanel(new FlowLayout());
+        cauhinhcenter_right.setPreferredSize(new Dimension(180,10));
+        cauhinhcenter_right.setBackground(Color.white);
+        cauhinhcenter_right.setBorder(new EmptyBorder(0,0, 0, 10));
+        btnAddCauHinh = new ButtonCustom("Thêm cấu hình", "success", 14);
+        btnEditCauHinh = new ButtonCustom("Sửa cấu hình", "warning", 14);
+        btnDeleteCauHinh = new ButtonCustom("Xoá cấu hình", "danger", 14);
+        cauhinhcenter_right.add(btnAddCauHinh);
+        cauhinhcenter_right.add(btnEditCauHinh);
+        cauhinhcenter_right.add(btnDeleteCauHinh);
+        cauhinhcenter.add(cauhinhcenter_left, BorderLayout.CENTER);
+        cauhinhcenter.add(cauhinhcenter_right, BorderLayout.EAST);
 
-        pncauhinh.add(jpch_top, BorderLayout.CENTER);
-        pncauhinh.add(jpch_bottom, BorderLayout.SOUTH);
+        pncard2.add(cauhinhtop, BorderLayout.NORTH);
+        pncard2.add(cauhinhcenter, BorderLayout.CENTER);
+        pncard2.add(cauhinhbottom, BorderLayout.SOUTH);
 
-        pnch_ms.add(pncauhinh, BorderLayout.CENTER);
-
-        pnmausac = new JPanel(new BorderLayout());
-        pnmausac.setBackground(Color.WHITE);
-
-        jpms_top = new JPanel(new GridLayout(1, 1));
-        jpms_top.setPreferredSize(new Dimension(100, 100));
-        mausac = new InputForm("Màu sắc");
-        jpms_top.add(mausac);
-
-        jpms_center = new JPanel(new FlowLayout(1, 10, 10));
-        jpms_center.setBackground(Color.WHITE);
-        btnaddms = new ButtonCustom("Thêm màu sắc", "success", 14);
-        btneditms = new ButtonCustom("Sửa màu sắc", "warning", 14);
-        btndeletems = new ButtonCustom("Xoá màu sắc", "danger", 14);
-        jpms_center.add(btnaddms);
-        jpms_center.add(btneditms);
-        jpms_center.add(btndeletems);
-
-        jpms_bottom = new JPanel();
-        jpms_bottom.setBackground(Color.WHITE);
-        tblmausac = new JTable();
-        tblmausac.setPreferredSize(new Dimension(550, 80));
-        scrolltblmausac = new JScrollPane();
-        tblModelmausac = new DefaultTableModel();
-        String[] headerms = new String[]{"STT", "Màu sắc"};
-        tblModelmausac.setColumnIdentifiers(headerms);
-        tblmausac.setModel(tblModelmausac);
-        scrolltblmausac.setViewportView(tblmausac);
-        tblmausac.setDefaultRenderer(Object.class, centerRenderer);
-        tblmausac.setPreferredScrollableViewportSize(tblmausac.getPreferredSize());
-        tblmausac.setFillsViewportHeight(true);
-        jpms_bottom.add(scrolltblmausac);
-
-        pnmausac.add(jpms_top, BorderLayout.NORTH);
-        pnmausac.add(jpms_center, BorderLayout.CENTER);
-        pnmausac.add(jpms_bottom, BorderLayout.SOUTH);
-        pnch_ms.add(pnmausac, BorderLayout.EAST);
-
-        JPanel pnbottom1 = new JPanel(new FlowLayout());
-        pnbottom1.setBorder(new EmptyBorder(20, 0, 10, 0));
-        pnbottom1.setBackground(Color.white);
-        ButtonCustom btnThemCHMS1 = new ButtonCustom("Tạo giá cấu hình", "success", 14);
-        btnThemCHMS1.addActionListener(this);
-        ButtonCustom btnHuyBo1 = new ButtonCustom("Huỷ bỏ", "danger", 14);
-        pnbottom1.add(btnThemCHMS1);
-        pnbottom1.add(btnHuyBo1);
-
-        pncard2.add(pnch_ms, BorderLayout.CENTER);
-        pncard2.add(pnbottom1, BorderLayout.SOUTH);
-    }
-
-    public void initCardThree() {
-        int sl = 9;
-        pn3 = new JPanel(new BorderLayout());
-        JPanel pn3_top = new JPanel(new GridLayout(sl, 5));
-        InputForm[][] ipform = new InputForm[sl][5];
-        String[] textt = {"Dung lượng lưu trữ", "RAM", "Màu sắc", "Giá nhập", "Giá xuất"};
-        for (int i = 0; i < sl; i++) {
-            for (int j = 0; j < 5; j++) {
-                ipform[i][j] = new InputForm(textt[j]);
-                pn3_top.add(ipform[i][j]);
-            }
-        }
-        JScrollPane jcr = new JScrollPane(pn3_top, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        JPanel pnbottom2 = new JPanel(new FlowLayout());
-        pnbottom2.setBorder(new EmptyBorder(6, 0, 6, 0));
-        pnbottom2.setBackground(Color.white);
-        ButtonCustom btnThemCHMS2 = new ButtonCustom("Tạo giá cấu hình", "success", 14);
-        btnThemCHMS2.addActionListener(this);
-        ButtonCustom btnHuyBo2 = new ButtonCustom("Huỷ bỏ", "danger", 14);
-        pnbottom2.add(btnThemCHMS2);
-        pnbottom2.add(btnHuyBo2);
-        pn3.add(jcr, BorderLayout.CENTER);
-        pn3.add(pnbottom2, BorderLayout.SOUTH);
     }
 
     public void initComponents(String title, String type) {
@@ -263,11 +191,9 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
 
         initCardOne();
         initCardTwo();
-        initCardThree();
 
         pnmain.add(pnCenter);
         pnmain.add(pncard2);
-        pnmain.add(pn3);
 
         this.add(titlePage, BorderLayout.NORTH);
         this.add(pnmain, BorderLayout.CENTER);
@@ -294,12 +220,17 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == btnThemCHMS) {
-            if (validateCardOne()) {
-                getInfo();
-                CardLayout c = (CardLayout) pnmain.getLayout();
-                c.next(pnmain);
-            }
+            CardLayout c = (CardLayout) pnmain.getLayout();
+            c.next(pnmain);
         }
+    }
+
+    public int getRowCauHinh() {
+        int index = tblcauhinh.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn cấu hình !");
+        }
+        return index;
     }
 
     public DanhMucSanPhamDTO getInfo() {
@@ -314,9 +245,9 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         String camtruoc = cameratruoc.getText();
         int tgbh = Integer.parseInt(thoigianbaohanh.getText());
         int pb = Integer.parseInt(phienbanhdh.getText());
-        int thuonghieu = thuonghieuBus.getAll().get(this.thuonghieu.getSelectedIndex()).getMathuonghieu();
+        int vthuonghieu = thuonghieuBus.getAll().get(this.thuonghieu.getSelectedIndex()).getMathuonghieu();
         int khuvuckho = kvkhoBus.getAll().get(this.khuvuc.getSelectedIndex()).getMakhuvuckho();
-        DanhMucSanPhamDTO result = new DanhMucSanPhamDTO(jpSP.spBUS.spDAO.getAutoIncrement(), vtensp, hinhanh, vxuatxu, vchipxuly, vdungluongpin, ktman, hdh, pb, camsau, camtruoc, tgbh, thuonghieu, khuvuckho, 0);
+        DanhMucSanPhamDTO result = new DanhMucSanPhamDTO(maloaisp, vtensp, hinhanh, vxuatxu, vchipxuly, vdungluongpin, ktman, hdh, pb, camsau, camtruoc, tgbh, vthuonghieu, khuvuckho, 0);
         JOptionPane.showMessageDialog(this, result);
         return result;
     }
@@ -340,13 +271,6 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         tblModelch.setRowCount(0);
         for (int i = 0; i < listch.size(); i++) {
             tblModelch.addRow(new Object[]{i + 1, listch.get(i).getRom(), listch.get(i).getRam()});
-        }
-    }
-
-    public void loadDataToTableMauSac() {
-        tblModelmausac.setRowCount(0);
-        for (int i = 0; i < listms.size(); i++) {
-            tblModelmausac.addRow(new Object[]{i + 1, listms.get(i).getTenmau()});
         }
     }
 }

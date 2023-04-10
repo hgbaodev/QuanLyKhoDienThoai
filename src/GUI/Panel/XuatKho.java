@@ -1,6 +1,5 @@
 package GUI.Panel;
 
-import BUS.DanhMucSanPhamBUS;
 import DAO.KhachHangDAO;
 import DAO.DanhMucSanPhamDAO;
 import DTO.ChiTietPhieuDTO;
@@ -44,8 +43,8 @@ public class XuatKho extends JPanel implements ActionListener {
     MainFunction mainFunction;
     IntegratedSearch search;
 
-    public DanhMucSanPhamBUS sanphamBUS = new DanhMucSanPhamBUS();
-    public ArrayList<DanhMucSanPhamDTO> listsp = sanphamBUS.getAll();
+//    public DanhMucSanPhamBUS sanphamBUS = new DanhMucSanPhamBUS();
+//    public ArrayList<DanhMucSanPhamDTO> listsp = sanphamBUS.getAll();
     DanhMucSanPhamDTO sp = new DanhMucSanPhamDTO();
     public ArrayList<ChiTietPhieuDTO> CTPhieu = new ArrayList<>();
 
@@ -116,8 +115,8 @@ public class XuatKho extends JPanel implements ActionListener {
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 String txt = search.txtSearchForm.getText();
-                listsp = sanphamBUS.search(txt);
-                loadDataTableSanPham(listsp);
+//                listsp = sanphamBUS.search(txt);
+//                loadDataTableSanPham(listsp);
             }
         });
         left_top.add(search);
