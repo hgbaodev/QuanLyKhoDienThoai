@@ -4,32 +4,32 @@
  */
 package DTO;
 
+import java.util.Objects;
+
 /**
  *
  * @author Tran Nhat Sinh
  */
 public class CauHinhSanPhamDTO {
-    private int madmsp;
     private int macauhinh;
-    private int rom;
+    private int masp;
     private int ram;
-
-    public CauHinhSanPhamDTO(int madmsp, int macauhinh, int rom, int ram) {
-        this.madmsp = madmsp;
-        this.macauhinh = macauhinh;
-        this.rom = rom;
-        this.ram = ram;
-    }
+    private int rom;
+    private int mausac;
+    private int gianhap;
+    private int giaxuat;
 
     public CauHinhSanPhamDTO() {
     }
 
-    public int getMadmsp() {
-        return madmsp;
-    }
-
-    public void setMadmsp(int madmsp) {
-        this.madmsp = madmsp;
+    public CauHinhSanPhamDTO(int macauhinh, int masp, int ram, int rom, int mausac, int gianhap, int giaxuat) {
+        this.macauhinh = macauhinh;
+        this.masp = masp;
+        this.ram = ram;
+        this.rom = rom;
+        this.mausac = mausac;
+        this.gianhap = gianhap;
+        this.giaxuat = giaxuat;
     }
 
     public int getMacauhinh() {
@@ -40,12 +40,12 @@ public class CauHinhSanPhamDTO {
         this.macauhinh = macauhinh;
     }
 
-    public int getRom() {
-        return rom;
+    public int getMasp() {
+        return masp;
     }
 
-    public void setRom(int rom) {
-        this.rom = rom;
+    public void setMasp(int masp) {
+        this.masp = masp;
     }
 
     public int getRam() {
@@ -56,13 +56,48 @@ public class CauHinhSanPhamDTO {
         this.ram = ram;
     }
 
+    public int getRom() {
+        return rom;
+    }
+
+    public void setRom(int rom) {
+        this.rom = rom;
+    }
+
+    public int getMausac() {
+        return mausac;
+    }
+
+    public void setMausac(int mausac) {
+        this.mausac = mausac;
+    }
+
+    public int getGianhap() {
+        return gianhap;
+    }
+
+    public void setGianhap(int gianhap) {
+        this.gianhap = gianhap;
+    }
+
+    public int getGiaxuat() {
+        return giaxuat;
+    }
+
+    public void setGiaxuat(int giaxuat) {
+        this.giaxuat = giaxuat;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + this.madmsp;
-        hash = 83 * hash + this.macauhinh;
-        hash = 83 * hash + this.rom;
-        hash = 83 * hash + this.ram;
+        int hash = 7;
+        hash = 59 * hash + this.macauhinh;
+        hash = 59 * hash + this.masp;
+        hash = 59 * hash + this.ram;
+        hash = 59 * hash + this.rom;
+        hash = 59 * hash + Objects.hashCode(this.mausac);
+        hash = 59 * hash + this.gianhap;
+        hash = 59 * hash + this.giaxuat;
         return hash;
     }
 
@@ -78,22 +113,29 @@ public class CauHinhSanPhamDTO {
             return false;
         }
         final CauHinhSanPhamDTO other = (CauHinhSanPhamDTO) obj;
-        if (this.madmsp != other.madmsp) {
+        if (this.macauhinh != other.macauhinh) {
             return false;
         }
-        if (this.macauhinh != other.macauhinh) {
+        if (this.masp != other.masp) {
+            return false;
+        }
+        if (this.ram != other.ram) {
             return false;
         }
         if (this.rom != other.rom) {
             return false;
         }
-        return this.ram == other.ram;
+        if (this.gianhap != other.gianhap) {
+            return false;
+        }
+        if (this.giaxuat != other.giaxuat) {
+            return false;
+        }
+        return Objects.equals(this.mausac, other.mausac);
     }
 
     @Override
     public String toString() {
-        return "CauHinhSanPhamDTO{" + "madmsp=" + madmsp + ", macauhinh=" + macauhinh + ", rom=" + rom + ", ram=" + ram + '}';
+        return "CauHinhSanPhamDTO{" + "macauhinh=" + macauhinh + ", masp=" + masp + ", ram=" + ram + ", rom=" + rom + ", mausac=" + mausac + ", gianhap=" + gianhap + ", giaxuat=" + giaxuat + '}';
     }
-    
-    
 }
