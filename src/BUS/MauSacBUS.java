@@ -24,5 +24,11 @@ public class MauSacBUS {
         return this.listMauSac;
     }
     
-    
+    public String[] getArrTenMauSac() {
+        String[] result = new String[listMauSac.size()];
+        for(int i = 0; i < listMauSac.size(); i++) {
+            result[i] = listMauSac.get(i).getTenmau();
+        }
+        return result;
+    }
 }
