@@ -26,7 +26,7 @@ public class TaiKhoanDAO implements DAOinterface<TaiKhoanDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `taikhoan`(`manv`,`username`,`matkhau`,`manhomquyen`,`trangthai`) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO `taikhoan`(`manv`,`tendangnhap`,`matkhau`,`manhomquyen`,`trangthai`) VALUES (?,?,?,?,?)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, t.getManv());
             pst.setString(2, t.getUsername());
@@ -46,10 +46,13 @@ public class TaiKhoanDAO implements DAOinterface<TaiKhoanDTO>{
           int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `taikhoan` SET `email`='?',`hoten`='?',`matkhau`='?',`trangthai`='?',"
-                    + "`makhohang`='?',`manhomquyen`='?' WHERE email=?";
+            String sql = "UPDATE `taikhoan` SET `tendangnhap`=?,`matkhau`=?,`trangthai`=?,`manhomquyen`=? WHERE manv=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            
+            pst.setString(1, t.getUsername());
+            pst.setString(2, t.getMatkhau());
+            pst.setInt(3, t.getTrangthai());
+            pst.setInt(4, t.getManhomquyen());
+            pst.setInt(5, t.getManv());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -63,9 +66,9 @@ public class TaiKhoanDAO implements DAOinterface<TaiKhoanDTO>{
          int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM taikhoan WHERE email = '?'";
+            String sql = "UPDATE `taikhoan` SET `trangthai`='-1' where manv = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t);
+            pst.setInt(1, Integer.parseInt(t));
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -84,7 +87,7 @@ public class TaiKhoanDAO implements DAOinterface<TaiKhoanDTO>{
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
                 int manv = rs.getInt("manv");
-                String username = rs.getString("username");
+                String username = rs.getString("tendangnhap");
                 String matkhau = rs.getString("matkhau");
                 int manhomquyen = rs.getInt("manhomquyen");
                 int trangthai = rs.getInt("trangthai");
