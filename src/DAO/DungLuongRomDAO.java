@@ -45,7 +45,7 @@ public class DungLuongRomDAO implements DAOinterface<DungLuongRomDTO>{
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
-                int marom = rs.getInt("marom");
+                int marom = rs.getInt("madlrom");
                 int kichthuocrom = rs.getInt("kichthuocrom");
                 DungLuongRomDTO dlr = new DungLuongRomDTO(marom, kichthuocrom);
                 result.add(dlr);

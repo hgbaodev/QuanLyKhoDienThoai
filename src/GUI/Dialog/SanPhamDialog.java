@@ -1,6 +1,9 @@
 package GUI.Dialog;
 
+import BUS.DungLuongRamBUS;
+import BUS.DungLuongRomBUS;
 import BUS.KhuVucKhoBUS;
+import BUS.MauSacBUS;
 import BUS.ThuongHieuBUS;
 import DTO.CauHinhSanPhamDTO;
 import DTO.DanhMucSanPhamDTO;
@@ -48,7 +51,8 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     private JPanel pninfosanpham, pnbottom, pnCenter, pninfosanphamright, pnmain, pncard2;
     private ButtonCustom btnThemCHMS, btnHuyBo, btnAddCauHinh, btnEditCauHinh, btnDeleteCauHinh, btnAddSanPham, btnBack;
     InputForm tenSP, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, thoigianbaohanh, phienbanhdh, camerasau, cameratruoc;
-    InputForm txtrom, txtram, txtmausac, txtgianhap, txtgiaxuat;
+    InputForm txtgianhap, txtgiaxuat;
+    SelectForm cbxRom, cbxRam, cbxMausac;
     SelectForm thuonghieu, khuvuc;
     InputImage hinhanh;
     JTable tblcauhinh;
@@ -59,6 +63,9 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
 
     KhuVucKhoBUS kvkhoBus = new KhuVucKhoBUS();
     ThuongHieuBUS thuonghieuBus = new ThuongHieuBUS();
+    DungLuongRamBUS ramBus = new DungLuongRamBUS();
+    DungLuongRomBUS romBus = new DungLuongRomBUS();
+    MauSacBUS mausacBus = new MauSacBUS();
 
     ArrayList<CauHinhSanPhamDTO> listch = new ArrayList<>();
 
@@ -127,14 +134,14 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     public void initCardTwo() {
         pncard2 = new JPanel(new BorderLayout());
         JPanel cauhinhtop = new JPanel(new GridLayout(1, 5));
-        txtrom = new InputForm("ROM");
-        txtram = new InputForm("RAM");
-        txtmausac = new InputForm("Màu sắc");
+        cbxRom = new SelectForm("ROM", romBus.getArrKichThuoc());
+        cbxRam = new SelectForm("RAM", ramBus.getArrKichThuoc());
+        cbxMausac = new SelectForm("Màu sắc", mausacBus.getArrTenMauSac());
         txtgianhap = new InputForm("Giá nhập");
         txtgiaxuat = new InputForm("Giá xuất");
-        cauhinhtop.add(txtrom);
-        cauhinhtop.add(txtram);
-        cauhinhtop.add(txtmausac);
+        cauhinhtop.add(cbxRom);
+        cauhinhtop.add(cbxRam);
+        cauhinhtop.add(cbxMausac);
         cauhinhtop.add(txtgianhap);
         cauhinhtop.add(txtgiaxuat);
 
@@ -172,6 +179,11 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         btnAddCauHinh = new ButtonCustom("Thêm cấu hình", "success", 14);
         btnEditCauHinh = new ButtonCustom("Sửa cấu hình", "warning", 14);
         btnDeleteCauHinh = new ButtonCustom("Xoá cấu hình", "danger", 14);
+
+        btnAddCauHinh.addActionListener(this);
+        btnEditCauHinh.addActionListener(this);
+        btnDeleteCauHinh.addActionListener(this);
+
         cauhinhcenter_right.add(btnAddCauHinh);
         cauhinhcenter_right.add(btnEditCauHinh);
         cauhinhcenter_right.add(btnDeleteCauHinh);
@@ -228,6 +240,8 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         } else if (source == btnBack) {
             CardLayout c = (CardLayout) pnmain.getLayout();
             c.previous(pnmain);
+        } else if (source == btnAddCauHinh) {
+
         }
     }
 
@@ -258,6 +272,16 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         return result;
     }
 
+    public CauHinhSanPhamDTO getCauHinh() {
+        int rom = cbxRom.getSelectedIndex();
+        int ram = cbxRam.getSelectedIndex();
+        int mausac = cbxMausac.getSelectedIndex();
+        int gianhap = Integer.parseInt(txtgianhap.getText());
+        int giaban = Integer.parseInt(txtgiaxuat.getText());
+        CauHinhSanPhamDTO chsp = new CauHinhSanPhamDTO(0, 0, ram, rom, mausac, gianhap, giaban);
+        return chsp;
+    }
+
     public boolean validateCardOne() {
         boolean check = true;
         if (Validation.isEmpty(tenSP.getText()) && Validation.isEmpty(xuatxu.getText())
@@ -271,6 +295,15 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
             // Check number 
         }
         return check;
+    }
+
+    public boolean validateCardTwo() {
+        boolean check = true;
+        if (Validation.isEmpty(txtgianhap.getText()) && Validation.isEmpty(txtgiaxuat.getText())) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !");
+        } else {
+            
+        }
     }
 
     public void loadDataToTableCauHinh() {

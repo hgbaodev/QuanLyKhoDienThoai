@@ -27,7 +27,7 @@ public class DungLuongRomBUS {
     public String[] getArrKichThuoc() {
         String[] result = new String[listRom.size()];
         for(int i = 0; i < listRom.size(); i++) {
-            result[i] = Integer.toString(listRom.get(i).getDungluongrom());
+            result[i] = Integer.toString(listRom.get(i).getDungluongrom())+"GB";
         }
         return result;
     }

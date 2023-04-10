@@ -27,7 +27,7 @@ public class DungLuongRamBUS {
     public String[] getArrKichThuoc() {
         String[] result = new String[listRam.size()];
         for(int i = 0; i < listRam.size(); i++) {
-            result[i] = Integer.toString(listRam.get(i).getDungluongram());
+            result[i] = Integer.toString(listRam.get(i).getDungluongram())+"GB";
         }
         return result;
     }

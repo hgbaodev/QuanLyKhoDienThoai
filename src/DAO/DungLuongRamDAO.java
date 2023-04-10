@@ -42,7 +42,7 @@ public class DungLuongRamDAO implements DAOinterface<DungLuongRamDTO>{
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
-                int maram = rs.getInt("maram");
+                int maram = rs.getInt("madlram");
                 int kichthuocram = rs.getInt("kichthuocram");
                 DungLuongRamDTO dlr = new DungLuongRamDTO(maram, kichthuocram);
                 result.add(dlr);
