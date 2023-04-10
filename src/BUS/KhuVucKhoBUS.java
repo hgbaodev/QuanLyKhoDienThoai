@@ -80,12 +80,30 @@ public class KhuVucKhoBUS {
         return vitri;
     }
 
-    public ArrayList<KhuVucKhoDTO> search(String text) {
-        text = text.toLowerCase();
+    public ArrayList<KhuVucKhoDTO> search(String txt, String type) {
         ArrayList<KhuVucKhoDTO> result = new ArrayList<>();
-        for (KhuVucKhoDTO i : this.listKVK) {
-            if (Integer.toString(i.getMakhuvuckho()).toLowerCase().contains(text) || i.getTenkhuvuc().toLowerCase().contains(text)) {
-                result.add(i);
+        txt = txt.toLowerCase();
+        switch (type) {
+            case "Tất cả" -> {
+                for (KhuVucKhoDTO i : listKVK) {
+                    if (Integer.toString(i.getMakhuvuckho()).contains(txt) || i.getTenkhuvuc().toLowerCase().contains(txt)){
+                        result.add(i);
+                    }
+                }
+            }
+            case "Mã khu vực kho" -> {
+                for (KhuVucKhoDTO i : listKVK) {
+                    if (Integer.toString(i.getMakhuvuckho()).contains(txt)) {
+                        result.add(i);
+                    }
+                }
+            }
+            case "Tên khu vực kho" -> {
+                for (KhuVucKhoDTO i : listKVK) {
+                    if (i.getTenkhuvuc().toLowerCase().contains(txt)) {
+                        result.add(i);
+                    }
+                }
             }
         }
         return result;
