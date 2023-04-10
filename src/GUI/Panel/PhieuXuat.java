@@ -123,7 +123,7 @@ public class PhieuXuat extends JPanel implements ActionListener{
         if (e.getSource() == mainFunction.btnAdd) {
 
 
-                xuatKho = new XuatKho();
+                xuatKho = new XuatKho(this.m);
                 m.MainContent.removeAll();
                 m.MainContent.add(xuatKho).setVisible(true);
                 m.MainContent.repaint();
