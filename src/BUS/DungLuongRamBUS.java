@@ -64,29 +64,26 @@ public class DungLuongRamBUS {
     public boolean update(DungLuongRamDTO dlram) {
         boolean check = dlramDAO.update(dlram) != 0;
         if (check) {
-            this.listDLRam.set(getIndexByMaKVK(dlram.getMadlram()), dlram);
+            this.listDLRam.set(getIndexById(dlram.getMadlram()), dlram);
         }
         return check;
     }
 
-    public int getIndexByMaKVK(int madlram) {
+    public int getIndexById(int madlram) {
         int i = 0;
         int vitri = -1;
         while (i < this.listDLRam.size() && vitri == -1) {
             if (listDLRam.get(i).getMadlram()== madlram) {
                 vitri = i;
-                break;
-            } else {
-                i++;
-            }
+            } else i++;
         }
         return vitri;
     }
     
     public String[] getArrKichThuoc() {
-        String[] result = new String[listRam.size()];
-        for(int i = 0; i < listRam.size(); i++) {
-            result[i] = Integer.toString(listRam.get(i).getDungluongram())+"GB";
+        String[] result = new String[listDLRam.size()];
+        for(int i = 0; i < listDLRam.size(); i++) {
+            result[i] = Integer.toString(listDLRam.get(i).getDungluongram())+"GB";
         }
         return result;
     }

@@ -13,6 +13,7 @@ import GUI.Component.InputForm;
 import GUI.Component.InputImage;
 import GUI.Component.SelectForm;
 import GUI.Panel.SanPham;
+import helper.Formater;
 import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -241,7 +242,10 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
             CardLayout c = (CardLayout) pnmain.getLayout();
             c.previous(pnmain);
         } else if (source == btnAddCauHinh) {
-
+            if(validateCardTwo()) {
+                listch.add(getCauHinh());
+                loadDataToTableCauHinh();
+            }
         }
     }
 
@@ -301,15 +305,19 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         boolean check = true;
         if (Validation.isEmpty(txtgianhap.getText()) && Validation.isEmpty(txtgiaxuat.getText())) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !");
+            check = false;
         } else {
             
         }
+        return check;
     }
 
     public void loadDataToTableCauHinh() {
         tblModelch.setRowCount(0);
         for (int i = 0; i < listch.size(); i++) {
-            tblModelch.addRow(new Object[]{i + 1, listch.get(i).getRom(), listch.get(i).getRam()});
+            tblModelch.addRow(new Object[]{i + 1, listch.get(i).getRam(), listch.get(i).getRom(), 
+                listch.get(i).getMausac(), Formater.FormatVND(listch.get(i).getGianhap()), Formater.FormatVND(listch.get(i).getGiaxuat())
+            });
         }
     }
 }
