@@ -100,10 +100,9 @@ public class XuatKho extends JPanel implements ActionListener {
         this.add(contentCenter, BorderLayout.CENTER);
 
         left = new JPanel();
-        left.setPreferredSize(new Dimension(500, 0));
         left.setLayout(new BorderLayout(0, 5));
         left.setOpaque(false);
-        contentCenter.add(left, BorderLayout.WEST);
+        contentCenter.add(left, BorderLayout.CENTER);
 
         left_top = new PanelBorderRadius();
         left_top.setPreferredSize(new Dimension(0, 100));
@@ -164,16 +163,17 @@ public class XuatKho extends JPanel implements ActionListener {
 
         // main là phần ở dưới để thống kê bảng biểu
         main = new JPanel();
+        main.setPreferredSize(new Dimension(500, 0));
         main.setLayout(new BorderLayout(0, 5));
         main.setOpaque(false);
-        contentCenter.add(main, BorderLayout.CENTER);
+        contentCenter.add(main, BorderLayout.EAST);
 
         main_top = new PanelBorderRadius();
         main_top.setPreferredSize(new Dimension(0, 220));
         BoxLayout b3 = new BoxLayout(main_top, BoxLayout.Y_AXIS);
         main_top.setLayout(b3);
         main_top.setBorder(new EmptyBorder(5, 20, 20, 20));
-        main.add(main_top, BorderLayout.NORTH);
+//        main.add(main_top, BorderLayout.NORTH);
 
         pnl = new JPanel[n];
         lbl = new JLabel[n];
@@ -218,31 +218,9 @@ public class XuatKho extends JPanel implements ActionListener {
         main_center.setBorder(new EmptyBorder(20, 20, 20, 20));
         main.add(main_center, BorderLayout.CENTER);
 
-        tableXuatKho = new JTable();
-        scrTableNhapKho = new JScrollPane();
-        tableXuatKho.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
-        tableXuatKho.setFont(new java.awt.Font("Segoe UI", 0, 14));
-        tblModelXuatKho = new DefaultTableModel();
-        String[] header1 = new String[]{"Mã sản phẩm", "Tên sẩn phẩm", "Số lượng", "Đơn giá"};
-        tblModelXuatKho.setColumnIdentifiers(header1);
-        tableXuatKho.setModel(tblModelXuatKho);
-        scrTableNhapKho.setViewportView(tableXuatKho);
-        DefaultTableCellRenderer centerRenderer1 = new DefaultTableCellRenderer();
-        centerRenderer1.setHorizontalAlignment(JLabel.CENTER);
-        tableXuatKho.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tableXuatKho.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        tableXuatKho.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        tableXuatKho.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        //tableXuatKho.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-
-        main_center.add(scrTableNhapKho);
-
         main_bottom = new PanelBorderRadius();
         main_bottom.setPreferredSize(new Dimension(0, 140));
-        main_bottom.setLayout(new FlowLayout(1,5, 5));
+        main_bottom.setLayout(new FlowLayout(1, 5, 5));
         main_bottom.setBorder(new EmptyBorder(5, 20, 20, 20));
         main.add(main_bottom, BorderLayout.SOUTH);
 
@@ -287,8 +265,8 @@ public class XuatKho extends JPanel implements ActionListener {
     public void loadDataTableSanPham(ArrayList<DTO.DanhMucSanPhamDTO> result) {
         tblModelSanPham.setRowCount(0);
         for (DTO.DanhMucSanPhamDTO sanPham : result) {
-            tblModelSanPham.addRow(new Object[]{
-//                sanPham.getMasp(), sanPham.getTensp(), sanPham.getGianhap(), sanPham.getGiaxuat()
+            tblModelSanPham.addRow(new Object[]{                 
+                sanPham.getMadanhmuc(), sanPham.getTendanhmuc(), sanPham.getHedieuhanh(), sanPham.getThuonghieu()
             });
         }
     }
