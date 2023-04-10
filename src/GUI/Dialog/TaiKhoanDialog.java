@@ -60,7 +60,7 @@ public class TaiKhoanDialog extends JDialog{
         this.taiKhoan = taiKhoan;
         username.setText(tk.getUsername());
         password.setPass(tk.getMatkhau());
-        maNhomQuyen.setSelectedIndex(tk.getManhomquyen());
+        maNhomQuyen.setSelectedIndex(tk.getManhomquyen()-1);
         trangthai.setSelectedIndex(tk.getTrangthai());
         setLocationRelativeTo(null);
         setVisible(true);
@@ -113,6 +113,7 @@ public class TaiKhoanDialog extends JDialog{
                 int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getManhomquyen();
                 int tt = trangthai.getSelectedIndex();
                 TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, pass, manhom, tt);
+                System.out.println(tk);
                 TaiKhoanDAO.getInstance().update(tk);
                 taiKhoan.taiKhoanBus.updateAcc(taiKhoan.getRow(), tk);
                 taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());
@@ -130,6 +131,7 @@ public class TaiKhoanDialog extends JDialog{
             case "create" -> pnbottom.add(btnThem);
             case "update" -> {
                 pnbottom.add(btnCapNhat);
+                password.setDisablePass();
             }
             case "view" -> {
                 username.setDisable();

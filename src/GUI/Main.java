@@ -1,5 +1,6 @@
 package GUI;
 
+import DTO.TaiKhoanDTO;
 import GUI.Panel.TrangChu;
 import GUI.Panel.TaiKhoan;
 import GUI.Panel.PhieuNhap;
@@ -24,6 +25,7 @@ import java.awt.event.MouseEvent;
 
 public class Main extends JFrame {
     public JPanel MainContent;
+    TaiKhoanDTO user;
     Color MainColor = new Color(250, 250, 250);
     TrangChu trangChu;
     SanPham sanPham;
@@ -47,7 +49,12 @@ public class Main extends JFrame {
         this.setTitle("Hệ thống quản lý kho hàng ");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        menuTaskbar = new MenuTaskbar();
+        if(user!=null){
+            menuTaskbar = new MenuTaskbar(this,user);
+        } else {
+            menuTaskbar = new MenuTaskbar();
+        }
+        
         menuTaskbar.setPreferredSize(new Dimension(250, 1400));
 
         this.add(menuTaskbar, BorderLayout.WEST);
@@ -152,6 +159,11 @@ public class Main extends JFrame {
     }
 
     public Main() {
+        initComponent();
+    }
+    
+    public Main(TaiKhoanDTO user) {
+        this.user = user;
         initComponent();
     }
 

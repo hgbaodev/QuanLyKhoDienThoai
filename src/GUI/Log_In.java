@@ -1,7 +1,13 @@
 package GUI;
 
+import DAO.TaiKhoanDAO;
+import DTO.TaiKhoanDTO;
+import GUI.Component.InputForm;
 import GUI.Dialog.QuenMatKhau;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import helper.BCrypt;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -11,7 +17,7 @@ public class Log_In extends JFrame {
 
     JPanel pnlMain, pnlLogIn;
     JLabel lblImage, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7;
-    JTextField txtUsername, txtPassword;
+    InputForm txtUsername, txtPassword;
 
     Color FontColor = new Color(96, 125, 139);
 
@@ -34,42 +40,34 @@ public class Log_In extends JFrame {
 
         lbl1 = new JLabel("HỆ THỐNG QUẢN LÝ");
         lbl1.setPreferredSize(new Dimension(400, 50));
-        lbl1.setFont(new Font("Segoe UI Black", Font.BOLD, 36));
+        lbl1.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 36));
         pnlMain.add(lbl1);
 
         lbl2 = new JLabel("KHO HÀNG HOÁ");
         lbl2.setPreferredSize(new Dimension(350, 50));
-        lbl2.setFont(new Font("Segoe UI Black", Font.BOLD, 40));
+        lbl2.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 40));
         pnlMain.add(lbl2);
-
+        
         lbl3 = new JLabel("Đăng nhập để tiếp tục");
         lbl3.setPreferredSize(new Dimension(400, 50));
         lbl3.setFont(new Font("Segoe UI Light", Font.BOLD, 24));
         pnlMain.add(lbl3);
 
-        lbl4 = new JLabel("Tài khoản");
-        lbl4.setPreferredSize(new Dimension(400, 40));
-        lbl4.setFont(new Font("Segoe UI Light", Font.BOLD, 20));
-        pnlMain.add(lbl4);
-
-        txtUsername = new JTextField();
-        txtUsername.setPreferredSize(new Dimension(400, 35));
-        txtUsername.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        pnlMain.add(txtUsername);
-
-        lbl5 = new JLabel("Mật khẩu");
-        lbl5.setPreferredSize(new Dimension(400, 40));
-        lbl5.setFont(new Font("Segoe UI Light", Font.BOLD, 20));
-        pnlMain.add(lbl5);
-
-        txtPassword = new JTextField();
-        txtPassword.setPreferredSize(new Dimension(400, 35));
-        txtPassword.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        pnlMain.add(txtPassword);
+        JPanel paneldn = new JPanel();
+        paneldn.setBackground(Color.BLACK);
+        paneldn.setPreferredSize(new Dimension(400,220));
+        paneldn.setLayout(new GridLayout(2,1));
+        
+        txtUsername = new InputForm("Tên đăng nhập");
+        paneldn.add(txtUsername);
+        txtPassword = new InputForm("Mật khẩu", "password");
+        paneldn.add(txtPassword);
+        
+        pnlMain.add(paneldn);
 
         lbl6 = new JLabel("ĐĂNG NHẬP");
         lbl6.setPreferredSize(new Dimension(150, 40));
-        lbl6.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        lbl6.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lbl6.setForeground(Color.white);
 
         pnlLogIn = new JPanel();
@@ -120,18 +118,29 @@ public class Log_In extends JFrame {
 
     public void checkLogin() {
         String usernameCheck = txtUsername.getText();
-        String passwordCheck = txtPassword.getText();
+        String passwordCheck = txtPassword.getPass();
         if (usernameCheck.equals("") || passwordCheck.equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin đầy đủ", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
-        } else if (usernameCheck.equals("admin") && passwordCheck.equals("123")) {
-            Main main = new Main();
-            this.setVisible(false);
-            main.setVisible(true);
-
         } else {
-            JOptionPane.showMessageDialog(this, "Sai tai khoan hoac mat khau!", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+            TaiKhoanDTO tk = TaiKhoanDAO.getInstance().selectByUser(usernameCheck);
+            if(tk == null){
+                JOptionPane.showMessageDialog(this, "Tài khoản của bạn không tồn tại trên hệ thống", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+            } else {
+                if(BCrypt.checkpw(passwordCheck, tk.getMatkhau())){
+                    this.dispose();
+                    Main main = new Main(tk);
+                    main.setVisible(true);
+                } else{
+                    JOptionPane.showMessageDialog(this, "Mật khẩu không khớp", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+                }
+                
+            }
         }
     }
+    
+   
+    
+    
 
     private void pnlLogInMousePressed(java.awt.event.MouseEvent evt) {
 
@@ -150,6 +159,8 @@ public class Log_In extends JFrame {
     }
 
     public static void main(String[] args) {
+        UIManager.put( "PasswordField.showRevealButton", true );
+        FlatIntelliJLaf.registerCustomDefaultsSource("style");
         FlatLightLaf.setup();
         Log_In login = new Log_In();
         login.setVisible(true);
