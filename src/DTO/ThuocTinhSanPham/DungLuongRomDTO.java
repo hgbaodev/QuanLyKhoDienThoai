@@ -66,6 +66,4 @@ public class DungLuongRomDTO{
     public String toString() {
         return "DungLuongRomDTO{" + "madungluongrom=" + madungluongrom + ", dungluongrom=" + dungluongrom + '}';
     }
-    
-    
 }
