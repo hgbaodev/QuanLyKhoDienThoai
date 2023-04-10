@@ -124,7 +124,7 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
             String email = this.email.getText();
             String sodienthoai = this.sodienthoai.getText();
             jpNcc.nccBUS.add(new NhaCungCapDTO(mancc, tenNcc, diachi, email, sodienthoai));
-            jpNcc.loadDataTalbe(jpNcc.listncc);
+            jpNcc.loadDataTable(jpNcc.listncc);
             dispose();
         } else if (e.getSource() == btnHuyBo) {
             dispose();
@@ -134,7 +134,7 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
             String email = this.email.getText();
             String sodienthoai = this.sodienthoai.getText();
             jpNcc.nccBUS.update(new NhaCungCapDTO(nccDTO.getMancc(), tenNcc, diachi, email, sodienthoai));
-            jpNcc.loadDataTalbe(jpNcc.listncc);
+            jpNcc.loadDataTable(jpNcc.listncc);
             dispose();
         }
     }

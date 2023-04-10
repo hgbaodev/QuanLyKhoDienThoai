@@ -86,7 +86,7 @@ public final class SanPham extends JPanel implements ActionListener {
             @Override
             public void keyReleased(KeyEvent e) {
                 String txt = search.txtSearchForm.getText();
-                listSP = spBUS.search(txt);
+//                listSP = spBUS.search(txt);
                 loadDataTalbe(listSP);
             }
 
@@ -94,7 +94,7 @@ public final class SanPham extends JPanel implements ActionListener {
 
         search.btnReset.addActionListener((ActionEvent e) -> {
             search.txtSearchForm.setText("");
-            listSP = spBUS.getAll();
+//            listSP = spBUS.getAll();
             loadDataTalbe(listSP);
         });
         functionBar.add(search);

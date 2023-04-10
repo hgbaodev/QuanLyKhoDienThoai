@@ -2,6 +2,7 @@ package GUI.Panel;
 
 import GUI.Dialog.NhaCungCapDialog;
 import BUS.NhaCungCapBUS;
+import DAO.NhaCungCapDAO;
 import DTO.NhaCungCapDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -19,8 +20,19 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class NhaCungCap extends JPanel implements ActionListener, ItemListener {
 
@@ -107,7 +119,7 @@ public class NhaCungCap extends JPanel implements ActionListener, ItemListener {
                 String type = (String) search.cbxChoose.getSelectedItem();
                 String txt = search.txtSearchForm.getText();
                 listncc = nccBUS.search(txt, type);
-                loadDataTalbe(listncc);
+                loadDataTable(listncc);
             }
         });
 
@@ -126,10 +138,10 @@ public class NhaCungCap extends JPanel implements ActionListener, ItemListener {
     public NhaCungCap() {
         initComponent();
         tableNhaCungCap.setDefaultEditor(Object.class, null);
-        loadDataTalbe(listncc);
+        loadDataTable(listncc);
     }
 
-    public void loadDataTalbe(ArrayList<NhaCungCapDTO> result) {
+    public void loadDataTable(ArrayList<NhaCungCapDTO> result) {
         tblModel.setRowCount(0);
         for (NhaCungCapDTO ncc : result) {
             tblModel.addRow(new Object[]{
@@ -146,7 +158,83 @@ public class NhaCungCap extends JPanel implements ActionListener, ItemListener {
             System.out.println(e);
         }
     }
+    public void exportExcel() {
+        try {
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.showSaveDialog(this);
+            File saveFile = jFileChooser.getSelectedFile();
+            if (saveFile != null) {
+                saveFile = new File(saveFile.toString() + ".xlsx");
+                Workbook wb = new XSSFWorkbook();
+                Sheet sheet = wb.createSheet("NHÀ CUNG CẤP");
+                Row rowCol = sheet.createRow(0);
+                for (int i = 0; i < tableNhaCungCap.getColumnCount(); i++) {
+                    Cell cell = rowCol.createCell(i);
+                    cell.setCellValue(tableNhaCungCap.getColumnName(i));
+                }
 
+                for (int j = 0; j < tableNhaCungCap.getRowCount(); j++) {
+                    Row row = sheet.createRow(j + 1);
+                    for (int k = 0; k < tableNhaCungCap.getColumnCount(); k++) {
+                        Cell cell = row.createCell(k);
+                        if (tableNhaCungCap.getValueAt(j, k) != null) {
+                            cell.setCellValue(tableNhaCungCap.getValueAt(j, k).toString());
+                        }
+
+                    }
+                }
+                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
+                wb.write(out);
+                wb.close();
+                out.close();
+                openFile(saveFile.toString());
+                JOptionPane.showMessageDialog(this, "Xuất file excel thành công");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi xuất file");
+        }
+    }
+
+    public void importExcel() {
+        File excelFile;
+        FileInputStream excelFIS = null;
+        BufferedInputStream excelBIS = null;
+        XSSFWorkbook excelJTableImport = null;
+        ArrayList<DTO.NhaCungCapDTO> listExcel = new ArrayList<DTO.NhaCungCapDTO>();
+        JFileChooser jf = new JFileChooser();
+        int result = jf.showOpenDialog(null);
+        jf.setDialogTitle("Open file");
+        Workbook workbook = null;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                excelFile = jf.getSelectedFile();
+                excelFIS = new FileInputStream(excelFile);
+                excelBIS = new BufferedInputStream(excelFIS);
+                excelJTableImport = new XSSFWorkbook(excelBIS);
+                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
+                    XSSFRow excelRow = excelSheet.getRow(row);
+                    int id = NhaCungCapDAO.getInstance().getAutoIncrement();
+                    String tenNCC = excelRow.getCell(0).getStringCellValue();
+                    String diachi = excelRow.getCell(1).getStringCellValue();
+                    String email = excelRow.getCell(2).getStringCellValue();
+                    String sdt = excelRow.getCell(3).getStringCellValue();
+                    nccBUS.add(new NhaCungCapDTO(id, tenNCC, diachi, email, sdt));
+                    tblModel.setRowCount(0);
+                    loadDataTable(listncc);
+                }
+            } catch (FileNotFoundException ex) {
+                System.out.println("Lỗi đọc file");
+            } catch (IOException ex) {
+                System.out.println("Lỗi đọc file");
+            }
+        }
+//        for (NhaCungCapDTO ncc : listExcel) {
+//            NhaCungCapDAO.getInstance().insert(ncc);
+//        }
+        loadDataTable(listncc);
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
@@ -168,7 +256,7 @@ public class NhaCungCap extends JPanel implements ActionListener, ItemListener {
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
                     nccBUS.delete(listncc.get(index), index);
-                    loadDataTalbe(listncc);
+                    loadDataTable(listncc);
                 }
             }
         } else if (e.getSource() == mainFunction.btnDetail) {
@@ -181,7 +269,13 @@ public class NhaCungCap extends JPanel implements ActionListener, ItemListener {
         } else if (e.getSource() == search.btnReset) {
             search.txtSearchForm.setText("");
             listncc = nccBUS.getAll();
-            loadDataTalbe(listncc);
+            loadDataTable(listncc);
+        }
+        else if(e.getSource()==mainFunction.btnNhapExcel){
+            importExcel();
+        }
+        else if(e.getSource()==mainFunction.btnXuatExcel){
+            exportExcel();
         }
     }
 
@@ -190,6 +284,6 @@ public class NhaCungCap extends JPanel implements ActionListener, ItemListener {
         String type = (String) search.cbxChoose.getSelectedItem();
         String txt = search.txtSearchForm.getText();
         listncc = nccBUS.search(txt, type);
-        loadDataTalbe(listncc);
+        loadDataTable(listncc);
     }
 }

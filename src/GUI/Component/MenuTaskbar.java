@@ -13,9 +13,7 @@ import javax.swing.*;
 //import GUI.Component.itemTaskbar;
 
 public class MenuTaskbar extends JPanel {
-
-    ArrayList<ChiTietQuyenDTO> listQuyen;
-    String st[] = {"Trang chủ", "Sản phẩm", "Thương hiệu", "Khu vực kho", "Kiểm kê", "Phiếu nhập", "Phiếu xuất", "Nhà cung cấp", "Khách hàng", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
+    String st[] = {"Trang chủ", "Sản phẩm", "Thương hiệu", "Khu vực kho", "Kiểm kê", "Phiếu nhập", "Phiếu xuất", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Phân quyền", "Đăng xuất"};
     String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/estimates_30px.png", "/icon/In Transit_30px.png", "/icon/supply_chain_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/user_rights_30px.png", "/icon/logout_30px.png"};
     String[][] getSt = {
         {"Trang chủ", "/icon/home_30px.png", "trangchu"},

@@ -24,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Main extends JFrame {
+
     public JPanel MainContent;
     TaiKhoanDTO user;
     Color MainColor = new Color(250, 250, 250);
