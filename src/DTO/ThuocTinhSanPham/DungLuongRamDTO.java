@@ -8,16 +8,16 @@ package DTO.ThuocTinhSanPham;
  *
  * @author Tran Nhat Sinh
  */
-public class DungLuongRAM {
+public class DungLuongRamDTO {
     private int madlram;
     private int dungluongram;
 
-    public DungLuongRAM(int madlram, int dungluongram) {
+    public DungLuongRamDTO(int madlram, int dungluongram) {
         this.madlram = madlram;
         this.dungluongram = dungluongram;
     }
 
-    public DungLuongRAM() {
+    public DungLuongRamDTO() {
     }
 
     public int getMadlram() {
@@ -55,7 +55,7 @@ public class DungLuongRAM {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DungLuongRAM other = (DungLuongRAM) obj;
+        final DungLuongRamDTO other = (DungLuongRamDTO) obj;
         if (this.madlram != other.madlram) {
             return false;
         }
