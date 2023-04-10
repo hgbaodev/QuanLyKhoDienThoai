@@ -160,7 +160,6 @@ public class TaiKhoan extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
             ListNhanVien listNV = new ListNhanVien(this, owner, "Chọn tài khoản", true);
-//            TaiKhoanDialog addTk = new TaiKhoanDialog(this, owner, "Thêm tài khoản", true, "create");
         } else if (e.getSource() == mainFunction.btnEdit) {
             int index = tableTaiKhoan.getSelectedRow();
             if (index == -1) {
