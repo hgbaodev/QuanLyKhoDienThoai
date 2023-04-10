@@ -2,6 +2,7 @@ package GUI.Panel;
 
 import DAO.KhachHangDAO;
 import DAO.DanhMucSanPhamDAO;
+import BUS.DanhMucSanPhamBUS;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuDTO;
 import DTO.KhachHangDTO;
@@ -286,7 +287,7 @@ public class XuatKho extends JPanel implements ActionListener {
         if (btn == btnChonSanPham) {
             ActionBtnChoose();
         }
-        if (btn == btnChonSanPham) {
+        if (btn == btnReturn) {
             ActionBtnReturn();
         }
 
