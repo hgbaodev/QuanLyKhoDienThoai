@@ -28,8 +28,8 @@ public class PhieuNhap extends JPanel implements ActionListener {
     Color BackgroundColor = new Color(239, 235, 233);
 
     public PhieuNhap(Main m) {
-        initComponent();
         this.m = m;
+        initComponent();
     }
 
     private void initComponent() {

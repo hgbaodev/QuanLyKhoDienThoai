@@ -1,6 +1,8 @@
 package GUI.Panel;
 
+import BUS.KhuVucKhoBUS;
 import BUS.SanPhamBUS;
+import BUS.ThuongHieuBUS;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -30,6 +32,9 @@ public final class SanPham extends JPanel implements ActionListener {
     IntegratedSearch search;
     DefaultTableModel tblModel;
     public SanPhamBUS spBUS = new SanPhamBUS();
+
+    public KhuVucKhoBUS kvkhoBus = new KhuVucKhoBUS();
+    public ThuongHieuBUS thuonghieuBus = new ThuongHieuBUS();
     public ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
@@ -42,14 +47,14 @@ public final class SanPham extends JPanel implements ActionListener {
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Xuất xứ", "Giá nhập", "Giá xuất", "Đơn vị tính", "Loại hàng", "Khu vực kho"};
+        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng tồn", "Thương hiệu", "Kích thước màn", "Hệ điều hành", "Xuất xứ", "Khu vực kho"};
         tblModel.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableSanPham);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         TableColumnModel columnModel = tableSanPham.getColumnModel();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 7; i++) {
             if (i != 1) {
                 columnModel.getColumn(i).setCellRenderer(centerRenderer);
             }
@@ -86,7 +91,7 @@ public final class SanPham extends JPanel implements ActionListener {
             @Override
             public void keyReleased(KeyEvent e) {
                 String txt = search.txtSearchForm.getText();
-//                listSP = spBUS.search(txt);
+                listSP = spBUS.search(txt);
                 loadDataTalbe(listSP);
             }
 
@@ -94,7 +99,7 @@ public final class SanPham extends JPanel implements ActionListener {
 
         search.btnReset.addActionListener((ActionEvent e) -> {
             search.txtSearchForm.setText("");
-//            listSP = spBUS.getAll();
+            listSP = spBUS.getAll();
             loadDataTalbe(listSP);
         });
         functionBar.add(search);
@@ -119,7 +124,8 @@ public final class SanPham extends JPanel implements ActionListener {
     public void loadDataTalbe(ArrayList<DTO.SanPhamDTO> result) {
         tblModel.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
-            tblModel.addRow(new Object[]{ //                sp.getMasp(), sp.getTensp(), sp.getXuatxu(), Formater.FormatVND(sp.getGianhap()), Formater.FormatVND(sp.getGiaxuat()), getTenDVT(sp.getMaDVT()), getTenloaihang(sp.getMaloaihang()), getTenkhuvuc(sp.getMakhuvuc())
+            tblModel.addRow(new Object[]{sp.getMasp(), sp.getTensp(), sp.getSoluongton(), sp.getKichthuocman() + " inch", thuonghieuBus.getTenThuongHieu(sp.getThuonghieu()), sp.getHedieuhanh(),
+                sp.getXuatxu(), kvkhoBus.getTenKhuVuc(sp.getKhuvuckho())
             });
         }
     }
@@ -140,14 +146,12 @@ public final class SanPham extends JPanel implements ActionListener {
         } else if (e.getSource() == mainFunction.btnEdit) {
             int index = getRowSelected();
             if (index != -1) {
-//                SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chỉnh sửa sản phẩm", true, "update", listSP.get(index));
+                SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chỉnh sửa sản phẩm", true, "update", listSP.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
             int index = getRowSelected();
             if (index != -1) {
-                int input = JOptionPane.showConfirmDialog(null,
-                        "Bạn có chắc chắn muốn xóa Sản phẩm :)!", "Xóa sản phẩm",
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa Sản phẩm :)!", "Xóa sản phẩm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
                     spBUS.delete(listSP.get(index));
                     loadDataTalbe(listSP);
@@ -156,7 +160,8 @@ public final class SanPham extends JPanel implements ActionListener {
         } else if (e.getSource() == mainFunction.btnDetail) {
             int index = getRowSelected();
             if (index != -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn loại hàng cần xem");
+                System.out.println(listSP.get(index));
+                SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Xem chi tiết sản phẩm", true, "view", listSP.get(index));
             }
         }
     }

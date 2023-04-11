@@ -86,4 +86,8 @@ public class ThuongHieuBUS {
         }
         return result;
     }
+    
+    public String getTenThuongHieu(int mathuonghieu) {
+        return this.listLH.get(this.getIndexByMaLH(mathuonghieu)).getTenthuonghieu();
+    }
 }
