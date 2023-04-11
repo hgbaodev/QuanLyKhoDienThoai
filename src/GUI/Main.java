@@ -77,7 +77,20 @@ public class Main extends JFrame {
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        
+        FlatRobotoFont.install();
+        FlatLaf.setPreferredFontFamily(FlatRobotoFont.FAMILY);
+        FlatLaf.setPreferredLightFontFamily(FlatRobotoFont.FAMILY_LIGHT);
+        FlatLaf.setPreferredSemiboldFontFamily(FlatRobotoFont.FAMILY_SEMIBOLD);
+        UIManager.put("Table.showVerticalLines", true);
+        UIManager.put("Table.showHorizontalLines", true);
+        UIManager.put("TextComponent.arc", 5);
+        UIManager.put("ScrollBar.thumbArc", 999);
+        UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
+        UIManager.put("Button.iconTextGap", 10);
+        UIManager.put( "PasswordField.showRevealButton", true );
+        FlatIntelliJLaf.registerCustomDefaultsSource("style");
+        FlatIntelliJLaf.setup();
+        UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
         Main main = new Main();
         main.setVisible(true);
     }

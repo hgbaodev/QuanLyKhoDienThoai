@@ -234,13 +234,13 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cauhinhbottom.setBorder(new EmptyBorder(0, 0, 10, 0));
 
         switch (type) {
-            case "view":
-                loadDataToTableCauHinh(listch);
-                break;
-            case "create":
+            case "view" -> loadDataToTableCauHinh(listch);
+            case "update" -> loadDataToTableCauHinh(listch);
+            case "create" -> {
                 btnAddSanPham = new ButtonCustom("Thêm sản phẩm", "success", 14);
                 btnAddSanPham.addActionListener(this);
                 cauhinhbottom.add(btnAddSanPham);
+            }
         }
         
         btnBack = new ButtonCustom("Quay lại trang trước", "warning", 14);
@@ -268,12 +268,12 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         pnmain.add(pncard2);
 
         switch (type) {
-            case "view":
-                setInfo(sp);
-                break;
-            default:
-//                throw new AssertionError();
+            case "view" -> setInfo(sp);
+            case "update" -> setInfo(sp);
+            default -> {
+            }
         }
+//                throw new AssertionError();
 
         this.add(titlePage, BorderLayout.NORTH);
         this.add(pnmain, BorderLayout.CENTER);
