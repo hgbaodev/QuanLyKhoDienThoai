@@ -16,6 +16,10 @@ import java.util.ArrayList;
  */
 public class MauSacDAO implements DAOinterface<MauSacDTO> {
 
+    public static MauSacDAO getInstance() {
+        return new MauSacDAO();
+    }
+
     @Override
     public int insert(MauSacDTO t) {
         int result = 0;

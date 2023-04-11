@@ -17,6 +17,9 @@ import java.util.ArrayList;
 
 public class DungLuongRamDAO implements DAOinterface<DungLuongRamDTO> {
 
+    public static DungLuongRamDAO getInstance() {
+        return new DungLuongRamDAO();
+    }
     @Override
     public int insert(DungLuongRamDTO t) {
         int result = 0;
