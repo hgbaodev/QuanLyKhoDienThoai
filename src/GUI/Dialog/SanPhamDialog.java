@@ -1,10 +1,12 @@
 package GUI.Dialog;
 
+import BUS.CauHinhSanPhamBUS;
 import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
 import BUS.KhuVucKhoBUS;
 import BUS.MauSacBUS;
 import BUS.ThuongHieuBUS;
+import DAO.CauHinhSanPhamDAO;
 import DTO.CauHinhSanPhamDTO;
 import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
@@ -23,6 +25,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -50,10 +54,10 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
 
     private HeaderTitle titlePage;
     private JPanel pninfosanpham, pnbottom, pnCenter, pninfosanphamright, pnmain, pncard2;
-    private ButtonCustom btnThemCHMS, btnHuyBo, btnAddCauHinh, btnEditCauHinh, btnDeleteCauHinh, btnAddSanPham, btnBack;
-    InputForm tenSP, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, thoigianbaohanh, phienbanhdh, camerasau, cameratruoc;
+    private ButtonCustom btnThemCHMS, btnHuyBo, btnAddCauHinh, btnEditCauHinh, btnDeleteCauHinh, btnResetCauHinh, btnAddSanPham, btnBack, btnViewCauHinh;
+    InputForm tenSP, xuatxu, chipxuly, dungluongpin, kichthuocman, thoigianbaohanh, phienbanhdh, camerasau, cameratruoc;
     InputForm txtgianhap, txtgiaxuat;
-    SelectForm cbxRom, cbxRam, cbxMausac;
+    SelectForm cbxRom, cbxRam, cbxMausac, hedieuhanh;
     SelectForm thuonghieu, khuvuc;
     InputImage hinhanh;
     JTable tblcauhinh;
@@ -62,26 +66,40 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     GUI.Panel.SanPham jpSP;
 
-    KhuVucKhoBUS kvkhoBus = new KhuVucKhoBUS();
-    ThuongHieuBUS thuonghieuBus = new ThuongHieuBUS();
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     MauSacBUS mausacBus = new MauSacBUS();
 
     ArrayList<CauHinhSanPhamDTO> listch = new ArrayList<>();
+    SanPhamDTO sp;
+    String[] arrkhuvuc;
+    String[] arrthuonghieu;
+    int masp;
+    int mach;
 
-    String[] arrkhuvuc = kvkhoBus.getArrTenKhuVuc();
-    String[] arrthuonghieu = thuonghieuBus.getArrTenThuongHieu();
-    final int maloaisp;
+    public void init(SanPham jpSP) {
+        this.jpSP = jpSP;
+        masp = jpSP.spBUS.spDAO.getAutoIncrement();
+        mach = CauHinhSanPhamDAO.getInstance().getAutoIncrement();
+        arrkhuvuc = jpSP.kvkhoBus.getArrTenKhuVuc();
+        arrthuonghieu = jpSP.thuonghieuBus.getArrTenThuongHieu();
+    }
 
     public SanPhamDialog(SanPham jpSP, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
-        this.jpSP = jpSP;
-        maloaisp = jpSP.spBUS.spDAO.getAutoIncrement();
+        init(jpSP);
         initComponents(title, type);
     }
 
-    public void initCardOne() {
+    public SanPhamDialog(SanPham jpSP, JFrame owner, String title, boolean modal, String type, SanPhamDTO sp) {
+        super(owner, title, modal);
+        init(jpSP);
+        this.sp = sp;
+        this.listch = jpSP.spBUS.cauhinhBus.getAll(sp.getMasp());
+        initComponents(title, type);
+    }
+
+    public void initCardOne(String type) {
         pnCenter = new JPanel(new BorderLayout());
         pninfosanpham = new JPanel(new GridLayout(3, 4, 0, 0));
         pninfosanpham.setBackground(Color.WHITE);
@@ -98,11 +116,12 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         chipxuly = new InputForm("Chip xử lý");
         dungluongpin = new InputForm("Dung lượng pin");
         kichthuocman = new InputForm("Kích thước màn");
-        hedieuhanh = new InputForm("Hệ điều hành");
         phienbanhdh = new InputForm("Phiên bản hđh");
         thoigianbaohanh = new InputForm("Thời gian bảo hành");
         camerasau = new InputForm("Camera sau");
         cameratruoc = new InputForm("Camera trước");
+        String[] arrhdh = {"Android", "IOS"};
+        hedieuhanh = new SelectForm("Hệ điều hành", arrhdh);
         thuonghieu = new SelectForm("Thương hiệu", arrthuonghieu);
         khuvuc = new SelectForm("Khu vực kho", arrkhuvuc);
         hinhanh = new InputImage("Hình minh họa");
@@ -112,9 +131,9 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         pninfosanpham.add(chipxuly);
         pninfosanpham.add(dungluongpin);
         pninfosanpham.add(kichthuocman);
-        pninfosanpham.add(hedieuhanh);
         pninfosanpham.add(camerasau);
         pninfosanpham.add(cameratruoc);
+        pninfosanpham.add(hedieuhanh);
         pninfosanpham.add(phienbanhdh);
         pninfosanpham.add(thoigianbaohanh);
         pninfosanpham.add(thuonghieu);
@@ -124,15 +143,25 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         pnbottom = new JPanel(new FlowLayout());
         pnbottom.setBorder(new EmptyBorder(20, 0, 10, 0));
         pnbottom.setBackground(Color.white);
-        btnThemCHMS = new ButtonCustom("Tạo cấu hình", "success", 14);
-        btnThemCHMS.addActionListener(this);
+        switch (type) {
+            case "view":
+                btnViewCauHinh = new ButtonCustom("Xem cấu hình", "warning", 14);
+                btnViewCauHinh.addActionListener(this);
+                pnbottom.add(btnViewCauHinh);
+                break;
+            case "create":
+                btnThemCHMS = new ButtonCustom("Tạo cấu hình", "success", 14);
+                btnThemCHMS.addActionListener(this);
+                pnbottom.add(btnThemCHMS);
+                break;
+        }
+
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
-        pnbottom.add(btnThemCHMS);
         pnbottom.add(btnHuyBo);
         pnCenter.add(pnbottom, BorderLayout.SOUTH);
     }
 
-    public void initCardTwo() {
+    public void initCardTwo(String type) {
         pncard2 = new JPanel(new BorderLayout());
         JPanel cauhinhtop = new JPanel(new GridLayout(1, 5));
         cbxRom = new SelectForm("ROM", romBus.getArrKichThuoc());
@@ -146,15 +175,6 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cauhinhtop.add(txtgianhap);
         cauhinhtop.add(txtgiaxuat);
 
-        JPanel cauhinhbottom = new JPanel(new FlowLayout());
-        cauhinhbottom.setBackground(Color.white);
-        cauhinhbottom.setBorder(new EmptyBorder(0, 0, 10, 0));
-        btnAddSanPham = new ButtonCustom("Thêm sản phẩm", "success", 14);
-        btnBack = new ButtonCustom("Quay lại trang trước", "warning", 14);
-        btnBack.addActionListener(this);
-        cauhinhbottom.add(btnBack);
-        cauhinhbottom.add(btnAddSanPham);
-
         JPanel cauhinhcenter = new JPanel(new BorderLayout());
 
         JPanel cauhinhcenter_left = new JPanel();
@@ -164,6 +184,16 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cauhinhcenter_left.setLayout(bl);
         cauhinhcenter_left.setBackground(Color.WHITE);
         tblcauhinh = new JTable();
+        tblcauhinh.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int index = getRowCauHinh();
+                if (index != -1) {
+                    setInfoCauHinh(listch.get(index));
+                }
+            }
+        });
+
         scrolltblcauhinh = new JScrollPane(tblcauhinh);
         tblModelch = new DefaultTableModel();
         String[] header = new String[]{"STT", "RAM", "ROM", "Màu sắc", "Giá nhập", "Giá xuất"};
@@ -180,16 +210,37 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         btnAddCauHinh = new ButtonCustom("Thêm cấu hình", "success", 14);
         btnEditCauHinh = new ButtonCustom("Sửa cấu hình", "warning", 14);
         btnDeleteCauHinh = new ButtonCustom("Xoá cấu hình", "danger", 14);
+        btnResetCauHinh = new ButtonCustom("Làm mới", "excel", 14);
 
         btnAddCauHinh.addActionListener(this);
         btnEditCauHinh.addActionListener(this);
         btnDeleteCauHinh.addActionListener(this);
+        btnResetCauHinh.addActionListener(this);
 
         cauhinhcenter_right.add(btnAddCauHinh);
         cauhinhcenter_right.add(btnEditCauHinh);
         cauhinhcenter_right.add(btnDeleteCauHinh);
+        cauhinhcenter_right.add(btnResetCauHinh);
         cauhinhcenter.add(cauhinhcenter_left, BorderLayout.CENTER);
         cauhinhcenter.add(cauhinhcenter_right, BorderLayout.EAST);
+
+        JPanel cauhinhbottom = new JPanel(new FlowLayout());
+        cauhinhbottom.setBackground(Color.white);
+        cauhinhbottom.setBorder(new EmptyBorder(0, 0, 10, 0));
+
+        switch (type) {
+            case "view":
+                loadDataToTableCauHinh(listch);
+                break;
+            case "create":
+                btnAddSanPham = new ButtonCustom("Thêm sản phẩm", "success", 14);
+                btnAddSanPham.addActionListener(this);
+                cauhinhbottom.add(btnAddSanPham);
+        }
+        
+        btnBack = new ButtonCustom("Quay lại trang trước", "warning", 14);
+        btnBack.addActionListener(this);
+        cauhinhbottom.add(btnBack);
 
         pncard2.add(cauhinhtop, BorderLayout.NORTH);
         pncard2.add(cauhinhcenter, BorderLayout.CENTER);
@@ -205,11 +256,19 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
 
         pnmain = new JPanel(new CardLayout());
 
-        initCardOne();
-        initCardTwo();
+        initCardOne(type);
+        initCardTwo(type);
 
         pnmain.add(pnCenter);
         pnmain.add(pncard2);
+
+        switch (type) {
+            case "view":
+                setInfo(sp);
+                break;
+            default:
+//                throw new AssertionError();
+        }
 
         this.add(titlePage, BorderLayout.NORTH);
         this.add(pnmain, BorderLayout.CENTER);
@@ -235,18 +294,57 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (source == btnThemCHMS) {
+        if (source == btnThemCHMS && validateCardOne()) {
+            System.out.println(getInfo());
             CardLayout c = (CardLayout) pnmain.getLayout();
             c.next(pnmain);
         } else if (source == btnBack) {
             CardLayout c = (CardLayout) pnmain.getLayout();
             c.previous(pnmain);
         } else if (source == btnAddCauHinh) {
-            if(validateCardTwo()) {
+            if (validateCardTwo() && checkTonTai()) {
                 listch.add(getCauHinh());
-                loadDataToTableCauHinh();
+                loadDataToTableCauHinh(this.listch);
                 resetFormCauHinh();
             }
+        } else if (source == btnResetCauHinh) {
+            resetFormCauHinh();
+            loadDataToTableCauHinh(this.listch);
+        } else if (source == btnDeleteCauHinh) {
+            int index = getRowCauHinh();
+            this.listch.remove(index);
+            loadDataToTableCauHinh(this.listch);
+            resetFormCauHinh();
+        } else if (source == btnEditCauHinh) {
+            eventEditCauHinh();
+        } else if (source == btnAddSanPham) {
+            eventAddSanPham();
+        } else if (source == btnViewCauHinh) {
+            CardLayout c = (CardLayout) pnmain.getLayout();
+            c.next(pnmain);
+        }
+    }
+
+    public void eventAddSanPham() {
+        SanPhamDTO sp = getInfo();
+        sp.setHinhanh(addImage(sp.getHinhanh()));
+        if (jpSP.spBUS.add(sp, listch)) {
+            JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công !");
+            jpSP.loadDataTalbe(jpSP.listSP);
+            dispose();
+        };
+    }
+
+    public void eventEditCauHinh() {
+        if (validateCardTwo()) {
+            int index = getRowCauHinh();
+            listch.get(index).setMausac(mausacBus.getByIndex(cbxMausac.getSelectedIndex()).getMamau());
+            listch.get(index).setRam(ramBus.getByIndex(cbxRam.getSelectedIndex()).getMadlram());
+            listch.get(index).setRom(romBus.getByIndex(cbxRom.getSelectedIndex()).getMadungluongrom());
+            listch.get(index).setGianhap(Integer.parseInt(txtgianhap.getText()));
+            listch.get(index).setGiaxuat(Integer.parseInt(txtgiaxuat.getText()));
+            loadDataToTableCauHinh(this.listch);
+            resetFormCauHinh();
         }
     }
 
@@ -265,16 +363,31 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         String vchipxuly = chipxuly.getText();
         int vdungluongpin = Integer.parseInt(dungluongpin.getText());
         double ktman = Double.parseDouble(kichthuocman.getText());
-        String hdh = hedieuhanh.getText();
+        String hdh = hedieuhanh.getValue();
         String camsau = camerasau.getText();
         String camtruoc = cameratruoc.getText();
         int tgbh = Integer.parseInt(thoigianbaohanh.getText());
         int pb = Integer.parseInt(phienbanhdh.getText());
-        int vthuonghieu = thuonghieuBus.getAll().get(this.thuonghieu.getSelectedIndex()).getMathuonghieu();
-        int khuvuckho = kvkhoBus.getAll().get(this.khuvuc.getSelectedIndex()).getMakhuvuckho();
-        SanPhamDTO result = new SanPhamDTO(maloaisp, vtensp, hinhanh, vxuatxu, vchipxuly, vdungluongpin, ktman, hdh, pb, camsau, camtruoc, tgbh, vthuonghieu, khuvuckho, 0);
-        JOptionPane.showMessageDialog(this, result);
+        int vthuonghieu = jpSP.thuonghieuBus.getAll().get(this.thuonghieu.getSelectedIndex()).getMathuonghieu();
+        int khuvuckho = jpSP.kvkhoBus.getAll().get(this.khuvuc.getSelectedIndex()).getMakhuvuckho();
+        SanPhamDTO result = new SanPhamDTO(masp, vtensp, hinhanh, vxuatxu, vchipxuly, vdungluongpin, ktman, hdh, pb, camsau, camtruoc, tgbh, vthuonghieu, khuvuckho, 0);
         return result;
+    }
+
+    public void setInfo(SanPhamDTO sp) {
+        hinhanh.setUrl_img(sp.getHinhanh());
+        tenSP.setText(sp.getTensp());
+        xuatxu.setText(sp.getXuatxu());
+        chipxuly.setText(sp.getXuatxu());
+        dungluongpin.setText(Integer.toString(sp.getDungluongpin()));
+        kichthuocman.setText(Double.toString(sp.getKichthuocman()));
+        hedieuhanh.setSelectedItem(sp.getHedieuhanh());
+        camerasau.setText(sp.getCamerasau());
+        cameratruoc.setText(sp.getCameratruoc());
+        thoigianbaohanh.setText(Integer.toString(sp.getThoigianbaohanh()));
+        phienbanhdh.setText(Integer.toString(sp.getPhienbanhdh()));
+        thuonghieu.setSelectedIndex(jpSP.thuonghieuBus.getIndexByMaLH(sp.getThuonghieu()));
+        khuvuc.setSelectedIndex(jpSP.spBUS.getIndexByMaSP(sp.getKhuvuckho()));
     }
 
     public CauHinhSanPhamDTO getCauHinh() {
@@ -283,17 +396,18 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         int mausac = mausacBus.getByIndex(cbxMausac.getSelectedIndex()).getMamau();
         int gianhap = Integer.parseInt(txtgianhap.getText());
         int giaban = Integer.parseInt(txtgiaxuat.getText());
-        CauHinhSanPhamDTO chsp = new CauHinhSanPhamDTO(0, 0, ram, rom, mausac, gianhap, giaban);
+        CauHinhSanPhamDTO chsp = new CauHinhSanPhamDTO(mach, masp, ram, rom, mausac, gianhap, giaban);
+        mach++;
         return chsp;
     }
 
     public boolean validateCardOne() {
         boolean check = true;
-        if (Validation.isEmpty(tenSP.getText()) && Validation.isEmpty(xuatxu.getText())
-                && Validation.isEmpty(chipxuly.getText()) && Validation.isEmpty(dungluongpin.getText())
-                && Validation.isEmpty(kichthuocman.getText()) && Validation.isEmpty(hedieuhanh.getText())
-                && Validation.isEmpty(camerasau.getText()) && Validation.isEmpty(cameratruoc.getText())
-                && Validation.isEmpty(thoigianbaohanh.getText()) && Validation.isEmpty(phienbanhdh.getText())) {
+        if (Validation.isEmpty(tenSP.getText()) || Validation.isEmpty(xuatxu.getText())
+                || Validation.isEmpty(chipxuly.getText()) || Validation.isEmpty(dungluongpin.getText())
+                || Validation.isEmpty(kichthuocman.getText()) || Validation.isEmpty(hedieuhanh.getValue())
+                || Validation.isEmpty(camerasau.getText()) || Validation.isEmpty(cameratruoc.getText())
+                || Validation.isEmpty(thoigianbaohanh.getText()) || Validation.isEmpty(phienbanhdh.getText())) {
             check = false;
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !");
         } else {
@@ -308,23 +422,32 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !");
             check = false;
         } else {
-            
+
         }
         return check;
     }
 
-    public void loadDataToTableCauHinh() {
+    public boolean checkTonTai() {
+        boolean check = true;
+        if (CauHinhSanPhamBUS.checkDuplicate(listch, getCauHinh())) {
+            JOptionPane.showMessageDialog(this, "Cấu hình đã tồn tại !");
+            check = false;
+        }
+        return check;
+    }
+
+    public void loadDataToTableCauHinh(ArrayList<CauHinhSanPhamDTO> ch) {
         tblModelch.setRowCount(0);
-        for (int i = 0; i < listch.size(); i++) {
-            String mau = mausacBus.getTenMau(listch.get(i).getMausac());
-            int ram = ramBus.getKichThuocById(listch.get(i).getRam());
-            int rom = romBus.getKichThuocById(listch.get(i).getRom());
-            tblModelch.addRow(new Object[]{i + 1, ram+"GB", rom+"GB", 
-                mau, Formater.FormatVND(listch.get(i).getGianhap()), Formater.FormatVND(listch.get(i).getGiaxuat())
+        for (int i = 0; i < ch.size(); i++) {
+            String mau = mausacBus.getTenMau(ch.get(i).getMausac());
+            int ram = ramBus.getKichThuocById(ch.get(i).getRam());
+            int rom = romBus.getKichThuocById(ch.get(i).getRom());
+            tblModelch.addRow(new Object[]{i + 1, ram + "GB", rom + "GB",
+                mau, Formater.FormatVND(ch.get(i).getGianhap()), Formater.FormatVND(ch.get(i).getGiaxuat())
             });
         }
     }
-    
+
     public void resetFormCauHinh() {
         cbxMausac.setSelectedIndex(0);
         cbxRam.setSelectedIndex(0);
@@ -332,4 +455,12 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         txtgianhap.setText("");
         txtgiaxuat.setText("");
     }
-} 
+
+    public void setInfoCauHinh(CauHinhSanPhamDTO ch) {
+        cbxMausac.setSelectedIndex(mausacBus.getIndexByMaMau(ch.getMausac()));
+        cbxRam.setSelectedIndex(ramBus.getIndexByMaRam(ch.getRam()));
+        cbxRom.setSelectedIndex(romBus.getIndexByMaRom(ch.getRom()));
+        txtgianhap.setText(Integer.toString(ch.getGianhap()));
+        txtgiaxuat.setText(Integer.toString(ch.getGiaxuat()));
+    }
+}

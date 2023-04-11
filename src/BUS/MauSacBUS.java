@@ -32,7 +32,7 @@ public class MauSacBUS {
         }
         return result;
     }
-    
+
     public MauSacDTO getByIndex(int index) {
         return this.listMauSac.get(index);
     }
@@ -57,14 +57,12 @@ public class MauSacBUS {
         int i = 0;
         int vitri = -1;
         while (i < this.listMauSac.size() && vitri == -1) {
-            if (listMauSac.get(i).getMamau() == mamau) {
-                vitri = i;
-                break;
-            } else i++;
+            if (listMauSac.get(i).getMamau() == mamau) vitri = i;
+            else i++;
         }
         return vitri;
     }
-    
+
     public String getTenMau(int mamau) {
         int index = this.getIndexByMaMau(mamau);
         System.out.println(index);

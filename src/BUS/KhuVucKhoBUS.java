@@ -117,4 +117,8 @@ public class KhuVucKhoBUS {
         }
         return result;
     }
+    
+    public String getTenKhuVuc(int makhuvuc) {
+        return this.listKVK.get(this.getIndexByMaKVK(makhuvuc)).getTenkhuvuc();
+    }
 }
