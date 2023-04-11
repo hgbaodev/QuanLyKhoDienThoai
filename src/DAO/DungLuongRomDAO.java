@@ -19,9 +19,13 @@ import java.util.ArrayList;
  *
  * @author 84907
  */
-public class DungLuongRomDAO implements DAOinterface<DungLuongRomDTO>{
+public class DungLuongRomDAO implements DAOinterface<DungLuongRomDTO> {
 
-        @Override
+    public static DungLuongRomDAO getInstance() {
+        return new DungLuongRomDAO();
+    }
+
+    @Override
     public int insert(DungLuongRomDTO t) {
         int result = 0;
         try {
@@ -69,9 +73,10 @@ public class DungLuongRomDAO implements DAOinterface<DungLuongRomDTO>{
         }
         return result;
     }
+
     @Override
     public ArrayList<DungLuongRomDTO> selectAll() {
-            ArrayList<DungLuongRomDTO> result = new ArrayList<>();
+        ArrayList<DungLuongRomDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM dungluongrom WHERE trangthai = 1";
@@ -128,5 +133,5 @@ public class DungLuongRomDAO implements DAOinterface<DungLuongRomDTO>{
         }
         return result;
     }
-    
+
 }

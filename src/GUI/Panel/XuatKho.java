@@ -23,6 +23,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -31,7 +33,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 
-public class XuatKho extends JPanel implements ActionListener {
+public class XuatKho extends JPanel implements ActionListener, ItemListener {
 
     private final int n = 3;
 
@@ -315,16 +317,17 @@ public class XuatKho extends JPanel implements ActionListener {
         btnDeleteSanPham.addActionListener(this);
 
         jrbXuatTheoLo = new JRadioButton("Xuât từng cái");
+        jrbXuatTheoLo.addItemListener(this);
         jrbXuatTungCai = new JRadioButton("Xuất theo lô");
         g1 = new ButtonGroup();
         g1.add(jrbXuatTheoLo);
         g1.add(jrbXuatTungCai);
-        
+
         box3.add(maSerial);
         box3.add(btnAddMaSerial);
         box3.add(btnDeleteSanPham);
         box3.add(jrbXuatTheoLo);
-        box3.add(jrbXuatTungCai);        
+        box3.add(jrbXuatTungCai);
 
     }
 
@@ -341,48 +344,21 @@ public class XuatKho extends JPanel implements ActionListener {
         if (btn == btnDeleteSanPham) {
             ActionBtnDeleteSanPham();
         }
+    }
 
-//        if(e.getSource()==btnChonSanPham){
-//            int selectedIndex = tableSanPham.getSelectedRow();
-//        if (listsp.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Danh sách sản phẩm rỗng");
-//        } else if (selectedIndex < 0) {
-//            JOptionPane.showMessageDialog(this, "Hãy chọn 1 sản phẩm");
-//        } else {
-//                int ma = Integer.parseInt(tableSanPham.getValueAt(selectedIndex, 0).toString());
-//                String sluong = tableSanPham.getValueAt(selectedIndex, 4).toString();
-//                SanPhamDTO sp = SanPhamDAO.getInstance().selectById(String.valueOf(ma));
-//                
-//                if (Integer.parseInt(txtSoLuong.getText()) > sp.getSoluong()) {
-//                    JOptionPane.showMessageDialog(this, "Kho không thể đáp ứng số lượng\nVui lòng nhập số lượng thấp hơn");
-//                    txtSoLuong.setText("1");
-//                } else {
-//                    int flag = 0;
-//                    int tmp = Integer.parseInt(txtSoLuong.getText());
-//                    for (ChiTietPhieu a : CTPhieu) {
-//                        if (a.getMasanpham()==ma) {
-//                            flag = 1;
-////                            a.setSoLuong(a.getSoluong()+ tmp);
-////                            a.setTong(a.getSoluong()* a.getDongia());
-//                            txtSoLuong.setText("1");
-////                            showExport();
-//                        }
-//                    }
-//                    if (flag == 0) {
-//                        ChiTietPhieu x = new ChiTietPhieu();
-//                        x.setMasanpham(ma);
-//                        x.setSoluong(tmp);
-////                        x.setDonGia(a.getGiaban());
-////                        x.setTong(x.getSoluong()*x.getDongia());
-//                        CTPhieu.add(x);
-//                        tmp = 1;
-//                        txtSoLuong.setText("1");
-////                        ShowExport();
-//                    }
-//                }
-//            
-//        }
-//        }
+    public void ItemStateChanged(ItemEvent e) {
+
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if ( e.getStateChange()==ItemEvent.SELECTED) {
+            System.err.println("12");
+        }
+        else {
+                        System.err.println("13");
+
+        }
     }
 
     public void ActionBtnChoose() {
