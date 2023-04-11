@@ -192,6 +192,7 @@ public class QuenMatKhau extends JDialog implements ActionListener {
             } else {
                 String password = BCrypt.hashpw(pass, BCrypt.gensalt(12));
                 TaiKhoanDAO.getInstance().updatePass(this.emailCheck, password);
+                SendEmailSMTP.sendOTP(this.emailCheck, "null");
                JOptionPane.showMessageDialog(this, "Thay đổi mật khẩu thành công");
                this.dispose();
             }
