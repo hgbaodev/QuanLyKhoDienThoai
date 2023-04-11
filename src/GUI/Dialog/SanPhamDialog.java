@@ -144,16 +144,21 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         pnbottom.setBorder(new EmptyBorder(20, 0, 10, 0));
         pnbottom.setBackground(Color.white);
         switch (type) {
-            case "view":
+            case "view" -> {
                 btnViewCauHinh = new ButtonCustom("Xem cấu hình", "warning", 14);
                 btnViewCauHinh.addActionListener(this);
                 pnbottom.add(btnViewCauHinh);
-                break;
-            case "create":
+            }
+            case "update" -> {
+                btnEditCauHinh = new ButtonCustom("Sửa cấu hình", "warning", 14);
+                btnEditCauHinh.addActionListener(this);
+                pnbottom.add(btnEditCauHinh);
+            }
+            case "create" -> {
                 btnThemCHMS = new ButtonCustom("Tạo cấu hình", "success", 14);
                 btnThemCHMS.addActionListener(this);
                 pnbottom.add(btnThemCHMS);
-                break;
+            }
         }
 
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);

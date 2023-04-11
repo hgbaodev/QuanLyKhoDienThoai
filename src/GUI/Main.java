@@ -53,16 +53,6 @@ public class Main extends JFrame {
     public Main(TaiKhoanDTO user) {
         this.user = user;
         initComponent();
-    }
-
-    public void setPanel(JPanel pn) {
-        MainContent.removeAll();
-        MainContent.add(pn).setVisible(true);
-        MainContent.repaint();
-        MainContent.validate();
-    }
-
-    public static void main(String[] args) throws UnsupportedLookAndFeelException {
         FlatRobotoFont.install();
         FlatLaf.setPreferredFontFamily(FlatRobotoFont.FAMILY);
         FlatLaf.setPreferredLightFontFamily(FlatRobotoFont.FAMILY_LIGHT);
@@ -77,6 +67,17 @@ public class Main extends JFrame {
         FlatIntelliJLaf.registerCustomDefaultsSource("style");
         FlatIntelliJLaf.setup();
         UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
+    }
+
+    public void setPanel(JPanel pn) {
+        MainContent.removeAll();
+        MainContent.add(pn).setVisible(true);
+        MainContent.repaint();
+        MainContent.validate();
+    }
+
+    public static void main(String[] args) throws UnsupportedLookAndFeelException {
+        
         Main main = new Main();
         main.setVisible(true);
     }
