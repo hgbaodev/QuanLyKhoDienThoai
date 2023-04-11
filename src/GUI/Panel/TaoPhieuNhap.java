@@ -22,7 +22,7 @@ public class TaoPhieuNhap extends JPanel {
     DefaultTableModel tblModel;
     NhapKho nhapKho;
     ButtonCustom btnAddSp, btnEditSP, btnDelete, btnImport, btnNhapHang;
-    InputForm txtMaphieu;
+    InputForm txtMaphieu, txtNhanVien;
     SelectForm cbxNhaCungCap;
     NhaCungCapBUS nccBus = new NhaCungCapBUS();
 
@@ -111,11 +111,13 @@ public class TaoPhieuNhap extends JPanel {
         right.setLayout(new BorderLayout());
 
         JPanel right_top, right_center, right_bottom, pn_tongtien;
-        right_top = new JPanel(new GridLayout(2, 1, 0, 0));
-        right_top.setPreferredSize(new Dimension(300, 180));
+        right_top = new JPanel(new GridLayout(3, 1, 0, 0));
+        right_top.setPreferredSize(new Dimension(300, 270));
         txtMaphieu = new InputForm("Mã phiếu nhập");
+        txtNhanVien = new InputForm("Nhân viên nhập");
         cbxNhaCungCap = new SelectForm("Nhà cung cấp", nccBus.getArrTenNhaCungCap());
         right_top.add(txtMaphieu);
+        right_top.add(txtNhanVien);
         right_top.add(cbxNhaCungCap);
 
         right_center = new JPanel();
