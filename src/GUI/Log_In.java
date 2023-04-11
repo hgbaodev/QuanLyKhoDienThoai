@@ -5,6 +5,7 @@ import DTO.TaiKhoanDTO;
 import GUI.Component.InputForm;
 import GUI.Dialog.QuenMatKhau;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.BCrypt;
@@ -67,11 +68,11 @@ public class Log_In extends JFrame {
 
         lbl6 = new JLabel("ĐĂNG NHẬP");
         lbl6.setPreferredSize(new Dimension(150, 40));
-        lbl6.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lbl6.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 16));
         lbl6.setForeground(Color.white);
 
         pnlLogIn = new JPanel();
-        pnlLogIn.setBackground(Color.black);
+        pnlLogIn.setBackground(UIManager.getDefaults().getColor("Actions.Blue"));
         pnlLogIn.setPreferredSize(new Dimension(400, 40));
         pnlLogIn.setLayout(new FlowLayout(1, 0, 0));
 
@@ -95,7 +96,7 @@ public class Log_In extends JFrame {
 
         lbl7 = new JLabel("Quên mật khẩu", JLabel.RIGHT);
         lbl7.setPreferredSize(new Dimension(400, 50));
-        lbl7.setFont(new Font("Segoe UI", Font.ITALIC, 18));
+        lbl7.setFont(new Font(FlatRobotoFont.FAMILY, Font.ITALIC, 18));
         lbl7.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -154,14 +155,20 @@ public class Log_In extends JFrame {
 
     private void pnlLogInMouseExited(java.awt.event.MouseEvent evt) {
 
-        pnlLogIn.setBackground(Color.black);
+        pnlLogIn.setBackground(UIManager.getDefaults().getColor("Actions.Blue"));
         pnlLogIn.setForeground(Color.white);
     }
 
     public static void main(String[] args) {
-        UIManager.put( "PasswordField.showRevealButton", true );
+        FlatRobotoFont.install();
+        FlatLaf.setPreferredFontFamily(FlatRobotoFont.FAMILY);
+        FlatLaf.setPreferredLightFontFamily(FlatRobotoFont.FAMILY_LIGHT);
+        FlatLaf.setPreferredSemiboldFontFamily(FlatRobotoFont.FAMILY_SEMIBOLD);
         FlatIntelliJLaf.registerCustomDefaultsSource("style");
-        FlatLightLaf.setup();
+        FlatIntelliJLaf.setup();
+        UIManager.put( "PasswordField.showRevealButton", true );
+        UIManager.put("Button.iconTextGap", 10);
+        UIManager.put("TextComponent.arc", 5);
         Log_In login = new Log_In();
         login.setVisible(true);
     }
