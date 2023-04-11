@@ -154,8 +154,6 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
                 btnThemCHMS.addActionListener(this);
                 pnbottom.add(btnThemCHMS);
                 break;
-            default:
-                throw new AssertionError();
         }
 
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
@@ -176,16 +174,6 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cauhinhtop.add(cbxMausac);
         cauhinhtop.add(txtgianhap);
         cauhinhtop.add(txtgiaxuat);
-
-        JPanel cauhinhbottom = new JPanel(new FlowLayout());
-        cauhinhbottom.setBackground(Color.white);
-        cauhinhbottom.setBorder(new EmptyBorder(0, 0, 10, 0));
-        btnAddSanPham = new ButtonCustom("Thêm sản phẩm", "success", 14);
-        btnBack = new ButtonCustom("Quay lại trang trước", "warning", 14);
-        btnBack.addActionListener(this);
-        btnAddSanPham.addActionListener(this);
-        cauhinhbottom.add(btnBack);
-        cauhinhbottom.add(btnAddSanPham);
 
         JPanel cauhinhcenter = new JPanel(new BorderLayout());
 
@@ -236,14 +224,24 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cauhinhcenter.add(cauhinhcenter_left, BorderLayout.CENTER);
         cauhinhcenter.add(cauhinhcenter_right, BorderLayout.EAST);
 
+        JPanel cauhinhbottom = new JPanel(new FlowLayout());
+        cauhinhbottom.setBackground(Color.white);
+        cauhinhbottom.setBorder(new EmptyBorder(0, 0, 10, 0));
+
         switch (type) {
             case "view":
                 loadDataToTableCauHinh(listch);
                 break;
-            default:
-                throw new AssertionError();
+            case "create":
+                btnAddSanPham = new ButtonCustom("Thêm sản phẩm", "success", 14);
+                btnAddSanPham.addActionListener(this);
+                cauhinhbottom.add(btnAddSanPham);
         }
         
+        btnBack = new ButtonCustom("Quay lại trang trước", "warning", 14);
+        btnBack.addActionListener(this);
+        cauhinhbottom.add(btnBack);
+
         pncard2.add(cauhinhtop, BorderLayout.NORTH);
         pncard2.add(cauhinhcenter, BorderLayout.CENTER);
         pncard2.add(cauhinhbottom, BorderLayout.SOUTH);
