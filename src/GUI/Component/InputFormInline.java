@@ -10,6 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import org.apache.poi.hslf.blip.WMF;
 
 /**
  *
@@ -22,10 +23,10 @@ public final class InputFormInline extends JPanel {
     private JComboBox cbx;
 
     public void initComponent(String text) {
-        this.setLayout(new FlowLayout(1, 20, 10));
+        this.setLayout(new FlowLayout(1, 0, 10));
         this.setOpaque(false);
         lbl = new JLabel(text);
-        lbl.setPreferredSize(new Dimension(150, 30));
+        lbl.setPreferredSize(new Dimension(100, 30));
         lbl.putClientProperty("FlatLaf.style", "font: $h3.font");
         this.add(lbl);
     }
@@ -36,11 +37,18 @@ public final class InputFormInline extends JPanel {
         txt.setPreferredSize(new Dimension(360, 35));
         this.add(txt);
     }
+    
+        public InputFormInline(String text, int w, int h) {
+        initComponent(text);
+        txt = new JTextField();
+        txt.setPreferredSize(new Dimension(w, h));
+        this.add(txt);
+    }
 
     public InputFormInline(String text, String[] list) {
         initComponent(text);
         cbx = new JComboBox(list);
-        cbx.setPreferredSize(new Dimension(360, 35));
+        cbx.setPreferredSize(new Dimension(340, 40));
         this.add(cbx);
     }
 

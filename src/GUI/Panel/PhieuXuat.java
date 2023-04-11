@@ -1,7 +1,10 @@
-
-
 package GUI.Panel;
 
+import DAO.KhachHangDAO;
+import DTO.KhachHangDTO;
+import GUI.Component.ButtonCustom;
+import GUI.Component.InputForm;
+import GUI.Component.InputFormInline;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -11,10 +14,11 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class PhieuXuat extends JPanel implements ActionListener{
+public class PhieuXuat extends JPanel implements ActionListener {
 
     PanelBorderRadius box1, box2, main, functionBar, right;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -22,19 +26,31 @@ public class PhieuXuat extends JPanel implements ActionListener{
     JScrollPane scrollTablePhieuXuat;
     MainFunction mainFunction;
     IntegratedSearch search;
-    JLabel lbl1, lblImage;
+    JLabel lbl1, lblImage, lblTongTien, lbl2;
+    JButton btnXuatKho;
     DefaultTableModel tblModel;
-    
+
+    InputFormInline maphieuxuat, khachhang;
+
     Main m;
     XuatKho xuatKho;
-    
+
     Color BackgroundColor = new Color(245, 229, 240);
 
-        public PhieuXuat(Main m) {
+    public PhieuXuat(Main m) {
         initComponent();
         this.m = m;
     }
-    
+
+    public String[] getKhachHang() {
+        ArrayList<KhachHangDTO> khachhang = KhachHangDAO.getInstance().selectAll();
+        String tenKH[] = new String[khachhang.size()];
+        for (int i = 0; i < khachhang.size(); i++) {
+            tenKH[i] = khachhang.get(i).getHoten();
+        }
+        return tenKH;
+    }
+
     private void initComponent() {
 
         this.setBackground(BackgroundColor);
@@ -44,7 +60,7 @@ public class PhieuXuat extends JPanel implements ActionListener{
         tablePhieuXuat = new JTable();
         scrollTablePhieuXuat = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã khu vực kho", "Tên khu vực", "Mã kho hàng"};
+        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Giá nhập", "Số lượng"};
         tblModel.setColumnIdentifiers(header);
         tablePhieuXuat.setModel(tblModel);
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
@@ -101,36 +117,54 @@ public class PhieuXuat extends JPanel implements ActionListener{
         main.setLayout(boxly);
         main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
-        
 
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
 
         main.add(scrollTablePhieuXuat);
 
         right = new PanelBorderRadius();
-        right.setPreferredSize(new Dimension(400, 0));
-        right.setLayout(new FlowLayout(1, 15, 40));
+        right.setPreferredSize(new Dimension(500, 0));
+        right.setLayout(new FlowLayout(1, 15, 10));
         contentCenter.add(right, BorderLayout.EAST);
-        
-          //Add Event MouseListener
+
+        maphieuxuat = new InputFormInline("Mã phiếu xuất", 340, 40);
+        khachhang = new InputFormInline("Khách hàng", getKhachHang());
+        right.add(maphieuxuat);
+        right.add(khachhang);
+
+        JPanel pnl1 = new JPanel();
+        pnl1.setOpaque(false);
+        pnl1.setPreferredSize(new Dimension(400, 350));
+        pnl1.setLayout(new FlowLayout(1, 40, 300));
+        right.add(pnl1);
+
+        lbl2 = new JLabel("Tổng tiền");
+        lbl2.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
+        pnl1.add(lbl2);
+
+        lblTongTien = new JLabel("0 VNĐ");
+        lblTongTien.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
+        lblTongTien.setForeground(Color.RED);
+        pnl1.add(lblTongTien);
+
+        btnXuatKho = new ButtonCustom("XUẤT HÀNG", "excel", 15, "/icon/insert_25px.png", 300, 40);
+        right.add(btnXuatKho);
+
+        //Add Event MouseListener
         mainFunction.btnAdd.addActionListener(this);
     }
 
-
-    
-        @Override
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
 
-
-                xuatKho = new XuatKho(this.m);
-                m.MainContent.removeAll();
-                m.MainContent.add(xuatKho).setVisible(true);
-                m.MainContent.repaint();
-                m.MainContent.validate();
+            xuatKho = new XuatKho(this.m);
+            m.MainContent.removeAll();
+            m.MainContent.add(xuatKho).setVisible(true);
+            m.MainContent.repaint();
+            m.MainContent.validate();
 
         }
     }
 
 }
-
