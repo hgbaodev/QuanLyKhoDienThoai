@@ -225,6 +225,7 @@ public final class NhapKho extends JPanel implements ActionListener {
 
         pnl1 = new JPanel();
         pnl1.setOpaque(false);
+        
         pnl1.setLayout(new FlowLayout(1, 60, 0));
         main_bottom.add(pnl1);
 

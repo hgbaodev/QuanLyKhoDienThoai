@@ -27,6 +27,9 @@ public class ButtonCustom extends JButton {
             case "return":
                 color = "Actions.Orange";
                 break;
+            case "ok":
+                color = "Actions.Black";
+                break;
             default:
                 color = "Actions.White";
         }
@@ -38,19 +41,18 @@ public class ButtonCustom extends JButton {
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.setPreferredSize(new Dimension(width, height));
     }
-    
-    
+
     public ButtonCustom(String text, String type, int fontsize) {
-        initComponent(type,text,fontsize,150,40);
+        initComponent(type, text, fontsize, 150, 40);
     }
 
     public ButtonCustom(String text, String type, int fontsize, String linkIcon) {
-        initComponent(type,text,fontsize,150,40);
+        initComponent(type, text, fontsize, 150, 40);
         this.setIcon(new ImageIcon(getClass().getResource(linkIcon)));
     }
-    
+
     public ButtonCustom(String text, String type, int fontsize, String linkIcon, int width, int height) {
-        initComponent(type,text,fontsize,width,height);
+        initComponent(type, text, fontsize, width, height);
         this.setIcon(new ImageIcon(getClass().getResource(linkIcon)));
     }
 
