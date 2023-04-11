@@ -2,7 +2,6 @@ package GUI.Component;
 
 import DAO.ChiTietQuyenDAO;
 import DTO.ChiTietQuyenDTO;
-import DTO.DanhMucChucNangDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Main;
 import java.awt.*;
@@ -21,8 +20,8 @@ public class MenuTaskbar extends JPanel {
         {"Kiểm kê", "estimates_30px.png", "kiemke"},
         {"Phiếu nhập", "In Transit_30px.png", "phieunhap"},
         {"Phiếu xuất", "supply_chain_30px.png", "phieuxuat"},
-        {"Nhà cung cấp", "Staff_30px.png", "nhacungcap"},
         {"Khách hàng", "Supplier_30px.png", "khachang"},
+        {"Nhà cung cấp", "Staff_30px.png", "nhacungcap"},
         {"Nhân viên", "tool_30px.png", "nhanvien"},
         {"Tài khoản", "data_provider_30px.png", "taikhoan"},
         {"Phân quyền", "user_rights_30px.png", "phanquyen"},
@@ -102,7 +101,6 @@ public class MenuTaskbar extends JPanel {
 
         this.add(pnlBottom, BorderLayout.SOUTH);
 
-        // Dùng vòng lặp đẻ hiển thị, nếu đến "Đăng xuất" thì sẽ được add vào pnlBottom để nó xuống dưới cuối
         for (int i = 0; i < getSt.length; i++) {
             if (i + 1 == getSt.length) {
                 listitem[i] = new itemTaskbar(getSt[i][1], getSt[i][0]);
