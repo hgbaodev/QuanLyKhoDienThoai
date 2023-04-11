@@ -31,19 +31,25 @@ public class NhaCungCapBUS {
 
     public boolean add(NhaCungCapDTO ncc) {
         boolean check = NccDAO.insert(ncc) != 0;
-        if (check)  this.listNcc.add(ncc);
+        if (check) {
+            this.listNcc.add(ncc);
+        }
         return check;
     }
 
     public boolean delete(NhaCungCapDTO ncc, int index) {
         boolean check = NccDAO.delete(Integer.toString(ncc.getMancc())) != 0;
-        if (check)  this.listNcc.remove(index);
+        if (check) {
+            this.listNcc.remove(index);
+        }
         return check;
     }
 
     public boolean update(NhaCungCapDTO ncc) {
         boolean check = NccDAO.update(ncc) != 0;
-        if (check) this.listNcc.set(getIndexByMaNCC(ncc.getMancc()),ncc);
+        if (check) {
+            this.listNcc.set(getIndexByMaNCC(ncc.getMancc()), ncc);
+        }
         return check;
     }
 
@@ -51,7 +57,7 @@ public class NhaCungCapBUS {
         int i = 0;
         int vitri = -1;
         while (i < this.listNcc.size() && vitri == -1) {
-            if (listNcc.get(i).getMancc()== mancc) {
+            if (listNcc.get(i).getMancc() == mancc) {
                 vitri = i;
                 break;
             } else {
@@ -107,6 +113,15 @@ public class NhaCungCapBUS {
                     }
                 }
             }
+        }
+        return result;
+    }
+
+    public String[] getArrTenNhaCungCap() {
+        int size = listNcc.size();
+        String[] result = new String[size];
+        for (int i = 0; i < size; i++) {
+            result[i] = listNcc.get(i).getTenncc();
         }
         return result;
     }
