@@ -10,10 +10,12 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class TaoPhieuNhap extends JPanel {
+public class TaoPhieuXuat extends JPanel implements ActionListener {
 
     PanelBorderRadius main, right, left_top;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left;
@@ -21,15 +23,18 @@ public class TaoPhieuNhap extends JPanel {
     JScrollPane scrollTablePhieuNhap;
     DefaultTableModel tblModel;
     NhapKho nhapKho;
-    ButtonCustom btnAddSp, btnEditSP, btnDelete, btnImport, btnNhapHang;
-    InputForm txtMaphieu, txtNhanVien;
+    ButtonCustom btnAddSp, btnEditSP, btnDelete, btnImport, btnXuatHang, btnChooseKhachHang;
+    InputForm txtMaphieu;
     SelectForm cbxNhaCungCap;
     NhaCungCapBUS nccBus = new NhaCungCapBUS();
 
     Color BackgroundColor = new Color(240, 247, 250);
+    Main m;
+    XuatKho xuatKho;
 
-    public TaoPhieuNhap() {
+    public TaoPhieuXuat(Main m) {
         initComponent();
+        this.m = m;
     }
 
     public void initPadding() {
@@ -92,6 +97,7 @@ public class TaoPhieuNhap extends JPanel {
         btnEditSP = new ButtonCustom("Sửa sản phẩm", "warning", 14);
         btnDelete = new ButtonCustom("Xoá sản phẩm", "danger", 14);
         btnImport = new ButtonCustom("Nhập Excel", "excel", 14);
+        btnAddSp.addActionListener(this);
         left_top.add(btnAddSp);
         left_top.add(btnEditSP);
         left_top.add(btnDelete);
@@ -111,14 +117,12 @@ public class TaoPhieuNhap extends JPanel {
         right.setLayout(new BorderLayout());
 
         JPanel right_top, right_center, right_bottom, pn_tongtien;
-        right_top = new JPanel(new GridLayout(3, 1, 0, 0));
-        right_top.setPreferredSize(new Dimension(300, 270));
-        txtMaphieu = new InputForm("Mã phiếu nhập");
-        txtNhanVien = new InputForm("Nhân viên nhập");
-        cbxNhaCungCap = new SelectForm("Nhà cung cấp", nccBus.getArrTenNhaCungCap());
+        right_top = new JPanel(new GridLayout(2, 1, 0, 0));
+        right_top.setPreferredSize(new Dimension(300, 180));
+        txtMaphieu = new InputForm("Mã phiếu xuất");
+        btnChooseKhachHang = new ButtonCustom("CHỌN KHÁCH HÀNG", "success", 14);
         right_top.add(txtMaphieu);
-        right_top.add(txtNhanVien);
-        right_top.add(cbxNhaCungCap);
+        right_top.add(btnChooseKhachHang);
 
         right_center = new JPanel();
         right_center.setPreferredSize(new Dimension(100, 100));
@@ -139,9 +143,9 @@ public class TaoPhieuNhap extends JPanel {
         pn_tongtien.add(lbltien);
         pn_tongtien.add(lbltongtien);
 
-        btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
+        btnXuatHang = new ButtonCustom("Nhập hàng", "excel", 14);
         right_bottom.add(pn_tongtien);
-        right_bottom.add(btnNhapHang);
+        right_bottom.add(btnXuatHang);
 
         right.add(right_top, BorderLayout.NORTH);
         right.add(right_center, BorderLayout.CENTER);
@@ -149,5 +153,15 @@ public class TaoPhieuNhap extends JPanel {
 
         contentCenter.add(left, BorderLayout.CENTER);
         contentCenter.add(right, BorderLayout.EAST);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        Object btn = e.getSource();
+        if (btn == btnAddSp) {
+            xuatKho = new XuatKho(m);
+            m.setPanel(xuatKho);
+        }
     }
 }

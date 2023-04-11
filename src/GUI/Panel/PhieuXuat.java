@@ -6,6 +6,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.InputForm;
 import GUI.Component.InputFormInline;
 import GUI.Main;
+import GUI.Panel.TaoPhieuXuat;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -33,7 +34,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
     InputFormInline maphieuxuat, khachhang;
 
     Main m;
-    XuatKho xuatKho;
+    TaoPhieuXuat xuatKho;
 
     Color BackgroundColor = new Color(245, 229, 240);
 
@@ -42,56 +43,13 @@ public class PhieuXuat extends JPanel implements ActionListener {
         this.m = m;
     }
 
-    public String[] getKhachHang() {
-        ArrayList<KhachHangDTO> khachhang = KhachHangDAO.getInstance().selectAll();
-        String tenKH[] = new String[khachhang.size()];
-        for (int i = 0; i < khachhang.size(); i++) {
-            tenKH[i] = khachhang.get(i).getHoten();
-        }
-        return tenKH;
-    }
-
     private void initComponent() {
 
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
-        tablePhieuXuat = new JTable();
-        scrollTablePhieuXuat = new JScrollPane();
-        tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Giá nhập", "Số lượng"};
-        tblModel.setColumnIdentifiers(header);
-        tablePhieuXuat.setModel(tblModel);
-        scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tablePhieuXuat.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tablePhieuXuat.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        tablePhieuXuat.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        this.setBackground(BackgroundColor);
-        this.setLayout(new BorderLayout(0, 0));
-        this.setOpaque(true);
-
-        pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 20));
-        pnlBorder1.setBackground(BackgroundColor);
-        this.add(pnlBorder1, BorderLayout.NORTH);
-
-        pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 20));
-        pnlBorder2.setBackground(BackgroundColor);
-        this.add(pnlBorder2, BorderLayout.SOUTH);
-
-        pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(20, 0));
-        pnlBorder3.setBackground(BackgroundColor);
-        this.add(pnlBorder3, BorderLayout.EAST);
-
-        pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(20, 0));
-        pnlBorder4.setBackground(BackgroundColor);
-        this.add(pnlBorder4, BorderLayout.WEST);
+        initPadding();
 
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
@@ -118,51 +76,54 @@ public class PhieuXuat extends JPanel implements ActionListener {
         main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
+        tablePhieuXuat = new JTable();
+        scrollTablePhieuXuat = new JScrollPane();
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"STT", "Mã phiếu xuất", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
+        tblModel.setColumnIdentifiers(header);
+        tablePhieuXuat.setModel(tblModel);
+        scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tablePhieuXuat.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tablePhieuXuat.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        tablePhieuXuat.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
 
         main.add(scrollTablePhieuXuat);
 
-        right = new PanelBorderRadius();
-        right.setPreferredSize(new Dimension(500, 0));
-        right.setLayout(new FlowLayout(1, 15, 10));
-        contentCenter.add(right, BorderLayout.EAST);
-
-        maphieuxuat = new InputFormInline("Mã phiếu xuất", 340, 40);
-        khachhang = new InputFormInline("Khách hàng", getKhachHang());
-        right.add(maphieuxuat);
-        right.add(khachhang);
-
-        JPanel pnl1 = new JPanel();
-        pnl1.setOpaque(false);
-        pnl1.setPreferredSize(new Dimension(400, 350));
-        pnl1.setLayout(new FlowLayout(1, 40, 300));
-        right.add(pnl1);
-
-        lbl2 = new JLabel("Tổng tiền");
-        lbl2.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
-        pnl1.add(lbl2);
-
-        lblTongTien = new JLabel("0 VNĐ");
-        lblTongTien.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 20));
-        lblTongTien.setForeground(Color.RED);
-        pnl1.add(lblTongTien);
-
-        btnXuatKho = new ButtonCustom("XUẤT HÀNG", "excel", 15, "/icon/insert_25px.png", 300, 40);
-        right.add(btnXuatKho);
-
         //Add Event MouseListener
         mainFunction.btnAdd.addActionListener(this);
+    }
+
+    public void initPadding() {
+        pnlBorder1 = new JPanel();
+        pnlBorder1.setPreferredSize(new Dimension(0, 20));
+        pnlBorder1.setBackground(BackgroundColor);
+        this.add(pnlBorder1, BorderLayout.NORTH);
+
+        pnlBorder2 = new JPanel();
+        pnlBorder2.setPreferredSize(new Dimension(0, 20));
+        pnlBorder2.setBackground(BackgroundColor);
+        this.add(pnlBorder2, BorderLayout.SOUTH);
+
+        pnlBorder3 = new JPanel();
+        pnlBorder3.setPreferredSize(new Dimension(20, 0));
+        pnlBorder3.setBackground(BackgroundColor);
+        this.add(pnlBorder3, BorderLayout.EAST);
+
+        pnlBorder4 = new JPanel();
+        pnlBorder4.setPreferredSize(new Dimension(20, 0));
+        pnlBorder4.setBackground(BackgroundColor);
+        this.add(pnlBorder4, BorderLayout.WEST);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
 
-            xuatKho = new XuatKho(this.m);
-            m.MainContent.removeAll();
-            m.MainContent.add(xuatKho).setVisible(true);
-            m.MainContent.repaint();
-            m.MainContent.validate();
+            xuatKho = new TaoPhieuXuat(m);
+            m.setPanel(xuatKho);
 
         }
     }
