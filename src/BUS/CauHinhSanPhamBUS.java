@@ -16,11 +16,26 @@ public class CauHinhSanPhamBUS {
     private CauHinhSanPhamDAO cauhinhDAO = new CauHinhSanPhamDAO();
     private ArrayList<CauHinhSanPhamDTO> listCauHinh = new ArrayList<>();
     
-    public CauHinhSanPhamBUS(int masp) {
-        this.listCauHinh = cauhinhDAO.selectAll(Integer.toString(masp));
+    public CauHinhSanPhamBUS() {
     }
     
-    public ArrayList<CauHinhSanPhamDTO> getAll() {
-        return this.listCauHinh;
+    public ArrayList<CauHinhSanPhamDTO> getAll(int masp) {
+        return cauhinhDAO.selectAll(Integer.toString(masp));
+    }
+    
+    public static boolean checkDuplicate( ArrayList<CauHinhSanPhamDTO> listch, CauHinhSanPhamDTO ch) {
+        boolean check = false;
+        int i = 0;
+        while(i < listch.size() && check == false) {
+            if(listch.get(i).equals(ch)) check = true;
+            else i++;
+        }
+        return check;
+    }
+    
+    public Boolean add(ArrayList<CauHinhSanPhamDTO> listch) {
+        boolean check = cauhinhDAO.insert(listch) != 0;
+        return check;
     }
 }
+

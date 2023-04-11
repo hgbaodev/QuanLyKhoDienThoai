@@ -31,12 +31,8 @@ public class SelectForm extends JPanel{
         this.add(cbb);
     }
     
-    public void setText(String title) {
-        lblTitle.setText(title);
-    }
-    
-    public String getText() {
-        return lblTitle.getText();
+    public String getValue() {
+        return (String) cbb.getSelectedItem();
     }
     
     public Object getSelectedItem() {

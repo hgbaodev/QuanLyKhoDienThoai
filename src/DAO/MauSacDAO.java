@@ -1,6 +1,5 @@
 package DAO;
 
-import DTO.KhuVucKhoDTO;
 import DTO.ThuocTinhSanPham.MauSacDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
