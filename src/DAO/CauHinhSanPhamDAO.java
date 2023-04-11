@@ -47,6 +47,27 @@ public class CauHinhSanPhamDAO implements ChiTietInterface<CauHinhSanPhamDTO> {
         }
         return result;
     }
+    
+    public int insert(CauHinhSanPhamDTO t){
+        int result = 0;
+        try {
+                Connection con = (Connection) JDBCUtil.getConnection();
+                String sql = "INSERT INTO `cauhinh`(`macauhinh`, `masp`, `rom`, `ram`, `mausac`, `gianhap`, `giaxuat`) VALUES (?,?,?,?,?,?,?)";
+                PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+                pst.setInt(1, t.getMacauhinh());
+                pst.setInt(2, t.getMasp());
+                pst.setInt(3, t.getRom());
+                pst.setInt(4, t.getRam());
+                pst.setInt(5, t.getMausac());
+                pst.setInt(6, t.getGianhap());
+                pst.setInt(7, t.getGiaxuat());
+                result = pst.executeUpdate();
+                JDBCUtil.closeConnection(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(CauHinhSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return result;
+    }
 
     @Override
     public int delete(String t) {
@@ -68,13 +89,34 @@ public class CauHinhSanPhamDAO implements ChiTietInterface<CauHinhSanPhamDTO> {
     public int update(ArrayList<CauHinhSanPhamDTO> t, String pk) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    public int update(CauHinhSanPhamDTO ch){
+       int result = 0 ;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "UPDATE `cauhinh` SET `rom`=?,`ram`=?,`mausac`=?,`gianhap`=?,`giaxuat`=? WHERE macauhinh=?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1,ch.getRom());
+            pst.setInt(2, ch.getRam());
+            pst.setInt(3, ch.getMausac());
+            pst.setInt(4, ch.getGianhap());
+            pst.setInt(5, ch.getGiaxuat());
+            pst.setInt(6, ch.getMacauhinh());
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(TaiKhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+        
+    }
 
     @Override
     public ArrayList<CauHinhSanPhamDTO> selectAll(String t) {
         ArrayList<CauHinhSanPhamDTO> result = new ArrayList<CauHinhSanPhamDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM cauhinh WHERE masp = ?";
+            String sql = "SELECT * FROM cauhinh WHERE masp = ? and trangthai = 1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();

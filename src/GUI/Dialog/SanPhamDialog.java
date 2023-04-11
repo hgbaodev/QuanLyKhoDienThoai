@@ -7,6 +7,7 @@ import BUS.KhuVucKhoBUS;
 import BUS.MauSacBUS;
 import BUS.ThuongHieuBUS;
 import DAO.CauHinhSanPhamDAO;
+import DAO.SanPhamDAO;
 import DTO.CauHinhSanPhamDTO;
 import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
@@ -54,7 +55,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
 
     private HeaderTitle titlePage;
     private JPanel pninfosanpham, pnbottom, pnCenter, pninfosanphamright, pnmain, pncard2;
-    private ButtonCustom btnThemCHMS, btnHuyBo, btnAddCauHinh, btnEditCauHinh, btnDeleteCauHinh, btnResetCauHinh, btnAddSanPham, btnBack, btnViewCauHinh;
+    private ButtonCustom btnThemCHMS, btnHuyBo, btnAddCauHinh, btnEditCTCauHinh, btnDeleteCauHinh, btnResetCauHinh, btnAddSanPham, btnBack, btnViewCauHinh;
     InputForm tenSP, xuatxu, chipxuly, dungluongpin, kichthuocman, thoigianbaohanh, phienbanhdh, camerasau, cameratruoc;
     InputForm txtgianhap, txtgiaxuat;
     SelectForm cbxRom, cbxRam, cbxMausac, hedieuhanh;
@@ -76,6 +77,12 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     String[] arrthuonghieu;
     int masp;
     int mach;
+    private ButtonCustom btnEditCT;
+    private ButtonCustom btnSaveCH;
+    private ButtonCustom btnAddCauHinhEdit;
+    private ButtonCustom btnEditCTCauHinhEdit;
+    private ButtonCustom btnDeleteCauHinhEdit;
+    private ButtonCustom btnResetCauHinhEdit;
 
     public void init(SanPham jpSP) {
         this.jpSP = jpSP;
@@ -150,9 +157,12 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
                 pnbottom.add(btnViewCauHinh);
             }
             case "update" -> {
-                btnEditCauHinh = new ButtonCustom("Sửa cấu hình", "warning", 14);
-                btnEditCauHinh.addActionListener(this);
-                pnbottom.add(btnEditCauHinh);
+                btnSaveCH = new ButtonCustom("Lưu thông tin", "success", 14);
+                btnEditCT = new ButtonCustom("Sửa cấu hình", "warning", 14);
+                btnSaveCH.addActionListener(this);
+                btnEditCT.addActionListener(this);
+                pnbottom.add(btnSaveCH);
+                pnbottom.add(btnEditCT);
             }
             case "create" -> {
                 btnThemCHMS = new ButtonCustom("Tạo cấu hình", "success", 14);
@@ -212,20 +222,39 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cauhinhcenter_right.setPreferredSize(new Dimension(180, 10));
         cauhinhcenter_right.setBackground(Color.white);
         cauhinhcenter_right.setBorder(new EmptyBorder(0, 0, 0, 10));
+        if(!type.equals("update")){
         btnAddCauHinh = new ButtonCustom("Thêm cấu hình", "success", 14);
-        btnEditCauHinh = new ButtonCustom("Sửa cấu hình", "warning", 14);
+        btnEditCTCauHinh = new ButtonCustom("Sửa cấu hình", "warning", 14);
         btnDeleteCauHinh = new ButtonCustom("Xoá cấu hình", "danger", 14);
         btnResetCauHinh = new ButtonCustom("Làm mới", "excel", 14);
 
         btnAddCauHinh.addActionListener(this);
-        btnEditCauHinh.addActionListener(this);
+        btnEditCTCauHinh.addActionListener(this);
         btnDeleteCauHinh.addActionListener(this);
         btnResetCauHinh.addActionListener(this);
-
         cauhinhcenter_right.add(btnAddCauHinh);
-        cauhinhcenter_right.add(btnEditCauHinh);
+        cauhinhcenter_right.add(btnEditCTCauHinh);
         cauhinhcenter_right.add(btnDeleteCauHinh);
         cauhinhcenter_right.add(btnResetCauHinh);
+        } else {
+        btnAddCauHinhEdit = new ButtonCustom("Thêm cấu hình", "success", 14);
+        btnEditCTCauHinhEdit = new ButtonCustom("Sửa cấu hình", "warning", 14);
+        btnDeleteCauHinhEdit = new ButtonCustom("Xoá cấu hình", "danger", 14);
+        btnResetCauHinhEdit = new ButtonCustom("Làm mới", "excel", 14);
+        
+        btnAddCauHinhEdit.addActionListener(this);
+        btnEditCTCauHinhEdit.addActionListener(this);
+        btnDeleteCauHinhEdit.addActionListener(this);
+        btnResetCauHinhEdit.addActionListener(this);
+        
+        cauhinhcenter_right.add(btnAddCauHinhEdit);
+        cauhinhcenter_right.add(btnEditCTCauHinhEdit);
+        cauhinhcenter_right.add(btnDeleteCauHinhEdit);
+        cauhinhcenter_right.add(btnResetCauHinhEdit);
+        }
+        
+
+        
         cauhinhcenter.add(cauhinhcenter_left, BorderLayout.CENTER);
         cauhinhcenter.add(cauhinhcenter_right, BorderLayout.EAST);
 
@@ -300,7 +329,6 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == btnThemCHMS && validateCardOne()) {
-            System.out.println(getInfo());
             CardLayout c = (CardLayout) pnmain.getLayout();
             c.next(pnmain);
         } else if (source == btnBack) {
@@ -320,14 +348,73 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
             this.listch.remove(index);
             loadDataToTableCauHinh(this.listch);
             resetFormCauHinh();
-        } else if (source == btnEditCauHinh) {
+        } else if (source == btnEditCTCauHinh) {
             eventEditCauHinh();
+           loadDataToTableCauHinh(this.listch);
         } else if (source == btnAddSanPham) {
             eventAddSanPham();
         } else if (source == btnViewCauHinh) {
             CardLayout c = (CardLayout) pnmain.getLayout();
             c.next(pnmain);
+        } else if (source == btnEditCT){
+            CardLayout c = (CardLayout) pnmain.getLayout();
+            c.next(pnmain);
+        } else if(source == btnSaveCH){
+            SanPhamDTO snNew = getInfo();
+            if(!snNew.getHinhanh().equals(this.sp.getHinhanh())){
+                snNew.setHinhanh(addImage(snNew.getHinhanh()));
+            }
+            snNew.setMasp(this.sp.getMasp());
+            SanPhamDAO.getInstance().update(sp);
+            this.jpSP.spBUS.update(snNew);
+            this.jpSP.loadDataTalbe(this.jpSP.spBUS.getAll());
+            int input = JOptionPane.showConfirmDialog(this, 
+                "Bạn có muốn chỉnh sửa chi tiết sản phẩm?", "Chỉnh sửa chi tiết", 
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            // 0=ok, 2=cancel
+            if(input == 0){
+                CardLayout c = (CardLayout) pnmain.getLayout();
+                c.next(pnmain);
+            }
         }
+        if(source == btnEditCTCauHinhEdit){
+            if (validateCardTwo()) {
+            int index = getRowCauHinh();
+            if(index < 0){
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn cấu hình");
+            } else {
+            listch.get(index).setMausac(mausacBus.getByIndex(cbxMausac.getSelectedIndex()).getMamau());
+            listch.get(index).setRam(ramBus.getByIndex(cbxRam.getSelectedIndex()).getMadlram());
+            listch.get(index).setRom(romBus.getByIndex(cbxRom.getSelectedIndex()).getMadungluongrom());
+            listch.get(index).setGianhap(Integer.parseInt(txtgianhap.getText()));
+            listch.get(index).setGiaxuat(Integer.parseInt(txtgiaxuat.getText()));
+            CauHinhSanPhamDAO.getInstance().update(listch.get(index));
+            loadDataToTableCauHinh(this.listch);
+            resetFormCauHinh();
+            }
+            
+        }
+        }
+        if(source == btnDeleteCauHinhEdit){
+            int index = getRowCauHinh();
+            CauHinhSanPhamDAO.getInstance().delete(this.listch.get(index).getMacauhinh()+"");
+            this.listch.remove(index);
+            loadDataToTableCauHinh(this.listch);
+            resetFormCauHinh();
+        }
+        if( source == btnAddCauHinhEdit){
+            if(validateCardTwo() && checkTonTai()){
+            CauHinhSanPhamDAO.getInstance().insert(getCauHinh(sp.getMasp()));
+            loadDataToTableCauHinh(this.listch);
+            resetFormCauHinh();
+            }
+            
+        }
+        if(source == btnResetCauHinhEdit){
+            resetFormCauHinh();
+            loadDataToTableCauHinh(this.listch);
+        }
+        
     }
 
     public void eventAddSanPham() {
@@ -337,12 +424,15 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
             JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công !");
             jpSP.loadDataTalbe(jpSP.listSP);
             dispose();
-        };
+        }
     }
 
     public void eventEditCauHinh() {
         if (validateCardTwo()) {
             int index = getRowCauHinh();
+            if(index < 0){
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn cấu hình");
+            } else {
             listch.get(index).setMausac(mausacBus.getByIndex(cbxMausac.getSelectedIndex()).getMamau());
             listch.get(index).setRam(ramBus.getByIndex(cbxRam.getSelectedIndex()).getMadlram());
             listch.get(index).setRom(romBus.getByIndex(cbxRom.getSelectedIndex()).getMadungluongrom());
@@ -350,6 +440,8 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
             listch.get(index).setGiaxuat(Integer.parseInt(txtgiaxuat.getText()));
             loadDataToTableCauHinh(this.listch);
             resetFormCauHinh();
+            }
+            
         }
     }
 
@@ -403,6 +495,17 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         int giaban = Integer.parseInt(txtgiaxuat.getText());
         CauHinhSanPhamDTO chsp = new CauHinhSanPhamDTO(mach, masp, ram, rom, mausac, gianhap, giaban);
         mach++;
+        return chsp;
+    }
+    
+    public CauHinhSanPhamDTO getCauHinh(int masanpham) {
+        int rom = romBus.getByIndex(cbxRom.getSelectedIndex()).getMadungluongrom();
+        int ram = ramBus.getByIndex(cbxRam.getSelectedIndex()).getMadlram();
+        int mausac = mausacBus.getByIndex(cbxMausac.getSelectedIndex()).getMamau();
+        int gianhap = Integer.parseInt(txtgianhap.getText());
+        int giaban = Integer.parseInt(txtgiaxuat.getText());
+        CauHinhSanPhamDTO chsp = new CauHinhSanPhamDTO(CauHinhSanPhamDAO.getInstance().getAutoIncrement(), masanpham, ram, rom, mausac, gianhap, giaban);
+        this.listch.add(chsp);
         return chsp;
     }
 
