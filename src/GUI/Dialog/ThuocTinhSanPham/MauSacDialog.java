@@ -3,162 +3,182 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package GUI.Dialog.ThuocTinhSanPham;
-import GUI.Component.ButtonCustom;
+
+import BUS.MauSacBUS;
+import DAO.MauSacDAO;
+import DTO.ThuocTinhSanPham.MauSacDTO;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import DTO.ThuocTinhSanPham.MauSacDTO;
-import DAO.MauSacDAO;
-import BUS.MauSacBUS;
-import GUI.Panel.MauSac;
-/**
- *
- * @author 84907
- */
-public class MauSacDialog extends JDialog implements ActionListener{
-    private MauSac jpms;
-    private HeaderTitle titlePage;
-    private JPanel pnmain, pnbottom;
-    private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
-    private InputForm tenmau;
-    private MauSacDTO mausac;
 
-    public MauSacDialog(MauSac jpms, JFrame owner, String title, boolean modal, String type) {
-        super(owner, title, modal);
-        this.jpms = jpms;
-        initComponents(title, type);
+public class MauSacDialog extends JFrame implements MouseListener{
+
+    HeaderTitle headTite;
+    JPanel top, main, bottom,all;
+    InputForm ms;
+    DefaultTableModel tblModel;
+    JTable table;
+    JScrollPane scrollTable;
+    JButton add, del, update;
+    MauSacBUS msBUS = new MauSacBUS();
+    ArrayList<MauSacDTO> list = msBUS.getAll();
+
+    public MauSacDialog() {
+        //super(owner, title, modal);
+        initComponent();
+        loadDataTable(list);
     }
 
-    public MauSacDialog(MauSac jpms, JFrame owner, String title, boolean modal, String type, MauSacDTO mausac) {
-        super(owner, title, modal);
-        this.jpms = jpms;
-        this.mausac = mausac;
-        initComponents(title, type,mausac);
-    }
+    public void initComponent() {
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    public void initComponents(String title, String type,MauSacDTO mausac) {
-        this.setSize(new Dimension(500, 360));
-        this.setLayout(new BorderLayout(0, 0));
-        titlePage = new HeaderTitle(title.toUpperCase());
-        pnmain = new JPanel(new GridLayout(2, 2, 20, 0));
-        pnmain.setBackground(Color.white);
-        tenmau = new InputForm("Tên màu");
-
-        pnmain.add(tenmau);
-
-        pnbottom = new JPanel(new FlowLayout());
-        pnbottom.setBorder(new EmptyBorder(10, 0, 10, 0));
-        pnbottom.setBackground(Color.white);
-        btnThem = new ButtonCustom("Thêm màu sắc", "success", 14);
-        btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
-        btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
-
-        //Add MouseListener btn
-        btnThem.addActionListener(this);
-        btnCapNhat.addActionListener(this);
-        btnHuyBo.addActionListener(this);
-
-        switch (type) {
-            case "create":
-                pnbottom.add(btnThem);
-                break;
-            case "update":
-                pnbottom.add(btnCapNhat);
-                initInfo();
-                break;
-            case "view":
-               tenmau.setDisable();
-                break;
-            default:
-                throw new AssertionError();
-        }
-        pnbottom.add(btnHuyBo);
-        this.add(titlePage, BorderLayout.NORTH);
-        this.add(pnmain, BorderLayout.CENTER);
-        this.add(pnbottom, BorderLayout.SOUTH);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-
-    }
-    public void initComponents(String title, String type) {
-        this.setSize(new Dimension(500, 360));
-        this.setLayout(new BorderLayout(0, 0));
-        titlePage = new HeaderTitle(title.toUpperCase());
-        pnmain = new JPanel(new GridLayout(2, 2, 20, 0));
-        pnmain.setBackground(Color.white);
-        tenmau = new InputForm("Tên màu", "password");
+        this.setSize(new Dimension(400, 500));
+        this.setLayout(new BorderLayout(0, 0));        
+        headTite = new HeaderTitle("Quản lý màu sắc sản phẩm");
+        this.setBackground(Color.white);
+        top = new JPanel();
+        main = new JPanel();
+        bottom = new JPanel();
         
-        pnmain.add(tenmau);
+        ms=new InputForm("Tên màu sắc");
+        ms.setPreferredSize(new Dimension(150,70));
+        top.setLayout(new FlowLayout(0));
+        top.setBackground(Color.WHITE);
+        top.setPreferredSize(new Dimension(0, 150));
+        top.add(headTite);
+        top.add(ms);
 
-        pnbottom = new JPanel(new FlowLayout());
-        pnbottom.setBorder(new EmptyBorder(10, 0, 10, 0));
-        pnbottom.setBackground(Color.white);
-        btnThem = new ButtonCustom("Thêm màu sắc", "success", 14);
-        btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
-        btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
-
-        //Add MouseListener btn
-        btnThem.addActionListener(this);
-        btnCapNhat.addActionListener(this);
-        btnHuyBo.addActionListener(this);
-
-        switch (type) {
-            case "create":
-                pnbottom.add(btnThem);
-                break;
-            case "update":
-                pnbottom.add(btnCapNhat);
-                initInfo();
-                break;
-            default:
-                throw new AssertionError();
-        }
-        pnbottom.add(btnHuyBo);
-        this.add(titlePage, BorderLayout.NORTH);
-        this.add(pnmain, BorderLayout.CENTER);
-        this.add(pnbottom, BorderLayout.SOUTH);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-
+        main.setBackground(Color.WHITE);
+        main.setPreferredSize(new Dimension(420,200));
+        table = new JTable();
+        table.setBackground(Color.WHITE);
+        table.addMouseListener(this);
+        scrollTable = new JScrollPane();
+        scrollTable.setBackground(Color.WHITE);
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"Mã màu", "Tên màu"};
+        tblModel.setColumnIdentifiers(header);
+        table.setModel(tblModel);
+        scrollTable.setViewportView(table);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.getColumn(0).setCellRenderer(centerRenderer);
+        columnModel.getColumn(1).setCellRenderer(centerRenderer);
+        main.add(scrollTable);
+        
+        add = new JButton("Thêm");
+        add.addMouseListener(this);
+        del = new JButton("Xóa");
+        del.addMouseListener(this);
+        update = new JButton("Sửa");
+        update.addMouseListener(this);
+        bottom.setBackground(Color.white);
+        bottom.setLayout(new FlowLayout(1,50,20));
+        bottom.add(add);
+        bottom.add(del);
+        bottom.add(update);
+        bottom.setPreferredSize(new Dimension(0,70));
+        
+        this.add(top,BorderLayout.NORTH);
+        this.add(main,BorderLayout.CENTER);
+        this.add(bottom,BorderLayout.SOUTH);
+                this.setLocationRelativeTo(null);
     }
 
-    public void initInfo() {
-        tenmau.setText(mausac.getTenmau());
+    public void loadDataTable(ArrayList<MauSacDTO> result) {
+        tblModel.setRowCount(0);
+        for (MauSacDTO ncc : result) {
+            tblModel.addRow(new Object[]{
+                ncc.getMamau(), ncc.getTenmau()
+            });
+        }
+    }
+    public static void main(String[] args) {
+       MauSacDialog aDialog= new MauSacDialog();
+       aDialog.setVisible(true);
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnThem) {
-            int mamau = MauSacDAO.getInstance().getAutoIncrement();
-            String tenmau = this.tenmau.getText();
-            jpms.msBUS.add(new MauSacDTO(mamau, tenmau));
-            jpms.loadDataTable(jpms.listmausac);
-            dispose();
-        } else if (e.getSource() == btnHuyBo) {
-            dispose();
-        } else if (e.getSource() == btnCapNhat) {
-            String tenmau = this.tenmau.getText();
-            jpms.msBUS.update(new MauSacDTO(mausac.getMamau(), tenmau));
-            jpms.loadDataTable(jpms.listmausac);
-            dispose();
+    public void mouseClicked(MouseEvent e) {
+       if(e.getSource()==add){
+            if(this.ms.getText()==""){
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
+            }
+            else{
+                int id = MauSacDAO.getInstance().getAutoIncrement();
+                String tenmau= ms.getText();
+                msBUS.add(new MauSacDTO(id,tenmau));
+                loadDataTable(list);
         }
+    }
+        else if(e.getSource()==del){
+            int index = table.getSelectedRow();
+            if(index==-1){
+                JOptionPane.showMessageDialog(this ,"Vui lòng chọn màu xóa");
+            }
+            else{
+                 msBUS.delete(list.get(index), index);
+                 loadDataTable(list);
+                 }
+        }
+        else if(e.getSource()==update){
+            int index = table.getSelectedRow();
+            if(index==-1){
+                JOptionPane.showMessageDialog(this ,"Vui lòng chọn màu xóa");
+            }
+            else{
+                String tenmau= ms.getText();
+                 msBUS.update(new MauSacDTO(list.get(index).getMamau(),tenmau));
+                 loadDataTable(list);
+                 ms.setText("");
+                 }
+        }
+        else if(e.getSource()==table){
+            int index = table.getSelectedRow();
+            ms.setText(list.get(index).getTenmau());
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

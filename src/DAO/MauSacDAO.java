@@ -32,7 +32,7 @@ public class MauSacDAO implements DAOinterface<MauSacDTO> {
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(KhuVucKhoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MauSacDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -49,7 +49,7 @@ public class MauSacDAO implements DAOinterface<MauSacDTO> {
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(KhuVucKhoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MauSacDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -64,7 +64,7 @@ public class MauSacDAO implements DAOinterface<MauSacDTO> {
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(KhuVucKhoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MauSacDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
