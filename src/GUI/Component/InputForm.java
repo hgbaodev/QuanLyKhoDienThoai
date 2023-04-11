@@ -29,36 +29,46 @@ public final class InputForm extends JPanel {
     public InputForm() {
     }
 
-    
-    
     public InputForm(String title) {
         this.setLayout(new GridLayout(2, 1));
         this.setBackground(Color.white);
         this.setBorder(new EmptyBorder(0, 10, 10, 10));
-        this.setPreferredSize(new Dimension(100,100));
+        this.setPreferredSize(new Dimension(100, 100));
         lblTitle = new JLabel(title);
         txtForm = new JTextField();
         this.add(lblTitle);
         this.add(txtForm);
     }
-    
-    public InputForm(String title, String style){
+
+    public InputForm(String title, String style) {
         this.setLayout(new GridLayout(2, 1));
         this.setBackground(Color.white);
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
         lblTitle = new JLabel(title);
         this.add(lblTitle);
-        if(style.equals("password")){
+        if (style.equals("password")) {
             txtPass = new JPasswordField();
             this.add(txtPass);
         }
     }
+
+    public InputForm(String title, int w, int h) {
+        this.setLayout(new GridLayout(2, 1));
+        this.setBackground(Color.white);
+        this.setBorder(new EmptyBorder(0, 10, 10, 10));
+        this.setPreferredSize(new Dimension(w, h));
+        lblTitle = new JLabel(title);
+        txtForm = new JTextField();
+        this.add(lblTitle);
+        this.add(txtForm);
+    }
+
     
-    public String getPass(){
+    public String getPass() {
         return txtPass.getText();
     }
-    
-    public void setPass(String s){
+
+    public void setPass(String s) {
         txtPass.setText(s);
     }
 
@@ -70,10 +80,10 @@ public final class InputForm extends JPanel {
         txtForm.setText(content);
     }
 
-    public void setDisablePass(){
+    public void setDisablePass() {
         txtPass.setEnabled(false);
     }
-    
+
     public void setDisable() {
         txtForm.setEnabled(false);
     }

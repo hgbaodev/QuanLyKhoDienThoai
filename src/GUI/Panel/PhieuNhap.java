@@ -7,7 +7,6 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -22,7 +21,7 @@ public class PhieuNhap extends JPanel implements ActionListener {
     MainFunction mainFunction;
     IntegratedSearch search;
     DefaultTableModel tblModel;
-    NhapKho nhapKho;
+    TaoPhieuNhap nhapKho;
     Main m;
 
     Color BackgroundColor = new Color(239, 235, 233);
@@ -31,28 +30,8 @@ public class PhieuNhap extends JPanel implements ActionListener {
         this.m = m;
         initComponent();
     }
-
-    private void initComponent() {
-        this.setBackground(BackgroundColor);
-        this.setLayout(new BorderLayout(0, 0));
-        this.setOpaque(true);
-
-        tablePhieuNhap = new JTable();
-        scrollTablePhieuNhap = new JScrollPane();
-        tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã khu vực kho", "Tên khu vực", "Mã kho hàng"};
-        tblModel.setColumnIdentifiers(header);
-        tablePhieuNhap.setModel(tblModel);
-        scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tablePhieuNhap.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tablePhieuNhap.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        tablePhieuNhap.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        this.setBackground(BackgroundColor);
-        this.setLayout(new BorderLayout(0, 0));
-        this.setOpaque(true);
-
+    
+    public void initPadding() {
         pnlBorder1 = new JPanel();
         pnlBorder1.setPreferredSize(new Dimension(0, 20));
         pnlBorder1.setBackground(BackgroundColor);
@@ -72,7 +51,31 @@ public class PhieuNhap extends JPanel implements ActionListener {
         pnlBorder4.setPreferredSize(new Dimension(20, 0));
         pnlBorder4.setBackground(BackgroundColor);
         this.add(pnlBorder4, BorderLayout.WEST);
+    }
 
+    private void initComponent() {
+        this.setBackground(BackgroundColor);
+        this.setLayout(new BorderLayout(0, 0));
+        this.setOpaque(true);
+
+        tablePhieuNhap = new JTable();
+        scrollTablePhieuNhap = new JScrollPane();
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"STT","Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
+        tblModel.setColumnIdentifiers(header);
+        tablePhieuNhap.setModel(tblModel);
+        scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tablePhieuNhap.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tablePhieuNhap.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        tablePhieuNhap.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        this.setBackground(BackgroundColor);
+        this.setLayout(new BorderLayout(0, 0));
+        this.setOpaque(true);
+
+        initPadding();
+        
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
         contentCenter.setBackground(BackgroundColor);
@@ -105,16 +108,16 @@ public class PhieuNhap extends JPanel implements ActionListener {
 
         main.add(scrollTablePhieuNhap);
 
-        right = new PanelBorderRadius();
-        right.setPreferredSize(new Dimension(400, 0));
-        right.setLayout(new FlowLayout(1, 15, 40));
-        contentCenter.add(right, BorderLayout.EAST);
+//        right = new PanelBorderRadius();
+//        right.setPreferredSize(new Dimension(400, 0));
+//        right.setLayout(new FlowLayout(1, 15, 40));
+//        contentCenter.add(right, BorderLayout.EAST);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-            nhapKho = new NhapKho();
+            nhapKho = new TaoPhieuNhap();
             m.setPanel(nhapKho);
         }
     }

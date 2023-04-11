@@ -19,8 +19,7 @@ import java.util.logging.Logger;
  * @author Tran Nhat Sinh
  */
 public class CauHinhSanPhamDAO implements ChiTietInterface<CauHinhSanPhamDTO> {
-
-    public static CauHinhSanPhamDAO getInstance() {
+    public static CauHinhSanPhamDAO getInstance(){
         return new CauHinhSanPhamDAO();
     }
     
