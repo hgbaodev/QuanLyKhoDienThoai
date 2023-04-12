@@ -8,6 +8,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
 
 public class itemTaskbar extends JPanel implements MouseListener {
 
@@ -23,7 +26,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
         this.addMouseListener(this);
         lblIcon = new JLabel();
         lblIcon.setPreferredSize(new Dimension(30, 30));
-        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/"+linkIcon)));
+        lblIcon.setIcon(new FlatSVGIcon("./icon/"+linkIcon));
         this.add(lblIcon);
         
         
