@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 public class TaoPhieuNhap extends JPanel implements ItemListener {
 
     PanelBorderRadius right, left;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main;
+    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main, content_right_bottom;
     JTable tablePhieuNhap, tableSanPham;
     JScrollPane scrollTablePhieuNhap, scrollTableSanPham;
     DefaultTableModel tblModel, tblModelSP;
@@ -140,7 +140,7 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
         left_top.setBorder(new EmptyBorder(5, 5, 10, 10));
         left_top.setOpaque(false);
 
-        JPanel content_top, content_btn, content_left, content_right, content_right_top, content_right_bottom;
+        JPanel content_top, content_btn, content_left, content_right, content_right_top;
         content_top = new JPanel(new GridLayout(1, 2, 5, 5));
         content_top.setOpaque(false);
         content_left = new JPanel(new BorderLayout(5, 5));
@@ -175,6 +175,7 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
         txtDongia.setEditable(false);
         String[] arrPtNhap = {"Nhập theo lô", "Nhập từng máy"};
         cbxPtNhap = new SelectForm("Phương thức nhập", arrPtNhap);
+        cbxPtNhap.cbb.addItemListener(this);
         cbxPtNhap.setPreferredSize(new Dimension(100, 90));
         content_right_top_cbx.add(cbxCauhinh, BorderLayout.WEST);
         content_right_top_cbx.add(txtDongia, BorderLayout.CENTER);
@@ -184,31 +185,31 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
         content_right_top.add(content_right_top_cbx, BorderLayout.SOUTH);
 
         content_right_bottom = new JPanel(new CardLayout());
-        
+
         JPanel card_content_one = new JPanel(new BorderLayout());
         card_content_one.setBackground(Color.white);
-        card_content_one.setPreferredSize(new Dimension(100,90));
+        card_content_one.setPreferredSize(new Dimension(100, 90));
         JPanel card_content_one_model = new JPanel(new BorderLayout());
         card_content_one_model.setPreferredSize(new Dimension(100, 90));
         txtMaImeiTheoLo = new InputForm("Mã Imei bắt đầu");
         txtSoLuongImei = new InputForm("Số lượng");
         card_content_one_model.add(txtMaImeiTheoLo, BorderLayout.CENTER);
         card_content_one_model.add(txtSoLuongImei, BorderLayout.EAST);
-//        card_content_one.add(card_content_one_model,BorderLayout.NORTH);
-        
+        card_content_one.add(card_content_one_model, BorderLayout.NORTH);
+
         JPanel card_content_two_model = new JPanel(new BorderLayout());
-        card_content_two_model.setBorder(new EmptyBorder(10,10,10,10));
+        card_content_two_model.setBorder(new EmptyBorder(10, 10, 10, 10));
         labelImei = new JLabel("Mã Imei");
-        labelImei.setPreferredSize(new Dimension(0,30));
+        labelImei.setPreferredSize(new Dimension(0, 30));
         textAreaImei = new JTextArea(6, 4);
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
-        card_content_two_model.setSize(new Dimension(0,100));
+        card_content_two_model.setSize(new Dimension(0, 100));
         card_content_two_model.setBackground(Color.white);
         card_content_two_model.add(labelImei, BorderLayout.NORTH);
-        card_content_two_model.add(textAreaImei,BorderLayout.SOUTH);
-        card_content_one.add(card_content_two_model,BorderLayout.NORTH);
-        
+        card_content_two_model.add(textAreaImei, BorderLayout.CENTER);
+
         content_right_bottom.add(card_content_one);
+        content_right_bottom.add(card_content_two_model);
 
         content_right.add(content_right_top, BorderLayout.NORTH);
         content_right.add(content_right_bottom, BorderLayout.CENTER);
@@ -319,8 +320,17 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
         if (source == cbxCauhinh.cbb) {
             int index = cbxCauhinh.cbb.getSelectedIndex();
             this.txtDongia.setText(Formater.FormatVND(ch.get(index).getGianhap()));
-        } else if (source == cbxPtNhap) {
-
+        } else if (source == cbxPtNhap.cbb) {
+            int index = cbxPtNhap.cbb.getSelectedIndex();
+            CardLayout c = (CardLayout) content_right_bottom.getLayout();
+            switch (index) {
+                case 0:
+                    c.first(content_right_bottom);
+                    break;
+                case 1:
+                    c.last(content_right_bottom);
+                    break;
+            }
         }
     }
 
