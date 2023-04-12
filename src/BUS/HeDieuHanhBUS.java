@@ -18,6 +18,9 @@ public class HeDieuHanhBUS {
 
     public HeDieuHanhBUS() {
         this.listHeDieuHanh = hdhDAO.selectAll();
+        for (HeDieuHanhDTO heDieuHanhDTO : listHeDieuHanh) {
+            System.out.println(heDieuHanhDTO);
+        }
     }
 
     public ArrayList<HeDieuHanhDTO> getAll() {
