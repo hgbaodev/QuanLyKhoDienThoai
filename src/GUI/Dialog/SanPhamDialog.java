@@ -3,9 +3,11 @@ package GUI.Dialog;
 import BUS.CauHinhSanPhamBUS;
 import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
+import BUS.HeDieuHanhBUS;
 import BUS.KhuVucKhoBUS;
 import BUS.MauSacBUS;
 import BUS.ThuongHieuBUS;
+import BUS.XuatXuBUS;
 import DAO.CauHinhSanPhamDAO;
 import DAO.SanPhamDAO;
 import DTO.CauHinhSanPhamDTO;
@@ -56,9 +58,9 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     private HeaderTitle titlePage;
     private JPanel pninfosanpham, pnbottom, pnCenter, pninfosanphamright, pnmain, pncard2;
     private ButtonCustom btnThemCHMS, btnHuyBo, btnAddCauHinh, btnEditCTCauHinh, btnDeleteCauHinh, btnResetCauHinh, btnAddSanPham, btnBack, btnViewCauHinh;
-    InputForm tenSP, xuatxu, chipxuly, dungluongpin, kichthuocman, thoigianbaohanh, phienbanhdh, camerasau, cameratruoc;
+    InputForm tenSP, chipxuly, dungluongpin, kichthuocman, thoigianbaohanh, phienbanhdh, camerasau, cameratruoc;
     InputForm txtgianhap, txtgiaxuat;
-    SelectForm cbxRom, cbxRam, cbxMausac, hedieuhanh;
+    SelectForm cbxRom, cbxRam, cbxMausac, hedieuhanh,xuatxu;
     SelectForm thuonghieu, khuvuc;
     InputImage hinhanh;
     JTable tblcauhinh;
@@ -67,14 +69,19 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     GUI.Panel.SanPham jpSP;
 
+    
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     MauSacBUS mausacBus = new MauSacBUS();
+    HeDieuHanhBUS heDieuHanhBUS = new HeDieuHanhBUS();
+    XuatXuBUS xuatXuBUS = new XuatXuBUS();
 
     ArrayList<CauHinhSanPhamDTO> listch = new ArrayList<>();
     SanPhamDTO sp;
     String[] arrkhuvuc;
     String[] arrthuonghieu;
+    String[] arrhHDH;
+    String[] arrXX;
     int masp;
     int mach;
     private ButtonCustom btnEditCT;
@@ -90,6 +97,9 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         mach = CauHinhSanPhamDAO.getInstance().getAutoIncrement();
         arrkhuvuc = jpSP.kvkhoBus.getArrTenKhuVuc();
         arrthuonghieu = jpSP.thuonghieuBus.getArrTenThuongHieu();
+        arrhHDH = heDieuHanhBUS.getArrTenHeDieuHanh();
+        arrXX = xuatXuBUS.getArrTenXuatXu();
+        
     }
 
     public SanPhamDialog(SanPham jpSP, JFrame owner, String title, boolean modal, String type) {
@@ -119,7 +129,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         pnCenter.add(pninfosanphamright, BorderLayout.WEST);
 
         tenSP = new InputForm("Tên sản phẩm");
-        xuatxu = new InputForm("Xuất xứ");
+        xuatxu = new SelectForm("Xuất xứ", arrXX);
         chipxuly = new InputForm("Chip xử lý");
         dungluongpin = new InputForm("Dung lượng pin");
         kichthuocman = new InputForm("Kích thước màn");
@@ -127,8 +137,8 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         thoigianbaohanh = new InputForm("Thời gian bảo hành");
         camerasau = new InputForm("Camera sau");
         cameratruoc = new InputForm("Camera trước");
-        String[] arrhdh = {"Android", "IOS"};
-        hedieuhanh = new SelectForm("Hệ điều hành", arrhdh);
+//        String[] arrhdh = arrhHDH;
+        hedieuhanh = new SelectForm("Hệ điều hành", arrhHDH);
         thuonghieu = new SelectForm("Thương hiệu", arrthuonghieu);
         khuvuc = new SelectForm("Khu vực kho", arrkhuvuc);
         hinhanh = new InputImage("Hình minh họa");
@@ -456,7 +466,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     public SanPhamDTO getInfo() {
         String hinhanh = this.hinhanh.getUrl_img();
         String vtensp = tenSP.getText();
-        String vxuatxu = xuatxu.getText();
+        String vxuatxu = (String) xuatxu.getSelectedItem();
         String vchipxuly = chipxuly.getText();
         int vdungluongpin = Integer.parseInt(dungluongpin.getText());
         double ktman = Double.parseDouble(kichthuocman.getText());
@@ -474,7 +484,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     public void setInfo(SanPhamDTO sp) {
         hinhanh.setUrl_img(sp.getHinhanh());
         tenSP.setText(sp.getTensp());
-        xuatxu.setText(sp.getXuatxu());
+        xuatxu.setSelectedItem(sp.getXuatxu());
         chipxuly.setText(sp.getChipxuly());
         dungluongpin.setText(Integer.toString(sp.getDungluongpin()));
         kichthuocman.setText(Double.toString(sp.getKichthuocman()));
@@ -511,7 +521,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
 
     public boolean validateCardOne() {
         boolean check = true;
-        if (Validation.isEmpty(tenSP.getText()) || Validation.isEmpty(xuatxu.getText())
+        if (Validation.isEmpty(tenSP.getText()) || Validation.isEmpty((String) xuatxu.getSelectedItem())
                 || Validation.isEmpty(chipxuly.getText()) || Validation.isEmpty(dungluongpin.getText())
                 || Validation.isEmpty(kichthuocman.getText()) || Validation.isEmpty(hedieuhanh.getValue())
                 || Validation.isEmpty(camerasau.getText()) || Validation.isEmpty(cameratruoc.getText())
