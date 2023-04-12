@@ -95,7 +95,7 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
         NhomQuyenDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM nhomquyen WHERE manhomquyen='?'";
+            String sql = "SELECT * FROM nhomquyen WHERE manhomquyen=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();

@@ -2,8 +2,10 @@ package GUI.Component;
 
 import BUS.TaiKhoanBUS;
 import DAO.ChiTietQuyenDAO;
+import DAO.NhanVienDAO;
 import DAO.NhomQuyenDAO;
 import DTO.ChiTietQuyenDTO;
+import DTO.NhanVienDTO;
 import DTO.NhomQuyenDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Main;
@@ -18,8 +20,9 @@ import GUI.Panel.PhieuXuat;
 import GUI.Panel.QuanLyThuocTinhSP;
 import GUI.Panel.SanPham;
 import GUI.Panel.TaiKhoan;
-import GUI.Panel.ThuongHieu;
+//import GUI.Panel.ThuongHieu;
 import GUI.Panel.TrangChu;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -73,6 +76,8 @@ public class MenuTaskbar extends JPanel {
     Color HowerFontColor = new Color(1, 87, 155);
     Color HowerBackgroundColor = new Color(187, 222, 251);
     private ArrayList<ChiTietQuyenDTO> listQuyen;
+    NhomQuyenDTO nhomQuyenDTO;
+    NhanVienDTO nhanVienDTO;
 
     public MenuTaskbar(Main main) {
         this.main = main;
@@ -82,6 +87,9 @@ public class MenuTaskbar extends JPanel {
     public MenuTaskbar(Main main, TaiKhoanDTO tk) {
         this.main = main;
         this.user = tk;
+        this.nhomQuyenDTO = NhomQuyenDAO.getInstance().selectById(Integer.toString(tk.getManhomquyen()));
+        this.nhanVienDTO = NhanVienDAO.getInstance().selectById(Integer.toString(tk.getManv()));
+        System.out.println(nhanVienDTO);
         listQuyen = ChiTietQuyenDAO.getInstance().selectAll(tk.getManhomquyen() + "");
         initComponent();
     }
@@ -97,12 +105,12 @@ public class MenuTaskbar extends JPanel {
         pnlTop.setPreferredSize(new Dimension(250, 80));
         pnlTop.setBackground(DefaultColor);
         pnlTop.setLayout(new BorderLayout(0, 0));
+        this.add(pnlTop, BorderLayout.NORTH);
 
         JPanel info = new JPanel();
         info.setOpaque(false);
-        info.setLayout(new FlowLayout(1, 10, 10));
+        info.setLayout(new BorderLayout(0, 0));
         pnlTop.add(info, BorderLayout.CENTER);
-        this.add(pnlTop, BorderLayout.NORTH);
 
         // Cái info này bỏ vô cho đẹp tí, mai mốt có gì xóa đi đê hiển thị thông tin tài khoản và quyền
         in4(info);
@@ -283,28 +291,30 @@ public class MenuTaskbar extends JPanel {
     }
 
     public void in4(JPanel info) {
-        //        NhomQuyenDTO nhomQuyen = NhomQuyenDAO.getInstance().selectById(Integer.toString(user.getManhomquyen()));
-//        lblTenNhomQuyen = new JLabel(nhomQuyen.getTennhomquyen());
-        JPanel pnl1 = new JPanel();
-        pnl1.setPreferredSize(new Dimension(190, 30));
-        pnl1.setOpaque(false);
-        info.add(pnl1);
-        lblTenNhomQuyen = new JLabel("Admin");
+        JPanel pnlIcon = new JPanel();
+        pnlIcon.setPreferredSize(new Dimension(60, 0));
+        pnlIcon.setOpaque(false);
+        info.add(pnlIcon, BorderLayout.WEST);
+        JLabel lblIcon = new JLabel();
+        lblIcon.setPreferredSize(new Dimension(50, 70));
+        if (nhanVienDTO.getGioitinh() == 1) {
+            lblIcon.setIcon(new FlatSVGIcon("./icon/man_50px.svg"));
+        } else {
+            lblIcon.setIcon(new FlatSVGIcon("./icon/women_50px.svg"));
+        }
+        pnlIcon.add(lblIcon);
+
+        JPanel pnlInfo = new JPanel();
+        pnlInfo.setOpaque(false);
+        pnlInfo.setLayout(new FlowLayout(1,10,15));
+        info.add(pnlInfo, BorderLayout.CENTER);
+        
+        lblTenNhomQuyen = new JLabel(nhomQuyenDTO.getTennhomquyen());
         lblTenNhomQuyen.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
-        pnl1.add(lblTenNhomQuyen);
+        pnlInfo.add(lblTenNhomQuyen);
 
-        JPanel pnl2 = new JPanel();
-        pnl2.setPreferredSize(new Dimension(190, 30));
-        pnl2.setOpaque(false);
-        pnl2.setLayout(new FlowLayout(0,0,0));
-        info.add(pnl2);
-
-        JLabel lbl2 = new JLabel("Username: ");
-        lbl2.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
-        pnl2.add(lbl2);
-        lblUsername = new JLabel("NhatSinh");
-        lblUsername.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
-//        lblUsername = new JLabel(user.getUsername());
-        pnl2.add(lblUsername);
+        lblUsername = new JLabel(nhanVienDTO.getHoten());
+        lblUsername.putClientProperty("FlatLaf.style", "font: 120% $semibold.font");
+        pnlInfo.add(lblUsername);
     }
 }
