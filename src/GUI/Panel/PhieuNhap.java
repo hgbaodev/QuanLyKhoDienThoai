@@ -1,5 +1,6 @@
 package GUI.Panel;
 
+import DTO.NhanVienDTO;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -23,11 +24,13 @@ public class PhieuNhap extends JPanel implements ActionListener {
     DefaultTableModel tblModel;
     TaoPhieuNhap nhapKho;
     Main m;
+    NhanVienDTO nv;
 
     Color BackgroundColor = new Color(239, 235, 233);
 
-    public PhieuNhap(Main m) {
+    public PhieuNhap(Main m, NhanVienDTO nv) {
         this.m = m;
+        this.nv = nv;
         initComponent();
     }
     
@@ -117,7 +120,7 @@ public class PhieuNhap extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-            nhapKho = new TaoPhieuNhap();
+            nhapKho = new TaoPhieuNhap(nv);
             m.setPanel(nhapKho);
         }
     }

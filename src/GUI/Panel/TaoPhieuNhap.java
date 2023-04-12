@@ -5,8 +5,11 @@ import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
 import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
+import BUS.PhieuNhapBUS;
 import BUS.SanPhamBUS;
 import DTO.CauHinhSanPhamDTO;
+import DTO.ChiTietPhieuDTO;
+import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.InputForm;
@@ -47,12 +50,15 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
     CauHinhSanPhamBUS cauhinhBus = new CauHinhSanPhamBUS();
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
+    PhieuNhapBUS phieunhapBus = new PhieuNhapBUS();
     MauSacBUS mausacBus = new MauSacBUS();
+    NhanVienDTO nvDto;
 
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
     ArrayList<CauHinhSanPhamDTO> ch;
 
-    public TaoPhieuNhap() {
+    public TaoPhieuNhap(NhanVienDTO nv) {
+        this.nvDto = nv;
         initComponent();
         loadDataTalbeSanPham(listSP);
     }
@@ -171,7 +177,7 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
         content_right_top_cbx.setPreferredSize(new Dimension(100, 180));
         cbxCauhinh = new SelectForm("Cấu hình", arrCauhinh);
         cbxCauhinh.cbb.addItemListener(this);
-        txtDongia = new InputForm("Đơn giá");
+        txtDongia = new InputForm("Giá nhập");
         txtDongia.setEditable(false);
         String[] arrPtNhap = {"Nhập theo lô", "Nhập từng máy"};
         cbxPtNhap = new SelectForm("Phương thức nhập", arrPtNhap);
@@ -253,7 +259,11 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
         right_top = new JPanel(new GridLayout(4, 1, 0, 0));
         right_top.setPreferredSize(new Dimension(300, 360));
         txtMaphieu = new InputForm("Mã phiếu nhập");
+        txtMaphieu.setText("PN"+phieunhapBus.phieunhapDAO.getAutoIncrement());
+        txtMaphieu.setEditable(false);
         txtNhanVien = new InputForm("Nhân viên nhập");
+        txtNhanVien.setText(nvDto.getHoten());
+        txtNhanVien.setEditable(false);
         cbxNhaCungCap = new SelectForm("Nhà cung cấp", nccBus.getArrTenNhaCungCap());
         String[] arrTrangThai = {"Đang xử lý", "Đã nhập", "Huỷ"};
         cbxTrangThai = new SelectForm("Trạng thái", arrTrangThai);
@@ -298,6 +308,10 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
         for (DTO.SanPhamDTO sp : result) {
             tblModelSP.addRow(new Object[]{sp.getMasp(), sp.getTensp()});
         }
+    }
+    
+    public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> ctPhieu) {
+        
     }
 
     public void setInfoSanPham(SanPhamDTO sp) {

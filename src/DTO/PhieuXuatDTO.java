@@ -14,7 +14,11 @@ import java.util.ArrayList;
 public class PhieuXuatDTO extends PhieuDTO{
     private int makh;
 
-    public PhieuXuatDTO(int makh, int maphieu, int manguoitao, Timestamp thoigiantao, double tongTien, int trangthai) {
+    public PhieuXuatDTO(int makh) {
+        this.makh = makh;
+    }
+
+    public PhieuXuatDTO(int makh, int maphieu, int manguoitao, Timestamp thoigiantao, long tongTien, int trangthai) {
         super(maphieu, manguoitao, thoigiantao, tongTien, trangthai);
         this.makh = makh;
     }
@@ -29,8 +33,8 @@ public class PhieuXuatDTO extends PhieuDTO{
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + this.makh;
+        int hash = 7;
+        hash = 23 * hash + this.makh;
         return hash;
     }
 

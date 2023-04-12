@@ -14,7 +14,11 @@ import java.util.ArrayList;
 public class PhieuNhapDTO extends PhieuDTO{
     private int manhacungcap;
 
-    public PhieuNhapDTO(int manhacungcap, int maphieu, int manguoitao, Timestamp thoigiantao, double tongTien, int trangthai) {
+    public PhieuNhapDTO(int manhacungcap) {
+        this.manhacungcap = manhacungcap;
+    }
+
+    public PhieuNhapDTO(int manhacungcap, int maphieu, int manguoitao, Timestamp thoigiantao, long tongTien, int trangthai) {
         super(maphieu, manguoitao, thoigiantao, tongTien, trangthai);
         this.manhacungcap = manhacungcap;
     }
@@ -29,8 +33,8 @@ public class PhieuNhapDTO extends PhieuDTO{
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 53 * hash + this.manhacungcap;
+        int hash = 7;
+        hash = 67 * hash + this.manhacungcap;
         return hash;
     }
 
@@ -54,6 +58,5 @@ public class PhieuNhapDTO extends PhieuDTO{
         return "PhieuNhapDTO{" + "manhacungcap=" + manhacungcap + '}';
     }
 
-    
     
 }
