@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -25,21 +26,21 @@ public class MainFunction extends JToolBar {
         this.setRollover(true);
 //
         
-        btnAdd = new ButtonToolBar("THÊM", "/icon/Add_50px(1).png");
+        btnAdd = new ButtonToolBar("THÊM", new FlatSVGIcon("./icon/add.svg"));
         this.add(btnAdd);
 
-        btnDelete = new ButtonToolBar("XÓA", "/icon/Delete Trash_50px.png");
+        btnDelete = new ButtonToolBar("XÓA", new FlatSVGIcon("./icon/delete.svg"));
         this.add(btnDelete);
 
-        btnEdit = new ButtonToolBar("SỬA", "/icon/Edit_50px.png");
+        btnEdit = new ButtonToolBar("SỬA", new FlatSVGIcon("./icon/edit.svg"));
         this.add(btnEdit);
 
-        btnDetail = new ButtonToolBar("CHI TIẾT", "/icon/info_50px.png");
+        btnDetail = new ButtonToolBar("CHI TIẾT", new FlatSVGIcon("./icon/detail.svg"));
         this.add(btnDetail);
 
-        btnXuatExcel = new ButtonToolBar("XUẤT EXCEL", "/icon/xls_50px.png");
+        btnXuatExcel = new ButtonToolBar("XUẤT EXCEL", new FlatSVGIcon("./icon/import_excel.svg"));
 
-        btnNhapExcel = new ButtonToolBar("NHẬP EXCEL", "/icon/import_csv_50px.png");
+        btnNhapExcel = new ButtonToolBar("NHẬP EXCEL", new FlatSVGIcon("./icon/export_excel.svg"));
         this.add(btnXuatExcel);
         this.add(btnNhapExcel);
     }

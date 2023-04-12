@@ -1,10 +1,8 @@
 package GUI.Panel;
 
 import BUS.KhuVucKhoBUS;
-import BUS.NhaCungCapBUS;
 import DAO.KhuVucKhoDAO;
 import DTO.KhuVucKhoDTO;
-import DTO.NhaCungCapDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
