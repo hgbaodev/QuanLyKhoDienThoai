@@ -38,6 +38,8 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
     InputForm txtMaphieu, txtNhanVien, txtMaSp, txtTenSp, txtDongia, txtMaImeiTheoLo, txtSoLuongImei;
     SelectForm cbxNhaCungCap, cbxTrangThai, cbxCauhinh, cbxPtNhap;
     JTextField txtTimKiem;
+    JLabel labelImei;
+    JTextArea textAreaImei;
     Color BackgroundColor = new Color(240, 247, 250);
 
     SanPhamBUS spBUS = new SanPhamBUS();
@@ -182,6 +184,7 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
         content_right_top.add(content_right_top_cbx, BorderLayout.SOUTH);
 
         content_right_bottom = new JPanel(new CardLayout());
+        
         JPanel card_content_one = new JPanel(new BorderLayout());
         card_content_one.setBackground(Color.white);
         card_content_one.setPreferredSize(new Dimension(100,90));
@@ -191,7 +194,20 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
         txtSoLuongImei = new InputForm("Số lượng");
         card_content_one_model.add(txtMaImeiTheoLo, BorderLayout.CENTER);
         card_content_one_model.add(txtSoLuongImei, BorderLayout.EAST);
-        card_content_one.add(card_content_one_model,BorderLayout.NORTH);
+//        card_content_one.add(card_content_one_model,BorderLayout.NORTH);
+        
+        JPanel card_content_two_model = new JPanel(new BorderLayout());
+        card_content_two_model.setBorder(new EmptyBorder(10,10,10,10));
+        labelImei = new JLabel("Mã Imei");
+        labelImei.setPreferredSize(new Dimension(0,30));
+        textAreaImei = new JTextArea(6, 4);
+        textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
+        card_content_two_model.setSize(new Dimension(0,100));
+        card_content_two_model.setBackground(Color.white);
+        card_content_two_model.add(labelImei, BorderLayout.NORTH);
+        card_content_two_model.add(textAreaImei,BorderLayout.SOUTH);
+        card_content_one.add(card_content_two_model,BorderLayout.NORTH);
+        
         content_right_bottom.add(card_content_one);
 
         content_right.add(content_right_top, BorderLayout.NORTH);
