@@ -1,7 +1,10 @@
 package GUI.Component;
 
+import BUS.TaiKhoanBUS;
 import DAO.ChiTietQuyenDAO;
+import DAO.NhomQuyenDAO;
 import DTO.ChiTietQuyenDTO;
+import DTO.NhomQuyenDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Main;
 import GUI.Panel.ChuyenKho;
@@ -22,9 +25,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import org.apache.poi.util.LocaleID;
 //import GUI.Component.itemTaskbar;
 
 public class MenuTaskbar extends JPanel {
+
     TrangChu trangChu;
     SanPham sanPham;
     QuanLyThuocTinhSP quanLyThuocTinhSP;
@@ -56,11 +62,11 @@ public class MenuTaskbar extends JPanel {
     TaiKhoanDTO user;
     public itemTaskbar[] listitem;
 
-    JLabel info;
+    JLabel lblTenNhomQuyen, lblUsername;
     JScrollPane scrollPane;
 
     //tasbarMenu chia thành 3 phần chính là pnlCenter, pnlTop, pnlBottom
-    JPanel pnlCenter, pnlTop, pnlBottom, bar1, bar2;
+    JPanel pnlCenter, pnlTop, pnlBottom, bar1, bar2, bar3, bar4;
 
     Color FontColor = new Color(96, 125, 139);
     Color DefaultColor = new Color(255, 255, 255);
@@ -92,27 +98,37 @@ public class MenuTaskbar extends JPanel {
         pnlTop.setBackground(DefaultColor);
         pnlTop.setLayout(new BorderLayout(0, 0));
 
+        JPanel info = new JPanel();
+        info.setOpaque(false);
+        info.setLayout(new FlowLayout(1, 10, 10));
+        pnlTop.add(info, BorderLayout.CENTER);
+        this.add(pnlTop, BorderLayout.NORTH);
+
         // Cái info này bỏ vô cho đẹp tí, mai mốt có gì xóa đi đê hiển thị thông tin tài khoản và quyền
-        info = new JLabel();
-        info.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/permission.png")));
-        pnlTop.add(info);
+        in4(info);
 
         bar1 = new JPanel();
         bar1.setBackground(new Color(204, 214, 219));
-        bar1.setPreferredSize(new Dimension(1, 1));
+        bar1.setPreferredSize(new Dimension(1, 0));
         pnlTop.add(bar1, BorderLayout.EAST);
 
-        pnlTop.add(info);
-
-        this.add(pnlTop);
-        this.add(pnlTop, BorderLayout.NORTH);
+        bar2 = new JPanel();
+        bar2.setBackground(new Color(204, 214, 219));
+        bar2.setPreferredSize(new Dimension(0, 1));
+        pnlTop.add(bar2, BorderLayout.SOUTH);
 
         pnlCenter = new JPanel();
         pnlCenter.setPreferredSize(new Dimension(250, 600));
         pnlCenter.setBackground(DefaultColor);
         pnlCenter.setLayout(new FlowLayout(0, 0, 0));
 
+        bar3 = new JPanel();
+        bar3.setBackground(new Color(204, 214, 219));
+        bar3.setPreferredSize(new Dimension(1, 1));
+        this.add(bar3, BorderLayout.EAST);
+
         scrollPane = new JScrollPane(pnlCenter, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
         this.add(scrollPane, BorderLayout.CENTER);
 
         pnlBottom = new JPanel();
@@ -120,10 +136,10 @@ public class MenuTaskbar extends JPanel {
         pnlBottom.setBackground(DefaultColor);
         pnlBottom.setLayout(new BorderLayout(0, 0));
 
-        bar2 = new JPanel();
-        bar2.setBackground(new Color(204, 214, 219));
-        bar2.setPreferredSize(new Dimension(1, 1));
-        pnlBottom.add(bar2, BorderLayout.EAST);
+        bar4 = new JPanel();
+        bar4.setBackground(new Color(204, 214, 219));
+        bar4.setPreferredSize(new Dimension(1, 1));
+        pnlBottom.add(bar4, BorderLayout.EAST);
 
         this.add(pnlBottom, BorderLayout.SOUTH);
 
@@ -149,7 +165,7 @@ public class MenuTaskbar extends JPanel {
                 }
             });
         }
-        
+
         listitem[0].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
@@ -239,13 +255,14 @@ public class MenuTaskbar extends JPanel {
             }
         });
     }
-    
 
     public boolean checkRole(String s) {
         boolean check = false;
-        for(int i = 0; i < listQuyen.size(); i++){
+        for (int i = 0; i < listQuyen.size(); i++) {
             if (listQuyen.get(i).getHanhdong().equals("view")) {
-                if(s.equals(listQuyen.get(i).getMachucnang())) check = true;
+                if (s.equals(listQuyen.get(i).getMachucnang())) {
+                    check = true;
+                }
             }
         }
         return check;
@@ -263,5 +280,31 @@ public class MenuTaskbar extends JPanel {
                 listitem[i].setForeground(FontColor);
             }
         }
+    }
+
+    public void in4(JPanel info) {
+        //        NhomQuyenDTO nhomQuyen = NhomQuyenDAO.getInstance().selectById(Integer.toString(user.getManhomquyen()));
+//        lblTenNhomQuyen = new JLabel(nhomQuyen.getTennhomquyen());
+        JPanel pnl1 = new JPanel();
+        pnl1.setPreferredSize(new Dimension(190, 30));
+        pnl1.setOpaque(false);
+        info.add(pnl1);
+        lblTenNhomQuyen = new JLabel("Admin");
+        lblTenNhomQuyen.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
+        pnl1.add(lblTenNhomQuyen);
+
+        JPanel pnl2 = new JPanel();
+        pnl2.setPreferredSize(new Dimension(190, 30));
+        pnl2.setOpaque(false);
+        pnl2.setLayout(new FlowLayout(0,0,0));
+        info.add(pnl2);
+
+        JLabel lbl2 = new JLabel("Username: ");
+        lbl2.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
+        pnl2.add(lbl2);
+        lblUsername = new JLabel("NhatSinh");
+        lblUsername.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
+//        lblUsername = new JLabel(user.getUsername());
+        pnl2.add(lblUsername);
     }
 }
