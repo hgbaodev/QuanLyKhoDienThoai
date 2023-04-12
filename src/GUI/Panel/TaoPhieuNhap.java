@@ -156,12 +156,18 @@ public class TaoPhieuNhap extends JPanel {
         txtMaSp.setEditable(false);
         txtTenSp = new InputForm("Tên sản phẩm");
         txtTenSp.setEditable(false);
+        
         String[] arrCauhinh = {"Chọn sản phẩm"};
+        JPanel content_right_top_cbx = new JPanel(new GridLayout(1, 2));
+        content_right_top_cbx.setPreferredSize(new Dimension(100, 90));
         cbxCauhinh = new SelectForm("Cấu hình", arrCauhinh);
-        cbxCauhinh.setPreferredSize(new Dimension(100, 90));
+        String[] arrPtNhap = {"Nhập theo lô", "Nhập từng máy"};
+        cbxPtNhap = new SelectForm("Phương thức nhập", arrPtNhap);
+        content_right_top_cbx.add(cbxCauhinh);
+        content_right_top_cbx.add(cbxPtNhap);
         content_right_top.add(txtMaSp, BorderLayout.WEST);
         content_right_top.add(txtTenSp, BorderLayout.CENTER);
-        content_right_top.add(cbxCauhinh, BorderLayout.SOUTH);
+        content_right_top.add(content_right_top_cbx, BorderLayout.SOUTH);
 
         content_right_bottom = new JPanel();
 
