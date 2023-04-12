@@ -67,16 +67,16 @@ public class ThuongHieuDialog extends JDialog implements MouseListener{
         main = new JPanel();
         bottom = new JPanel();
         
-        ms=new InputForm("Tên thương hiệu");
-        ms.setPreferredSize(new Dimension(150,70));
+        
         top.setLayout(new FlowLayout(0));
         top.setBackground(Color.WHITE);
-        top.setPreferredSize(new Dimension(0, 150));
+        top.setPreferredSize(new Dimension(0, 70));
         top.add(headTite);
-        top.add(ms);
 
         main.setBackground(Color.WHITE);
         main.setPreferredSize(new Dimension(420,200));
+        ms=new InputForm("Tên thương hiệu");
+        ms.setPreferredSize(new Dimension(250,70));
         table = new JTable();
         table.setBackground(Color.WHITE);
         table.addMouseListener(this);
@@ -92,6 +92,7 @@ public class ThuongHieuDialog extends JDialog implements MouseListener{
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setCellRenderer(centerRenderer);
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
+        main.add(ms);
         main.add(scrollTable);
         
         add = new JButton("Thêm");
