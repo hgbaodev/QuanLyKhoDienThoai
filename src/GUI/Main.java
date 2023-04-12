@@ -91,7 +91,6 @@ public class Main extends JFrame {
         FlatIntelliJLaf.registerCustomDefaultsSource("style");
         FlatIntelliJLaf.setup();
         UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
-        
         Main main = new Main();
         main.setVisible(true);
     }
