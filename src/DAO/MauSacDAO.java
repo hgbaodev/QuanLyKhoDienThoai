@@ -61,6 +61,7 @@ public class MauSacDAO implements DAOinterface<MauSacDTO> {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "UPDATE `mausac` SET `trangthai` = 0 WHERE mamau = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1,t);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {

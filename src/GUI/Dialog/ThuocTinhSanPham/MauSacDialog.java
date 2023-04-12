@@ -36,10 +36,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-public class MauSacDialog extends JFrame implements MouseListener{
+public class MauSacDialog extends JFrame implements MouseListener {
 
     HeaderTitle headTite;
-    JPanel top, main, bottom,all;
+    JPanel top, main, bottom, all;
     InputForm ms;
     DefaultTableModel tblModel;
     JTable table;
@@ -57,16 +57,16 @@ public class MauSacDialog extends JFrame implements MouseListener{
     public void initComponent() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.setSize(new Dimension(400, 500));
-        this.setLayout(new BorderLayout(0, 0));        
+        this.setSize(new Dimension(425, 500));
+        this.setLayout(new BorderLayout(0, 0));
         headTite = new HeaderTitle("Quản lý màu sắc sản phẩm");
         this.setBackground(Color.white);
         top = new JPanel();
         main = new JPanel();
         bottom = new JPanel();
-        
-        ms=new InputForm("Tên màu sắc");
-        ms.setPreferredSize(new Dimension(150,70));
+
+        ms = new InputForm("Tên màu sắc");
+        ms.setPreferredSize(new Dimension(150, 70));
         top.setLayout(new FlowLayout(0));
         top.setBackground(Color.WHITE);
         top.setPreferredSize(new Dimension(0, 150));
@@ -74,7 +74,7 @@ public class MauSacDialog extends JFrame implements MouseListener{
         top.add(ms);
 
         main.setBackground(Color.WHITE);
-        main.setPreferredSize(new Dimension(420,200));
+        main.setPreferredSize(new Dimension(420, 200));
         table = new JTable();
         table.setBackground(Color.WHITE);
         table.addMouseListener(this);
@@ -91,7 +91,7 @@ public class MauSacDialog extends JFrame implements MouseListener{
         columnModel.getColumn(0).setCellRenderer(centerRenderer);
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
         main.add(scrollTable);
-        
+
         add = new JButton("Thêm");
         add.addMouseListener(this);
         del = new JButton("Xóa");
@@ -99,16 +99,16 @@ public class MauSacDialog extends JFrame implements MouseListener{
         update = new JButton("Sửa");
         update.addMouseListener(this);
         bottom.setBackground(Color.white);
-        bottom.setLayout(new FlowLayout(1,50,20));
+        bottom.setLayout(new FlowLayout(1, 50, 20));
         bottom.add(add);
         bottom.add(del);
         bottom.add(update);
-        bottom.setPreferredSize(new Dimension(0,70));
-        
-        this.add(top,BorderLayout.NORTH);
-        this.add(main,BorderLayout.CENTER);
-        this.add(bottom,BorderLayout.SOUTH);
-                this.setLocationRelativeTo(null);
+        bottom.setPreferredSize(new Dimension(0, 70));
+
+        this.add(top, BorderLayout.NORTH);
+        this.add(main, BorderLayout.CENTER);
+        this.add(bottom, BorderLayout.SOUTH);
+        this.setLocationRelativeTo(null);
     }
 
     public void loadDataTable(ArrayList<MauSacDTO> result) {
@@ -119,51 +119,52 @@ public class MauSacDialog extends JFrame implements MouseListener{
             });
         }
     }
+
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatIntelliJLaf());
-       MauSacDialog aDialog= new MauSacDialog();
-       aDialog.setVisible(true);
+        MauSacDialog aDialog = new MauSacDialog();
+        aDialog.setVisible(true);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-       if(e.getSource()==add){
-            if(this.ms.getText()==""){
+        if (e.getSource() == add) {
+            if (this.ms.getText() == "") {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
-            }
-            else{
+            } else {
                 int id = MauSacDAO.getInstance().getAutoIncrement();
-                String tenmau= ms.getText();
-                msBUS.add(new MauSacDTO(id,tenmau));
+                String tenmau = ms.getText();
+                msBUS.add(new MauSacDTO(id, tenmau));
                 loadDataTable(list);
-        }
-    }
-        else if(e.getSource()==del){
-            int index = table.getSelectedRow();
-            if(index==-1){
-                JOptionPane.showMessageDialog(this ,"Vui lòng chọn màu xóa");
+                ms.setText("");
             }
-            else{
-                 msBUS.delete(list.get(index), index);
-                 loadDataTable(list);
-                 }
-        }
-        else if(e.getSource()==update){
-            int index = table.getSelectedRow();
-            if(index==-1){
-                JOptionPane.showMessageDialog(this ,"Vui lòng chọn màu xóa");
+        } else if (e.getSource() == del) {
+            int index = getRowSelected();
+            if (index != -1) {
+                msBUS.delete(list.get(index), index);
+                loadDataTable(list);
+                ms.setText("");
             }
-            else{
-                String tenmau= ms.getText();
-                 msBUS.update(new MauSacDTO(list.get(index).getMamau(),tenmau));
-                 loadDataTable(list);
-                 ms.setText("");
-                 }
-        }
-        else if(e.getSource()==table){
+        } else if (e.getSource() == update) {
+            int index = getRowSelected();
+            if (index != -1) {
+                String tenmau = ms.getText();
+                msBUS.update(new MauSacDTO(list.get(index).getMamau(), tenmau));
+                loadDataTable(list);
+                ms.setText("");
+            }
+        } else if (e.getSource() == table) {
             int index = table.getSelectedRow();
             ms.setText(list.get(index).getTenmau());
         }
+    }
+
+    public int getRowSelected() {
+        int index = table.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn màu sắc!");
+        }
+        return index;
     }
 
     @Override

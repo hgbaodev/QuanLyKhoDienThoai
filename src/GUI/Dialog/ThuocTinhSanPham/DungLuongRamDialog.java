@@ -57,7 +57,7 @@ public class DungLuongRamDialog extends JFrame implements MouseListener{
     public void initComponent() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.setSize(new Dimension(400, 500));
+        this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));        
         headTite = new HeaderTitle("Quản lý RAM");
         this.setBackground(Color.white);
@@ -134,36 +134,40 @@ public class DungLuongRamDialog extends JFrame implements MouseListener{
                 String kichthuoc= ms.getText();
                 dlrBUS.add(new DungLuongRamDTO(id,Integer.parseInt(kichthuoc)));
                 loadDataTable(list);
+                ms.setText("");
         }
     }
         else if(e.getSource()==del){
-            int index = table.getSelectedRow();
-            if(index==-1){
-                JOptionPane.showMessageDialog(this ,"Vui lòng chọn màu xóa");
-            }
-            else{
+            int index = getRowSelected();
+            if(index != -1){
                  dlrBUS.delete(list.get(index), index);
                  loadDataTable(list);
+                 ms.setText("");
                  }
         }
         else if(e.getSource()==update){
-            int index = table.getSelectedRow();
-            if(index==-1){
-                JOptionPane.showMessageDialog(this ,"Vui lòng chọn màu xóa");
-            }
-            else{
+            int index = getRowSelected();
+            if(index !=-1){
                 String kichthuoc= ms.getText();
                  dlrBUS.update(new DungLuongRamDTO(list.get(index).getMadlram(),Integer.parseInt(kichthuoc)));
                  loadDataTable(list);
                  ms.setText("");
-                 }
+            }
         }
         else if(e.getSource()==table){
             int index = table.getSelectedRow();
             ms.setText(String.valueOf(list.get(index).getDungluongram()));
         }
     }
-
+    
+    public int getRowSelected(){
+        int index = table.getSelectedRow();
+        if(index==-1){
+            JOptionPane.showMessageDialog(this,"Vui lòng chọn dung lượng ram!");
+        }
+        return index;
+    }
+            
     @Override
     public void mousePressed(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
