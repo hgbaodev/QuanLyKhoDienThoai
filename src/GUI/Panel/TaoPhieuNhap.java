@@ -1,10 +1,15 @@
 package GUI.Panel;
 
+import BUS.CauHinhSanPhamBUS;
+import BUS.DungLuongRamBUS;
+import BUS.DungLuongRomBUS;
+import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
 import BUS.SanPhamBUS;
+import DTO.CauHinhSanPhamDTO;
+import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.InputForm;
-import GUI.Main;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,6 +17,8 @@ import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -26,12 +33,17 @@ public class TaoPhieuNhap extends JPanel {
     NhapKho nhapKho;
     ButtonCustom btnAddSp, btnEditSP, btnDelete, btnImport, btnNhapHang;
     InputForm txtMaphieu, txtNhanVien, txtMaSp, txtTenSp;
-    SelectForm cbxNhaCungCap, cbxTrangThai, cbxCauhinh;
+    SelectForm cbxNhaCungCap, cbxTrangThai, cbxCauhinh, cbxPtNhap;
     JTextField txtTimKiem;
     Color BackgroundColor = new Color(240, 247, 250);
 
     SanPhamBUS spBUS = new SanPhamBUS();
     NhaCungCapBUS nccBus = new NhaCungCapBUS();
+    CauHinhSanPhamBUS cauhinhBus = new CauHinhSanPhamBUS();
+    DungLuongRamBUS ramBus = new DungLuongRamBUS();
+    DungLuongRomBUS romBus = new DungLuongRomBUS();
+    MauSacBUS mausacBus = new MauSacBUS();
+
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
 
     public TaoPhieuNhap() {
@@ -91,8 +103,17 @@ public class TaoPhieuNhap extends JPanel {
         scrollTableSanPham.setViewportView(tableSanPham);
         tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(300);
-
         scrollTableSanPham.setViewportView(tableSanPham);
+
+        tableSanPham.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int index = tableSanPham.getSelectedRow();
+                if (index != -1) {
+                    setInfoSanPham(listSP.get(index));
+                }
+            }
+        });
 
         initPadding();
 
@@ -135,7 +156,7 @@ public class TaoPhieuNhap extends JPanel {
         txtMaSp.setEditable(false);
         txtTenSp = new InputForm("Tên sản phẩm");
         txtTenSp.setEditable(false);
-        String[] arrCauhinh = {"64GB - 6GB - Đỏ", "128GB - 8GB - Đỏ"};
+        String[] arrCauhinh = {"Chọn sản phẩm"};
         cbxCauhinh = new SelectForm("Cấu hình", arrCauhinh);
         cbxCauhinh.setPreferredSize(new Dimension(100, 90));
         content_right_top.add(txtMaSp, BorderLayout.WEST);
@@ -232,4 +253,18 @@ public class TaoPhieuNhap extends JPanel {
             tblModelSP.addRow(new Object[]{sp.getMasp(), sp.getTensp()});
         }
     }
+
+    public void setInfoSanPham(SanPhamDTO sp) {
+        this.txtMaSp.setText(Integer.toString(sp.getMasp()));
+        this.txtTenSp.setText(sp.getTensp());
+        ArrayList<CauHinhSanPhamDTO> ch = cauhinhBus.getAll(sp.getMasp());
+        int size = ch.size();
+        String[] arr = new String[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = romBus.getKichThuocById(ch.get(i).getRom()) + "GB - "
+                    + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac());
+        }
+        this.cbxCauhinh.setArr(arr);
+    }
+
 }
