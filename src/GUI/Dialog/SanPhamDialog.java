@@ -475,7 +475,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         hinhanh.setUrl_img(sp.getHinhanh());
         tenSP.setText(sp.getTensp());
         xuatxu.setText(sp.getXuatxu());
-        chipxuly.setText(sp.getXuatxu());
+        chipxuly.setText(sp.getChipxuly());
         dungluongpin.setText(Integer.toString(sp.getDungluongpin()));
         kichthuocman.setText(Double.toString(sp.getKichthuocman()));
         hedieuhanh.setSelectedItem(sp.getHedieuhanh());
