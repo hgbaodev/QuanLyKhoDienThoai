@@ -12,6 +12,7 @@ import GUI.Panel.NhanVien;
 import GUI.Panel.PhanQuyen;
 import GUI.Panel.PhieuNhap;
 import GUI.Panel.PhieuXuat;
+import GUI.Panel.QuanLyThuocTinhSP;
 import GUI.Panel.SanPham;
 import GUI.Panel.TaiKhoan;
 import GUI.Panel.ThuongHieu;
@@ -26,7 +27,7 @@ import javax.swing.*;
 public class MenuTaskbar extends JPanel {
     TrangChu trangChu;
     SanPham sanPham;
-    ThuongHieu loaiHang;
+    QuanLyThuocTinhSP quanLyThuocTinhSP;
     KhuVucKho quanLyKho;
     ChuyenKho chuyenKho;
     PhieuNhap phieuNhap;
@@ -37,19 +38,19 @@ public class MenuTaskbar extends JPanel {
     TaiKhoan taiKhoan;
     PhanQuyen phanQuyen;
     String[][] getSt = {
-        {"Trang chủ", "home_30px.png", "trangchu"},
-        {"Sản phẩm", "product_30px.png", "trangchu"},
-        {"Thương hiệu", "categorize_30px.png", "thuonghieu"},
-        {"Khu vực kho", "account_30px.png", "khuvuckho"},
-        {"Kiểm kê", "estimates_30px.png", "kiemke"},
-        {"Phiếu nhập", "In Transit_30px.png", "phieunhap"},
-        {"Phiếu xuất", "supply_chain_30px.png", "phieuxuat"},
-        {"Khách hàng", "Supplier_30px.png", "khachang"},
-        {"Nhà cung cấp", "Staff_30px.png", "nhacungcap"},
-        {"Nhân viên", "tool_30px.png", "nhanvien"},
-        {"Tài khoản", "data_provider_30px.png", "taikhoan"},
-        {"Phân quyền", "user_rights_30px.png", "phanquyen"},
-        {"Đăng xuất", "logout_30px.png", "dangxuat"},};
+        {"Trang chủ", "home_32px.svg", "trangchu"},
+        {"Sản phẩm", "product_32px.svg", "trangchu"},
+        {"Thuộc tính sản phẩm", "brand_32px.svg", "thuonghieu"},
+        {"Khu vực kho", "area_32px.svg", "khuvuckho"},
+        {"Kiểm kê", "inventory_32px.svg", "kiemke"},
+        {"Phiếu nhập", "import_32px.svg", "phieunhap"},
+        {"Phiếu xuất", "export_32px.svg", "phieuxuat"},
+        {"Khách hàng", "customer_32px.svg", "khachang"},
+        {"Nhà cung cấp", "supplier_32px.svg", "nhacungcap"},
+        {"Nhân viên", "staff_32px.svg", "nhanvien"},
+        {"Tài khoản", "account_32px.svg", "taikhoan"},
+        {"Phân quyền", "permission_32px.svg", "phanquyen"},
+        {"Đăng xuất", "log_out_32px.svg", "dangxuat"},};
 
     Main main;
     TaiKhoanDTO user;
@@ -168,8 +169,8 @@ public class MenuTaskbar extends JPanel {
         listitem[2].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                loaiHang = new ThuongHieu();
-                main.setPanel(loaiHang);
+                quanLyThuocTinhSP = new QuanLyThuocTinhSP();
+                main.setPanel(quanLyThuocTinhSP);
             }
         });
         listitem[3].addMouseListener(new MouseAdapter() {
