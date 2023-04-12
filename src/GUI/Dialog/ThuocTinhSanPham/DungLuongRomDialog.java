@@ -56,8 +56,8 @@ public class DungLuongRomDialog extends JFrame implements MouseListener {
     }
 
     public void initComponent() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));
         headTite = new HeaderTitle("Quản lý ROM");

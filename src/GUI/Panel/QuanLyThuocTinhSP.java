@@ -8,8 +8,15 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.itemTaskbar;
+import GUI.Dialog.ThuocTinhSanPham.DungLuongRamDialog;
+import GUI.Dialog.ThuocTinhSanPham.DungLuongRomDialog;
+import GUI.Dialog.ThuocTinhSanPham.MauSacDialog;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class QuanLyThuocTinhSP extends JPanel {
+public class QuanLyThuocTinhSP extends JPanel{
 
     private final int n = 20;
     JPanel box[], pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -20,19 +27,22 @@ public class QuanLyThuocTinhSP extends JPanel {
     JLabel  lbl1, lblImage;
     JLabel lbl[], lblIcon[], info;
     JScrollPane scrPane;
-
+    DungLuongRamDialog dlram;
+    DungLuongRomDialog dlrom;
+    MauSacDialog mausac;
     public itemTaskbar[] listitem;
     
-    String st[] = {"Trang chủ", "Sản phẩm", "Loại hàng", "Quản lý kho", "Nhập kho", "Xuất kho", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Đơn vị tính", "Đăng xuất"};
-    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/supply_chain_30px.png", "/icon/handle_with_care_30px.png", "/icon/Staff_30px.png", "/icon/Supplier_30px.png", "/icon/tool_30px.png", "/icon/data_provider_30px.png", "/icon/length_30px.png", "/icon/logout_30px.png"};
+    //String st[] = {"Trang chủ", "Sản phẩm", "Loại hàng", "Quản lý kho", "Nhập kho", "Xuất kho", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Đơn vị tính", "Đăng xuất"};
+    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/supply_chain_30px.png"};
 
+    String header[]={"Xuất xứ","Hệ điều hành","Dung lượng Ram","Dung lượng Rom","Màu sắc"};
     Color BackgroundColor = new Color(240, 247, 250);
     Color FontColor = new Color(96, 125, 139);
     Color DefaultColor = new Color(255, 255, 255);
 
 
     private void initComponent() {
-        listitem = new itemTaskbar[st.length];
+        listitem = new itemTaskbar[header.length];
 
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
@@ -71,7 +81,7 @@ public class QuanLyThuocTinhSP extends JPanel {
         box = new JPanel[n];
         lbl = new JLabel[n];
         lblIcon = new JLabel[n];
-        for (int i = 0; i < st.length; i++) {
+        for (int i = 0; i < header.length; i++) {
 //            box[i] = new JPanel();
 //            box[i].setLayout(new FlowLayout(0, 20, 50));
 //            box[i].setBackground(DefaultColor);
@@ -91,11 +101,47 @@ public class QuanLyThuocTinhSP extends JPanel {
 //            box[i].add(lbl[i]);
 //
 //            contentCenter.add(box[i]);
-                listitem[i] = new itemTaskbar(iconst[i], st[i], st[i]);
+                listitem[i] = new itemTaskbar(iconst[i], header[i], header[i]);
                 contentCenter.add(listitem[i]);
         }
-
+//        for (int i=0;i<listitem.length;i++){
+//            listitem[i].addMouseListener(new MouseAdapter(){
+//                @Override
+//                public void mousePressed(MouseEvent evt) {
+//                    
+//                }
+//            });
+//        }
+        listitem[2].addMouseListener(new MouseAdapter() {
+             @Override
+            public void mousePressed(MouseEvent evt) {
+                dlram = new DungLuongRamDialog();
+                dlram.setVisible(true);
+            }
+        });
+        
+        listitem[3].addMouseListener(new MouseAdapter() {
+             @Override
+            public void mousePressed(MouseEvent evt) {
+                dlrom = new DungLuongRomDialog();
+                dlrom.setVisible(true);
+            }
+        });
+        listitem[4].addMouseListener(new MouseAdapter() {
+             @Override
+            public void mousePressed(MouseEvent evt) {
+                mausac = new MauSacDialog();
+                mausac.setVisible(true);
+            }
+        });
     }
+    public void Mouseopress(MouseEvent evt){
+            for(int i=0;i<listitem.length;i++){
+              if(evt.getSource()==listitem[i]){
+                  
+              }  
+            }
+        }
 
     public QuanLyThuocTinhSP() {
         initComponent();
