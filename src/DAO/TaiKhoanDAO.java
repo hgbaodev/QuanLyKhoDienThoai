@@ -59,6 +59,79 @@ public class TaiKhoanDAO implements DAOinterface<TaiKhoanDTO>{
         }
         return result;
     }
+    
+    public void updatePass(String email, String password){
+        int result;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "UPDATE taikhoan tk join nhanvien nv on tk.manv=nv.manv SET `matkhau`=? WHERE email=?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, password);
+            pst.setString(2, email);
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(TaiKhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public TaiKhoanDTO selectByEmail(String t) {
+        TaiKhoanDTO tk = null;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM taikhoan tk join nhanvien nv on tk.manv=nv.manv where nv.email = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1,t);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int manv = rs.getInt("manv");
+                String tendangnhap = rs.getString("tendangnhap");
+                String matkhau = rs.getString("matkhau");
+                int trangthai = rs.getInt("trangthai");
+                int manhomquyen = rs.getInt("manhomquyen");
+                tk = new TaiKhoanDTO(manv, tendangnhap, matkhau, manhomquyen, trangthai);
+                return tk;
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            // TODO: handle exception           
+        }
+        return tk;
+    }
+    
+    public void sendOpt(String email, String opt){
+        int result;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "UPDATE taikhoan tk join nhanvien nv on tk.manv=nv.manv SET `otp`=? WHERE email=?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, opt);
+            pst.setString(2, email);
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(TaiKhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public boolean checkOtp(String email, String otp){
+        boolean check = false;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM taikhoan tk join nhanvien nv on tk.manv=nv.manv where nv.email = ? and tk.otp = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, email);
+            pst.setString(2, otp);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                check = true;
+                return check;
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+        }
+        return check;
+    }
 
     @Override
     public int delete(String t) {

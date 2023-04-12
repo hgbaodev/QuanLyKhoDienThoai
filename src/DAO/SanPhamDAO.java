@@ -50,7 +50,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `sanpham` SET `tensp`=?,`hinhanh`=?,`xuatxu`=?,`chipxuly`=?,`dungluongpin`=?,`kichthuocman`=?,`hedieuhanh`=?,`phienbanhdh`=?,`camerasau`=?,`cameratruoc`=?,`thoigianbaohanh`=?,`thuonghieu`=?,`khuvuckho`=? WHERE `macsp`=?";
+            String sql = "UPDATE `sanpham` SET `tensp`=?,`hinhanh`=?,`xuatxu`=?,`chipxuly`=?,`dungluongpin`=?,`kichthuocman`=?,`hedieuhanh`=?,`phienbanhdh`=?,`camerasau`=?,`cameratruoc`=?,`thoigianbaohanh`=?,`thuonghieu`=?,`khuvuckho`=? WHERE `masp`=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getTensp());
             pst.setString(2, t.getHinhanh());
@@ -61,7 +61,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO> {
             pst.setString(7, t.getHedieuhanh());
             pst.setInt(8, t.getPhienbanhdh());
             pst.setString(9, t.getCamerasau());
-            pst.setString(100, t.getCameratruoc());
+            pst.setString(10, t.getCameratruoc());
             pst.setInt(11, t.getThoigianbaohanh());
             pst.setInt(12, t.getThuonghieu());
             pst.setInt(13, t.getKhuvuckho());
