@@ -9,6 +9,7 @@ import DAO.MauSacDAO;
 import DTO.ThuocTinhSanPham.MauSacDTO;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,6 +30,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -116,7 +119,8 @@ public class MauSacDialog extends JFrame implements MouseListener{
             });
         }
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new FlatIntelliJLaf());
        MauSacDialog aDialog= new MauSacDialog();
        aDialog.setVisible(true);
     }
