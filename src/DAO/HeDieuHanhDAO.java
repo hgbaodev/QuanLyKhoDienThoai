@@ -1,6 +1,10 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package DAO;
 
-import DTO.ThuocTinhSanPham.MauSacDTO;
+import DTO.ThuocTinhSanPham.HeDieuHanhDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,44 +16,43 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Tran Nhat Sinh
+ * @author 84907
  */
-public class MauSacDAO implements DAOinterface<MauSacDTO> {
+public class HeDieuHanhDAO implements DAOinterface<HeDieuHanhDTO>{
 
-    public static MauSacDAO getInstance() {
-        return new MauSacDAO();
+    public static HeDieuHanhDAO getInstance() {
+        return new HeDieuHanhDAO();
     }
-
     @Override
-    public int insert(MauSacDTO t) {
+    public int insert(HeDieuHanhDTO t) {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "INSERT INTO `mausac`(`mamau`, `tenmau`,`trangthai`) VALUES (?,?,1)";
+            String sql = "INSERT INTO `hedieuhanh`(`mahedieuhanh`, `tenhedieuhanh`,`trangthai`) VALUES (?,?,1)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setInt(1, t.getMamau());
-            pst.setString(2, t.getTenmau());
+            pst.setInt(1, t.getMahdh());
+            pst.setString(2, t.getTenhdh());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(MauSacDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HeDieuHanhDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
-    public int update(MauSacDTO t) {
+    public int update(HeDieuHanhDTO t) {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `mausac` SET `tenmau`=? WHERE `mamau`=?";
+            String sql = "UPDATE `hedieuhanh` SET `tenhedieuhanh`=? WHERE `mahedieuhanh`=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, t.getTenmau());
-            pst.setInt(2, t.getMamau());
+            pst.setString(1, t.getTenhdh());
+            pst.setInt(2, t.getMahdh());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(MauSacDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HeDieuHanhDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -59,29 +62,29 @@ public class MauSacDAO implements DAOinterface<MauSacDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `mausac` SET `trangthai` = 0 WHERE mamau = ?";
+            String sql = "UPDATE `hedieuhanh` SET `trangthai` = 0 WHERE mahedieuhanh = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1,t);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(MauSacDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HeDieuHanhDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
-    public ArrayList<MauSacDTO> selectAll() {
-        ArrayList<MauSacDTO> result = new ArrayList<>();
+    public ArrayList<HeDieuHanhDTO> selectAll() {
+        ArrayList<HeDieuHanhDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM mausac WHERE trangthai = 1";
+            String sql = "SELECT * FROM hedieuhanh WHERE trangthai = 1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
-                int mamau = rs.getInt("mamau");
-                String tenmau = rs.getString("tenmau");
-                MauSacDTO ms = new MauSacDTO(mamau, tenmau);
+                int mahdh = rs.getInt("mahedieuhanh");
+                String tenhdh = rs.getString("tenhedieuhanh");
+                HeDieuHanhDTO ms = new HeDieuHanhDTO(mahdh, tenhdh);
                 result.add(ms);
             }
             JDBCUtil.closeConnection(con);
@@ -91,18 +94,18 @@ public class MauSacDAO implements DAOinterface<MauSacDTO> {
     }
 
     @Override
-    public MauSacDTO selectById(String t) {
-        MauSacDTO result = null;
+    public HeDieuHanhDTO selectById(String t) {
+        HeDieuHanhDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM mausac WHERE mamau='?'";
+            String sql = "SELECT * FROM hedieuhanh WHERE mahedieuhanh='?'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
-                int mamau = rs.getInt("mamau");
-                String tenmau = rs.getString("tenmau");
-                result = new MauSacDTO(mamau, tenmau);
+                int mahdh = rs.getInt("mahedieuhanh");
+                String tenhdh = rs.getString("tenhedieuhanh");
+                result = new HeDieuHanhDTO(mahdh, tenhdh);
             }
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -115,7 +118,7 @@ public class MauSacDAO implements DAOinterface<MauSacDTO> {
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'mausac'";
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'hedieuhanh'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
             if (!rs2.isBeforeFirst()) {
@@ -127,8 +130,9 @@ public class MauSacDAO implements DAOinterface<MauSacDTO> {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(KhuVucKhoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HeDieuHanhDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
-}
+    }
+

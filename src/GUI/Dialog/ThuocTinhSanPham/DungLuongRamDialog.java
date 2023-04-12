@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import GUI.Panel.QuanLyThuocTinhSP;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,9 +38,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 
-public class DungLuongRamDialog extends JFrame implements MouseListener{
+public class DungLuongRamDialog extends JDialog implements MouseListener{
      HeaderTitle headTite;
-    JPanel top, main, bottom,all;
+    JPanel top, main, bottom;
     InputForm ms;
     DefaultTableModel tblModel;
     JTable table;
@@ -47,17 +48,17 @@ public class DungLuongRamDialog extends JFrame implements MouseListener{
     JButton add, del, update;
     DungLuongRamBUS dlrBUS = new DungLuongRamBUS();
     ArrayList<DungLuongRamDTO> list = dlrBUS.getAll();
+    QuanLyThuocTinhSP qltt; 
 
-    public DungLuongRamDialog() {
-        //super(owner, title, modal);
-        initComponent();
+    public DungLuongRamDialog(JFrame owner,QuanLyThuocTinhSP qltt, String title, boolean modal){
+        super(owner, title, modal);
+        initComponent(qltt);
         loadDataTable(list);
     }
 
-    public void initComponent() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        this.setSize(new Dimension(400, 500));
+    public void initComponent(QuanLyThuocTinhSP qltt) {
+        this.qltt=qltt;
+        this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));        
         headTite = new HeaderTitle("Quản lý RAM");
         this.setBackground(Color.white);
@@ -118,10 +119,6 @@ public class DungLuongRamDialog extends JFrame implements MouseListener{
             });
         }
     }
-    public static void main(String[] args) {
-       DungLuongRamDialog aDialog= new DungLuongRamDialog();
-       aDialog.setVisible(true);
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -134,36 +131,40 @@ public class DungLuongRamDialog extends JFrame implements MouseListener{
                 String kichthuoc= ms.getText();
                 dlrBUS.add(new DungLuongRamDTO(id,Integer.parseInt(kichthuoc)));
                 loadDataTable(list);
+                ms.setText("");
         }
     }
         else if(e.getSource()==del){
-            int index = table.getSelectedRow();
-            if(index==-1){
-                JOptionPane.showMessageDialog(this ,"Vui lòng chọn màu xóa");
-            }
-            else{
+            int index = getRowSelected();
+            if(index != -1){
                  dlrBUS.delete(list.get(index), index);
                  loadDataTable(list);
+                 ms.setText("");
                  }
         }
         else if(e.getSource()==update){
-            int index = table.getSelectedRow();
-            if(index==-1){
-                JOptionPane.showMessageDialog(this ,"Vui lòng chọn màu xóa");
-            }
-            else{
+            int index = getRowSelected();
+            if(index !=-1){
                 String kichthuoc= ms.getText();
                  dlrBUS.update(new DungLuongRamDTO(list.get(index).getMadlram(),Integer.parseInt(kichthuoc)));
                  loadDataTable(list);
                  ms.setText("");
-                 }
+            }
         }
         else if(e.getSource()==table){
             int index = table.getSelectedRow();
             ms.setText(String.valueOf(list.get(index).getDungluongram()));
         }
     }
-
+    
+    public int getRowSelected(){
+        int index = table.getSelectedRow();
+        if(index==-1){
+            JOptionPane.showMessageDialog(this,"Vui lòng chọn dung lượng ram!");
+        }
+        return index;
+    }
+            
     @Override
     public void mousePressed(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

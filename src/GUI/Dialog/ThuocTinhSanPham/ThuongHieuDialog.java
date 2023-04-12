@@ -3,10 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package GUI.Dialog.ThuocTinhSanPham;
-
-import BUS.MauSacBUS;
-import DAO.MauSacDAO;
-import DTO.ThuocTinhSanPham.MauSacDTO;
+import BUS.ThuongHieuBUS;
+import DAO.ThuongHieuDAO;
+import DTO.ThuocTinhSanPham.ThuongHieuDTO;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Panel.QuanLyThuocTinhSP;
@@ -36,38 +35,40 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-
-public class MauSacDialog extends JDialog implements MouseListener {
-
-    QuanLyThuocTinhSP qlttsp;
+/**
+ *
+ * @author 84907
+ */
+public class ThuongHieuDialog extends JDialog implements MouseListener{
     HeaderTitle headTite;
-    JPanel top, main, bottom, all;
+    JPanel top, main, bottom;
     InputForm ms;
     DefaultTableModel tblModel;
     JTable table;
     JScrollPane scrollTable;
     JButton add, del, update;
-    MauSacBUS msBUS = new MauSacBUS();
-    ArrayList<MauSacDTO> list = msBUS.getAll();
+    ThuongHieuBUS thBUS = new ThuongHieuBUS();
+    ArrayList<ThuongHieuDTO> list = thBUS.getAll();
+    QuanLyThuocTinhSP qltt;
 
-    public MauSacDialog(JFrame onwer, QuanLyThuocTinhSP qltt , String title, boolean modal) {
-        super(onwer, title, modal);
-        initComponent(qltt);
+    public ThuongHieuDialog(JFrame owner,QuanLyThuocTinhSP qlttsp, String title, boolean modal) {
+        super(owner, title, modal);
+        initComponent(qlttsp);
         loadDataTable(list);
     }
 
-    public void initComponent(QuanLyThuocTinhSP qlttsp) {
-        this.qlttsp  =qlttsp;
+    public void initComponent(QuanLyThuocTinhSP qltt) {
+        this.qltt=qltt;
         this.setSize(new Dimension(425, 500));
-        this.setLayout(new BorderLayout(0, 0));
-        headTite = new HeaderTitle("Quản lý màu sắc sản phẩm");
+        this.setLayout(new BorderLayout(0, 0));        
+        headTite = new HeaderTitle("Quản lý thương hiệu sản phẩm");
         this.setBackground(Color.white);
         top = new JPanel();
         main = new JPanel();
         bottom = new JPanel();
-
-        ms = new InputForm("Tên màu sắc");
-        ms.setPreferredSize(new Dimension(150, 70));
+        
+        ms=new InputForm("Tên thương hiệu");
+        ms.setPreferredSize(new Dimension(150,70));
         top.setLayout(new FlowLayout(0));
         top.setBackground(Color.WHITE);
         top.setPreferredSize(new Dimension(0, 150));
@@ -75,7 +76,7 @@ public class MauSacDialog extends JDialog implements MouseListener {
         top.add(ms);
 
         main.setBackground(Color.WHITE);
-        main.setPreferredSize(new Dimension(420, 200));
+        main.setPreferredSize(new Dimension(420,200));
         table = new JTable();
         table.setBackground(Color.WHITE);
         table.addMouseListener(this);
@@ -92,7 +93,7 @@ public class MauSacDialog extends JDialog implements MouseListener {
         columnModel.getColumn(0).setCellRenderer(centerRenderer);
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
         main.add(scrollTable);
-
+        
         add = new JButton("Thêm");
         add.addMouseListener(this);
         del = new JButton("Xóa");
@@ -100,68 +101,72 @@ public class MauSacDialog extends JDialog implements MouseListener {
         update = new JButton("Sửa");
         update.addMouseListener(this);
         bottom.setBackground(Color.white);
-        bottom.setLayout(new FlowLayout(1, 50, 20));
+        bottom.setLayout(new FlowLayout(1,50,20));
         bottom.add(add);
         bottom.add(del);
         bottom.add(update);
-        bottom.setPreferredSize(new Dimension(0, 70));
-
-        this.add(top, BorderLayout.NORTH);
-        this.add(main, BorderLayout.CENTER);
-        this.add(bottom, BorderLayout.SOUTH);
-        this.setLocationRelativeTo(null);
+        bottom.setPreferredSize(new Dimension(0,70));
+        
+        this.add(top,BorderLayout.NORTH);
+        this.add(main,BorderLayout.CENTER);
+        this.add(bottom,BorderLayout.SOUTH);
+                this.setLocationRelativeTo(null);
     }
 
-    public void loadDataTable(ArrayList<MauSacDTO> result) {
+    public void loadDataTable(ArrayList<ThuongHieuDTO> result) {
         tblModel.setRowCount(0);
-        for (MauSacDTO ncc : result) {
+        for (ThuongHieuDTO th : result) {
             tblModel.addRow(new Object[]{
-                ncc.getMamau(), ncc.getTenmau()
+                th.getMathuonghieu(),th.getTenthuonghieu()
             });
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == add) {
-            if (this.ms.getText() == "") {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
-            } else {
-                int id = MauSacDAO.getInstance().getAutoIncrement();
-                String tenmau = ms.getText();
-                msBUS.add(new MauSacDTO(id, tenmau));
+       if(e.getSource()==add){
+            if(this.ms.getText()==""){
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên thương hiệu mới");
+            }
+            else{
+                int id = ThuongHieuDAO.getInstance().getAutoIncrement();
+                String tenthuonghieu= ms.getText();
+                thBUS.add(tenthuonghieu);
                 loadDataTable(list);
                 ms.setText("");
-            }
-        } else if (e.getSource() == del) {
+        }
+    }
+        else if(e.getSource()==del){
             int index = getRowSelected();
-            if (index != -1) {
-                msBUS.delete(list.get(index), index);
-                loadDataTable(list);
-                ms.setText("");
-            }
-        } else if (e.getSource() == update) {
+            if(index!=-1){
+                 thBUS.delete(list.get(index));
+                 loadDataTable(list);
+                 ms.setText("");
+                 }
+        }
+        else if(e.getSource()==update){
             int index = getRowSelected();
-            if (index != -1) {
-                String tenmau = ms.getText();
-                msBUS.update(new MauSacDTO(list.get(index).getMamau(), tenmau));
-                loadDataTable(list);
-                ms.setText("");
-            }
-        } else if (e.getSource() == table) {
+            if(index!=-1){
+                String tenthuonghieu= ms.getText();
+                 thBUS.update(new ThuongHieuDTO(list.get(index).getMathuonghieu(),tenthuonghieu));
+                 loadDataTable(list);
+                 ms.setText("");
+                 }
+        }
+        else if(e.getSource()==table){
             int index = table.getSelectedRow();
-            ms.setText(list.get(index).getTenmau());
+            ms.setText(list.get(index).getTenthuonghieu());
         }
     }
 
     public int getRowSelected() {
         int index = table.getSelectedRow();
         if (index == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn màu sắc!");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn thương hiệu!");
         }
         return index;
     }
-
+    
     @Override
     public void mousePressed(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

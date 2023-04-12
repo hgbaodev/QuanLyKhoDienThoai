@@ -3,11 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package GUI.Dialog.ThuocTinhSanPham;
+
 import BUS.DungLuongRomBUS;
 import DAO.DungLuongRomDAO;
 import DTO.ThuocTinhSanPham.DungLuongRomDTO;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import GUI.Panel.QuanLyThuocTinhSP;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -36,9 +38,10 @@ import javax.swing.table.TableColumnModel;
  *
  * @author 84907
  */
-public class DungLuongRomDialog extends JFrame implements MouseListener{
-     HeaderTitle headTite;
-    JPanel top, main, bottom,all;
+public class DungLuongRomDialog extends JDialog implements MouseListener {
+
+    HeaderTitle headTite;
+    JPanel top, main, bottom, all;
     InputForm ms;
     DefaultTableModel tblModel;
     JTable table;
@@ -46,26 +49,26 @@ public class DungLuongRomDialog extends JFrame implements MouseListener{
     JButton add, del, update;
     DungLuongRomBUS dlrBUS = new DungLuongRomBUS();
     ArrayList<DungLuongRomDTO> list = dlrBUS.getAll();
+    QuanLyThuocTinhSP qltt;
 
-    public DungLuongRomDialog() {
-        //super(owner, title, modal);
-        initComponent();
+    public DungLuongRomDialog(JFrame owner,QuanLyThuocTinhSP qltt,String title,boolean modal) {
+        super(owner, title, modal);
+        initComponent(qltt);
         loadDataTable(list);
     }
 
-    public void initComponent() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        this.setSize(new Dimension(400, 500));
-        this.setLayout(new BorderLayout(0, 0));        
+    public void initComponent(QuanLyThuocTinhSP qltt) {
+        this.qltt=qltt;
+        this.setSize(new Dimension(425, 500));
+        this.setLayout(new BorderLayout(0, 0));
         headTite = new HeaderTitle("Quản lý ROM");
         this.setBackground(Color.white);
         top = new JPanel();
         main = new JPanel();
         bottom = new JPanel();
-        
-        ms=new InputForm("Dung lượng ROM");
-        ms.setPreferredSize(new Dimension(150,70));
+
+        ms = new InputForm("Dung lượng ROM");
+        ms.setPreferredSize(new Dimension(150, 70));
         top.setLayout(new FlowLayout(0));
         top.setBackground(Color.WHITE);
         top.setPreferredSize(new Dimension(0, 150));
@@ -73,7 +76,7 @@ public class DungLuongRomDialog extends JFrame implements MouseListener{
         top.add(ms);
 
         main.setBackground(Color.WHITE);
-        main.setPreferredSize(new Dimension(420,200));
+        main.setPreferredSize(new Dimension(420, 200));
         table = new JTable();
         table.setBackground(Color.WHITE);
         table.addMouseListener(this);
@@ -89,7 +92,7 @@ public class DungLuongRomDialog extends JFrame implements MouseListener{
         columnModel.getColumn(0).setCellRenderer(centerRenderer);
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
         main.add(scrollTable);
-        
+
         add = new JButton("Thêm");
         add.addMouseListener(this);
         del = new JButton("Xóa");
@@ -97,16 +100,16 @@ public class DungLuongRomDialog extends JFrame implements MouseListener{
         update = new JButton("Sửa");
         update.addMouseListener(this);
         bottom.setBackground(Color.white);
-        bottom.setLayout(new FlowLayout(1,50,20));
+        bottom.setLayout(new FlowLayout(1, 50, 20));
         bottom.add(add);
         bottom.add(del);
         bottom.add(update);
-        bottom.setPreferredSize(new Dimension(0,70));
-        
-        this.add(top,BorderLayout.NORTH);
-        this.add(main,BorderLayout.CENTER);
-        this.add(bottom,BorderLayout.SOUTH);
-                this.setLocationRelativeTo(null);
+        bottom.setPreferredSize(new Dimension(0, 70));
+
+        this.add(top, BorderLayout.NORTH);
+        this.add(main, BorderLayout.CENTER);
+        this.add(bottom, BorderLayout.SOUTH);
+        this.setLocationRelativeTo(null);
     }
 
     public void loadDataTable(ArrayList<DungLuongRomDTO> result) {
@@ -117,50 +120,46 @@ public class DungLuongRomDialog extends JFrame implements MouseListener{
             });
         }
     }
-    public static void main(String[] args) {
-       DungLuongRomDialog aDialog= new DungLuongRomDialog();
-       aDialog.setVisible(true);
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-       if(e.getSource()==add){
-            if(this.ms.getText()==""){
+        if (e.getSource() == add) {
+            if (this.ms.getText() == "") {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
-            }
-            else{
+            } else {
                 int id = DungLuongRomDAO.getInstance().getAutoIncrement();
-                String kichthuoc= ms.getText();
-                dlrBUS.add(new DungLuongRomDTO(id,Integer.parseInt(kichthuoc)));
+                String kichthuoc = ms.getText();
+                dlrBUS.add(new DungLuongRomDTO(id, Integer.parseInt(kichthuoc)));
                 loadDataTable(list);
-        }
-    }
-        else if(e.getSource()==del){
-            int index = table.getSelectedRow();
-            if(index==-1){
-                JOptionPane.showMessageDialog(this ,"Vui lòng chọn màu xóa");
+                ms.setText("");
             }
-            else{
-                 dlrBUS.delete(list.get(index), index);
-                 loadDataTable(list);
-                 }
-        }
-        else if(e.getSource()==update){
-            int index = table.getSelectedRow();
-            if(index==-1){
-                JOptionPane.showMessageDialog(this ,"Vui lòng chọn màu xóa");
+        } else if (e.getSource() == del) {
+            int index = getRowSelected();
+            if (index != -1) {
+                dlrBUS.delete(list.get(index), index);
+                loadDataTable(list);
+                ms.setText("");
             }
-            else{
-                String kichthuoc= ms.getText();
-                 dlrBUS.update(new DungLuongRomDTO(list.get(index).getMadungluongrom(),Integer.parseInt(kichthuoc)));
-                 loadDataTable(list);
-                 ms.setText("");
-                 }
-        }
-        else if(e.getSource()==table){
+        } else if (e.getSource() == update) {
+            int index = getRowSelected();
+            if (index != -1) {
+                String kichthuoc = ms.getText();
+                dlrBUS.update(new DungLuongRomDTO(list.get(index).getMadungluongrom(), Integer.parseInt(kichthuoc)));
+                loadDataTable(list);
+                ms.setText("");
+            }
+        } else if (e.getSource() == table) {
             int index = table.getSelectedRow();
             ms.setText(String.valueOf(list.get(index).getDungluongrom()));
         }
+    }
+
+    public int getRowSelected() {
+        int index = table.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dung lượng rom!");
+        }
+        return index;
     }
 
     @Override

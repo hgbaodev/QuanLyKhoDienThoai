@@ -1,12 +1,7 @@
 package GUI.Panel;
 
-import DAO.KhachHangDAO;
-import DTO.KhachHangDTO;
-import GUI.Component.ButtonCustom;
-import GUI.Component.InputForm;
 import GUI.Component.InputFormInline;
 import GUI.Main;
-import GUI.Panel.TaoPhieuXuat;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -15,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -34,7 +28,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
     InputFormInline maphieuxuat, khachhang;
 
     Main m;
-    TaoPhieuXuat xuatKho;
+    TaoPhieuXuat taoPhieuXuat;
 
     Color BackgroundColor = new Color(245, 229, 240);
 
@@ -121,10 +115,8 @@ public class PhieuXuat extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-
-            xuatKho = new TaoPhieuXuat(m);
-            m.setPanel(xuatKho);
-
+            taoPhieuXuat = new TaoPhieuXuat();
+            m.setPanel(taoPhieuXuat);
         }
     }
 
