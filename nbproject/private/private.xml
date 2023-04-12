@@ -3,19 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/DAO/SanPhamDAO.java</file>
-            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Dialog/SanPhamDialog.java</file>
-            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Component/InputImage.java</file>
-            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/BUS/SanPhamBUS.java</file>
-            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Panel/SanPham.java</file>
-            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Dialog/QuenMatKhau.java</file>
-            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Dialog/TaiKhoanDialog.java</file>
+            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Panel/TaoPhieuXuat.java</file>
+            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/helper/Formater.java</file>
+            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Component/MenuTaskbar.java</file>
             <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Log_In.java</file>
-            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/helper/SendEmailSMTP.java</file>
-            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/DAO/CauHinhSanPhamDAO.java</file>
-            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/DAO/TaiKhoanDAO.java</file>
-            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Panel/TaiKhoan.java</file>
+            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Panel/PhieuXuat.java</file>
+            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Component/SelectForm.java</file>
+            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Panel/TaoPhieuNhap.java</file>
+            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Panel/XuatKho.java</file>
             <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Main.java</file>
+            <file>file:/home/robot/Documents/GitHub/quanlikhohang/src/GUI/Panel/PhieuNhap.java</file>
         </group>
     </open-files>
 </project-private>

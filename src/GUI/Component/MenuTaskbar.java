@@ -18,7 +18,7 @@ import GUI.Panel.PhieuXuat;
 import GUI.Panel.QuanLyThuocTinhSP;
 import GUI.Panel.SanPham;
 import GUI.Panel.TaiKhoan;
-import GUI.Panel.ThuongHieu;
+//import GUI.Panel.ThuongHieu;
 import GUI.Panel.TrangChu;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
