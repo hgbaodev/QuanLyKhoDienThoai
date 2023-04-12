@@ -4,9 +4,9 @@
  */
 package GUI.Dialog.ThuocTinhSanPham;
 
-import BUS.MauSacBUS;
-import DAO.MauSacDAO;
-import DTO.ThuocTinhSanPham.MauSacDTO;
+import BUS.HeDieuHanhBUS;
+import DAO.HeDieuHanhDAO;
+import DTO.ThuocTinhSanPham.HeDieuHanhDTO;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import com.formdev.flatlaf.FlatIntelliJLaf;
@@ -14,16 +14,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.ScrollPane;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,7 +30,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-public class MauSacDialog extends JFrame implements MouseListener {
+/**
+ *
+ * @author 84907
+ */
+public class HeDieuHanhDialog extends JFrame implements MouseListener {
 
     HeaderTitle headTite;
     JPanel top, main, bottom, all;
@@ -45,10 +43,10 @@ public class MauSacDialog extends JFrame implements MouseListener {
     JTable table;
     JScrollPane scrollTable;
     JButton add, del, update;
-    MauSacBUS msBUS = new MauSacBUS();
-    ArrayList<MauSacDTO> list = msBUS.getAll();
+    HeDieuHanhBUS msBUS = new HeDieuHanhBUS();
+    ArrayList<HeDieuHanhDTO> list = msBUS.getAll();
 
-    public MauSacDialog() {
+    public HeDieuHanhDialog() {
         //super(owner, title, modal);
         initComponent();
         loadDataTable(list);
@@ -111,18 +109,18 @@ public class MauSacDialog extends JFrame implements MouseListener {
         this.setLocationRelativeTo(null);
     }
 
-    public void loadDataTable(ArrayList<MauSacDTO> result) {
+    public void loadDataTable(ArrayList<HeDieuHanhDTO> result) {
         tblModel.setRowCount(0);
-        for (MauSacDTO ncc : result) {
+        for (HeDieuHanhDTO ncc : result) {
             tblModel.addRow(new Object[]{
-                ncc.getMamau(), ncc.getTenmau()
+                ncc.getMahdh(), ncc.getTenhdh()
             });
         }
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatIntelliJLaf());
-        MauSacDialog aDialog = new MauSacDialog();
+        HeDieuHanhDialog aDialog = new HeDieuHanhDialog();
         aDialog.setVisible(true);
     }
 
@@ -132,9 +130,9 @@ public class MauSacDialog extends JFrame implements MouseListener {
             if (this.ms.getText() == "") {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
             } else {
-                int id = MauSacDAO.getInstance().getAutoIncrement();
+                int id = HeDieuHanhDAO.getInstance().getAutoIncrement();
                 String tenmau = ms.getText();
-                msBUS.add(new MauSacDTO(id, tenmau));
+                msBUS.add(new HeDieuHanhDTO(id, tenmau));
                 loadDataTable(list);
                 ms.setText("");
             }
@@ -149,13 +147,13 @@ public class MauSacDialog extends JFrame implements MouseListener {
             int index = getRowSelected();
             if (index != -1) {
                 String tenmau = ms.getText();
-                msBUS.update(new MauSacDTO(list.get(index).getMamau(), tenmau));
+                msBUS.update(new HeDieuHanhDTO(list.get(index).getMahdh(), tenmau));
                 loadDataTable(list);
                 ms.setText("");
             }
         } else if (e.getSource() == table) {
             int index = table.getSelectedRow();
-            ms.setText(list.get(index).getTenmau());
+            ms.setText(list.get(index).getTenhdh());
         }
     }
 
@@ -185,5 +183,6 @@ public class MauSacDialog extends JFrame implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
     }
 }
