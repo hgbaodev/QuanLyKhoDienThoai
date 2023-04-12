@@ -166,15 +166,16 @@ public class TaoPhieuXuat extends JPanel {
         content_right_bottom.setBackground(Color.WHITE);
         labelImei = new JLabel("Mã Imei");
         labelImei.setPreferredSize(new Dimension(0,30));
-        textAreaImei = new JTextArea(6, 4);
-        textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
+        textAreaImei = new JTextArea();
+        textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204)));
         content_right_bottom_top = new JPanel(new BorderLayout());
         content_right_bottom_top.setSize(new Dimension(0,100));
         content_right_bottom_top.setBackground(Color.white);
         content_right_bottom_top.add(labelImei, BorderLayout.NORTH);
-        content_right_bottom_top.add(textAreaImei,BorderLayout.SOUTH);
+        content_right_bottom_top.add(textAreaImei,BorderLayout.CENTER);
         content_right_bottom_bottom = new JPanel(new BorderLayout());
         content_right_bottom_bottom.setSize(new Dimension(0,50));
+        content_right_bottom_bottom.setBorder(new EmptyBorder(20, 0, 0, 0));
         JLabel labelImei = new JLabel("Chọn IMEI");
         labelImei.setPreferredSize(new Dimension(80,0));
         JComboBox cbxImei = new JComboBox();
@@ -184,7 +185,7 @@ public class TaoPhieuXuat extends JPanel {
         content_right_bottom_bottom.setBackground(Color.white);
         content_right_bottom_bottom.add(labelImei,BorderLayout.WEST);
         content_right_bottom_bottom.add(cbxImei,BorderLayout.CENTER);
-        content_right_bottom.add(content_right_bottom_top,BorderLayout.NORTH);
+        content_right_bottom.add(content_right_bottom_top,BorderLayout.CENTER);
         content_right_bottom.add(content_right_bottom_bottom,BorderLayout.SOUTH);
         
         
