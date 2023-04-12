@@ -5,9 +5,10 @@
 package GUI.Dialog.ThuocTinhSanPham;
 import BUS.ThuongHieuBUS;
 import DAO.ThuongHieuDAO;
-import DTO.ThuongHieuDTO;
+import DTO.ThuocTinhSanPham.ThuongHieuDTO;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import GUI.Panel.QuanLyThuocTinhSP;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -38,7 +39,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author 84907
  */
-public class ThuongHieuDialog extends JFrame implements MouseListener{
+public class ThuongHieuDialog extends JDialog implements MouseListener{
     HeaderTitle headTite;
     JPanel top, main, bottom;
     InputForm ms;
@@ -48,16 +49,16 @@ public class ThuongHieuDialog extends JFrame implements MouseListener{
     JButton add, del, update;
     ThuongHieuBUS thBUS = new ThuongHieuBUS();
     ArrayList<ThuongHieuDTO> list = thBUS.getAll();
+    QuanLyThuocTinhSP qltt;
 
-    public ThuongHieuDialog() {
-        //super(owner, title, modal);
-        initComponent();
+    public ThuongHieuDialog(JFrame owner,QuanLyThuocTinhSP qlttsp, String title, boolean modal) {
+        super(owner, title, modal);
+        initComponent(qlttsp);
         loadDataTable(list);
     }
 
-    public void initComponent() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    public void initComponent(QuanLyThuocTinhSP qltt) {
+        this.qltt=qltt;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));        
         headTite = new HeaderTitle("Quản lý thương hiệu sản phẩm");
@@ -119,10 +120,6 @@ public class ThuongHieuDialog extends JFrame implements MouseListener{
                 th.getMathuonghieu(),th.getTenthuonghieu()
             });
         }
-    }
-    public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new FlatIntelliJLaf());
-       new ThuongHieuDialog().setVisible(true);
     }
 
     @Override
