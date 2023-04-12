@@ -1,7 +1,13 @@
 package GUI.Panel;
 
+import BUS.CauHinhSanPhamBUS;
+import BUS.DungLuongRamBUS;
+import BUS.DungLuongRomBUS;
+import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
 import BUS.SanPhamBUS;
+import DTO.CauHinhSanPhamDTO;
+import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.InputForm;
 import GUI.Main;
@@ -12,12 +18,19 @@ import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import helper.Formater;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class TaoPhieuXuat extends JPanel {
-
+    CauHinhSanPhamBUS cauhinhBus = new CauHinhSanPhamBUS();
+    DungLuongRamBUS ramBus = new DungLuongRamBUS();
+    DungLuongRomBUS romBus = new DungLuongRomBUS();
+    MauSacBUS mausacBus = new MauSacBUS();
     PanelBorderRadius right, left;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main;
     JTable tablePhieuNhap, tableSanPham;
@@ -37,7 +50,6 @@ public class TaoPhieuXuat extends JPanel {
     private JLabel labelImei;
     private JPanel content_right_bottom_top;
     private JPanel content_right_bottom_bottom;
-    private ButtonCustom btnAddImei;
 
     public TaoPhieuXuat() {
         initComponent();
@@ -142,7 +154,7 @@ public class TaoPhieuXuat extends JPanel {
         txtMaSp.setEditable(false);
         txtTenSp = new InputForm("Tên sản phẩm");
         txtTenSp.setEditable(false);
-        String[] arrCauhinh = {"64GB - 6GB - Đỏ", "128GB - 8GB - Đỏ"};
+        String[] arrCauhinh = {"Chọn sản phẩm"};
         cbxCauhinh = new SelectForm("Cấu hình", arrCauhinh);
         cbxCauhinh.setPreferredSize(new Dimension(100, 90));
         content_right_top.add(txtMaSp, BorderLayout.WEST);
@@ -161,11 +173,17 @@ public class TaoPhieuXuat extends JPanel {
         content_right_bottom_top.setBackground(Color.white);
         content_right_bottom_top.add(labelImei, BorderLayout.NORTH);
         content_right_bottom_top.add(textAreaImei,BorderLayout.SOUTH);
-        content_right_bottom_bottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        content_right_bottom_bottom = new JPanel(new BorderLayout());
         content_right_bottom_bottom.setSize(new Dimension(0,50));
-        btnAddImei = new ButtonCustom("Chọn Imei", "success", 14);
+        JLabel labelImei = new JLabel("Chọn IMEI");
+        labelImei.setPreferredSize(new Dimension(80,0));
+        JComboBox cbxImei = new JComboBox();
+        String[] comString = {"Chọn sản phẩm"};
+        cbxImei.setModel(new DefaultComboBoxModel(comString));
+        AutoCompleteDecorator.decorate(cbxImei);
         content_right_bottom_bottom.setBackground(Color.white);
-        content_right_bottom_bottom.add(btnAddImei);
+        content_right_bottom_bottom.add(labelImei,BorderLayout.WEST);
+        content_right_bottom_bottom.add(cbxImei,BorderLayout.CENTER);
         content_right_bottom.add(content_right_bottom_top,BorderLayout.NORTH);
         content_right_bottom.add(content_right_bottom_bottom,BorderLayout.SOUTH);
         
@@ -239,6 +257,16 @@ public class TaoPhieuXuat extends JPanel {
         lbltien.setForeground(new Color(255, 51, 51));
         pn_tongtien.add(lbltien);
         pn_tongtien.add(lbltongtien);
+        
+        tableSanPham.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int index = tableSanPham.getSelectedRow();
+                if (index != -1) {
+                    setInfoSanPham(listSP.get(index));
+                }
+            }
+        });
 
         btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
         right_bottom.add(pn_tongtien);
@@ -257,5 +285,18 @@ public class TaoPhieuXuat extends JPanel {
         for (DTO.SanPhamDTO sp : result) {
             tblModelSP.addRow(new Object[]{sp.getMasp(), sp.getTensp()});
         }
+    }
+    
+    public void setInfoSanPham(SanPhamDTO sp) {
+        this.txtMaSp.setText(Integer.toString(sp.getMasp()));
+        this.txtTenSp.setText(sp.getTensp());
+        ArrayList<CauHinhSanPhamDTO> ch = cauhinhBus.getAll(sp.getMasp());
+        int size = ch.size();
+        String[] arr = new String[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = romBus.getKichThuocById(ch.get(i).getRom()) + "GB - "
+                    + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac())+" - "+Formater.FormatVND(ch.get(i).getGiaxuat());
+        }
+        this.cbxCauhinh.setArr(arr);
     }
 }
