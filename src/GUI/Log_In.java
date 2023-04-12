@@ -6,7 +6,6 @@ import GUI.Component.InputForm;
 import GUI.Dialog.QuenMatKhau;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.BCrypt;
 import java.awt.*;
@@ -31,6 +30,7 @@ public class Log_In extends JFrame {
         this.setSize(new Dimension(1000, 740));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(0, 0));
+        this.setResizable(false);
         this.setTitle("Đăng nhập");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JFrame jf = this;
