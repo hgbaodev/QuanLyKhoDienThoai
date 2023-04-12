@@ -9,6 +9,7 @@ import DAO.MauSacDAO;
 import DTO.ThuocTinhSanPham.MauSacDTO;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import GUI.Panel.QuanLyThuocTinhSP;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -36,8 +37,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-public class MauSacDialog extends JFrame implements MouseListener {
+public class MauSacDialog extends JDialog implements MouseListener {
 
+    QuanLyThuocTinhSP qlttsp;
     HeaderTitle headTite;
     JPanel top, main, bottom, all;
     InputForm ms;
@@ -48,15 +50,14 @@ public class MauSacDialog extends JFrame implements MouseListener {
     MauSacBUS msBUS = new MauSacBUS();
     ArrayList<MauSacDTO> list = msBUS.getAll();
 
-    public MauSacDialog() {
-        //super(owner, title, modal);
-        initComponent();
+    public MauSacDialog(JFrame onwer, QuanLyThuocTinhSP qltt , String title, boolean modal) {
+        super(onwer, title, modal);
+        initComponent(qltt);
         loadDataTable(list);
     }
 
-    public void initComponent() {
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+    public void initComponent(QuanLyThuocTinhSP qlttsp) {
+        this.qlttsp  =qlttsp;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));
         headTite = new HeaderTitle("Quản lý màu sắc sản phẩm");
@@ -118,12 +119,6 @@ public class MauSacDialog extends JFrame implements MouseListener {
                 ncc.getMamau(), ncc.getTenmau()
             });
         }
-    }
-
-    public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new FlatIntelliJLaf());
-        MauSacDialog aDialog = new MauSacDialog();
-        aDialog.setVisible(true);
     }
 
     @Override

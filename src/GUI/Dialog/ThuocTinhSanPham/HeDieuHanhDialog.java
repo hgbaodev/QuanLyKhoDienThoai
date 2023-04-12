@@ -9,6 +9,7 @@ import DAO.HeDieuHanhDAO;
 import DTO.ThuocTinhSanPham.HeDieuHanhDTO;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import GUI.Panel.QuanLyThuocTinhSP;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,10 +36,10 @@ import javax.swing.table.TableColumnModel;
  *
  * @author 84907
  */
-public class HeDieuHanhDialog extends JFrame implements MouseListener {
+public class HeDieuHanhDialog extends JDialog implements MouseListener {
 
     HeaderTitle headTite;
-    JPanel top, main, bottom, all;
+    JPanel top, main, bottom;
     InputForm ms;
     DefaultTableModel tblModel;
     JTable table;
@@ -45,16 +47,16 @@ public class HeDieuHanhDialog extends JFrame implements MouseListener {
     JButton add, del, update;
     HeDieuHanhBUS msBUS = new HeDieuHanhBUS();
     ArrayList<HeDieuHanhDTO> list = msBUS.getAll();
+    QuanLyThuocTinhSP qltt;
 
-    public HeDieuHanhDialog() {
-        //super(owner, title, modal);
-        initComponent();
+    public HeDieuHanhDialog(JFrame owner, QuanLyThuocTinhSP qltt, String title, boolean modal) {
+        super(owner, title, modal);
+        initComponent(qltt);
         loadDataTable(list);
     }
 
-    public void initComponent() {
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+    public void initComponent(QuanLyThuocTinhSP qltt) {
+        this.qltt=qltt;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));
         headTite = new HeaderTitle("Quản lý màu sắc sản phẩm");
@@ -118,11 +120,6 @@ public class HeDieuHanhDialog extends JFrame implements MouseListener {
         }
     }
 
-    public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new FlatIntelliJLaf());
-        HeDieuHanhDialog aDialog = new HeDieuHanhDialog();
-        aDialog.setVisible(true);
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {

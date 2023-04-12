@@ -4,7 +4,7 @@
  */
 package DAO;
 
-import DTO.ThuongHieuDTO;
+import DTO.ThuocTinhSanPham.ThuongHieuDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

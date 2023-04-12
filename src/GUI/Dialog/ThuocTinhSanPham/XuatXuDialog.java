@@ -9,6 +9,7 @@ import DAO.XuatXuDAO;
 import DTO.ThuocTinhSanPham.XuatXuDTO;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import GUI.Panel.QuanLyThuocTinhSP;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,7 +36,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author 84907
  */
-public class XuatXuDialog extends JFrame implements MouseListener {
+public class XuatXuDialog extends JDialog implements MouseListener {
 
     HeaderTitle headTite;
     JPanel top, main, bottom, all;
@@ -45,16 +47,17 @@ public class XuatXuDialog extends JFrame implements MouseListener {
     JButton add, del, update;
     XuatXuBUS msBUS = new XuatXuBUS();
     ArrayList<XuatXuDTO> list = msBUS.getAll();
+    QuanLyThuocTinhSP qltt;
 
-    public XuatXuDialog() {
-        //super(owner, title, modal);
-        initComponent();
+    public XuatXuDialog(JFrame owner,QuanLyThuocTinhSP qltt,String title,boolean modal) {
+        super(owner, title, modal);
+        initComponent(qltt);
         loadDataTable(list);
     }
 
-    public void initComponent() {
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+    public void initComponent(QuanLyThuocTinhSP qltt) {
+        
+        this.qltt=qltt;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));
         headTite = new HeaderTitle("Quản lý màu sắc sản phẩm");
@@ -118,11 +121,6 @@ public class XuatXuDialog extends JFrame implements MouseListener {
         }
     }
 
-    public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new FlatIntelliJLaf());
-        XuatXuDialog aDialog = new XuatXuDialog();
-        aDialog.setVisible(true);
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
