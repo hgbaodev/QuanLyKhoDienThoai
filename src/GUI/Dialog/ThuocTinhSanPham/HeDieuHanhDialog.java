@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package GUI.Dialog.ThuocTinhSanPham;
-import BUS.ThuongHieuBUS;
-import DAO.ThuongHieuDAO;
-import DTO.ThuocTinhSanPham.ThuongHieuDTO;
+
+import BUS.HeDieuHanhBUS;
+import DAO.HeDieuHanhDAO;
+import DTO.ThuocTinhSanPham.HeDieuHanhDTO;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Panel.QuanLyThuocTinhSP;
@@ -14,15 +15,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.ScrollPane;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,11 +31,13 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+
 /**
  *
  * @author 84907
  */
-public class ThuongHieuDialog extends JDialog implements MouseListener{
+public class HeDieuHanhDialog extends JDialog implements MouseListener {
+
     HeaderTitle headTite;
     JPanel top, main, bottom;
     InputForm ms;
@@ -47,28 +45,28 @@ public class ThuongHieuDialog extends JDialog implements MouseListener{
     JTable table;
     JScrollPane scrollTable;
     JButton add, del, update;
-    ThuongHieuBUS thBUS = new ThuongHieuBUS();
-    ArrayList<ThuongHieuDTO> list = thBUS.getAll();
+    HeDieuHanhBUS msBUS = new HeDieuHanhBUS();
+    ArrayList<HeDieuHanhDTO> list = msBUS.getAll();
     QuanLyThuocTinhSP qltt;
 
-    public ThuongHieuDialog(JFrame owner,QuanLyThuocTinhSP qlttsp, String title, boolean modal) {
+    public HeDieuHanhDialog(JFrame owner, QuanLyThuocTinhSP qltt, String title, boolean modal) {
         super(owner, title, modal);
-        initComponent(qlttsp);
+        initComponent(qltt);
         loadDataTable(list);
     }
 
     public void initComponent(QuanLyThuocTinhSP qltt) {
         this.qltt=qltt;
         this.setSize(new Dimension(425, 500));
-        this.setLayout(new BorderLayout(0, 0));        
-        headTite = new HeaderTitle("Quản lý thương hiệu sản phẩm");
+        this.setLayout(new BorderLayout(0, 0));
+        headTite = new HeaderTitle("Quản lý màu sắc sản phẩm");
         this.setBackground(Color.white);
         top = new JPanel();
         main = new JPanel();
         bottom = new JPanel();
-        
-        ms=new InputForm("Tên thương hiệu");
-        ms.setPreferredSize(new Dimension(150,70));
+
+        ms = new InputForm("Tên màu sắc");
+        ms.setPreferredSize(new Dimension(150, 70));
         top.setLayout(new FlowLayout(0));
         top.setBackground(Color.WHITE);
         top.setPreferredSize(new Dimension(0, 150));
@@ -76,7 +74,7 @@ public class ThuongHieuDialog extends JDialog implements MouseListener{
         top.add(ms);
 
         main.setBackground(Color.WHITE);
-        main.setPreferredSize(new Dimension(420,200));
+        main.setPreferredSize(new Dimension(420, 200));
         table = new JTable();
         table.setBackground(Color.WHITE);
         table.addMouseListener(this);
@@ -93,7 +91,7 @@ public class ThuongHieuDialog extends JDialog implements MouseListener{
         columnModel.getColumn(0).setCellRenderer(centerRenderer);
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
         main.add(scrollTable);
-        
+
         add = new JButton("Thêm");
         add.addMouseListener(this);
         del = new JButton("Xóa");
@@ -101,72 +99,69 @@ public class ThuongHieuDialog extends JDialog implements MouseListener{
         update = new JButton("Sửa");
         update.addMouseListener(this);
         bottom.setBackground(Color.white);
-        bottom.setLayout(new FlowLayout(1,50,20));
+        bottom.setLayout(new FlowLayout(1, 50, 20));
         bottom.add(add);
         bottom.add(del);
         bottom.add(update);
-        bottom.setPreferredSize(new Dimension(0,70));
-        
-        this.add(top,BorderLayout.NORTH);
-        this.add(main,BorderLayout.CENTER);
-        this.add(bottom,BorderLayout.SOUTH);
-                this.setLocationRelativeTo(null);
+        bottom.setPreferredSize(new Dimension(0, 70));
+
+        this.add(top, BorderLayout.NORTH);
+        this.add(main, BorderLayout.CENTER);
+        this.add(bottom, BorderLayout.SOUTH);
+        this.setLocationRelativeTo(null);
     }
 
-    public void loadDataTable(ArrayList<ThuongHieuDTO> result) {
+    public void loadDataTable(ArrayList<HeDieuHanhDTO> result) {
         tblModel.setRowCount(0);
-        for (ThuongHieuDTO th : result) {
+        for (HeDieuHanhDTO ncc : result) {
             tblModel.addRow(new Object[]{
-                th.getMathuonghieu(),th.getTenthuonghieu()
+                ncc.getMahdh(), ncc.getTenhdh()
             });
         }
     }
 
+
     @Override
     public void mouseClicked(MouseEvent e) {
-       if(e.getSource()==add){
-            if(this.ms.getText()==""){
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên thương hiệu mới");
-            }
-            else{
-                int id = ThuongHieuDAO.getInstance().getAutoIncrement();
-                String tenthuonghieu= ms.getText();
-                thBUS.add(tenthuonghieu);
+        if (e.getSource() == add) {
+            if (this.ms.getText() == "") {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
+            } else {
+                int id = HeDieuHanhDAO.getInstance().getAutoIncrement();
+                String tenmau = ms.getText();
+                msBUS.add(new HeDieuHanhDTO(id, tenmau));
                 loadDataTable(list);
                 ms.setText("");
-        }
-    }
-        else if(e.getSource()==del){
+            }
+        } else if (e.getSource() == del) {
             int index = getRowSelected();
-            if(index!=-1){
-                 thBUS.delete(list.get(index));
-                 loadDataTable(list);
-                 ms.setText("");
-                 }
-        }
-        else if(e.getSource()==update){
+            if (index != -1) {
+                msBUS.delete(list.get(index), index);
+                loadDataTable(list);
+                ms.setText("");
+            }
+        } else if (e.getSource() == update) {
             int index = getRowSelected();
-            if(index!=-1){
-                String tenthuonghieu= ms.getText();
-                 thBUS.update(new ThuongHieuDTO(list.get(index).getMathuonghieu(),tenthuonghieu));
-                 loadDataTable(list);
-                 ms.setText("");
-                 }
-        }
-        else if(e.getSource()==table){
+            if (index != -1) {
+                String tenmau = ms.getText();
+                msBUS.update(new HeDieuHanhDTO(list.get(index).getMahdh(), tenmau));
+                loadDataTable(list);
+                ms.setText("");
+            }
+        } else if (e.getSource() == table) {
             int index = table.getSelectedRow();
-            ms.setText(list.get(index).getTenthuonghieu());
+            ms.setText(list.get(index).getTenhdh());
         }
     }
 
     public int getRowSelected() {
         int index = table.getSelectedRow();
         if (index == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn thương hiệu!");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn màu sắc!");
         }
         return index;
     }
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -185,5 +180,6 @@ public class ThuongHieuDialog extends JDialog implements MouseListener{
     @Override
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
     }
 }

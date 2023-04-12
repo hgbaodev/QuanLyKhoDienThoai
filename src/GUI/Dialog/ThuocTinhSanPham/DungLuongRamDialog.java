@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import GUI.Panel.QuanLyThuocTinhSP;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,9 +38,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 
-public class DungLuongRamDialog extends JFrame implements MouseListener{
+public class DungLuongRamDialog extends JDialog implements MouseListener{
      HeaderTitle headTite;
-    JPanel top, main, bottom,all;
+    JPanel top, main, bottom;
     InputForm ms;
     DefaultTableModel tblModel;
     JTable table;
@@ -47,16 +48,16 @@ public class DungLuongRamDialog extends JFrame implements MouseListener{
     JButton add, del, update;
     DungLuongRamBUS dlrBUS = new DungLuongRamBUS();
     ArrayList<DungLuongRamDTO> list = dlrBUS.getAll();
+    QuanLyThuocTinhSP qltt; 
 
-    public DungLuongRamDialog() {
-        //super(owner, title, modal);
-        initComponent();
+    public DungLuongRamDialog(JFrame owner,QuanLyThuocTinhSP qltt, String title, boolean modal){
+        super(owner, title, modal);
+        initComponent(qltt);
         loadDataTable(list);
     }
 
-    public void initComponent() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    public void initComponent(QuanLyThuocTinhSP qltt) {
+        this.qltt=qltt;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));        
         headTite = new HeaderTitle("Quản lý RAM");
@@ -117,10 +118,6 @@ public class DungLuongRamDialog extends JFrame implements MouseListener{
                 dlr.getMadlram(), dlr.getDungluongram()
             });
         }
-    }
-    public static void main(String[] args) {
-       DungLuongRamDialog aDialog= new DungLuongRamDialog();
-       aDialog.setVisible(true);
     }
 
     @Override

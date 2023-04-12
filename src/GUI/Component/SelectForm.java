@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
  */
 public class SelectForm extends JPanel{
     private JLabel lblTitle;
-    private JComboBox cbb;
+    public JComboBox cbb;
     
     public SelectForm(String title, String[] obj) {
         this.setLayout(new GridLayout(2, 1));
