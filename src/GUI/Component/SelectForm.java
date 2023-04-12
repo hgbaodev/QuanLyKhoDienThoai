@@ -6,6 +6,7 @@ package GUI.Component;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +30,10 @@ public class SelectForm extends JPanel{
         
         this.add(lblTitle);
         this.add(cbb);
+    }
+    
+    public void setArr(String[] obj) {
+        this.cbb.setModel(new DefaultComboBoxModel(obj));
     }
     
     public String getValue() {
