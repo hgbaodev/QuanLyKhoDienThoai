@@ -90,7 +90,7 @@ public class MenuTaskbar extends JPanel {
         this.nhomQuyenDTO = NhomQuyenDAO.getInstance().selectById(Integer.toString(tk.getManhomquyen()));
         this.nhanVienDTO = NhanVienDAO.getInstance().selectById(Integer.toString(tk.getManv()));
         System.out.println(nhanVienDTO);
-        System.out.println(tk.getManhomquyen());
+        System.out.println(tk);
         listQuyen = ChiTietQuyenDAO.getInstance().selectAll(tk.getManhomquyen() + "");
         initComponent();
     }
