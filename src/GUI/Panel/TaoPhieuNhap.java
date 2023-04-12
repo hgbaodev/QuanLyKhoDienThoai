@@ -17,13 +17,16 @@ import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import helper.Formater;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class TaoPhieuNhap extends JPanel {
+public class TaoPhieuNhap extends JPanel implements ItemListener {
 
     PanelBorderRadius right, left;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main;
@@ -32,7 +35,7 @@ public class TaoPhieuNhap extends JPanel {
     DefaultTableModel tblModel, tblModelSP;
     NhapKho nhapKho;
     ButtonCustom btnAddSp, btnEditSP, btnDelete, btnImport, btnNhapHang;
-    InputForm txtMaphieu, txtNhanVien, txtMaSp, txtTenSp;
+    InputForm txtMaphieu, txtNhanVien, txtMaSp, txtTenSp, txtDongia, txtMaImeiTheoLo, txtSoLuongImei;
     SelectForm cbxNhaCungCap, cbxTrangThai, cbxCauhinh, cbxPtNhap;
     JTextField txtTimKiem;
     Color BackgroundColor = new Color(240, 247, 250);
@@ -45,6 +48,7 @@ public class TaoPhieuNhap extends JPanel {
     MauSacBUS mausacBus = new MauSacBUS();
 
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
+    ArrayList<CauHinhSanPhamDTO> ch;
 
     public TaoPhieuNhap() {
         initComponent();
@@ -91,6 +95,7 @@ public class TaoPhieuNhap extends JPanel {
         tablePhieuNhap.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tablePhieuNhap.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tablePhieuNhap.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tablePhieuNhap.setDefaultEditor(Object.class, null);
         scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
 
         // Table sản phẩm
@@ -103,6 +108,7 @@ public class TaoPhieuNhap extends JPanel {
         scrollTableSanPham.setViewportView(tableSanPham);
         tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(300);
+        tableSanPham.setDefaultEditor(Object.class, null);
         scrollTableSanPham.setViewportView(tableSanPham);
 
         tableSanPham.addMouseListener(new MouseAdapter() {
@@ -149,27 +155,44 @@ public class TaoPhieuNhap extends JPanel {
         content_left.add(scrollTableSanPham, BorderLayout.CENTER);
 
         content_right = new JPanel(new BorderLayout(5, 5));
+        content_right.setOpaque(false);
 
         content_right_top = new JPanel(new BorderLayout());
-        content_right_top.setPreferredSize(new Dimension(100, 165));
+        content_right_top.setPreferredSize(new Dimension(100, 260));
         txtMaSp = new InputForm("Mã sản phẩm");
         txtMaSp.setEditable(false);
         txtTenSp = new InputForm("Tên sản phẩm");
         txtTenSp.setEditable(false);
-        
+
         String[] arrCauhinh = {"Chọn sản phẩm"};
-        JPanel content_right_top_cbx = new JPanel(new GridLayout(1, 2));
-        content_right_top_cbx.setPreferredSize(new Dimension(100, 90));
+        JPanel content_right_top_cbx = new JPanel(new BorderLayout());
+        content_right_top_cbx.setPreferredSize(new Dimension(100, 180));
         cbxCauhinh = new SelectForm("Cấu hình", arrCauhinh);
+        cbxCauhinh.cbb.addItemListener(this);
+        txtDongia = new InputForm("Đơn giá");
+        txtDongia.setEditable(false);
         String[] arrPtNhap = {"Nhập theo lô", "Nhập từng máy"};
         cbxPtNhap = new SelectForm("Phương thức nhập", arrPtNhap);
-        content_right_top_cbx.add(cbxCauhinh);
-        content_right_top_cbx.add(cbxPtNhap);
+        cbxPtNhap.setPreferredSize(new Dimension(100, 90));
+        content_right_top_cbx.add(cbxCauhinh, BorderLayout.WEST);
+        content_right_top_cbx.add(txtDongia, BorderLayout.CENTER);
+        content_right_top_cbx.add(cbxPtNhap, BorderLayout.SOUTH);
         content_right_top.add(txtMaSp, BorderLayout.WEST);
         content_right_top.add(txtTenSp, BorderLayout.CENTER);
         content_right_top.add(content_right_top_cbx, BorderLayout.SOUTH);
 
-        content_right_bottom = new JPanel();
+        content_right_bottom = new JPanel(new CardLayout());
+        JPanel card_content_one = new JPanel(new BorderLayout());
+        card_content_one.setBackground(Color.white);
+        card_content_one.setPreferredSize(new Dimension(100,90));
+        JPanel card_content_one_model = new JPanel(new BorderLayout());
+        card_content_one_model.setPreferredSize(new Dimension(100, 90));
+        txtMaImeiTheoLo = new InputForm("Mã Imei bắt đầu");
+        txtSoLuongImei = new InputForm("Số lượng");
+        card_content_one_model.add(txtMaImeiTheoLo, BorderLayout.CENTER);
+        card_content_one_model.add(txtSoLuongImei, BorderLayout.EAST);
+        card_content_one.add(card_content_one_model,BorderLayout.NORTH);
+        content_right_bottom.add(card_content_one);
 
         content_right.add(content_right_top, BorderLayout.NORTH);
         content_right.add(content_right_bottom, BorderLayout.CENTER);
@@ -196,7 +219,7 @@ public class TaoPhieuNhap extends JPanel {
 
         main = new JPanel();
         main.setOpaque(false);
-        main.setPreferredSize(new Dimension(0, 280));
+        main.setPreferredSize(new Dimension(0, 250));
         main.setBorder(new EmptyBorder(0, 5, 10, 10));
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
@@ -263,7 +286,7 @@ public class TaoPhieuNhap extends JPanel {
     public void setInfoSanPham(SanPhamDTO sp) {
         this.txtMaSp.setText(Integer.toString(sp.getMasp()));
         this.txtTenSp.setText(sp.getTensp());
-        ArrayList<CauHinhSanPhamDTO> ch = cauhinhBus.getAll(sp.getMasp());
+        ch = cauhinhBus.getAll(sp.getMasp());
         int size = ch.size();
         String[] arr = new String[size];
         for (int i = 0; i < size; i++) {
@@ -271,6 +294,18 @@ public class TaoPhieuNhap extends JPanel {
                     + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac());
         }
         this.cbxCauhinh.setArr(arr);
+        this.txtDongia.setText(Formater.FormatVND(ch.get(0).getGianhap()));
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        Object source = e.getSource();
+        if (source == cbxCauhinh.cbb) {
+            int index = cbxCauhinh.cbb.getSelectedIndex();
+            this.txtDongia.setText(Formater.FormatVND(ch.get(index).getGianhap()));
+        } else if (source == cbxPtNhap) {
+
+        }
     }
 
 }
