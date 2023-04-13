@@ -339,7 +339,7 @@ public final class NhapKho extends JPanel implements ActionListener {
         int index = getRowSelected(tableNhapKho);
         if (index != -1) {
             String newSL = JOptionPane.showInputDialog(this, "Nhập số lượng cần thay đổi", "Thay đổi số lượng", QUESTION_MESSAGE);
-            int soluong = Validation.isNumber(newSL);
+            int soluong = 00;
             if (soluong > 0) {
 //                chitietphieu.get(index).setSoluong(soluong);
                 loadDataNhapHang(chitietphieu);

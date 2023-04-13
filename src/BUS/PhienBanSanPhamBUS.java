@@ -23,7 +23,11 @@ public class PhienBanSanPhamBUS {
         return cauhinhDAO.selectAll(Integer.toString(masp));
     }
     
-    public static boolean checkDuplicate( ArrayList<PhienBanSanPhamDTO> listch, PhienBanSanPhamDTO ch) {
+    public PhienBanSanPhamDTO getByMaPhienBan(int mapb) {
+        return cauhinhDAO.selectById(mapb);
+    }
+    
+    public static boolean checkDuplicate(ArrayList<PhienBanSanPhamDTO> listch, PhienBanSanPhamDTO ch) {
         boolean check = false;
         int i = 0;
         while(i < listch.size() && check == false) {
