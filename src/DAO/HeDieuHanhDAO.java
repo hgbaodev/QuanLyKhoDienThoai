@@ -62,7 +62,7 @@ public class HeDieuHanhDAO implements DAOinterface<HeDieuHanhDTO>{
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `hedieuhanh` SET `trangthai` = 0 WHERE mahdh = ?";
+            String sql = "UPDATE `hedieuhanh` SET `trangthai` = 0 WHERE mahedieuhanh = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1,t);
             result = pst.executeUpdate();
@@ -85,12 +85,10 @@ public class HeDieuHanhDAO implements DAOinterface<HeDieuHanhDTO>{
                 int mahdh = rs.getInt("mahedieuhanh");
                 String tenhdh = rs.getString("tenhedieuhanh");
                 HeDieuHanhDTO ms = new HeDieuHanhDTO(mahdh, tenhdh);
-                System.out.println(ms);
                 result.add(ms);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
-            Logger.getLogger(HeDieuHanhDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return result;
     }

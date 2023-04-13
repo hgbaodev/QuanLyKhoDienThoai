@@ -34,8 +34,7 @@ public class QuanLyThuocTinhSP extends JPanel {
     MauSacDialog mausac;
     public itemTaskbar[] listitem;
 
-    //String st[] = {"Trang chủ", "Sản phẩm", "Loại hàng", "Quản lý kho", "Nhập kho", "Xuất kho", "Khách hàng", "Nhà cung cấp", "Nhân viên", "Tài khoản", "Đơn vị tính", "Đăng xuất"};
-    String iconst[] = {"/icon/home_30px.png", "/icon/product_30px.png", "/icon/categorize_30px.png", "/icon/account_30px.png", "/icon/supply_chain_30px.png","/icon/account_30px.png"};
+    String iconst[] = { "brand_100px.svg","factory_100px.svg","os_100px.svg","rom_100px.svg","ram_100px.svg","color_100px.svg"};
 
     String header[] = {"Thương hiệu", "Xuất xứ", "Hệ điều hành", "Dung lượng Ram", "Dung lượng Rom", "Màu sắc"};
     Color BackgroundColor = new Color(240, 247, 250);
@@ -49,6 +48,69 @@ public class QuanLyThuocTinhSP extends JPanel {
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
+        initPadding();
+            
+        contentCenter = new JPanel();
+        contentCenter.setBackground(BackgroundColor);
+        contentCenter.setLayout(new GridLayout(4, 4, 20, 20));
+
+        scrPane = new JScrollPane(contentCenter);
+        scrPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+        this.add(scrPane, BorderLayout.CENTER);
+
+        box = new JPanel[n];
+        lbl = new JLabel[n];
+        lblIcon = new JLabel[n];
+        for (int i = 0; i < header.length; i++) {
+            listitem[i] = new itemTaskbar(iconst[i], header[i], header[i]);
+            contentCenter.add(listitem[i]);
+        }
+
+        listitem[0].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                th = new ThuongHieuDialog(owner, QuanLyThuocTinhSP.this, "Quản lý thương hiệu", true);
+                th.setVisible(true);
+            }
+        });
+
+        listitem[3].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                dlram = new DungLuongRamDialog(owner, QuanLyThuocTinhSP.this, "Quản lý dung lượng RAM", true);
+                dlram.setVisible(true);
+            }
+        });
+
+        listitem[4].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                dlrom = new DungLuongRomDialog(owner, QuanLyThuocTinhSP.this, "Quản lý dung lượng ROM", true);
+                dlrom.setVisible(true);
+            }
+        });
+        listitem[5].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                mausac = new MauSacDialog(owner, QuanLyThuocTinhSP.this, "Quản lý màu sắc", true);
+                mausac.setVisible(true);
+            }
+        });
+    }
+
+    public void Mouseopress(MouseEvent evt) {
+        for (int i = 0; i < listitem.length; i++) {
+            if (evt.getSource() == listitem[i]) {
+
+            }
+        }
+    }
+
+    public QuanLyThuocTinhSP() {
+        initComponent();
+    }
+    public void initPadding() {
+        
         pnlBorder1 = new JPanel();
         pnlBorder1.setPreferredSize(new Dimension(0, 40));
         pnlBorder1.setBackground(BackgroundColor);
@@ -69,90 +131,6 @@ public class QuanLyThuocTinhSP extends JPanel {
         pnlBorder4.setBackground(BackgroundColor);
         this.add(pnlBorder4, BorderLayout.WEST);
 
-        contentCenter = new JPanel();
-        contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new GridLayout(4, 4, 20, 20));
-
-        scrPane = new JScrollPane(contentCenter);
-        scrPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-        this.add(scrPane, BorderLayout.CENTER);
-
-        box = new JPanel[n];
-        lbl = new JLabel[n];
-        lblIcon = new JLabel[n];
-        for (int i = 0; i < header.length; i++) {
-//            box[i] = new JPanel();
-//            box[i].setLayout(new FlowLayout(0, 20, 50));
-//            box[i].setBackground(DefaultColor);
-//            box[i].setBorder(new EmptyBorder(20,20,20,20));
-//
-//            lblIcon[i] = new JLabel();
-//            lblIcon[i].setPreferredSize(new Dimension(30, 30));
-//            lblIcon[i].setIcon(new javax.swing.ImageIcon(getClass().getResource(iconst[i])));
-//
-//            box[i].add(lblIcon[i]);
-//
-//            lbl[i] = new JLabel(st[i]);
-//            lbl[i].setPreferredSize(new Dimension(170, 30));
-//            lbl[i].putClientProperty("FlatLaf.style", "font: 150% $medium.font");
-//            lbl[i].setForeground(FontColor);
-//
-//            box[i].add(lbl[i]);
-//
-//            contentCenter.add(box[i]);
-            listitem[i] = new itemTaskbar(iconst[i], header[i], header[i]);
-            contentCenter.add(listitem[i]);
-        }
-//        for (int i=0;i<listitem.length;i++){
-//            listitem[i].addMouseListener(new MouseAdapter(){
-//                @Override
-//                public void mousePressed(MouseEvent evt) {
-//                    
-//                }
-//            });
-//        }
-            listitem[0].addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                th = new ThuongHieuDialog(owner,QuanLyThuocTinhSP.this,"Quản lý thương hiệu",true);
-                th.setVisible(true);
-            }
-        });
-        
-        listitem[3].addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                dlram = new DungLuongRamDialog(owner,QuanLyThuocTinhSP.this,"Quản lý dung lượng RAM",true);
-                dlram.setVisible(true);
-            }
-        });
-
-        listitem[4].addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                dlrom = new DungLuongRomDialog(owner,QuanLyThuocTinhSP.this,"Quản lý dung lượng ROM",true);
-                dlrom.setVisible(true);
-            }
-        });
-        listitem[5].addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                mausac = new MauSacDialog(owner,QuanLyThuocTinhSP.this,"Quản lý màu sắc",true);
-                mausac.setVisible(true);
-            }
-        });
-    }
-
-    public void Mouseopress(MouseEvent evt) {
-        for (int i = 0; i < listitem.length; i++) {
-            if (evt.getSource() == listitem[i]) {
-
-            }
-        }
-    }
-
-    public QuanLyThuocTinhSP() {
-        initComponent();
     }
 
 }
