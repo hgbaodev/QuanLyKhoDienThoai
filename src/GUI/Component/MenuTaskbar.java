@@ -89,8 +89,6 @@ public class MenuTaskbar extends JPanel {
         this.user = tk;
         this.nhomQuyenDTO = NhomQuyenDAO.getInstance().selectById(Integer.toString(tk.getManhomquyen()));
         this.nhanVienDTO = NhanVienDAO.getInstance().selectById(Integer.toString(tk.getManv()));
-        System.out.println(nhanVienDTO);
-        System.out.println(tk);
         listQuyen = ChiTietQuyenDAO.getInstance().selectAll(tk.getManhomquyen() + "");
         initComponent();
     }
@@ -216,7 +214,7 @@ public class MenuTaskbar extends JPanel {
         listitem[5].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                phieuNhap = new PhieuNhap(main);
+                phieuNhap = new PhieuNhap(main, nhanVienDTO);
                 main.setPanel(phieuNhap);
             }
         });

@@ -16,17 +16,20 @@ public class PhieuDTO {
     private int maphieu;
     private int manguoitao;
     private Timestamp thoigiantao;
-    private double tongTien;
+    private long tongTien;
     private int trangthai;
 
-    public PhieuDTO(int maphieu, int manguoitao, Timestamp thoigiantao, double tongTien, int trangthai) {
+    public PhieuDTO() {
+    }
+
+    public PhieuDTO(int maphieu, int manguoitao, Timestamp thoigiantao, long tongTien, int trangthai) {
         this.maphieu = maphieu;
         this.manguoitao = manguoitao;
         this.thoigiantao = thoigiantao;
         this.tongTien = tongTien;
         this.trangthai = trangthai;
     }
-
+    
     public int getMaphieu() {
         return maphieu;
     }
@@ -51,11 +54,11 @@ public class PhieuDTO {
         this.thoigiantao = thoigiantao;
     }
 
-    public double getTongTien() {
+    public long getTongTien() {
         return tongTien;
     }
 
-    public void setTongTien(double tongTien) {
+    public void setTongTien(long tongTien) {
         this.tongTien = tongTien;
     }
 
@@ -67,14 +70,14 @@ public class PhieuDTO {
         this.trangthai = trangthai;
     }
 
-    @Override
+        @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + this.maphieu;
-        hash = 67 * hash + this.manguoitao;
-        hash = 67 * hash + Objects.hashCode(this.thoigiantao);
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this.tongTien) ^ (Double.doubleToLongBits(this.tongTien) >>> 32));
-        hash = 67 * hash + this.trangthai;
+        hash = 59 * hash + this.maphieu;
+        hash = 59 * hash + this.manguoitao;
+        hash = 59 * hash + Objects.hashCode(this.thoigiantao);
+        hash = 59 * hash + (int) (this.tongTien ^ (this.tongTien >>> 32));
+        hash = 59 * hash + this.trangthai;
         return hash;
     }
 
@@ -96,7 +99,7 @@ public class PhieuDTO {
         if (this.manguoitao != other.manguoitao) {
             return false;
         }
-        if (Double.doubleToLongBits(this.tongTien) != Double.doubleToLongBits(other.tongTien)) {
+        if (this.tongTien != other.tongTien) {
             return false;
         }
         if (this.trangthai != other.trangthai) {

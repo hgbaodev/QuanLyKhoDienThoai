@@ -60,7 +60,7 @@ public class PhieuNhapBUS {
         ChiTietPhieuDTO p = null;
         int i = 0;
         while (i < ctphieu.size() && p == null) {
-            if (ctphieu.get(i).getMasanpham() == masp) {
+            if (ctphieu.get(i).getImei().equals(masp)) {
                 p = ctphieu.get(i);
             } else {
                 i++;
@@ -72,7 +72,7 @@ public class PhieuNhapBUS {
     public double getTongTien(ArrayList<ChiTietPhieuDTO> ctphieu) {
         double result = 0;
         for(ChiTietPhieuDTO item : ctphieu) {
-            result += (item.getDongia() * item.getSoluong());
+            result += item.getDongia();
         }
         return result;
     }

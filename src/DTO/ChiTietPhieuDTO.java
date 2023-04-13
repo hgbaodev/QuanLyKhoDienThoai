@@ -4,26 +4,28 @@
  */
 package DTO;
 
+import java.util.Objects;
+
 /**
  *
  * @author 84907
  */
 public class ChiTietPhieuDTO {
     private int maphieu;
-    private int masanpham;
-    private int soluong;
-    private double dongia;
+    private String imei;
+    private int dongia;
+
+    public ChiTietPhieuDTO(int maphieu, String imei, int dongia) {
+        this.maphieu = maphieu;
+        this.imei = imei;
+        this.dongia = dongia;
+    }
 
     public ChiTietPhieuDTO() {
     }
 
-    public ChiTietPhieuDTO(int maphieu, int masanpham, int soluong, double dongia) {
-        this.maphieu = maphieu;
-        this.masanpham = masanpham;
-        this.soluong = soluong;
-        this.dongia = dongia;
-    }
-
+    
+    
     public int getMaphieu() {
         return maphieu;
     }
@@ -32,37 +34,28 @@ public class ChiTietPhieuDTO {
         this.maphieu = maphieu;
     }
 
-    public int getMasanpham() {
-        return masanpham;
+    public String getImei() {
+        return imei;
     }
 
-    public void setMasanpham(int masanpham) {
-        this.masanpham = masanpham;
+    public void setImei(String imei) {
+        this.imei = imei;
     }
 
-    public int getSoluong() {
-        return soluong;
-    }
-
-    public void setSoluong(int soluong) {
-        this.soluong = soluong;
-    }
-
-    public double getDongia() {
+    public int getDongia() {
         return dongia;
     }
 
-    public void setDongia(double dongia) {
+    public void setDongia(int dongia) {
         this.dongia = dongia;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 19 * hash + this.maphieu;
-        hash = 19 * hash + this.masanpham;
-        hash = 19 * hash + this.soluong;
-        hash = 19 * hash + (int) (Double.doubleToLongBits(this.dongia) ^ (Double.doubleToLongBits(this.dongia) >>> 32));
+        hash = 61 * hash + this.maphieu;
+        hash = 61 * hash + Objects.hashCode(this.imei);
+        hash = 61 * hash + this.dongia;
         return hash;
     }
 
@@ -78,13 +71,19 @@ public class ChiTietPhieuDTO {
             return false;
         }
         final ChiTietPhieuDTO other = (ChiTietPhieuDTO) obj;
-        return true;
+        if (this.maphieu != other.maphieu) {
+            return false;
+        }
+        if (this.dongia != other.dongia) {
+            return false;
+        }
+        return Objects.equals(this.imei, other.imei);
     }
 
     @Override
     public String toString() {
-        return "ChiTietPhieu{" + "maphieu=" + maphieu + ", masanpham=" + masanpham + ", soluong=" + soluong + ", dongia=" + dongia + '}';
+        return "ChiTietPhieuDTO{" + "maphieu=" + maphieu + ", imei=" + imei + ", dongia=" + dongia + '}';
     }
-    
+
     
 }

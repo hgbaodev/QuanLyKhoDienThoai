@@ -109,6 +109,7 @@ public class HeDieuHanhDAO implements DAOinterface<HeDieuHanhDTO>{
             }
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
+            Logger.getLogger(HeDieuHanhDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return result;
     }

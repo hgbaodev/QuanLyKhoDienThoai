@@ -40,7 +40,7 @@ public class Log_In extends JFrame {
         pnlMain.setLayout(new FlowLayout(1, 0, 10));
 
         lbl1 = new JLabel("HỆ THỐNG QUẢN LÝ");
-        lbl1.setPreferredSize(new Dimension(400, 50));
+        lbl1.setPreferredSize(new Dimension(350, 50));
         lbl1.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 36));
         pnlMain.add(lbl1);
 
@@ -52,7 +52,7 @@ public class Log_In extends JFrame {
         lbl3 = new JLabel("Đăng nhập để tiếp tục");
         lbl3.setPreferredSize(new Dimension(400, 50));
         lbl3.setFont(new Font("Segoe UI Light", Font.BOLD, 24));
-        pnlMain.add(lbl3);
+//        pnlMain.add(lbl3);
 
         JPanel paneldn = new JPanel();
         paneldn.setBackground(Color.BLACK);

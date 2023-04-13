@@ -26,12 +26,11 @@ public class ChiTietPhieuNhapDAO implements ChiTietInterface<ChiTietPhieuDTO> {
         for (int i = 0; i < t.size(); i++) {
             try {
                 Connection con = (Connection) JDBCUtil.getConnection();
-                String sql = "INSERT INTO `ctphieunhap`(`maphieunhap`,`masanpham`,`soluong`. `dongia`) VALUES (?,?,?,?)";
+                String sql = "INSERT INTO `ctphieunhap`(`maphieunhap`,`maimei`,`dongia`) VALUES (?,?,?)";
                 PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                 pst.setInt(1, t.get(i).getMaphieu());
-                pst.setInt(2, t.get(i).getMasanpham());
-                pst.setInt(3, t.get(i).getSoluong());
-                pst.setDouble(4, t.get(i).getDongia());
+                pst.setString(2, t.get(i).getImei());
+                pst.setInt(3, t.get(i).getDongia());
                 result = pst.executeUpdate();
                 JDBCUtil.closeConnection(con);
             } catch (SQLException ex) {
@@ -75,10 +74,9 @@ public class ChiTietPhieuNhapDAO implements ChiTietInterface<ChiTietPhieuDTO> {
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
                 int maphieu = rs.getInt("maphieunhap");
-                int masanpham = rs.getInt("masanpham");
-                int soluong = rs.getInt("soluong");
-                double dongia = rs.getDouble("dongia");
-                ChiTietPhieuDTO ctphieu = new ChiTietPhieuDTO(maphieu, masanpham, soluong, dongia);
+                String maimei = rs.getString("maimei");
+                int dongia = rs.getInt("dongia");
+                ChiTietPhieuDTO ctphieu = new ChiTietPhieuDTO(maphieu, maimei, dongia);
                 result.add(ctphieu);
             }
             JDBCUtil.closeConnection(con);

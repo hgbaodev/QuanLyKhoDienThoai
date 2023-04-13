@@ -46,7 +46,7 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setTimestamp(1, t.getThoigiantao());
             pst.setInt(2, t.getManhacungcap());
-            pst.setDouble(3, t.getTongTien());
+            pst.setLong(3, t.getTongTien());
             pst.setInt(4, t.getTrangthai());
             pst.setInt(5, t.getMaphieu());
             result = pst.executeUpdate();
@@ -75,7 +75,7 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
 
     @Override
     public ArrayList<PhieuNhapDTO> selectAll() {
-        ArrayList<PhieuNhapDTO> result = new ArrayList<PhieuNhapDTO>();
+        ArrayList<PhieuNhapDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM phieunhap WHERE trangthai = 1";
@@ -86,13 +86,13 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
                 Timestamp thoigiantao = rs.getTimestamp("thoigian");
                 int mancc = rs.getInt("manhacungcap");
                 int nguoitao = rs.getInt("nguoitao");
-                double tongtien = rs.getDouble("tongtien");
+                long tongtien = rs.getLong("tongtien");
                 int trangthai = rs.getInt("trangthai");
                 PhieuNhapDTO phieunhap = new PhieuNhapDTO(mancc, maphieu, nguoitao, thoigiantao, tongtien, trangthai);
                 result.add(phieunhap);
             }
             JDBCUtil.closeConnection(con);
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return result;
     }
@@ -111,7 +111,7 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
                 Timestamp thoigiantao = rs.getTimestamp("thoigian");
                 int mancc = rs.getInt("manhacungcap");
                 int nguoitao = rs.getInt("nguoitao");
-                double tongtien = rs.getDouble("tongtien");
+                long tongtien = rs.getLong("tongtien");
                 int trangthai = rs.getInt("trangthai");
                 result = new PhieuNhapDTO(mancc, maphieu, nguoitao, thoigiantao, tongtien, trangthai);
             }
@@ -126,7 +126,7 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'phieunhap'";
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND TABLE_NAME   = 'phieunhap'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
             if (!rs2.isBeforeFirst() ) {

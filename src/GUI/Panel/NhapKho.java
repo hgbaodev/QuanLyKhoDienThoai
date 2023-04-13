@@ -284,7 +284,7 @@ public final class NhapKho extends JPanel implements ActionListener {
     public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> result) {
         tblModelNhapKho.setRowCount(0);
         for (int i = 0; i < result.size(); i++) {
-            SanPhamDTO sp = sanphamBUS.getByMaSP(result.get(i).getMasanpham());
+//            SanPhamDTO sp = sanphamBUS.getByMaSP(result.get(i).getMasanpham());
             tblModelNhapKho.addRow(new Object[]{
 //                i + 1, result.get(i).getMasanpham(), sp.getTensp(), result.get(i).getSoluong(), Formater.FormatVND(sp.getGiaxuat())
             });
@@ -313,7 +313,7 @@ public final class NhapKho extends JPanel implements ActionListener {
 //                    ctphieu = new ChiTietPhieuDTO(maphieu, listsp.get(index).getMadanhmuc(), soluong, listsp.get(index).getGiaxuat());
                     this.chitietphieu.add(ctphieu);
                 } else {
-                    ctphieu.setSoluong(ctphieu.getSoluong() + soluong);
+//                    ctphieu.setSoluong(ctphieu.getSoluong() + soluong);
                 }
                 loadDataNhapHang(chitietphieu);
             } else {
@@ -341,7 +341,7 @@ public final class NhapKho extends JPanel implements ActionListener {
             String newSL = JOptionPane.showInputDialog(this, "Nhập số lượng cần thay đổi", "Thay đổi số lượng", QUESTION_MESSAGE);
             int soluong = Validation.isNumber(newSL);
             if (soluong > 0) {
-                chitietphieu.get(index).setSoluong(soluong);
+//                chitietphieu.get(index).setSoluong(soluong);
                 loadDataNhapHang(chitietphieu);
             } else {
                 JOptionPane.showMessageDialog(this, "Số lượng phải là số nguyên và lớn hơn 0");
