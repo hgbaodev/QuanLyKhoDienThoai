@@ -134,7 +134,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
 
         tableSanPham.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 int index = tableSanPham.getSelectedRow();
                 if (index != -1) {
                     setInfoSanPham(listSP.get(index));
@@ -428,13 +428,23 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         }
     }
 
+    public void addCtPhieu() {
+        ChiTietPhieuNhapDTO ctphieu = getInfoChiTietPhieu();
+        ChiTietPhieuNhapDTO p = phieunhapBus.findCT(chitietphieu, ctphieu.getMaphienbansp());
+        if(p == null){
+            chitietphieu.add(ctphieu);
+        } else {
+            p.setSoluong(p.getSoluong()+ctphieu.getSoluong());
+        }
+        chitietsanpham.addAll(getChiTietSanPham());
+        loadDataTableChiTietPhieu(chitietphieu);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == btnAddSp && validateNhap()) {
-            chitietphieu.add(getInfoChiTietPhieu());
-            chitietsanpham.addAll(getChiTietSanPham());
-            loadDataTableChiTietPhieu(chitietphieu);
+            addCtPhieu();
         }
     }
 
