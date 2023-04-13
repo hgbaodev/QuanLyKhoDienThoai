@@ -1,13 +1,13 @@
 package GUI.Panel;
 
-import BUS.CauHinhSanPhamBUS;
+import BUS.PhienBanSanPhamBUS;
 import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
 import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
 import BUS.PhieuNhapBUS;
 import BUS.SanPhamBUS;
-import DTO.CauHinhSanPhamDTO;
+import DTO.PhienBanSanPhamDTO;
 import DTO.ChiTietPhieuDTO;
 import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
@@ -47,7 +47,7 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
 
     SanPhamBUS spBUS = new SanPhamBUS();
     NhaCungCapBUS nccBus = new NhaCungCapBUS();
-    CauHinhSanPhamBUS cauhinhBus = new CauHinhSanPhamBUS();
+    PhienBanSanPhamBUS cauhinhBus = new PhienBanSanPhamBUS();
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     PhieuNhapBUS phieunhapBus = new PhieuNhapBUS();
@@ -55,7 +55,7 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
     NhanVienDTO nvDto;
 
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
-    ArrayList<CauHinhSanPhamDTO> ch;
+    ArrayList<PhienBanSanPhamDTO> ch;
 
     public TaoPhieuNhap(NhanVienDTO nv) {
         this.nvDto = nv;

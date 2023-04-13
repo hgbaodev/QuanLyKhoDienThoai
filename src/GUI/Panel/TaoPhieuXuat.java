@@ -1,12 +1,12 @@
 package GUI.Panel;
 
-import BUS.CauHinhSanPhamBUS;
+import BUS.PhienBanSanPhamBUS;
 import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
 import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
 import BUS.SanPhamBUS;
-import DTO.CauHinhSanPhamDTO;
+import DTO.PhienBanSanPhamDTO;
 import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.InputForm;
@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class TaoPhieuXuat extends JPanel {
-    CauHinhSanPhamBUS cauhinhBus = new CauHinhSanPhamBUS();
+    PhienBanSanPhamBUS cauhinhBus = new PhienBanSanPhamBUS();
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     MauSacBUS mausacBus = new MauSacBUS();
@@ -291,7 +291,7 @@ public class TaoPhieuXuat extends JPanel {
     public void setInfoSanPham(SanPhamDTO sp) {
         this.txtMaSp.setText(Integer.toString(sp.getMasp()));
         this.txtTenSp.setText(sp.getTensp());
-        ArrayList<CauHinhSanPhamDTO> ch = cauhinhBus.getAll(sp.getMasp());
+        ArrayList<PhienBanSanPhamDTO> ch = cauhinhBus.getAll(sp.getMasp());
         int size = ch.size();
         String[] arr = new String[size];
         for (int i = 0; i < size; i++) {

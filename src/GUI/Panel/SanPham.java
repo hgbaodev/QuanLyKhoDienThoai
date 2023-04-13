@@ -1,8 +1,10 @@
 package GUI.Panel;
 
+import BUS.HeDieuHanhBUS;
 import BUS.KhuVucKhoBUS;
 import BUS.SanPhamBUS;
 import BUS.ThuongHieuBUS;
+import BUS.XuatXuBUS;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -35,6 +37,8 @@ public final class SanPham extends JPanel implements ActionListener {
 
     public KhuVucKhoBUS kvkhoBus = new KhuVucKhoBUS();
     public ThuongHieuBUS thuonghieuBus = new ThuongHieuBUS();
+    public HeDieuHanhBUS heDieuHanhBUS = new HeDieuHanhBUS();
+    public XuatXuBUS xuatXuBUS = new XuatXuBUS();
     public ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);

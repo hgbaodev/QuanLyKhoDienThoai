@@ -10,8 +10,8 @@ import java.util.Objects;
  *
  * @author Tran Nhat Sinh
  */
-public class CauHinhSanPhamDTO {
-    private int macauhinh;
+public class PhienBanSanPhamDTO {
+    private int maphienbansp;
     private int masp;
     private int ram;
     private int rom;
@@ -19,11 +19,11 @@ public class CauHinhSanPhamDTO {
     private int gianhap;
     private int giaxuat;
 
-    public CauHinhSanPhamDTO() {
+    public PhienBanSanPhamDTO() {
     }
 
-    public CauHinhSanPhamDTO(int macauhinh, int masp, int ram, int rom, int mausac, int gianhap, int giaxuat) {
-        this.macauhinh = macauhinh;
+    public PhienBanSanPhamDTO(int maphienbansp, int masp, int ram, int rom, int mausac, int gianhap, int giaxuat) {
+        this.maphienbansp = maphienbansp;
         this.masp = masp;
         this.ram = ram;
         this.rom = rom;
@@ -32,12 +32,12 @@ public class CauHinhSanPhamDTO {
         this.giaxuat = giaxuat;
     }
 
-    public int getMacauhinh() {
-        return macauhinh;
+    public int getMaphienbansp() {
+        return maphienbansp;
     }
 
-    public void setMacauhinh(int macauhinh) {
-        this.macauhinh = macauhinh;
+    public void setMaphienbansp(int maphienbansp) {
+        this.maphienbansp = maphienbansp;
     }
 
     public int getMasp() {
@@ -90,12 +90,12 @@ public class CauHinhSanPhamDTO {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + this.macauhinh;
+        int hash = 5;
+        hash = 59 * hash + this.maphienbansp;
         hash = 59 * hash + this.masp;
         hash = 59 * hash + this.ram;
         hash = 59 * hash + this.rom;
-        hash = 59 * hash + Objects.hashCode(this.mausac);
+        hash = 59 * hash + this.mausac;
         hash = 59 * hash + this.gianhap;
         hash = 59 * hash + this.giaxuat;
         return hash;
@@ -112,7 +112,10 @@ public class CauHinhSanPhamDTO {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CauHinhSanPhamDTO other = (CauHinhSanPhamDTO) obj;
+        final PhienBanSanPhamDTO other = (PhienBanSanPhamDTO) obj;
+        if (this.maphienbansp != other.maphienbansp) {
+            return false;
+        }
         if (this.masp != other.masp) {
             return false;
         }
@@ -122,11 +125,17 @@ public class CauHinhSanPhamDTO {
         if (this.rom != other.rom) {
             return false;
         }
-        return Objects.equals(this.mausac, other.mausac);
+        if (this.mausac != other.mausac) {
+            return false;
+        }
+        if (this.gianhap != other.gianhap) {
+            return false;
+        }
+        return this.giaxuat == other.giaxuat;
     }
 
     @Override
     public String toString() {
-        return "CauHinhSanPhamDTO{" + "macauhinh=" + macauhinh + ", masp=" + masp + ", ram=" + ram + ", rom=" + rom + ", mausac=" + mausac + ", gianhap=" + gianhap + ", giaxuat=" + giaxuat + '}';
+        return "PhienBanSanPhamDTO{" + "maphienbansp=" + maphienbansp + ", masp=" + masp + ", ram=" + ram + ", rom=" + rom + ", mausac=" + mausac + ", gianhap=" + gianhap + ", giaxuat=" + giaxuat + '}';
     }
 }

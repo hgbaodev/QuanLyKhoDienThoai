@@ -15,11 +15,11 @@ public class SanPhamDTO {
     private int masp;
     private String tensp;
     private String hinhanh;
-    private String xuatxu;
+    private int xuatxu;
     private String chipxuly;
     private int dungluongpin;
     private double kichthuocman;
-    private String hedieuhanh;
+    private int hedieuhanh;
     private int phienbanhdh;
     private String camerasau;
     private String cameratruoc;
@@ -31,7 +31,7 @@ public class SanPhamDTO {
     public SanPhamDTO() {
     }
 
-    public SanPhamDTO(int masp, String tensp, String hinhanh, String xuatxu, String chipxuly, int dungluongpin, double kichthuocman, String hedieuhanh, int phienbanhdh, String camerasau, String cameratruoc, int thoigianbaohanh, int thuonghieu, int khuvuckho, int soluongton) {
+    public SanPhamDTO(int masp, String tensp, String hinhanh, int xuatxu, String chipxuly, int dungluongpin, double kichthuocman, int hedieuhanh, int phienbanhdh, String camerasau, String cameratruoc, int thoigianbaohanh, int thuonghieu, int khuvuckho, int soluongton) {
         this.masp = masp;
         this.tensp = tensp;
         this.hinhanh = hinhanh;
@@ -73,11 +73,11 @@ public class SanPhamDTO {
         this.hinhanh = hinhanh;
     }
 
-    public String getXuatxu() {
+    public int getXuatxu() {
         return xuatxu;
     }
 
-    public void setXuatxu(String xuatxu) {
+    public void setXuatxu(int xuatxu) {
         this.xuatxu = xuatxu;
     }
 
@@ -105,11 +105,11 @@ public class SanPhamDTO {
         this.kichthuocman = kichthuocman;
     }
 
-    public String getHedieuhanh() {
+    public int getHedieuhanh() {
         return hedieuhanh;
     }
 
-    public void setHedieuhanh(String hedieuhanh) {
+    public void setHedieuhanh(int hedieuhanh) {
         this.hedieuhanh = hedieuhanh;
     }
 

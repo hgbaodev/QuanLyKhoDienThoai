@@ -4,26 +4,26 @@
  */
 package BUS;
 
-import DAO.CauHinhSanPhamDAO;
-import DTO.CauHinhSanPhamDTO;
+import DAO.PhienBanSanPhamDAO;
+import DTO.PhienBanSanPhamDTO;
 import java.util.ArrayList;
 
 /**
  *
  * @author Tran Nhat Sinh
  */
-public class CauHinhSanPhamBUS {
-    private CauHinhSanPhamDAO cauhinhDAO = new CauHinhSanPhamDAO();
-    private ArrayList<CauHinhSanPhamDTO> listCauHinh = new ArrayList<>();
+public class PhienBanSanPhamBUS {
+    private PhienBanSanPhamDAO cauhinhDAO = new PhienBanSanPhamDAO();
+    private ArrayList<PhienBanSanPhamDTO> listCauHinh = new ArrayList<>();
     
-    public CauHinhSanPhamBUS() {
+    public PhienBanSanPhamBUS() {
     }
     
-    public ArrayList<CauHinhSanPhamDTO> getAll(int masp) {
+    public ArrayList<PhienBanSanPhamDTO> getAll(int masp) {
         return cauhinhDAO.selectAll(Integer.toString(masp));
     }
     
-    public static boolean checkDuplicate( ArrayList<CauHinhSanPhamDTO> listch, CauHinhSanPhamDTO ch) {
+    public static boolean checkDuplicate( ArrayList<PhienBanSanPhamDTO> listch, PhienBanSanPhamDTO ch) {
         boolean check = false;
         int i = 0;
         while(i < listch.size() && check == false) {
@@ -33,7 +33,7 @@ public class CauHinhSanPhamBUS {
         return check;
     }
     
-    public Boolean add(ArrayList<CauHinhSanPhamDTO> listch) {
+    public Boolean add(ArrayList<PhienBanSanPhamDTO> listch) {
         boolean check = cauhinhDAO.insert(listch) != 0;
         return check;
     }

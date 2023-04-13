@@ -3,8 +3,8 @@ package GUI.Panel;
 import DAO.KhachHangDAO;
 import DAO.SanPhamDAO;
 import BUS.SanPhamBUS;
-import DTO.CauHinhSanPhamDTO;
-import DAO.CauHinhSanPhamDAO;
+import DTO.PhienBanSanPhamDTO;
+import DAO.PhienBanSanPhamDAO;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuDTO;
 import DTO.KhachHangDTO;
@@ -77,10 +77,10 @@ public class XuatKho extends JPanel implements ActionListener, ItemListener {
     }
 
     public String[] getCauhinhsanpham() {
-        ArrayList<CauHinhSanPhamDTO> chsp = CauHinhSanPhamDAO.getInstance().selectAll(getMaDM());
+        ArrayList<PhienBanSanPhamDTO> chsp = PhienBanSanPhamDAO.getInstance().selectAll(getMaDM());
         String maCHSP[] = new String[chsp.size()];
         for (int i = 0; i < chsp.size(); i++) {
-            maCHSP[i] = String.valueOf(chsp.get(i).getMacauhinh());
+            maCHSP[i] = String.valueOf(chsp.get(i).getMaphienbansp());
         }
         return maCHSP;
     }
@@ -368,7 +368,7 @@ public class XuatKho extends JPanel implements ActionListener, ItemListener {
         } else {
             setMaDM(Integer.toString(listdmsp.get(index).getMasp()));
             setTenDM(listdmsp.get(index).getTensp());
-            setHediehanh(listdmsp.get(index).getHedieuhanh());
+//            setHediehanh(listdmsp.get(index).getHedieuhanh());
             setThuonghieu(Integer.toString(listdmsp.get(index).getThuonghieu()));
             setKhuvuckho(Integer.toString(listdmsp.get(index).getKhuvuckho()));
             setHinhanh(listdmsp.get(index).getHinhanh());
