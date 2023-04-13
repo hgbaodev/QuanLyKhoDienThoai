@@ -10,6 +10,7 @@ import BUS.SanPhamBUS;
 import DTO.PhienBanSanPhamDTO;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuNhapDTO;
+import DTO.ChiTietSanPhamDTO;
 import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
@@ -22,6 +23,7 @@ import GUI.Component.SelectForm;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.Formater;
+import helper.Validation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -31,8 +33,9 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
-public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionListener{
+public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionListener {
 
     PanelBorderRadius right, left;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main, content_right_bottom;
@@ -49,7 +52,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
 
     SanPhamBUS spBUS = new SanPhamBUS();
     NhaCungCapBUS nccBus = new NhaCungCapBUS();
-    PhienBanSanPhamBUS cauhinhBus = new PhienBanSanPhamBUS();
+    PhienBanSanPhamBUS phienbanBus = new PhienBanSanPhamBUS();
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     PhieuNhapBUS phieunhapBus = new PhieuNhapBUS();
@@ -59,6 +62,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
     ArrayList<PhienBanSanPhamDTO> ch;
     ArrayList<ChiTietPhieuNhapDTO> chitietphieu = new ArrayList<>();
+    ArrayList<ChiTietSanPhamDTO> chitietsanpham = new ArrayList<>();
     int maphieunhap;
 
     public TaoPhieuNhap(NhanVienDTO nv) {
@@ -99,15 +103,19 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         tablePhieuNhap = new JTable();
         scrollTablePhieuNhap = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"STT", "Mã sản phẩm", "Tên sản phẩm", "RAM", "ROM", "Màu sắc", "Đơn giá", "Số lượng"};
+        String[] header = new String[]{"STT", "Mã SP", "Tên sản phẩm", "RAM", "ROM", "Màu sắc", "Đơn giá", "Số lượng"};
         tblModel.setColumnIdentifiers(header);
         tablePhieuNhap.setModel(tblModel);
         scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tablePhieuNhap.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tablePhieuNhap.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        tablePhieuNhap.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        TableColumnModel columnModel = tablePhieuNhap.getColumnModel();
+        for (int i = 0; i < 8; i++) {
+            if (i != 2) {
+                columnModel.getColumn(i).setCellRenderer(centerRenderer);
+            }
+        }
+        tablePhieuNhap.getColumnModel().getColumn(2).setPreferredWidth(300);
         tablePhieuNhap.setDefaultEditor(Object.class, null);
         scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
 
@@ -267,7 +275,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         right_top = new JPanel(new GridLayout(4, 1, 0, 0));
         right_top.setPreferredSize(new Dimension(300, 360));
         txtMaphieu = new InputForm("Mã phiếu nhập");
-        txtMaphieu.setText("PN"+maphieunhap);
+        txtMaphieu.setText("PN" + maphieunhap);
         txtMaphieu.setEditable(false);
         txtNhanVien = new InputForm("Nhân viên nhập");
         txtNhanVien.setText(nvDto.getHoten());
@@ -317,13 +325,16 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             tblModelSP.addRow(new Object[]{sp.getMasp(), sp.getTensp()});
         }
     }
-    
-    public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> ctPhieu) {
+
+    public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuNhapDTO> ctPhieu) {
         tblModel.setRowCount(0);
         int size = ctPhieu.size();
         for (int i = 0; i < size; i++) {
+            PhienBanSanPhamDTO pb = phienbanBus.getByMaPhienBan(ctPhieu.get(i).getMaphienbansp());
             tblModel.addRow(new Object[]{
-//                i+1,ctPhieu.get(i).get
+                i + 1, pb.getMasp(), spBUS.getByMaSP(pb.getMasp()).getTensp(), ramBus.getKichThuocById(pb.getRam()) + "GB",
+                romBus.getKichThuocById(pb.getRom()) + "GB", mausacBus.getTenMau(pb.getMausac()),
+                Formater.FormatVND(ctPhieu.get(i).getDongia()), ctPhieu.get(i).getSoluong()
             });
         }
     }
@@ -331,7 +342,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     public void setInfoSanPham(SanPhamDTO sp) {
         this.txtMaSp.setText(Integer.toString(sp.getMasp()));
         this.txtTenSp.setText(sp.getTensp());
-        ch = cauhinhBus.getAll(sp.getMasp());
+        ch = phienbanBus.getAll(sp.getMasp());
         int size = ch.size();
         String[] arr = new String[size];
         for (int i = 0; i < size; i++) {
@@ -341,20 +352,60 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         this.cbxCauhinh.setArr(arr);
         this.txtDongia.setText(Integer.toString(ch.get(0).getGianhap()));
     }
-    
+
     public ChiTietPhieuNhapDTO getInfoChiTietPhieu() {
         int masp = Integer.parseInt(txtMaSp.getText());
-        int maphienbansp =  ch.get(cbxCauhinh.cbb.getSelectedIndex()).getMaphienbansp();
+        int maphienbansp = ch.get(cbxCauhinh.cbb.getSelectedIndex()).getMaphienbansp();
         int gianhap = Integer.parseInt(txtDongia.getText());
         int phuongthucnhap = cbxPtNhap.getSelectedIndex();
         int soluong = -1;
-        if(phuongthucnhap == 0) {
+        if (phuongthucnhap == 0) {
             soluong = Integer.parseInt(txtSoLuongImei.getText());
         } else {
-            
+
         }
         ChiTietPhieuNhapDTO ctphieu = new ChiTietPhieuNhapDTO(phuongthucnhap, maphieunhap, maphienbansp, soluong, gianhap);
         return ctphieu;
+    }
+
+    public ArrayList<ChiTietSanPhamDTO> getChiTietSanPham() {
+        int hinhthuc = cbxPtNhap.getSelectedIndex();
+        int phienbansp = ch.get(cbxCauhinh.cbb.getSelectedIndex()).getMaphienbansp();
+        ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
+        if (hinhthuc == 1) {
+            String[] arrimei = textAreaImei.getText().split("\n");
+            for (int i = 0; i < arrimei.length; i++) {
+                result.add(new ChiTietSanPhamDTO(arrimei[i], phienbansp, maphieunhap, 0, 1));
+            }
+        } else {
+            long imeibatdau = Long.parseLong(txtMaImeiTheoLo.getText());
+            int soluong = Integer.parseInt(txtSoLuongImei.getText());
+            for (long i = imeibatdau; i < imeibatdau + soluong; i++) {
+                result.add(new ChiTietSanPhamDTO(Long.toString(i), phienbansp, maphieunhap, 0, 1));
+            }
+        }
+        return result;
+    }
+
+    public boolean validateNhap() {
+        int phuongthuc = cbxPtNhap.getSelectedIndex();
+        if (Validation.isEmpty(txtMaSp.getText())) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm", "Chọn sản phẩm", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else if (Validation.isEmail(txtDongia.getText())) {
+            JOptionPane.showMessageDialog(this, "Giá nhập không được để rỗng !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else if (phuongthuc == 0) {
+            if (Validation.isEmpty(txtMaImeiTheoLo.getText()) || !Validation.isNumber(txtMaImeiTheoLo.getText())) {
+                JOptionPane.showMessageDialog(this, "Mã imei bắt đầu không được để rỗng và phải là số !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+            if (Validation.isEmpty(txtSoLuongImei.getText()) || !Validation.isNumber(txtSoLuongImei.getText())) {
+                JOptionPane.showMessageDialog(this, "Số lượng không được để rỗng và phải là số!", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -380,10 +431,11 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if(source == btnAddSp) {
-            System.out.println(this.textAreaImei.getText());
+        if (source == btnAddSp && validateNhap()) {
+            chitietphieu.add(getInfoChiTietPhieu());
+            chitietsanpham.addAll(getChiTietSanPham());
+            loadDataTableChiTietPhieu(chitietphieu);
         }
     }
 
-    
 }

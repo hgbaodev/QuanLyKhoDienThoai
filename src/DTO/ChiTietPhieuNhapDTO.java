@@ -53,9 +53,4 @@ public class ChiTietPhieuNhapDTO extends ChiTietPhieuDTO{
         final ChiTietPhieuNhapDTO other = (ChiTietPhieuNhapDTO) obj;
         return this.phuongthucnnhap == other.phuongthucnnhap;
     }
-
-    @Override
-    public String toString() {
-        return "ChiTietPhieuNhapDTO{" + "phuongthucnnhap=" + phuongthucnnhap + '}';
-    }
 } 

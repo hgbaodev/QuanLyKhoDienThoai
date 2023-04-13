@@ -24,15 +24,16 @@ public class Validation {
         return pat.matcher(email).matches();
     }
 
-    public static int isNumber(String num) {
-        int result = -1;
-        if (num == null) {
-            result = -1;
-        }
+    public static boolean isNumber(String num) {
+        boolean result = true;
+        if (num == null) return false;
         try {
-            result = Integer.parseInt(num);
+            long k = Long.parseLong(num);
+            if(k < 0) {
+                result = false;
+            }
         } catch (NumberFormatException e) {
-
+            result = false;
         }
         return result;
     }

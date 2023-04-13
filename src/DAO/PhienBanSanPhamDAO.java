@@ -112,7 +112,7 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
 
     @Override
     public ArrayList<PhienBanSanPhamDTO> selectAll(String t) {
-        ArrayList<PhienBanSanPhamDTO> result = new ArrayList<PhienBanSanPhamDTO>();
+        ArrayList<PhienBanSanPhamDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM phienbansanpham WHERE masp = ? and trangthai = 1";
@@ -134,6 +134,30 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
         } catch (SQLException e) {
         }
         return result;
+    }
+    
+    public PhienBanSanPhamDTO selectById(int mapb) {
+        PhienBanSanPhamDTO ch = null;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM phienbansanpham WHERE maphienbansp = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, mapb);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                int maphienbansp = rs.getInt("maphienbansp");
+                int masp = rs.getInt("masp");
+                int ram = rs.getInt("ram");
+                int mausac = rs.getInt("mausac");
+                int rom = rs.getInt("rom");
+                int gianhap = rs.getInt("gianhap");
+                int giaxuat = rs.getInt("giaxuat");
+                ch = new PhienBanSanPhamDTO(maphienbansp, masp, ram, rom, mausac, gianhap, giaxuat);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+        }
+        return ch;
     }
 
     public int getAutoIncrement() {

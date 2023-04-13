@@ -57,11 +57,11 @@ public class PhieuNhapBUS {
         return check;
     }
 
-    public ChiTietPhieuDTO findCT(ArrayList<ChiTietPhieuNhapDTO> ctphieu, int masp) {
+    public ChiTietPhieuDTO findCT(ArrayList<ChiTietPhieuNhapDTO> ctphieu, int mapb) {
         ChiTietPhieuDTO p = null;
         int i = 0;
         while (i < ctphieu.size() && p == null) {
-            if (ctphieu.get(i).getMaphienbansp() == masp) {
+            if (ctphieu.get(i).getMaphienbansp() == mapb) {
                 p = ctphieu.get(i);
             } else {
                 i++;
