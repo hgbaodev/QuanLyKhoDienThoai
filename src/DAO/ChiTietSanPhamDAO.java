@@ -16,6 +16,10 @@ import java.util.logging.Logger;
  * @author Tran Nhat Sinh
  */
 public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
+    
+    public static ChiTietSanPhamDAO getInstance(){
+        return new ChiTietSanPhamDAO();
+    }
 
     @Override
     public int insert(ChiTietSanPhamDTO t) {
@@ -90,6 +94,30 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
+        }
+        return result;
+    }
+    
+    public ArrayList<ChiTietSanPhamDTO> selectAllbyPb(String mapbsp) {
+        ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM ctsanpham where maphienbansp = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, mapbsp);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                String imei = rs.getString("maimei");
+                int maphienban = rs.getInt("maphienbansp");
+                int maphieunhap = rs.getInt("maphieunhap");
+                int maphieuxuat = rs.getInt("maphieuxuat");
+                int tinhtrang = rs.getInt("tinhtrang");
+                ChiTietSanPhamDTO ct = new ChiTietSanPhamDTO(imei, maphienban, maphieunhap, maphieuxuat, tinhtrang);
+                result.add(ct);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            System.out.println(e);
         }
         return result;
     }
