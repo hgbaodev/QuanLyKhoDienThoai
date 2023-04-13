@@ -90,7 +90,7 @@ public class HeDieuHanhDAO implements DAOinterface<HeDieuHanhDTO>{
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
-            Logger.getLogger(HeDieuHanhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HeDieuHanhDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return result;
     }
@@ -111,7 +111,7 @@ public class HeDieuHanhDAO implements DAOinterface<HeDieuHanhDTO>{
             }
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
-            Logger.getLogger(HeDieuHanhDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HeDieuHanhDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return result;
     }

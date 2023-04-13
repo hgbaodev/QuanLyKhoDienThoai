@@ -311,7 +311,13 @@ public class TaoPhieuNhap extends JPanel implements ItemListener {
     }
     
     public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> ctPhieu) {
-        
+        tblModel.setRowCount(0);
+        int size = ctPhieu.size();
+        for (int i = 0; i < size; i++) {
+            tblModel.addRow(new Object[]{
+//                i+1,ctPhieu.get(i).get
+            });
+        }
     }
 
     public void setInfoSanPham(SanPhamDTO sp) {
