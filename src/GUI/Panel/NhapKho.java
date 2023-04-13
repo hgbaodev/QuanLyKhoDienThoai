@@ -308,13 +308,13 @@ public final class NhapKho extends JPanel implements ActionListener {
         if (index != -1) {
             int soluong = (int) txtSoLuong.getValue();
             if (soluong > 0) {
-                ChiTietPhieuDTO ctphieu = phieunhapBUS.findCT(chitietphieu, listsp.get(index).getMasp());
-                if (ctphieu == null) {
-//                    ctphieu = new ChiTietPhieuDTO(maphieu, listsp.get(index).getMadanhmuc(), soluong, listsp.get(index).getGiaxuat());
-                    this.chitietphieu.add(ctphieu);
-                } else {
-//                    ctphieu.setSoluong(ctphieu.getSoluong() + soluong);
-                }
+//                ChiTietPhieuDTO ctphieu = phieunhapBUS.findCT(chitietphieu, listsp.get(index).getMasp());
+//                if (ctphieu == null) {
+////                    ctphieu = new ChiTietPhieuDTO(maphieu, listsp.get(index).getMadanhmuc(), soluong, listsp.get(index).getGiaxuat());
+//                    this.chitietphieu.add(ctphieu);
+//                } else {
+////                    ctphieu.setSoluong(ctphieu.getSoluong() + soluong);
+//                }
                 loadDataNhapHang(chitietphieu);
             } else {
                 JOptionPane.showMessageDialog(this, "Số lượng phải là số nguyên và lớn hơn 0");
@@ -351,7 +351,7 @@ public final class NhapKho extends JPanel implements ActionListener {
 
     public void loadDataNhapHang(ArrayList<ChiTietPhieuDTO> ctphieu) {
         loadDataTableChiTietPhieu(ctphieu);
-        lblTongTien.setText(Formater.FormatVND(phieunhapBUS.getTongTien(ctphieu)));
+//        lblTongTien.setText(Formater.FormatVND(phieunhapBUS.getTongTien(ctphieu)));
     }
 
     public int getRowSelected(JTable tbl) {
