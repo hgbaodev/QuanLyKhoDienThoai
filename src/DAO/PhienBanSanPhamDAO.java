@@ -4,7 +4,7 @@
  */
 package DAO;
 
-import DTO.CauHinhSanPhamDTO;
+import DTO.PhienBanSanPhamDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,20 +18,20 @@ import java.util.logging.Logger;
  *
  * @author Tran Nhat Sinh
  */
-public class CauHinhSanPhamDAO implements ChiTietInterface<CauHinhSanPhamDTO> {
-    public static CauHinhSanPhamDAO getInstance(){
-        return new CauHinhSanPhamDAO();
+public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> {
+    public static PhienBanSanPhamDAO getInstance(){
+        return new PhienBanSanPhamDAO();
     }
     
     @Override
-    public int insert(ArrayList<CauHinhSanPhamDTO> t) {
+    public int insert(ArrayList<PhienBanSanPhamDTO> t) {
         int result = 0;
         for (int i = 0; i < t.size(); i++) {
             try {
                 Connection con = (Connection) JDBCUtil.getConnection();
-                String sql = "INSERT INTO `cauhinh`(`macauhinh`, `masp`, `rom`, `ram`, `mausac`, `gianhap`, `giaxuat`) VALUES (?,?,?,?,?,?,?)";
+                String sql = "INSERT INTO `phienbansanpham`(`maphienbansp`, `masp`, `rom`, `ram`, `mausac`, `gianhap`, `giaxuat`) VALUES (?,?,?,?,?,?,?)";
                 PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-                pst.setInt(1, t.get(i).getMacauhinh());
+                pst.setInt(1, t.get(i).getMaphienbansp());
                 pst.setInt(2, t.get(i).getMasp());
                 pst.setInt(3, t.get(i).getRom());
                 pst.setInt(4, t.get(i).getRam());
@@ -41,19 +41,19 @@ public class CauHinhSanPhamDAO implements ChiTietInterface<CauHinhSanPhamDTO> {
                 result = pst.executeUpdate();
                 JDBCUtil.closeConnection(con);
             } catch (SQLException ex) {
-                Logger.getLogger(CauHinhSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return result;
     }
     
-    public int insert(CauHinhSanPhamDTO t){
+    public int insert(PhienBanSanPhamDTO t){
         int result = 0;
         try {
                 Connection con = (Connection) JDBCUtil.getConnection();
-                String sql = "INSERT INTO `cauhinh`(`macauhinh`, `masp`, `rom`, `ram`, `mausac`, `gianhap`, `giaxuat`) VALUES (?,?,?,?,?,?,?)";
+                String sql = "INSERT INTO `phienbansanpham`(`maphienbansp`, `masp`, `rom`, `ram`, `mausac`, `gianhap`, `giaxuat`) VALUES (?,?,?,?,?,?,?)";
                 PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-                pst.setInt(1, t.getMacauhinh());
+                pst.setInt(1, t.getMaphienbansp());
                 pst.setInt(2, t.getMasp());
                 pst.setInt(3, t.getRom());
                 pst.setInt(4, t.getRam());
@@ -63,7 +63,7 @@ public class CauHinhSanPhamDAO implements ChiTietInterface<CauHinhSanPhamDTO> {
                 result = pst.executeUpdate();
                 JDBCUtil.closeConnection(con);
             } catch (SQLException ex) {
-                Logger.getLogger(CauHinhSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         return result;
     }
@@ -73,34 +73,34 @@ public class CauHinhSanPhamDAO implements ChiTietInterface<CauHinhSanPhamDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `cauhinh` SET `trangthai`= 0 WHERE `macauhinh`=?";
+            String sql = "UPDATE `phienbansanpham` SET `trangthai`= 0 WHERE `maphienbansp`=?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(CauHinhSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
-    public int update(ArrayList<CauHinhSanPhamDTO> t, String pk) {
+    public int update(ArrayList<PhienBanSanPhamDTO> t, String pk) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    public int update(CauHinhSanPhamDTO ch){
+    public int update(PhienBanSanPhamDTO ch){
        int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `cauhinh` SET `rom`=?,`ram`=?,`mausac`=?,`gianhap`=?,`giaxuat`=? WHERE macauhinh=?";
+            String sql = "UPDATE `phienbansanpham` SET `rom`=?,`ram`=?,`mausac`=?,`gianhap`=?,`giaxuat`=? WHERE maphienbansp=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1,ch.getRom());
             pst.setInt(2, ch.getRam());
             pst.setInt(3, ch.getMausac());
             pst.setInt(4, ch.getGianhap());
             pst.setInt(5, ch.getGiaxuat());
-            pst.setInt(6, ch.getMacauhinh());
+            pst.setInt(6, ch.getMaphienbansp());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -111,23 +111,23 @@ public class CauHinhSanPhamDAO implements ChiTietInterface<CauHinhSanPhamDTO> {
     }
 
     @Override
-    public ArrayList<CauHinhSanPhamDTO> selectAll(String t) {
-        ArrayList<CauHinhSanPhamDTO> result = new ArrayList<CauHinhSanPhamDTO>();
+    public ArrayList<PhienBanSanPhamDTO> selectAll(String t) {
+        ArrayList<PhienBanSanPhamDTO> result = new ArrayList<PhienBanSanPhamDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM cauhinh WHERE masp = ? and trangthai = 1";
+            String sql = "SELECT * FROM phienbansanpham WHERE masp = ? and trangthai = 1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
-                int macauhinh = rs.getInt("macauhinh");
+                int maphienbansp = rs.getInt("maphienbansp");
                 int masp = rs.getInt("masp");
                 int ram = rs.getInt("ram");
                 int mausac = rs.getInt("mausac");
                 int rom = rs.getInt("rom");
                 int gianhap = rs.getInt("gianhap");
                 int giaxuat = rs.getInt("giaxuat");
-                CauHinhSanPhamDTO ch = new CauHinhSanPhamDTO(macauhinh, masp, ram, rom, mausac, gianhap, giaxuat);
+                PhienBanSanPhamDTO ch = new PhienBanSanPhamDTO(maphienbansp, masp, ram, rom, mausac, gianhap, giaxuat);
                 result.add(ch);
             }
             JDBCUtil.closeConnection(con);
@@ -140,7 +140,7 @@ public class CauHinhSanPhamDAO implements ChiTietInterface<CauHinhSanPhamDTO> {
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND TABLE_NAME = 'cauhinh'";
+            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND TABLE_NAME = 'phienbansanpham'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
             if (!rs2.isBeforeFirst()) {
@@ -152,7 +152,7 @@ public class CauHinhSanPhamDAO implements ChiTietInterface<CauHinhSanPhamDTO> {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CauHinhSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

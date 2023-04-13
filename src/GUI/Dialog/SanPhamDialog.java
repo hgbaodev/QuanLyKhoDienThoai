@@ -1,16 +1,14 @@
 package GUI.Dialog;
 
-import BUS.CauHinhSanPhamBUS;
+import BUS.PhienBanSanPhamBUS;
 import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
 import BUS.HeDieuHanhBUS;
-import BUS.KhuVucKhoBUS;
 import BUS.MauSacBUS;
-import BUS.ThuongHieuBUS;
 import BUS.XuatXuBUS;
-import DAO.CauHinhSanPhamDAO;
+import DAO.PhienBanSanPhamDAO;
 import DAO.SanPhamDAO;
-import DTO.CauHinhSanPhamDTO;
+import DTO.PhienBanSanPhamDTO;
 import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
@@ -73,10 +71,8 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     MauSacBUS mausacBus = new MauSacBUS();
-    HeDieuHanhBUS heDieuHanhBUS = new HeDieuHanhBUS();
-    XuatXuBUS xuatXuBUS = new XuatXuBUS();
 
-    ArrayList<CauHinhSanPhamDTO> listch = new ArrayList<>();
+    ArrayList<PhienBanSanPhamDTO> listch = new ArrayList<>();
     SanPhamDTO sp;
     String[] arrkhuvuc;
     String[] arrthuonghieu;
@@ -94,11 +90,11 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     public void init(SanPham jpSP) {
         this.jpSP = jpSP;
         masp = jpSP.spBUS.spDAO.getAutoIncrement();
-        mach = CauHinhSanPhamDAO.getInstance().getAutoIncrement();
+        mach = PhienBanSanPhamDAO.getInstance().getAutoIncrement();
         arrkhuvuc = jpSP.kvkhoBus.getArrTenKhuVuc();
         arrthuonghieu = jpSP.thuonghieuBus.getArrTenThuongHieu();
-        arrhHDH = heDieuHanhBUS.getArrTenHeDieuHanh();
-        arrXX = xuatXuBUS.getArrTenXuatXu();
+        arrhHDH = jpSP.heDieuHanhBUS.getArrTenHeDieuHanh();
+        arrXX = jpSP.xuatXuBUS.getArrTenXuatXu();
         
     }
 
@@ -398,7 +394,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
             listch.get(index).setRom(romBus.getByIndex(cbxRom.getSelectedIndex()).getMadungluongrom());
             listch.get(index).setGianhap(Integer.parseInt(txtgianhap.getText()));
             listch.get(index).setGiaxuat(Integer.parseInt(txtgiaxuat.getText()));
-            CauHinhSanPhamDAO.getInstance().update(listch.get(index));
+            PhienBanSanPhamDAO.getInstance().update(listch.get(index));
             loadDataToTableCauHinh(this.listch);
             resetFormCauHinh();
             }
@@ -407,14 +403,14 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         }
         if(source == btnDeleteCauHinhEdit){
             int index = getRowCauHinh();
-            CauHinhSanPhamDAO.getInstance().delete(this.listch.get(index).getMacauhinh()+"");
+            PhienBanSanPhamDAO.getInstance().delete(this.listch.get(index).getMaphienbansp()+"");
             this.listch.remove(index);
             loadDataToTableCauHinh(this.listch);
             resetFormCauHinh();
         }
         if( source == btnAddCauHinhEdit){
             if(validateCardTwo() && checkTonTai()){
-            CauHinhSanPhamDAO.getInstance().insert(getCauHinh(sp.getMasp()));
+            PhienBanSanPhamDAO.getInstance().insert(getCauHinh(sp.getMasp()));
             loadDataToTableCauHinh(this.listch);
             resetFormCauHinh();
             }
@@ -466,11 +462,11 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     public SanPhamDTO getInfo() {
         String hinhanh = this.hinhanh.getUrl_img();
         String vtensp = tenSP.getText();
-        String vxuatxu = (String) xuatxu.getSelectedItem();
+        int vxuatxu = jpSP.xuatXuBUS.getAll().get(this.xuatxu.getSelectedIndex()).getMaxuatxu();
         String vchipxuly = chipxuly.getText();
         int vdungluongpin = Integer.parseInt(dungluongpin.getText());
         double ktman = Double.parseDouble(kichthuocman.getText());
-        String hdh = hedieuhanh.getValue();
+        int hdh = jpSP.heDieuHanhBUS.getAll().get(this.hedieuhanh.getSelectedIndex()).getMahdh();
         String camsau = camerasau.getText();
         String camtruoc = cameratruoc.getText();
         int tgbh = Integer.parseInt(thoigianbaohanh.getText());
@@ -497,24 +493,24 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         khuvuc.setSelectedIndex(jpSP.spBUS.getIndexByMaSP(sp.getKhuvuckho()));
     }
 
-    public CauHinhSanPhamDTO getCauHinh() {
+    public PhienBanSanPhamDTO getCauHinh() {
         int rom = romBus.getByIndex(cbxRom.getSelectedIndex()).getMadungluongrom();
         int ram = ramBus.getByIndex(cbxRam.getSelectedIndex()).getMadlram();
         int mausac = mausacBus.getByIndex(cbxMausac.getSelectedIndex()).getMamau();
         int gianhap = Integer.parseInt(txtgianhap.getText());
         int giaban = Integer.parseInt(txtgiaxuat.getText());
-        CauHinhSanPhamDTO chsp = new CauHinhSanPhamDTO(mach, masp, ram, rom, mausac, gianhap, giaban);
+        PhienBanSanPhamDTO chsp = new PhienBanSanPhamDTO(mach, masp, ram, rom, mausac, gianhap, giaban);
         mach++;
         return chsp;
     }
     
-    public CauHinhSanPhamDTO getCauHinh(int masanpham) {
+    public PhienBanSanPhamDTO getCauHinh(int masanpham) {
         int rom = romBus.getByIndex(cbxRom.getSelectedIndex()).getMadungluongrom();
         int ram = ramBus.getByIndex(cbxRam.getSelectedIndex()).getMadlram();
         int mausac = mausacBus.getByIndex(cbxMausac.getSelectedIndex()).getMamau();
         int gianhap = Integer.parseInt(txtgianhap.getText());
         int giaban = Integer.parseInt(txtgiaxuat.getText());
-        CauHinhSanPhamDTO chsp = new CauHinhSanPhamDTO(CauHinhSanPhamDAO.getInstance().getAutoIncrement(), masanpham, ram, rom, mausac, gianhap, giaban);
+        PhienBanSanPhamDTO chsp = new PhienBanSanPhamDTO(PhienBanSanPhamDAO.getInstance().getAutoIncrement(), masanpham, ram, rom, mausac, gianhap, giaban);
         this.listch.add(chsp);
         return chsp;
     }
@@ -547,14 +543,14 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
 
     public boolean checkTonTai() {
         boolean check = true;
-        if (CauHinhSanPhamBUS.checkDuplicate(listch, getCauHinh())) {
+        if (PhienBanSanPhamBUS.checkDuplicate(listch, getCauHinh())) {
             JOptionPane.showMessageDialog(this, "Cấu hình đã tồn tại !");
             check = false;
         }
         return check;
     }
 
-    public void loadDataToTableCauHinh(ArrayList<CauHinhSanPhamDTO> ch) {
+    public void loadDataToTableCauHinh(ArrayList<PhienBanSanPhamDTO> ch) {
         tblModelch.setRowCount(0);
         for (int i = 0; i < ch.size(); i++) {
             String mau = mausacBus.getTenMau(ch.get(i).getMausac());
@@ -574,7 +570,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         txtgiaxuat.setText("");
     }
 
-    public void setInfoCauHinh(CauHinhSanPhamDTO ch) {
+    public void setInfoCauHinh(PhienBanSanPhamDTO ch) {
         cbxMausac.setSelectedIndex(mausacBus.getIndexByMaMau(ch.getMausac()));
         cbxRam.setSelectedIndex(ramBus.getIndexByMaRam(ch.getRam()));
         cbxRom.setSelectedIndex(romBus.getIndexByMaRom(ch.getRom()));

@@ -1,14 +1,14 @@
 package BUS;
 
 import DAO.SanPhamDAO;
-import DTO.CauHinhSanPhamDTO;
+import DTO.PhienBanSanPhamDTO;
 import DTO.SanPhamDTO;
 import java.util.ArrayList;
 
 public class SanPhamBUS {
 
     public final SanPhamDAO spDAO = new SanPhamDAO();
-    public CauHinhSanPhamBUS cauhinhBus = new CauHinhSanPhamBUS();
+    public PhienBanSanPhamBUS cauhinhBus = new PhienBanSanPhamBUS();
     private ArrayList<SanPhamDTO> listSP = new ArrayList<>();
     public SanPhamBUS() {
         listSP = spDAO.selectAll();
@@ -46,7 +46,7 @@ public class SanPhamBUS {
         return vitri;
     }
 
-    public Boolean add(SanPhamDTO lh, ArrayList<CauHinhSanPhamDTO> listch) {
+    public Boolean add(SanPhamDTO lh, ArrayList<PhienBanSanPhamDTO> listch) {
         boolean check = spDAO.insert(lh) != 0;
         if (check) {
             cauhinhBus.add(listch);
