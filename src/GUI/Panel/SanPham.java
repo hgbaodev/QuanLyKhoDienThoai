@@ -51,19 +51,19 @@ public final class SanPham extends JPanel implements ActionListener {
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng tồn", "Thương hiệu", "Kích thước màn", "Hệ điều hành", "Xuất xứ", "Khu vực kho"};
+        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng tồn", "Kích thước màn", "Thương hiệu", "Hệ điều hành", "Xuất xứ", "Khu vực kho"};
         tblModel.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableSanPham);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         TableColumnModel columnModel = tableSanPham.getColumnModel();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 8; i++) {
             if (i != 1) {
                 columnModel.getColumn(i).setCellRenderer(centerRenderer);
             }
         }
-        tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(500);
+        tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(300);
         tableSanPham.setFocusable(false);
         tableSanPham.setDefaultEditor(Object.class, null);
 

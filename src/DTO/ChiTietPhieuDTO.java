@@ -12,20 +12,20 @@ import java.util.Objects;
  */
 public class ChiTietPhieuDTO {
     private int maphieu;
-    private String imei;
+    private int maphienbansp;
+    private int soluong;
     private int dongia;
-
-    public ChiTietPhieuDTO(int maphieu, String imei, int dongia) {
-        this.maphieu = maphieu;
-        this.imei = imei;
-        this.dongia = dongia;
-    }
 
     public ChiTietPhieuDTO() {
     }
 
-    
-    
+    public ChiTietPhieuDTO(int maphieu, int maphienbansp, int soluong, int dongia) {
+        this.maphieu = maphieu;
+        this.maphienbansp = maphienbansp;
+        this.soluong = soluong;
+        this.dongia = dongia;
+    }
+
     public int getMaphieu() {
         return maphieu;
     }
@@ -34,12 +34,20 @@ public class ChiTietPhieuDTO {
         this.maphieu = maphieu;
     }
 
-    public String getImei() {
-        return imei;
+    public int getMaphienbansp() {
+        return maphienbansp;
     }
 
-    public void setImei(String imei) {
-        this.imei = imei;
+    public void setMaphienbansp(int maphienbansp) {
+        this.maphienbansp = maphienbansp;
+    }
+
+    public int getSoluong() {
+        return soluong;
+    }
+
+    public void setSoluong(int soluong) {
+        this.soluong = soluong;
     }
 
     public int getDongia() {
@@ -53,9 +61,10 @@ public class ChiTietPhieuDTO {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 61 * hash + this.maphieu;
-        hash = 61 * hash + Objects.hashCode(this.imei);
-        hash = 61 * hash + this.dongia;
+        hash = 19 * hash + this.maphieu;
+        hash = 19 * hash + this.maphienbansp;
+        hash = 19 * hash + this.soluong;
+        hash = 19 * hash + this.dongia;
         return hash;
     }
 
@@ -74,15 +83,18 @@ public class ChiTietPhieuDTO {
         if (this.maphieu != other.maphieu) {
             return false;
         }
-        if (this.dongia != other.dongia) {
+        if (this.maphienbansp != other.maphienbansp) {
             return false;
         }
-        return Objects.equals(this.imei, other.imei);
+        if (this.soluong != other.soluong) {
+            return false;
+        }
+        return this.dongia == other.dongia;
     }
 
     @Override
     public String toString() {
-        return "ChiTietPhieuDTO{" + "maphieu=" + maphieu + ", imei=" + imei + ", dongia=" + dongia + '}';
+        return "ChiTietPhieuDTO{" + "maphieu=" + maphieu + ", maphienbansp=" + maphienbansp + ", soluong=" + soluong + ", dongia=" + dongia + '}';
     }
 
     
