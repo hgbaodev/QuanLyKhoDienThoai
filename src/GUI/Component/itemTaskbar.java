@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
-
 public class itemTaskbar extends JPanel implements MouseListener {
 
     Color FontColor = new Color(96, 125, 139);
@@ -26,10 +25,8 @@ public class itemTaskbar extends JPanel implements MouseListener {
         this.addMouseListener(this);
         lblIcon = new JLabel();
         lblIcon.setPreferredSize(new Dimension(30, 30));
-        lblIcon.setIcon(new FlatSVGIcon("./icon/"+linkIcon));
+        lblIcon.setIcon(new FlatSVGIcon("./icon/" + linkIcon));
         this.add(lblIcon);
-        
-        
 
         pnlContent = new JLabel(content);
         pnlContent.setPreferredSize(new Dimension(170, 30));
@@ -43,20 +40,20 @@ public class itemTaskbar extends JPanel implements MouseListener {
 //        this.setPreferredSize(new Dimension(250, 45));
         this.setBackground(DefaultColor);
         this.addMouseListener(this);
-        
+
         lblIcon = new JLabel();
-        lblIcon.setPreferredSize(new Dimension(30, 30));
-        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource(linkIcon)));
+        lblIcon.setPreferredSize(new Dimension(110, 110));
+        lblIcon.setIcon(new FlatSVGIcon("./icon/" + linkIcon));
+
         this.add(lblIcon);
 
         pnlContent = new JLabel(content1);
         pnlContent.setPreferredSize(new Dimension(170, 30));
-        pnlContent.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
+        pnlContent.putClientProperty("FlatLaf.style", "font: 200% $medium.font");
         pnlContent.setForeground(FontColor);
         this.add(pnlContent);
 
 //        box[i].setBorder(new EmptyBorder(20, 20, 20, 20));
-
     }
 
     @Override
