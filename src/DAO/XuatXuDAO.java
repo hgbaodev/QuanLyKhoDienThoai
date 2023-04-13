@@ -84,7 +84,6 @@ public class XuatXuDAO implements DAOinterface<XuatXuDTO>{
                 int mahdh = rs.getInt("maxuatxu");
                 String tenxuatxu = rs.getString("tenxuatxu");
                 XuatXuDTO ms = new XuatXuDTO(mahdh, tenxuatxu);
-                System.out.println(ms);
                 result.add(ms);
             }
             JDBCUtil.closeConnection(con);
