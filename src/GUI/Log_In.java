@@ -12,6 +12,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import javax.swing.border.EmptyBorder;
 
 public class Log_In extends JFrame {
 
@@ -34,47 +35,49 @@ public class Log_In extends JFrame {
         this.setTitle("Đăng nhập");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JFrame jf = this;
+
+        imgIntro();
+
         pnlMain = new JPanel();
         pnlMain.setBackground(Color.white);
-        pnlMain.setPreferredSize(new Dimension(495, 740));
+        pnlMain.setBorder(new EmptyBorder(50, 0, 0, 0));
+
+        pnlMain.setPreferredSize(new Dimension(500, 740));
         pnlMain.setLayout(new FlowLayout(1, 0, 10));
 
         lbl1 = new JLabel("HỆ THỐNG QUẢN LÝ");
-        lbl1.setPreferredSize(new Dimension(350, 50));
-        lbl1.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 36));
+        lbl1.setFont(new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 27));
         pnlMain.add(lbl1);
 
-        lbl2 = new JLabel("KHO HÀNG HOÁ");
-        lbl2.setPreferredSize(new Dimension(350, 50));
-        lbl2.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 40));
+        lbl2 = new JLabel("KHO ĐIỆN THOẠI THÔNG MINH");
+        lbl2.setFont(new Font(FlatRobotoFont.FAMILY_SEMIBOLD, Font.BOLD, 31));
         pnlMain.add(lbl2);
-        
+
         lbl3 = new JLabel("Đăng nhập để tiếp tục");
-        lbl3.setPreferredSize(new Dimension(400, 50));
-        lbl3.setFont(new Font("Segoe UI Light", Font.BOLD, 24));
-//        pnlMain.add(lbl3);
+        lbl3.setPreferredSize(new Dimension(380, 80));
+        lbl3.setFont(new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 20));
+        pnlMain.add(lbl3);
 
         JPanel paneldn = new JPanel();
         paneldn.setBackground(Color.BLACK);
-        paneldn.setPreferredSize(new Dimension(400,220));
-        paneldn.setLayout(new GridLayout(2,1));
-        
+        paneldn.setPreferredSize(new Dimension(400, 220));
+        paneldn.setLayout(new GridLayout(2, 1));
+
         txtUsername = new InputForm("Tên đăng nhập");
         paneldn.add(txtUsername);
         txtPassword = new InputForm("Mật khẩu", "password");
         paneldn.add(txtPassword);
-        
+
         pnlMain.add(paneldn);
 
         lbl6 = new JLabel("ĐĂNG NHẬP");
-        lbl6.setPreferredSize(new Dimension(150, 40));
         lbl6.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 16));
         lbl6.setForeground(Color.white);
 
         pnlLogIn = new JPanel();
         pnlLogIn.setBackground(UIManager.getDefaults().getColor("Actions.Blue"));
-        pnlLogIn.setPreferredSize(new Dimension(400, 40));
-        pnlLogIn.setLayout(new FlowLayout(1, 0, 0));
+        pnlLogIn.setPreferredSize(new Dimension(380, 45));
+        pnlLogIn.setLayout(new FlowLayout(1, 0, 15));
 
         pnlLogIn.addMouseListener(new MouseAdapter() {
             @Override
@@ -95,12 +98,12 @@ public class Log_In extends JFrame {
         pnlLogIn.add(lbl6);
 
         lbl7 = new JLabel("Quên mật khẩu", JLabel.RIGHT);
-        lbl7.setPreferredSize(new Dimension(400, 50));
+        lbl7.setPreferredSize(new Dimension(380, 50));
         lbl7.setFont(new Font(FlatRobotoFont.FAMILY, Font.ITALIC, 18));
         lbl7.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-                QuenMatKhau qmk = new QuenMatKhau(jf,true);
+                QuenMatKhau qmk = new QuenMatKhau(jf, true);
                 qmk.setVisible(true);
             }
         });
@@ -109,11 +112,6 @@ public class Log_In extends JFrame {
         pnlMain.add(pnlLogIn);
 
         this.add(pnlMain, BorderLayout.EAST);
-
-        lblImage = new JLabel();
-        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/login.jpg")));
-        lblImage.setPreferredSize(new Dimension(500, 740));
-        this.add(lblImage, BorderLayout.WEST);
 
     }
 
@@ -124,24 +122,20 @@ public class Log_In extends JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin đầy đủ", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
         } else {
             TaiKhoanDTO tk = TaiKhoanDAO.getInstance().selectByUser(usernameCheck);
-            if(tk == null){
+            if (tk == null) {
                 JOptionPane.showMessageDialog(this, "Tài khoản của bạn không tồn tại trên hệ thống", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
             } else {
-                if(BCrypt.checkpw(passwordCheck, tk.getMatkhau())){
+                if (BCrypt.checkpw(passwordCheck, tk.getMatkhau())) {
                     this.dispose();
                     Main main = new Main(tk);
                     main.setVisible(true);
-                } else{
+                } else {
                     JOptionPane.showMessageDialog(this, "Mật khẩu không khớp", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
                 }
-                
+
             }
         }
     }
-    
-   
-    
-    
 
     private void pnlLogInMousePressed(java.awt.event.MouseEvent evt) {
 
@@ -166,10 +160,22 @@ public class Log_In extends JFrame {
         FlatLaf.setPreferredSemiboldFontFamily(FlatRobotoFont.FAMILY_SEMIBOLD);
         FlatIntelliJLaf.registerCustomDefaultsSource("style");
         FlatIntelliJLaf.setup();
-        UIManager.put( "PasswordField.showRevealButton", true );
+        UIManager.put("PasswordField.showRevealButton", true);
         UIManager.put("Button.iconTextGap", 10);
         UIManager.put("TextComponent.arc", 5);
         Log_In login = new Log_In();
         login.setVisible(true);
+    }
+
+    public void imgIntro() {
+        JPanel bo = new JPanel();
+        bo.setBorder(new EmptyBorder(3, 1, 4, 5));
+        bo.setPreferredSize(new Dimension(500, 740));
+        bo.setBackground(Color.white);
+        this.add(bo, BorderLayout.WEST);
+
+        lblImage = new JLabel();
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/login.jpg")));
+        bo.add(lblImage);
     }
 }

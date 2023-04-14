@@ -55,4 +55,22 @@ public class SelectForm extends JPanel{
     public void setSelectedItem(Object a) {
         cbb.setSelectedItem(a);
     }
+
+    public JLabel getLblTitle() {
+        return lblTitle;
+    }
+
+    public void setLblTitle(JLabel lblTitle) {
+        this.lblTitle = lblTitle;
+    }
+
+    public JComboBox getCbb() {
+        return cbb;
+    }
+
+    public void setCbb(JComboBox cbb) {
+        this.cbb = cbb;
+    }
+    
+    
 }
