@@ -40,7 +40,7 @@ public class QuanLyThuocTinhSP extends JPanel {
 
     String iconst[] = { "brand_100px.svg","factory_100px.svg","os_100px.svg","rom_100px.svg","ram_100px.svg","color_100px.svg"};
 
-    String header[] = {"Thương hiệu", "Xuất xứ", "Hệ điều hành", "Dung lượng Ram", "Dung lượng Rom", "Màu sắc"};
+    String header[] = {"Thương hiệu", "Xuất xứ", "Hệ điều hành", "Ram", "Rom", "Màu sắc"};
     Color BackgroundColor = new Color(240, 247, 250);
     Color FontColor = new Color(96, 125, 139);
     Color DefaultColor = new Color(255, 255, 255);
