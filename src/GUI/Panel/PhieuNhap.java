@@ -157,7 +157,8 @@ public class PhieuNhap extends JPanel implements ActionListener {
             nhapKho = new TaoPhieuNhap(nv);
             m.setPanel(nhapKho);
         } else if (source == mainFunction.btnDetail) {
-            JOptionPane.showMessageDialog(this, "cc");
+            int index = 
+            if(ge)
         }
     }
 
