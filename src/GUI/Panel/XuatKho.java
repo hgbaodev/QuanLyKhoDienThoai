@@ -9,6 +9,7 @@ import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuDTO;
 import DTO.KhachHangDTO;
 import DTO.SanPhamDTO;
+import DTO.TaiKhoanDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.InputForm;
 import GUI.Component.InputFormInline;
@@ -69,10 +70,12 @@ public class XuatKho extends JPanel implements ActionListener, ItemListener {
 
     Main m;
     PhieuXuat phieuXuat;
+    TaiKhoanDTO tk;
 
-    public XuatKho(Main m) {
+    public XuatKho(Main m,TaiKhoanDTO tk) {
         initComponent();
         this.m = m;
+        this.tk = tk;
         loadDataTableSanPham(listdmsp);
     }
 
@@ -378,7 +381,7 @@ public class XuatKho extends JPanel implements ActionListener, ItemListener {
     }
 
     public void ActionBtnReturn() {
-        phieuXuat = new PhieuXuat(this.m);
+        phieuXuat = new PhieuXuat(this.m,tk);
         m.setPanel(phieuXuat);
         System.err.println("dfgdS");
 

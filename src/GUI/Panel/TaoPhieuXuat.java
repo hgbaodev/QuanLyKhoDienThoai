@@ -5,11 +5,16 @@ import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
 import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
+import BUS.PhieuNhapBUS;
 import BUS.SanPhamBUS;
 import DAO.ChiTietSanPhamDAO;
+import DAO.PhieuXuatDAO;
+import DTO.ChiTietPhieuDTO;
+import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.SanPhamDTO;
+import DTO.TaiKhoanDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.CustomComboCheck;
 import GUI.Component.InputForm;
@@ -33,9 +38,11 @@ import java.util.Vector;
 import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class TaoPhieuXuat extends JPanel {
+
     PhienBanSanPhamBUS phienBanBus = new PhienBanSanPhamBUS();
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
@@ -51,6 +58,9 @@ public class TaoPhieuXuat extends JPanel {
     SelectForm cbxNhaCungCap, cbxTrangThai, cbxPhienBan;
     JTextField txtTimKiem;
     Color BackgroundColor = new Color(240, 247, 250);
+    
+    
+    
 
     ArrayList<ChiTietSanPhamDTO> ctpb;
     SanPhamBUS spBUS = new SanPhamBUS();
@@ -64,7 +74,13 @@ public class TaoPhieuXuat extends JPanel {
     private Vector v;
     private CustomComboCheck cbxImei;
 
-    public TaoPhieuXuat() {
+    ArrayList<ChiTietPhieuDTO> chitietphieu = new ArrayList<>();
+    ArrayList<ChiTietSanPhamDTO> chitietsanpham = new ArrayList<>();
+    TaiKhoanDTO tk;
+    private int mapb;
+
+    public TaoPhieuXuat(TaiKhoanDTO tk) {
+        this.tk = tk;
         initComponent();
         loadDataTalbeSanPham(listSP);
     }
@@ -100,17 +116,21 @@ public class TaoPhieuXuat extends JPanel {
         tablePhieuNhap = new JTable();
         scrollTablePhieuNhap = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"STT", "Mã sản phẩm", "Tên sản phẩm", "RAM", "ROM", "Màu sắc", "Đơn giá", "Số lượng"};
+        String[] header = new String[]{"STT", "Mã SP", "Tên sản phẩm", "RAM", "ROM", "Màu sắc", "Đơn giá", "Số lượng"};
         tblModel.setColumnIdentifiers(header);
         tablePhieuNhap.setModel(tblModel);
         scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tablePhieuNhap.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tablePhieuNhap.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        tablePhieuNhap.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        TableColumnModel columnModel = tablePhieuNhap.getColumnModel();
+        for (int i = 0; i < 8; i++) {
+            if (i != 2) {
+                columnModel.getColumn(i).setCellRenderer(centerRenderer);
+            }
+        }
+        tablePhieuNhap.getColumnModel().getColumn(2).setPreferredWidth(300);
+        tablePhieuNhap.setDefaultEditor(Object.class, null);
         scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
-
         // Table sản phẩm
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
@@ -173,45 +193,43 @@ public class TaoPhieuXuat extends JPanel {
         content_right_top.add(txtMaSp, BorderLayout.WEST);
         content_right_top.add(txtTenSp, BorderLayout.CENTER);
         content_right_top.add(cbxPhienBan, BorderLayout.SOUTH);
-        
-        cbxPhienBan.getCbb().addItemListener(new ItemListener(){
+
+        cbxPhienBan.getCbb().addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 int pb = ch.get(cbxPhienBan.getSelectedIndex()).getMaphienbansp();
                 setImeiByPb(pb);
             }
         });
-        
 
         content_right_bottom = new JPanel(new BorderLayout());
         content_right_bottom.setBorder(new EmptyBorder(0, 10, 10, 10));
         content_right_bottom.setBackground(Color.WHITE);
         labelImei = new JLabel("Mã Imei");
-        labelImei.setPreferredSize(new Dimension(0,30));
+        labelImei.setPreferredSize(new Dimension(0, 30));
         textAreaImei = new JTextArea();
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204)));
         this.textAreaImei.setEditable(false);
         content_right_bottom_top = new JPanel(new BorderLayout());
-        content_right_bottom_top.setSize(new Dimension(0,100));
+        content_right_bottom_top.setSize(new Dimension(0, 100));
         content_right_bottom_top.setBackground(Color.white);
         content_right_bottom_top.add(labelImei, BorderLayout.NORTH);
-        content_right_bottom_top.add(textAreaImei,BorderLayout.CENTER);
+        content_right_bottom_top.add(textAreaImei, BorderLayout.CENTER);
         content_right_bottom_bottom = new JPanel(new BorderLayout());
-        content_right_bottom_bottom.setSize(new Dimension(0,50));
+        content_right_bottom_bottom.setSize(new Dimension(0, 50));
         content_right_bottom_bottom.setBorder(new EmptyBorder(20, 0, 0, 0));
         JLabel labelImei = new JLabel("Chọn IMEI");
-        labelImei.setPreferredSize(new Dimension(80,0));
+        labelImei.setPreferredSize(new Dimension(80, 0));
         v = new Vector();
         v.add("Chọn sản phẩm");
-        cbxImei = new CustomComboCheck(v,textAreaImei);
-//        AutoCompleteDecorator.decorate(cbxImei);
+        cbxImei = new CustomComboCheck(v, textAreaImei);
+        AutoCompleteDecorator.decorate(cbxImei);
         content_right_bottom_bottom.setBackground(Color.white);
-        content_right_bottom_bottom.add(labelImei,BorderLayout.WEST);
-        content_right_bottom_bottom.add(cbxImei,BorderLayout.CENTER);
-        content_right_bottom.add(content_right_bottom_top,BorderLayout.CENTER);
-        content_right_bottom.add(content_right_bottom_bottom,BorderLayout.SOUTH);
-        
-        
+        content_right_bottom_bottom.add(labelImei, BorderLayout.WEST);
+        content_right_bottom_bottom.add(cbxImei, BorderLayout.CENTER);
+        content_right_bottom.add(content_right_bottom_top, BorderLayout.CENTER);
+        content_right_bottom.add(content_right_bottom_bottom, BorderLayout.SOUTH);
+
         content_right.add(content_right_top, BorderLayout.NORTH);
         content_right.add(content_right_bottom, BorderLayout.CENTER);
 
@@ -224,6 +242,7 @@ public class TaoPhieuXuat extends JPanel {
         content_btn.setBorder(new EmptyBorder(8, 5, 0, 10));
         content_btn.setOpaque(false);
         btnAddSp = new ButtonCustom("Thêm sản phẩm", "success", 14);
+
         btnEditSP = new ButtonCustom("Sửa sản phẩm", "warning", 14);
         btnDelete = new ButtonCustom("Xoá sản phẩm", "danger", 14);
         btnImport = new ButtonCustom("Nhập Excel", "excel", 14);
@@ -231,6 +250,18 @@ public class TaoPhieuXuat extends JPanel {
         content_btn.add(btnEditSP);
         content_btn.add(btnDelete);
         content_btn.add(btnImport);
+
+        btnAddSp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(checkInfo()){
+                    getInfo();
+                    loadDataTableChiTietPhieu(chitietphieu);
+                }
+
+            }
+
+        });
 
         left_top.add(content_top, BorderLayout.CENTER);
         left_top.add(content_btn, BorderLayout.SOUTH);
@@ -254,7 +285,11 @@ public class TaoPhieuXuat extends JPanel {
         right_top = new JPanel(new GridLayout(4, 1, 0, 0));
         right_top.setPreferredSize(new Dimension(300, 360));
         txtMaphieu = new InputForm("Mã phiếu nhập");
+        txtMaphieu.setEditable(false);
         txtNhanVien = new InputForm("Nhân viên nhập");
+        txtNhanVien.setEditable(false);
+        txtMaphieu.setText(PhieuXuatDAO.getInstance().getAutoIncrement()+"");
+        txtNhanVien.setText(tk.getManv()+"");
         cbxNhaCungCap = new SelectForm("Nhà cung cấp", nccBus.getArrTenNhaCungCap());
         String[] arrTrangThai = {"Đang xử lý", "Đã nhập", "Huỷ"};
         cbxTrangThai = new SelectForm("Trạng thái", arrTrangThai);
@@ -276,12 +311,12 @@ public class TaoPhieuXuat extends JPanel {
         pn_tongtien.setOpaque(false);
         JLabel lbltien = new JLabel("TỔNG TIỀN: ");
         lbltien.setFont(new Font(FlatRobotoFont.FAMILY, 1, 18));
-        JLabel lbltongtien = new JLabel("10.000.000đ");
+        JLabel lbltongtien = new JLabel("0đ");
         lbltongtien.setFont(new Font(FlatRobotoFont.FAMILY, 1, 18));
         lbltien.setForeground(new Color(255, 51, 51));
         pn_tongtien.add(lbltien);
         pn_tongtien.add(lbltongtien);
-        
+
         tableSanPham.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -310,32 +345,82 @@ public class TaoPhieuXuat extends JPanel {
             tblModelSP.addRow(new Object[]{sp.getMasp(), sp.getTensp()});
         }
     }
-    
+
     public void setInfoSanPham(SanPhamDTO sp) {
         this.txtMaSp.setText(Integer.toString(sp.getMasp()));
         this.txtTenSp.setText(sp.getTensp());
         this.textAreaImei.setText("");
-        
+
         ch = phienBanBus.getAll(sp.getMasp());
         int size = ch.size();
         String[] arr = new String[size];
         for (int i = 0; i < size; i++) {
             arr[i] = romBus.getKichThuocById(ch.get(i).getRom()) + "GB - "
-                    + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac())+" - "+Formater.FormatVND(ch.get(i).getGiaxuat());
+                    + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac()) + " - " + Formater.FormatVND(ch.get(i).getGiaxuat());
         }
         this.cbxPhienBan.setArr(arr);
-        
-        int mapb = ch.get(0).getMaphienbansp();
+
+        mapb = ch.get(0).getMaphienbansp();
         setImeiByPb(mapb);
     }
+
+    public boolean checkInfo() {
+        boolean check = true;
+        if (txtMaSp.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm");
+            check = false;
+        } 
+        else if (textAreaImei.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn mã imei");
+            check = false;
+        } 
+            
+        return check;
+    }
     
-    public void setImeiByPb(int mapb){
-        ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb+"");
+    public ChiTietPhieuDTO getInfo(){
+        int masp = Integer.parseInt(txtMaSp.getText());
+        int macauhinh = mapb;
+        int dongia = phienBanBus.getByMaPhienBan(macauhinh).getGiaxuat();
+        String[] arrimei = textAreaImei.getText().split("\n");
+        int soLuong = arrimei.length;
+        ChiTietPhieuDTO ctpx = new ChiTietPhieuDTO(1, mapb, soLuong, dongia);
+        System.out.println(ctpx);
+        chitietphieu.add(ctpx);
+        getChiTietSp();
+        return null;
+    }
+    
+    public void getChiTietSp(){
+        String[] arrimei = textAreaImei.getText().split("\n");
+        for(int i = 0; i < arrimei.length; i++){
+            ChiTietSanPhamDTO ct = new ChiTietSanPhamDTO(arrimei[i], mapb, 0, Integer.parseInt(txtMaphieu.getText()), 0);
+            System.out.println(ct);
+            chitietsanpham.add(ct);
+        }
+    }
+
+    public void setImeiByPb(int mapb) {
+        ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb + "");
         v.clear();
         v.add("Chọn sản phẩm");
-        for (int i = 0; i< ctpb.size();i++){
+        for (int i = 0; i < ctpb.size(); i++) {
             v.add(new JCheckBox(ctpb.get(i).getImei(), false));
         }
-        cbxImei = new CustomComboCheck(v,textAreaImei);
+        cbxImei = new CustomComboCheck(v, textAreaImei);
     }
+    
+    public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> ctPhieu) {
+        tblModel.setRowCount(0);
+        int size = ctPhieu.size();
+        for (int i = 0; i < size; i++) {
+            PhienBanSanPhamDTO phienban = phienBanBus.getByMaPhienBan(ctPhieu.get(i).getMaphienbansp());
+            tblModel.addRow(new Object[]{
+                i + 1, phienban.getMasp(), spBUS.getByMaSP(phienban.getMasp()).getTensp(), ramBus.getKichThuocById(phienban.getRam()) + "GB",
+                romBus.getKichThuocById(phienban.getRom()) + "GB", mausacBus.getTenMau(phienban.getMausac()),
+                Formater.FormatVND(ctPhieu.get(i).getDongia()), ctPhieu.get(i).getSoluong()
+            });
+        }
+    }
+
 }

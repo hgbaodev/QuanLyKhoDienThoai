@@ -1,5 +1,6 @@
 package GUI.Panel;
 
+import DTO.TaiKhoanDTO;
 import GUI.Component.InputFormInline;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
@@ -29,12 +30,14 @@ public class PhieuXuat extends JPanel implements ActionListener {
 
     Main m;
     TaoPhieuXuat taoPhieuXuat;
+    TaiKhoanDTO tk;
 
     Color BackgroundColor = new Color(245, 229, 240);
 
-    public PhieuXuat(Main m) {
+    public PhieuXuat(Main m,TaiKhoanDTO tk) {
         initComponent();
         this.m = m;
+        this.tk = tk;
     }
 
     private void initComponent() {
@@ -115,7 +118,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-            taoPhieuXuat = new TaoPhieuXuat();
+            taoPhieuXuat = new TaoPhieuXuat(tk);
             m.setPanel(taoPhieuXuat);
         }
     }

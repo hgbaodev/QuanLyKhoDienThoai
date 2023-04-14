@@ -222,7 +222,7 @@ public class MenuTaskbar extends JPanel {
         listitem[6].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                phieuXuat = new PhieuXuat(main);
+                phieuXuat = new PhieuXuat(main,user);
                 main.setPanel(phieuXuat);
             }
         });
