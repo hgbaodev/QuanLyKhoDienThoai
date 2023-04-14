@@ -37,7 +37,7 @@ import javax.swing.table.TableColumnModel;
 public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionListener {
 
     PanelBorderRadius right, left;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main, content_right_bottom;
+    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main, content_right_bottom,content_btn;
     JTable tablePhieuNhap, tableSanPham;
     JScrollPane scrollTablePhieuNhap, scrollTableSanPham;
     DefaultTableModel tblModel, tblModelSP;
@@ -124,6 +124,10 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
                 int index = tablePhieuNhap.getSelectedRow();
                 if (index != -1) {
                     setFormChiTietPhieu(chitietphieu.get(index));
+                    btnEditSP.setVisible(true);
+                    btnDelete.setVisible(true);
+                    content_btn.revalidate();
+                    content_btn.repaint();
                 }
             }
         });
@@ -146,6 +150,10 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             public void mousePressed(MouseEvent e) {
                 int index = tableSanPham.getSelectedRow();
                 if (index != -1) {
+                    btnEditSP.setVisible(false);
+                    btnDelete.setVisible(false);
+                    content_btn.revalidate();
+                    content_btn.repaint();
                     resetForm();
                     setInfoSanPham(listSP.get(index));
                 }
@@ -169,7 +177,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         left_top.setBorder(new EmptyBorder(5, 5, 10, 10));
         left_top.setOpaque(false);
 
-        JPanel content_top, content_btn, content_left, content_right, content_right_top;
+        JPanel content_top, content_left, content_right, content_right_top;
         content_top = new JPanel(new GridLayout(1, 2, 5, 5));
         content_top.setOpaque(false);
         content_left = new JPanel(new BorderLayout(5, 5));
