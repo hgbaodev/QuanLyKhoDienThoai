@@ -37,7 +37,7 @@ import javax.swing.table.TableColumnModel;
 public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionListener {
 
     PanelBorderRadius right, left;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main, content_right_bottom,content_btn;
+    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main, content_right_bottom, content_btn;
     JTable tablePhieuNhap, tableSanPham;
     JScrollPane scrollTablePhieuNhap, scrollTableSanPham;
     DefaultTableModel tblModel, tblModelSP;
@@ -124,10 +124,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
                 int index = tablePhieuNhap.getSelectedRow();
                 if (index != -1) {
                     setFormChiTietPhieu(chitietphieu.get(index));
-                    btnEditSP.setVisible(true);
-                    btnDelete.setVisible(true);
-                    content_btn.revalidate();
-                    content_btn.repaint();
+                    actionbtn("update");
                 }
             }
         });
@@ -150,12 +147,15 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             public void mousePressed(MouseEvent e) {
                 int index = tableSanPham.getSelectedRow();
                 if (index != -1) {
-                    btnEditSP.setVisible(false);
-                    btnDelete.setVisible(false);
-                    content_btn.revalidate();
-                    content_btn.repaint();
                     resetForm();
                     setInfoSanPham(listSP.get(index));
+                    ChiTietPhieuNhapDTO ctp = checkTonTai();
+                    if (ctp == null) {
+                        actionbtn("add");
+                    } else {
+                        actionbtn("update");
+                        setFormChiTietPhieu(ctp);
+                    }
                 }
             }
         });
@@ -430,6 +430,16 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         if (source == cbxCauhinh.cbb) {
             int index = cbxCauhinh.cbb.getSelectedIndex();
             this.txtDongia.setText(Integer.toString(ch.get(index).getGianhap()));
+            ChiTietPhieuNhapDTO ctp = checkTonTai();
+            if (ctp == null) {
+                actionbtn("add");
+                this.txtSoLuongImei.setText("");
+                this.txtMaImeiTheoLo.setText("");
+                this.textAreaImei.setText("");
+            } else {
+                actionbtn("update");
+                setFormChiTietPhieu(ctp);
+            }
         } else if (source == cbxPtNhap.cbb) {
             int index = cbxPtNhap.cbb.getSelectedIndex();
             CardLayout c = (CardLayout) content_right_bottom.getLayout();
@@ -457,6 +467,23 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
 //                setFormChiTietPhieu(ctphieu.getMaphienbansp());
             }
         }
+    }
+
+    public ChiTietPhieuNhapDTO checkTonTai() {
+        int mapb = ch.get(cbxCauhinh.cbb.getSelectedIndex()).getMaphienbansp();
+        ChiTietPhieuNhapDTO p = phieunhapBus.findCT(chitietphieu, mapb);
+        return p;
+    }
+
+    public void actionbtn(String type) {
+        boolean val_1 = type.equals("add");
+        boolean val_2 = type.equals("update");
+        btnAddSp.setVisible(val_1);
+        btnImport.setVisible(val_1);
+        btnEditSP.setVisible(val_2);
+        btnDelete.setVisible(val_2);
+        content_btn.revalidate();
+        content_btn.repaint();
     }
 
     public void setFormChiTietPhieu(ChiTietPhieuNhapDTO phieu) {
@@ -523,6 +550,12 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         Object source = e.getSource();
         if (source == btnAddSp && validateNhap()) {
             addCtPhieu();
+        } else if (source == btnDelete) {
+            int index = tablePhieuNhap.getSelectedRow();
+            chitietphieu.remove(index);
+            actionbtn("add");
+            loadDataTableChiTietPhieu(chitietphieu);
+            resetForm();
         }
     }
 
