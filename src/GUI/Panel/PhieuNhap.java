@@ -1,6 +1,8 @@
 package GUI.Panel;
 
+import BUS.PhieuNhapBUS;
 import DTO.NhanVienDTO;
+import DTO.PhieuNhapDTO;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -8,8 +10,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,14 +30,20 @@ public class PhieuNhap extends JPanel implements ActionListener {
     Main m;
     NhanVienDTO nv;
 
+
+    PhieuNhapBUS phieunhapBUS = new PhieuNhapBUS();
+    ArrayList<PhieuNhapDTO> listPhieu;
+    
     Color BackgroundColor = new Color(239, 235, 233);
 
     public PhieuNhap(Main m, NhanVienDTO nv) {
         this.m = m;
         this.nv = nv;
+        this.listPhieu = phieunhapBUS.getAll();
         initComponent();
+        loadDataTalbe(this.listPhieu);
     }
-    
+
     public void initPadding() {
         pnlBorder1 = new JPanel();
         pnlBorder1.setPreferredSize(new Dimension(0, 20));
@@ -64,7 +74,7 @@ public class PhieuNhap extends JPanel implements ActionListener {
         tablePhieuNhap = new JTable();
         scrollTablePhieuNhap = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"STT","Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
+        String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền", "Trạng thái"};
         tblModel.setColumnIdentifiers(header);
         tablePhieuNhap.setModel(tblModel);
         scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
@@ -78,7 +88,7 @@ public class PhieuNhap extends JPanel implements ActionListener {
         this.setOpaque(true);
 
         initPadding();
-        
+
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
         contentCenter.setBackground(BackgroundColor);
@@ -115,6 +125,17 @@ public class PhieuNhap extends JPanel implements ActionListener {
 //        right.setPreferredSize(new Dimension(400, 0));
 //        right.setLayout(new FlowLayout(1, 15, 40));
 //        contentCenter.add(right, BorderLayout.EAST);
+    }
+
+    public void loadDataTalbe(ArrayList<PhieuNhapDTO> listphieunhap) {
+        tblModel.setRowCount(0);
+        int size = listphieunhap.size();
+        for (int i = 0; i < size; i++) {
+            tblModel.addRow(new Object[]{
+                i+1,listphieunhap.get(i).getMaphieu(),listphieunhap.get(i).getManhacungcap(), 
+                listphieunhap.get(i).getThoigiantao(), Formater.FormatVND(listphieunhap.get(i).getTongTien()), listphieunhap.get(i).getTrangthai()
+            });
+        }
     }
 
     @Override

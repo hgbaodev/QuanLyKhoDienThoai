@@ -1,11 +1,13 @@
 package BUS;
 
 import DAO.ChiTietPhieuNhapDAO;
+import DAO.ChiTietSanPhamDAO;
 import DAO.PhieuNhapDAO;
-import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuNhapDTO;
+import DTO.ChiTietSanPhamDTO;
 import DTO.PhieuNhapDTO;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -15,41 +17,35 @@ public class PhieuNhapBUS {
 
     public final PhieuNhapDAO phieunhapDAO = new PhieuNhapDAO();
     public final ChiTietPhieuNhapDAO ctPhieuNhapDAO = new ChiTietPhieuNhapDAO();
-    public ArrayList<PhieuNhapDTO> listPhieuNhap;
-
+    public final ChiTietSanPhamDAO chitietsanphamDAO = new ChiTietSanPhamDAO();
+    ArrayList<PhieuNhapDTO> listPhieuNhap;
+    
     public PhieuNhapBUS() {
     }
 
     public ArrayList<PhieuNhapDTO> getAll() {
         this.listPhieuNhap = phieunhapDAO.selectAll();
-        return listPhieuNhap;
+        return this.listPhieuNhap;
+    }
+    
+    public ArrayList<PhieuNhapDTO> getAllList() {
+        return this.listPhieuNhap;
     }
 
-    public boolean add(PhieuNhapDTO phieu, ArrayList<ChiTietPhieuNhapDTO> ctPhieu) {
+    public ArrayList<ChiTietSanPhamDTO> convertHashMapToArray(HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham) {
+        ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
+        for (ArrayList<ChiTietSanPhamDTO> ctsp : chitietsanpham.values()) {
+            result.addAll(ctsp);
+        }
+        return result;
+    }
+
+    public boolean add(PhieuNhapDTO phieu, ArrayList<ChiTietPhieuNhapDTO> ctPhieu, HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham) {
         boolean check = phieunhapDAO.insert(phieu) != 0;
         if (check) {
-            this.listPhieuNhap.add(phieu);
-            this.addChiTietPhieu(ctPhieu);
+            check = ctPhieuNhapDAO.insert(ctPhieu) != 0;
+            check = chitietsanphamDAO.insert_mutiple(convertHashMapToArray(chitietsanpham)) != 0;
         }
-        return check;
-    }
-
-    public boolean update(PhieuNhapDTO phieu, ArrayList<ChiTietPhieuNhapDTO> ctPhieu) {
-        boolean check = phieunhapDAO.update(phieu) != 0;
-        if (check) {
-            this.removeChiTietPhieu(Integer.toString(phieu.getMaphieu()));
-            this.addChiTietPhieu(ctPhieu);
-        }
-        return check;
-    }
-
-    public boolean addChiTietPhieu(ArrayList<ChiTietPhieuNhapDTO> ctPhieu) {
-        boolean check = ctPhieuNhapDAO.insert(ctPhieu) != 0;
-        return check;
-    }
-
-    public boolean removeChiTietPhieu(String maphieu) {
-        boolean check = ctPhieuNhapDAO.delete(maphieu) != 0;
         return check;
     }
 
@@ -66,10 +62,10 @@ public class PhieuNhapBUS {
         return p;
     }
 
-    public double getTongTien(ArrayList<ChiTietPhieuNhapDTO> ctphieu) {
-        double result = 0;
-        for(ChiTietPhieuNhapDTO item : ctphieu) {
-            result += item.getDongia();
+    public long getTongTien(ArrayList<ChiTietPhieuNhapDTO> ctphieu) {
+        long result = 0;
+        for (ChiTietPhieuNhapDTO item : ctphieu) {
+            result += item.getDongia() * item.getSoluong();
         }
         return result;
     }
