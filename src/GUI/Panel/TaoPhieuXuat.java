@@ -6,6 +6,8 @@ import BUS.DungLuongRomBUS;
 import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
 import BUS.SanPhamBUS;
+import DAO.ChiTietSanPhamDAO;
+import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
@@ -19,15 +21,20 @@ import GUI.Component.SelectForm;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.Formater;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class TaoPhieuXuat extends JPanel {
-    PhienBanSanPhamBUS cauhinhBus = new PhienBanSanPhamBUS();
+    PhienBanSanPhamBUS phienBanBus = new PhienBanSanPhamBUS();
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     MauSacBUS mausacBus = new MauSacBUS();
@@ -39,10 +46,11 @@ public class TaoPhieuXuat extends JPanel {
     NhapKho nhapKho;
     ButtonCustom btnAddSp, btnEditSP, btnDelete, btnImport, btnNhapHang;
     InputForm txtMaphieu, txtNhanVien, txtMaSp, txtTenSp;
-    SelectForm cbxNhaCungCap, cbxTrangThai, cbxCauhinh;
+    SelectForm cbxNhaCungCap, cbxTrangThai, cbxPhienBan;
     JTextField txtTimKiem;
     Color BackgroundColor = new Color(240, 247, 250);
 
+    ArrayList<ChiTietSanPhamDTO> ctpb;
     SanPhamBUS spBUS = new SanPhamBUS();
     NhaCungCapBUS nccBus = new NhaCungCapBUS();
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
@@ -50,6 +58,8 @@ public class TaoPhieuXuat extends JPanel {
     private JLabel labelImei;
     private JPanel content_right_bottom_top;
     private JPanel content_right_bottom_bottom;
+    private JComboBox cbxImei;
+    private ArrayList<PhienBanSanPhamDTO> ch;
 
     public TaoPhieuXuat() {
         initComponent();
@@ -155,11 +165,20 @@ public class TaoPhieuXuat extends JPanel {
         txtTenSp = new InputForm("Tên sản phẩm");
         txtTenSp.setEditable(false);
         String[] arrCauhinh = {"Chọn sản phẩm"};
-        cbxCauhinh = new SelectForm("Cấu hình", arrCauhinh);
-        cbxCauhinh.setPreferredSize(new Dimension(100, 90));
+        cbxPhienBan = new SelectForm("Cấu hình", arrCauhinh);
+        cbxPhienBan.setPreferredSize(new Dimension(100, 90));
         content_right_top.add(txtMaSp, BorderLayout.WEST);
         content_right_top.add(txtTenSp, BorderLayout.CENTER);
-        content_right_top.add(cbxCauhinh, BorderLayout.SOUTH);
+        content_right_top.add(cbxPhienBan, BorderLayout.SOUTH);
+        
+        cbxPhienBan.getCbb().addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                int pb = ch.get(cbxPhienBan.getSelectedIndex()).getMaphienbansp();
+                setImeiByPb(pb);
+            }
+        });
+        
 
         content_right_bottom = new JPanel(new BorderLayout());
         content_right_bottom.setBorder(new EmptyBorder(0, 10, 10, 10));
@@ -178,7 +197,7 @@ public class TaoPhieuXuat extends JPanel {
         content_right_bottom_bottom.setBorder(new EmptyBorder(20, 0, 0, 0));
         JLabel labelImei = new JLabel("Chọn IMEI");
         labelImei.setPreferredSize(new Dimension(80,0));
-        JComboBox cbxImei = new JComboBox();
+        cbxImei = new JComboBox();
         String[] comString = {"Chọn sản phẩm"};
         cbxImei.setModel(new DefaultComboBoxModel(comString));
         AutoCompleteDecorator.decorate(cbxImei);
@@ -291,13 +310,25 @@ public class TaoPhieuXuat extends JPanel {
     public void setInfoSanPham(SanPhamDTO sp) {
         this.txtMaSp.setText(Integer.toString(sp.getMasp()));
         this.txtTenSp.setText(sp.getTensp());
-        ArrayList<PhienBanSanPhamDTO> ch = cauhinhBus.getAll(sp.getMasp());
+        ch = phienBanBus.getAll(sp.getMasp());
         int size = ch.size();
         String[] arr = new String[size];
         for (int i = 0; i < size; i++) {
             arr[i] = romBus.getKichThuocById(ch.get(i).getRom()) + "GB - "
                     + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac())+" - "+Formater.FormatVND(ch.get(i).getGiaxuat());
         }
-        this.cbxCauhinh.setArr(arr);
+        this.cbxPhienBan.setArr(arr);
+        
+        int mapb = ch.get(0).getMaphienbansp();
+        setImeiByPb(mapb);
+    }
+    
+    public void setImeiByPb(int mapb){
+        ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb+"");
+        String[] arrImei = new String[ctpb.size()];
+        for (int i = 0; i< ctpb.size();i++){
+            arrImei[i] = ctpb.get(i).getImei();
+        }
+        cbxImei.setModel(new DefaultComboBoxModel(arrImei));
     }
 }

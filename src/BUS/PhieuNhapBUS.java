@@ -7,6 +7,7 @@ package BUS;
 import DAO.ChiTietPhieuNhapDAO;
 import DAO.PhieuNhapDAO;
 import DTO.ChiTietPhieuDTO;
+import DTO.ChiTietPhieuNhapDTO;
 import DTO.PhieuNhapDTO;
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class PhieuNhapBUS {
         return listPhieuNhap;
     }
 
-    public boolean add(PhieuNhapDTO phieu, ArrayList<ChiTietPhieuDTO> ctPhieu) {
+    public boolean add(PhieuNhapDTO phieu, ArrayList<ChiTietPhieuNhapDTO> ctPhieu) {
         boolean check = phieunhapDAO.insert(phieu) != 0;
         if (check) {
             this.listPhieuNhap.add(phieu);
@@ -37,7 +38,7 @@ public class PhieuNhapBUS {
         return check;
     }
 
-    public boolean update(PhieuNhapDTO phieu, ArrayList<ChiTietPhieuDTO> ctPhieu) {
+    public boolean update(PhieuNhapDTO phieu, ArrayList<ChiTietPhieuNhapDTO> ctPhieu) {
         boolean check = phieunhapDAO.update(phieu) != 0;
         if (check) {
             this.removeChiTietPhieu(Integer.toString(phieu.getMaphieu()));
@@ -46,7 +47,7 @@ public class PhieuNhapBUS {
         return check;
     }
 
-    public boolean addChiTietPhieu(ArrayList<ChiTietPhieuDTO> ctPhieu) {
+    public boolean addChiTietPhieu(ArrayList<ChiTietPhieuNhapDTO> ctPhieu) {
         boolean check = ctPhieuNhapDAO.insert(ctPhieu) != 0;
         return check;
     }
@@ -56,11 +57,11 @@ public class PhieuNhapBUS {
         return check;
     }
 
-    public ChiTietPhieuDTO findCT(ArrayList<ChiTietPhieuDTO> ctphieu, int masp) {
-        ChiTietPhieuDTO p = null;
+    public ChiTietPhieuNhapDTO findCT(ArrayList<ChiTietPhieuNhapDTO> ctphieu, int mapb) {
+        ChiTietPhieuNhapDTO p = null;
         int i = 0;
         while (i < ctphieu.size() && p == null) {
-            if (ctphieu.get(i).getImei().equals(masp)) {
+            if (ctphieu.get(i).getMaphienbansp() == mapb) {
                 p = ctphieu.get(i);
             } else {
                 i++;
@@ -69,9 +70,9 @@ public class PhieuNhapBUS {
         return p;
     }
 
-    public double getTongTien(ArrayList<ChiTietPhieuDTO> ctphieu) {
+    public double getTongTien(ArrayList<ChiTietPhieuNhapDTO> ctphieu) {
         double result = 0;
-        for(ChiTietPhieuDTO item : ctphieu) {
+        for(ChiTietPhieuNhapDTO item : ctphieu) {
             result += item.getDongia();
         }
         return result;

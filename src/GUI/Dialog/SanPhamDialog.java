@@ -178,6 +178,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         }
 
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
+        btnHuyBo.addActionListener(this);
         pnbottom.add(btnHuyBo);
         pnCenter.add(pnbottom, BorderLayout.SOUTH);
     }
@@ -420,7 +421,9 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
             resetFormCauHinh();
             loadDataToTableCauHinh(this.listch);
         }
-        
+        if(source == btnHuyBo){
+            dispose();
+        }
     }
 
     public void eventAddSanPham() {
