@@ -60,9 +60,9 @@ public class TaoPhieuXuat extends JPanel {
     private JLabel labelImei;
     private JPanel content_right_bottom_top;
     private JPanel content_right_bottom_bottom;
-    private CustomComboCheck cbxImei;
     private ArrayList<PhienBanSanPhamDTO> ch;
     private Vector v;
+    private CustomComboCheck cbxImei;
 
     public TaoPhieuXuat() {
         initComponent();
@@ -327,7 +327,6 @@ public class TaoPhieuXuat extends JPanel {
         
         int mapb = ch.get(0).getMaphienbansp();
         setImeiByPb(mapb);
-        repaint();
     }
     
     public void setImeiByPb(int mapb){

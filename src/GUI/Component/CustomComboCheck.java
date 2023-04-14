@@ -32,19 +32,21 @@ public final class CustomComboCheck extends JComboBox {
                 ourItemSelected();
             }
         });
+        addItem("Chọn sản phẩm");
+        setSelectedItem("Chọn sản phẩm");
     }
     
     public CustomComboCheck(Vector v, JTextArea text) {
         super(v);
         this.text = text;
         setRenderer(new Comborenderer());
-
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 ourItemSelectedText();
             }
         });
+        
     }
 
     private void ourItemSelected() {

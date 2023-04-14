@@ -19,7 +19,6 @@ public final class Comborenderer implements ListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object val, int index, boolean selected, boolean focused) {
-
         if (val instanceof Component) {
             Component c = (Component) val;
             if (selected) {
