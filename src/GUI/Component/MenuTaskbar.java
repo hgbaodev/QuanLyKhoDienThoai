@@ -306,15 +306,18 @@ public class MenuTaskbar extends JPanel {
 
         JPanel pnlInfo = new JPanel();
         pnlInfo.setOpaque(false);
-        pnlInfo.setLayout(new FlowLayout(1,10,15));
+        pnlInfo.setLayout(new FlowLayout(0, 10, 5));
+        pnlInfo.setBorder(new EmptyBorder(15,0,0,0));
         info.add(pnlInfo, BorderLayout.CENTER);
-        
-        lblTenNhomQuyen = new JLabel(nhomQuyenDTO.getTennhomquyen());
-        lblTenNhomQuyen.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
-        pnlInfo.add(lblTenNhomQuyen);
 
         lblUsername = new JLabel(nhanVienDTO.getHoten());
-        lblUsername.putClientProperty("FlatLaf.style", "font: 120% $semibold.font");
+        lblUsername.putClientProperty("FlatLaf.style", "font: 150% $semibold.font");
         pnlInfo.add(lblUsername);
+
+        lblTenNhomQuyen = new JLabel(nhomQuyenDTO.getTennhomquyen());
+        lblTenNhomQuyen.putClientProperty("FlatLaf.style", "font: 120% $light.font");
+        lblTenNhomQuyen.setForeground(Color.GRAY);
+        pnlInfo.add(lblTenNhomQuyen);
+
     }
 }

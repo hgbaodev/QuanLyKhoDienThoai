@@ -91,13 +91,7 @@ public class NhanVien extends JPanel {
 
         tableNhanVien = new JTable();
         scrollTableSanPham = new JScrollPane();
-
-        tableNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tableNhanVien = new JTable();
-        tableNhanVien.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"MNV","Họ tên","Giới tính","Ngày Sinh","SDT","Email"};
         
@@ -122,8 +116,6 @@ public class NhanVien extends JPanel {
     public DTO.NhanVienDTO getNhanVien(){
         return listnv.get(tableNhanVien.getSelectedRow());
     }
-    
-    
     
     public void loadDataTalbe(ArrayList<DTO.NhanVienDTO> list) {
         listnv = list;

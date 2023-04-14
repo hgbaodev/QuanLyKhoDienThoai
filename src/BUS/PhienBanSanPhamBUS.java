@@ -5,6 +5,7 @@
 package BUS;
 
 import DAO.PhienBanSanPhamDAO;
+import DTO.ChiTietPhieuNhapDTO;
 import DTO.PhienBanSanPhamDTO;
 import java.util.ArrayList;
 
@@ -14,7 +15,6 @@ import java.util.ArrayList;
  */
 public class PhienBanSanPhamBUS {
     private PhienBanSanPhamDAO cauhinhDAO = new PhienBanSanPhamDAO();
-    private ArrayList<PhienBanSanPhamDTO> listCauHinh = new ArrayList<>();
     
     public PhienBanSanPhamBUS() {
     }
@@ -23,7 +23,25 @@ public class PhienBanSanPhamBUS {
         return cauhinhDAO.selectAll(Integer.toString(masp));
     }
     
-    public static boolean checkDuplicate( ArrayList<PhienBanSanPhamDTO> listch, PhienBanSanPhamDTO ch) {
+    public PhienBanSanPhamDTO getByMaPhienBan(int mapb) {
+        return cauhinhDAO.selectById(mapb);
+    }
+    
+    public int getIndexByMaPhienBan(ArrayList<PhienBanSanPhamDTO> list, int mapb) {
+        int i = 0;
+        int vitri = -1;
+        while(i < list.size() && vitri == -1) {
+            if(list.get(i).getMaphienbansp() == mapb) {
+                vitri = i;
+            } else i++;
+        }
+        return vitri;
+    }
+    
+    public void getStringListImei() {
+    }
+    
+    public static boolean checkDuplicate(ArrayList<PhienBanSanPhamDTO> listch, PhienBanSanPhamDTO ch) {
         boolean check = false;
         int i = 0;
         while(i < listch.size() && check == false) {

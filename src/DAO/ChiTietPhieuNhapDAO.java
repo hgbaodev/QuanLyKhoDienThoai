@@ -1,5 +1,6 @@
 package DAO;
 
+import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietPhieuDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
@@ -14,23 +15,25 @@ import java.sql.ResultSet;
  *
  * @author Tran Nhat Sinh
  */
-public class ChiTietPhieuNhapDAO implements ChiTietInterface<ChiTietPhieuDTO> {
+public class ChiTietPhieuNhapDAO implements ChiTietInterface<ChiTietPhieuNhapDTO> {
 
     public static ChiTietPhieuNhapDAO getInstance() {
         return new ChiTietPhieuNhapDAO();
     }
 
     @Override
-    public int insert(ArrayList<ChiTietPhieuDTO> t) {
+    public int insert(ArrayList<ChiTietPhieuNhapDTO> t) {
         int result = 0;
         for (int i = 0; i < t.size(); i++) {
             try {
                 Connection con = (Connection) JDBCUtil.getConnection();
-                String sql = "INSERT INTO `ctphieunhap`(`maphieunhap`,`maimei`,`dongia`) VALUES (?,?,?)";
+                String sql = "INSERT INTO `ctphieunhap`(`maphieunhap`, `maphienbansp`, `soluong`, `dongia`, `hinhthucnhap`) VALUES (?,?,?,?,?)";
                 PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                 pst.setInt(1, t.get(i).getMaphieu());
-                pst.setString(2, t.get(i).getImei());
-                pst.setInt(3, t.get(i).getDongia());
+                pst.setInt(2, t.get(i).getMaphienbansp());
+                pst.setInt(3, t.get(i).getSoluong());
+                pst.setInt(4, t.get(i).getDongia());
+                pst.setInt(5, t.get(i).getPhuongthucnnhap());
                 result = pst.executeUpdate();
                 JDBCUtil.closeConnection(con);
             } catch (SQLException ex) {
@@ -57,15 +60,17 @@ public class ChiTietPhieuNhapDAO implements ChiTietInterface<ChiTietPhieuDTO> {
     }
 
     @Override
-    public int update(ArrayList<ChiTietPhieuDTO> t, String pk) {
+    public int update(ArrayList<ChiTietPhieuNhapDTO> t, String pk) {
         int result = this.delete(pk);
-        if(result != 0) result = this.insert(t);
+        if (result != 0) {
+            result = this.insert(t);
+        }
         return result;
     }
 
     @Override
-    public ArrayList<ChiTietPhieuDTO> selectAll(String t) {
-        ArrayList<ChiTietPhieuDTO> result = new ArrayList<>();
+    public ArrayList<ChiTietPhieuNhapDTO> selectAll(String t) {
+        ArrayList<ChiTietPhieuNhapDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM ctphieunhap WHERE maphieunhap = ?";
@@ -74,9 +79,11 @@ public class ChiTietPhieuNhapDAO implements ChiTietInterface<ChiTietPhieuDTO> {
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
                 int maphieu = rs.getInt("maphieunhap");
-                String maimei = rs.getString("maimei");
+                int maphienbansp = rs.getInt("maphienbansp");
                 int dongia = rs.getInt("dongia");
-                ChiTietPhieuDTO ctphieu = new ChiTietPhieuDTO(maphieu, maimei, dongia);
+                int soluong = rs.getInt("soluong");
+                int phuongthucnhap = rs.getInt("phuongthucnhap");
+                ChiTietPhieuNhapDTO ctphieu = new ChiTietPhieuNhapDTO(phuongthucnhap, maphieu, maphienbansp, soluong, dongia);
                 result.add(ctphieu);
             }
             JDBCUtil.closeConnection(con);
