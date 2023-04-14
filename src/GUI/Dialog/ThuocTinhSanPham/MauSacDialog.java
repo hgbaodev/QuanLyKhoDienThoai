@@ -52,7 +52,7 @@ public class MauSacDialog extends JDialog implements MouseListener {
         this.qlttsp  =qlttsp;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));
-        headTite = new HeaderTitle("Quản lý màu sắc sản phẩm");
+        headTite = new HeaderTitle("MÀU SẮC SẢN PHẨM");
         this.setBackground(Color.white);
         top = new JPanel();
         main = new JPanel();

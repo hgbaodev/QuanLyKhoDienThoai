@@ -60,7 +60,7 @@ public class XuatXuDialog extends JDialog implements MouseListener {
         this.qltt=qltt;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));
-        headTite = new HeaderTitle("Quản lý màu sắc sản phẩm");
+        headTite = new HeaderTitle("XUẤT XỨ SẢN PHẨM");
         this.setBackground(Color.white);
         top = new JPanel();
         main = new JPanel();
@@ -74,7 +74,7 @@ public class XuatXuDialog extends JDialog implements MouseListener {
 
         main.setBackground(Color.WHITE);
         main.setPreferredSize(new Dimension(420, 200));
-        ms = new InputForm("Tên màu sắc");
+        ms = new InputForm("Xuất xứ");
         ms.setPreferredSize(new Dimension(250, 70));
         table = new JTable();
         table.setBackground(Color.WHITE);
@@ -82,7 +82,7 @@ public class XuatXuDialog extends JDialog implements MouseListener {
         scrollTable = new JScrollPane();
         scrollTable.setBackground(Color.WHITE);
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã màu", "Tên màu"};
+        String[] header = new String[]{"Mã xuất xứ", "Nơi xuất xứ"};
         tblModel.setColumnIdentifiers(header);
         table.setModel(tblModel);
         scrollTable.setViewportView(table);
@@ -127,7 +127,7 @@ public class XuatXuDialog extends JDialog implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == add) {
             if (this.ms.getText() == "") {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập nơi xuất xứ mới");
             } else {
                 int id = XuatXuDAO.getInstance().getAutoIncrement();
                 String tenmau = ms.getText();
