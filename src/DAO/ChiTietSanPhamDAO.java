@@ -39,6 +39,14 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
         }
         return result;
     }
+    
+    public int insert_mutiple(ArrayList<ChiTietSanPhamDTO> list) {
+        int result = 0;
+        for(ChiTietSanPhamDTO sp : list) {
+            result += this.insert(sp);
+        }
+        return result;
+    }
 
     @Override
     public int update(ChiTietSanPhamDTO t) {

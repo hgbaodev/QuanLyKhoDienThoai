@@ -42,6 +42,9 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     private JTextField textField;
     public ArrayList<DTO.NhanVienDTO> listNv = NhanVienDAO.getInstance().selectAll();
 
+    public NhanVienBUS() {
+    }
+    
     public NhanVienBUS(NhanVien nv) {
         this.nv = nv;
     }
@@ -53,6 +56,22 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
 
     public ArrayList<DTO.NhanVienDTO> getAll() {
         return this.listNv;
+    }
+    
+    public int getIndexById(int manv) {
+        int i = 0;
+        int vitri = -1;
+        int size = this.listNv.size();
+        while(i < size && vitri == -1) {
+            if(this.listNv.get(i).getManv() == manv) {
+                vitri = i;
+            } else i++;
+        }
+        return vitri;
+    }
+    
+    public String getNameById(int manv) {
+        return this.listNv.get(getIndexById(manv)).getHoten();
     }
 
     @Override
@@ -160,6 +179,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
             System.out.println(e);
         }
     }
+    
     public void exportExcel(ArrayList<NhanVienDTO> list, String[] header) {
         try {
             if(list.size()>0){
@@ -291,7 +311,6 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     public ArrayList<NhanVienDTO> search(String text) {
         text = text.toLowerCase();
         ArrayList<NhanVienDTO> result = new ArrayList<>();
-        System.out.println(text);
         for(NhanVienDTO i : this.listNv) {
            if(i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
                    || i.getSdt().toLowerCase().contains(text)){

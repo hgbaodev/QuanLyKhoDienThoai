@@ -59,7 +59,6 @@ public class NhaCungCapBUS {
         while (i < this.listNcc.size() && vitri == -1) {
             if (listNcc.get(i).getMancc() == mancc) {
                 vitri = i;
-                break;
             } else {
                 i++;
             }
@@ -124,5 +123,9 @@ public class NhaCungCapBUS {
             result[i] = listNcc.get(i).getTenncc();
         }
         return result;
+    }
+    
+    public String getTenNhaCungCap(int mancc) {
+        return this.listNcc.get(getIndexByMaNCC(mancc)).getTenncc();
     }
 }

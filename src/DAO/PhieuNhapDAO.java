@@ -78,7 +78,7 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
         ArrayList<PhieuNhapDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM phieunhap WHERE trangthai = 1";
+            String sql = "SELECT * FROM phieunhap ORDER BY maphieunhap DESC";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
