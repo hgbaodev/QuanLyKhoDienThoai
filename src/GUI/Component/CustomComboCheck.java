@@ -7,6 +7,7 @@ package GUI.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -17,25 +18,9 @@ import javax.swing.JTextArea;
  * @author robot
  */
 public final class CustomComboCheck extends JComboBox {
-
+    private Object firstItem;
     JTextArea text;
-    
-    public CustomComboCheck(Vector v) {
 
-        super(v);
-
-        setRenderer(new Comborenderer());
-
-        addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                ourItemSelected();
-            }
-        });
-        addItem("Chọn sản phẩm");
-        setSelectedItem("Chọn sản phẩm");
-    }
-    
     public CustomComboCheck(Vector v, JTextArea text) {
         super(v);
         this.text = text;
@@ -46,39 +31,14 @@ public final class CustomComboCheck extends JComboBox {
                 ourItemSelectedText();
             }
         });
-        
-    }
-
-    private void ourItemSelected() {
-        Object selected = getSelectedItem();
-            if (selected instanceof JCheckBox) {
-            JCheckBox chk = (JCheckBox) selected;
-            chk.setSelected(!chk.isSelected());
-            repaint();
-            if (chk.isSelected() == false) {
-                chk.setSelected(true);
-                Object[] selections = chk.getSelectedObjects();
-                if (selections != null) {
-                    for (Object lastItem : selections) {
-                        JOptionPane.showMessageDialog(null, "Uncheck: "+lastItem.toString());
-                    }
-                }
-                chk.setSelected(false);
-            }
-            
-            Object[] selections = chk.getSelectedObjects();
-            if (selections != null) {
-                for (Object lastItem : selections) {
-                    JOptionPane.showMessageDialog(null, lastItem.toString());
-                }
-            }
+        if (!v.isEmpty()) {
+        firstItem = v.get(0);
         }
-
     }
     
     private void ourItemSelectedText() {
         Object selected = getSelectedItem();
-            if (selected instanceof JCheckBox) {
+        if (selected instanceof JCheckBox) {
             JCheckBox chk = (JCheckBox) selected;
             chk.setSelected(!chk.isSelected());
             repaint();
@@ -87,19 +47,23 @@ public final class CustomComboCheck extends JComboBox {
                 Object[] selections = chk.getSelectedObjects();
                 if (selections != null) {
                     for (Object lastItem : selections) {
-                        String txt = text.getText().replaceAll("("+lastItem.toString()+")\n", "");
+                        String txt = text.getText().replaceAll("(" + lastItem.toString() + ")\n", "");
                         this.text.setText(txt);
                     }
                 }
                 chk.setSelected(false);
             }
-            
+
             Object[] selections = chk.getSelectedObjects();
             if (selections != null) {
                 for (Object lastItem : selections) {
-                    this.text.append(lastItem.toString()+"\n");
+                    this.text.append(lastItem.toString() + "\n");
                 }
             }
+        }
+        if (!getSelectedItem().equals(firstItem)) {
+            setSelectedItem(firstItem);
+            repaint();
         }
 
     }

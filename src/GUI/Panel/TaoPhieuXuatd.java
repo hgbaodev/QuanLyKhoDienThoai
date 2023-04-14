@@ -159,9 +159,9 @@ public class TaoPhieuXuatd extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         Object btn = e.getSource();
-        if (btn == btnAddSp) {
-            xuatKho = new XuatKho(m);
-            m.setPanel(xuatKho);
-        }
+//        if (btn == btnAddSp) {
+//            xuatKho = new XuatKho(m,tk);
+//            m.setPanel(xuatKho);
+//        }
     }
 }
