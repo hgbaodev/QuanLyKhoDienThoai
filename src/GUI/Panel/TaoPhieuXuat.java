@@ -11,6 +11,7 @@ import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
+import GUI.Component.CustomComboCheck;
 import GUI.Component.InputForm;
 import GUI.Main;
 import java.awt.*;
@@ -28,6 +29,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Vector;
 import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -58,8 +60,9 @@ public class TaoPhieuXuat extends JPanel {
     private JLabel labelImei;
     private JPanel content_right_bottom_top;
     private JPanel content_right_bottom_bottom;
-    private JComboBox cbxImei;
+    private CustomComboCheck cbxImei;
     private ArrayList<PhienBanSanPhamDTO> ch;
+    private Vector v;
 
     public TaoPhieuXuat() {
         initComponent();
@@ -187,6 +190,7 @@ public class TaoPhieuXuat extends JPanel {
         labelImei.setPreferredSize(new Dimension(0,30));
         textAreaImei = new JTextArea();
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204)));
+        this.textAreaImei.setEditable(false);
         content_right_bottom_top = new JPanel(new BorderLayout());
         content_right_bottom_top.setSize(new Dimension(0,100));
         content_right_bottom_top.setBackground(Color.white);
@@ -197,10 +201,10 @@ public class TaoPhieuXuat extends JPanel {
         content_right_bottom_bottom.setBorder(new EmptyBorder(20, 0, 0, 0));
         JLabel labelImei = new JLabel("Chọn IMEI");
         labelImei.setPreferredSize(new Dimension(80,0));
-        cbxImei = new JComboBox();
-        String[] comString = {"Chọn sản phẩm"};
-        cbxImei.setModel(new DefaultComboBoxModel(comString));
-        AutoCompleteDecorator.decorate(cbxImei);
+        v = new Vector();
+        v.add("Chọn sản phẩm");
+        cbxImei = new CustomComboCheck(v,textAreaImei);
+//        AutoCompleteDecorator.decorate(cbxImei);
         content_right_bottom_bottom.setBackground(Color.white);
         content_right_bottom_bottom.add(labelImei,BorderLayout.WEST);
         content_right_bottom_bottom.add(cbxImei,BorderLayout.CENTER);
@@ -310,6 +314,8 @@ public class TaoPhieuXuat extends JPanel {
     public void setInfoSanPham(SanPhamDTO sp) {
         this.txtMaSp.setText(Integer.toString(sp.getMasp()));
         this.txtTenSp.setText(sp.getTensp());
+        this.textAreaImei.setText("");
+        
         ch = phienBanBus.getAll(sp.getMasp());
         int size = ch.size();
         String[] arr = new String[size];
@@ -321,14 +327,16 @@ public class TaoPhieuXuat extends JPanel {
         
         int mapb = ch.get(0).getMaphienbansp();
         setImeiByPb(mapb);
+        repaint();
     }
     
     public void setImeiByPb(int mapb){
         ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb+"");
-        String[] arrImei = new String[ctpb.size()];
+        v.clear();
+        v.add("Chọn sản phẩm");
         for (int i = 0; i< ctpb.size();i++){
-            arrImei[i] = ctpb.get(i).getImei();
+            v.add(new JCheckBox(ctpb.get(i).getImei(), false));
         }
-        cbxImei.setModel(new DefaultComboBoxModel(arrImei));
+        cbxImei = new CustomComboCheck(v,textAreaImei);
     }
 }
