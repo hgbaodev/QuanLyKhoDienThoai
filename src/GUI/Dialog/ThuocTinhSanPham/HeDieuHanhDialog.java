@@ -58,7 +58,7 @@ public class HeDieuHanhDialog extends JDialog implements MouseListener {
         this.qltt=qltt;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));
-        headTite = new HeaderTitle("Quản lý màu sắc sản phẩm");
+        headTite = new HeaderTitle("HỆ ĐIỀU HÀNH");
         this.setBackground(Color.white);
         top = new JPanel();
         main = new JPanel();
@@ -72,7 +72,7 @@ public class HeDieuHanhDialog extends JDialog implements MouseListener {
 
         main.setBackground(Color.WHITE);
         main.setPreferredSize(new Dimension(420, 200));
-        ms = new InputForm("Tên màu sắc");
+        ms = new InputForm("Tên hệ điều hành sắc");
         ms.setPreferredSize(new Dimension(150, 70));
         table = new JTable();
         table.setBackground(Color.WHITE);
@@ -80,7 +80,7 @@ public class HeDieuHanhDialog extends JDialog implements MouseListener {
         scrollTable = new JScrollPane();
         scrollTable.setBackground(Color.WHITE);
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã màu", "Tên màu"};
+        String[] header = new String[]{"Mã hệ điều hành", "Tên hệ điều hành"};
         tblModel.setColumnIdentifiers(header);
         table.setModel(tblModel);
         scrollTable.setViewportView(table);
@@ -125,7 +125,7 @@ public class HeDieuHanhDialog extends JDialog implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == add) {
             if (this.ms.getText() == "") {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên hệ điều hành mới");
             } else {
                 int id = HeDieuHanhDAO.getInstance().getAutoIncrement();
                 String tenmau = ms.getText();
@@ -157,7 +157,7 @@ public class HeDieuHanhDialog extends JDialog implements MouseListener {
     public int getRowSelected() {
         int index = table.getSelectedRow();
         if (index == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn màu sắc!");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hệ điều hành sắc!");
         }
         return index;
     }

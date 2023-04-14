@@ -53,7 +53,7 @@ public class ThuongHieuDialog extends JDialog implements MouseListener{
         this.qltt=qltt;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));        
-        headTite = new HeaderTitle("Quản lý thương hiệu sản phẩm");
+        headTite = new HeaderTitle("THƯƠNG HIỆU SẢN PHẨM");
         this.setBackground(Color.white);
         top = new JPanel();
         main = new JPanel();
@@ -75,7 +75,7 @@ public class ThuongHieuDialog extends JDialog implements MouseListener{
         scrollTable = new JScrollPane();
         scrollTable.setBackground(Color.WHITE);
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã màu", "Tên màu"};
+        String[] header = new String[]{"Mã thương hiệu", "Tên thương hiệu"};
         tblModel.setColumnIdentifiers(header);
         table.setModel(tblModel);
         scrollTable.setViewportView(table);
