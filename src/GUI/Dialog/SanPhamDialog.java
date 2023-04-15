@@ -502,7 +502,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         int mausac = mausacBus.getByIndex(cbxMausac.getSelectedIndex()).getMamau();
         int gianhap = Integer.parseInt(txtgianhap.getText());
         int giaban = Integer.parseInt(txtgiaxuat.getText());
-        PhienBanSanPhamDTO chsp = new PhienBanSanPhamDTO(mach, masp, ram, rom, mausac, gianhap, giaban);
+        PhienBanSanPhamDTO chsp = new PhienBanSanPhamDTO(mach, masp, ram, rom, mausac, gianhap, giaban,0);
         mach++;
         return chsp;
     }

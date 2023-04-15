@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import DTO.PhienBanSanPhamDTO;
@@ -19,17 +15,18 @@ import java.util.logging.Logger;
  * @author Tran Nhat Sinh
  */
 public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> {
-    public static PhienBanSanPhamDAO getInstance(){
+
+    public static PhienBanSanPhamDAO getInstance() {
         return new PhienBanSanPhamDAO();
     }
-    
+
     @Override
     public int insert(ArrayList<PhienBanSanPhamDTO> t) {
         int result = 0;
         for (int i = 0; i < t.size(); i++) {
             try {
                 Connection con = (Connection) JDBCUtil.getConnection();
-                String sql = "INSERT INTO `phienbansanpham`(`maphienbansp`, `masp`, `rom`, `ram`, `mausac`, `gianhap`, `giaxuat`) VALUES (?,?,?,?,?,?,?)";
+                String sql = "INSERT INTO `phienbansanpham`(`maphienbansp`, `masp`, `rom`, `ram`, `mausac`, `gianhap`, `giaxuat`,`soluongton`) VALUES (?,?,?,?,?,?,?,?)";
                 PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                 pst.setInt(1, t.get(i).getMaphienbansp());
                 pst.setInt(2, t.get(i).getMasp());
@@ -38,6 +35,7 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
                 pst.setInt(5, t.get(i).getMausac());
                 pst.setInt(6, t.get(i).getGianhap());
                 pst.setInt(7, t.get(i).getGiaxuat());
+                pst.setInt(7, t.get(i).getSoluongton());
                 result = pst.executeUpdate();
                 JDBCUtil.closeConnection(con);
             } catch (SQLException ex) {
@@ -46,25 +44,25 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
         }
         return result;
     }
-    
-    public int insert(PhienBanSanPhamDTO t){
+
+    public int insert(PhienBanSanPhamDTO t) {
         int result = 0;
         try {
-                Connection con = (Connection) JDBCUtil.getConnection();
-                String sql = "INSERT INTO `phienbansanpham`(`maphienbansp`, `masp`, `rom`, `ram`, `mausac`, `gianhap`, `giaxuat`) VALUES (?,?,?,?,?,?,?)";
-                PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-                pst.setInt(1, t.getMaphienbansp());
-                pst.setInt(2, t.getMasp());
-                pst.setInt(3, t.getRom());
-                pst.setInt(4, t.getRam());
-                pst.setInt(5, t.getMausac());
-                pst.setInt(6, t.getGianhap());
-                pst.setInt(7, t.getGiaxuat());
-                result = pst.executeUpdate();
-                JDBCUtil.closeConnection(con);
-            } catch (SQLException ex) {
-                Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "INSERT INTO `phienbansanpham`(`maphienbansp`, `masp`, `rom`, `ram`, `mausac`, `gianhap`, `giaxuat`) VALUES (?,?,?,?,?,?,?)";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, t.getMaphienbansp());
+            pst.setInt(2, t.getMasp());
+            pst.setInt(3, t.getRom());
+            pst.setInt(4, t.getRam());
+            pst.setInt(5, t.getMausac());
+            pst.setInt(6, t.getGianhap());
+            pst.setInt(7, t.getGiaxuat());
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return result;
     }
 
@@ -88,14 +86,14 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
     public int update(ArrayList<PhienBanSanPhamDTO> t, String pk) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    public int update(PhienBanSanPhamDTO ch){
-       int result = 0 ;
+
+    public int update(PhienBanSanPhamDTO ch) {
+        int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "UPDATE `phienbansanpham` SET `rom`=?,`ram`=?,`mausac`=?,`gianhap`=?,`giaxuat`=? WHERE maphienbansp=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setInt(1,ch.getRom());
+            pst.setInt(1, ch.getRom());
             pst.setInt(2, ch.getRam());
             pst.setInt(3, ch.getMausac());
             pst.setInt(4, ch.getGianhap());
@@ -107,7 +105,7 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
             Logger.getLogger(TaiKhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
-        
+
     }
 
     @Override
@@ -127,7 +125,8 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
                 int rom = rs.getInt("rom");
                 int gianhap = rs.getInt("gianhap");
                 int giaxuat = rs.getInt("giaxuat");
-                PhienBanSanPhamDTO ch = new PhienBanSanPhamDTO(maphienbansp, masp, ram, rom, mausac, gianhap, giaxuat);
+                int soluongton = rs.getInt("soluongton");
+                PhienBanSanPhamDTO ch = new PhienBanSanPhamDTO(maphienbansp, masp, ram, rom, mausac, gianhap, giaxuat, soluongton);
                 result.add(ch);
             }
             JDBCUtil.closeConnection(con);
@@ -135,7 +134,7 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
         }
         return result;
     }
-    
+
     public PhienBanSanPhamDTO selectById(int mapb) {
         PhienBanSanPhamDTO ch = null;
         try {
@@ -152,7 +151,8 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
                 int rom = rs.getInt("rom");
                 int gianhap = rs.getInt("gianhap");
                 int giaxuat = rs.getInt("giaxuat");
-                ch = new PhienBanSanPhamDTO(maphienbansp, masp, ram, rom, mausac, gianhap, giaxuat);
+                int soluongton = rs.getInt("soluongton");
+                ch = new PhienBanSanPhamDTO(maphienbansp, masp, ram, rom, mausac, gianhap, giaxuat, soluongton);
             }
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -180,19 +180,21 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
         }
         return result;
     }
-    public int updateSoLuongTon(int maphienban,int soluong) {
-        int quantity_current = this.selectById(maphienban).getSoluongton();
+
+    public int updateSoLuongTon(int maphienban, int soluong) {
+        PhienBanSanPhamDTO pbsp = this.selectById(maphienban);
         int result = 0;
-        int quantity_change = quantity_current + soluong;
+        int quantity_change = pbsp.getSoluongton() + soluong;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `sanpham` SET `soluongton`=0 WHERE masp = ?";
+            String sql = "UPDATE `sanpham` SET `soluongton`=? WHERE masp = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, quantity_change);
+            pst.setInt(2, pbsp.getMasp());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
