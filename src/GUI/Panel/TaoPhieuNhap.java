@@ -7,7 +7,7 @@ import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
 import BUS.PhieuNhapBUS;
 import BUS.SanPhamBUS;
-import DAO.ChiTietPhieuNhapDAO;
+import DAO.NhanVienDAO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
@@ -81,14 +81,11 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     }
     
     public TaoPhieuNhap(NhanVienDTO nv, String type, PhieuNhapDTO phieunhap, Main m) {
-        this.nvDto = nv;
+        this.nvDto = NhanVienDAO.getInstance().selectById(Integer.toString(phieunhap.getManguoitao()));
         this.m = m;
         maphieunhap = phieunhap.getMaphieu();
-        System.out.println(phieunhapBus.getChiTietPhieu(maphieunhap));
         chitietphieu = phieunhapBus.getChiTietPhieu(maphieunhap);
-        System.out.println(chitietphieu);
         chitietsanpham = phieunhapBus.getChiTietSanPham(maphieunhap);
-        System.out.println(chitietsanpham);
         initComponent();
         loadDataTalbeSanPham(listSP);
         loadDataTableChiTietPhieu(chitietphieu);
