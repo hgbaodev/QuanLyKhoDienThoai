@@ -8,10 +8,12 @@ import BUS.NhaCungCapBUS;
 import BUS.PhieuNhapBUS;
 import BUS.SanPhamBUS;
 import DAO.ChiTietSanPhamDAO;
+import DAO.NhanVienDAO;
 import DAO.PhieuXuatDAO;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
+import DTO.NhanVienDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.SanPhamDTO;
 import DTO.TaiKhoanDTO;
@@ -48,7 +50,7 @@ public class TaoPhieuXuat extends JPanel {
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     MauSacBUS mausacBus = new MauSacBUS();
     PanelBorderRadius right, left;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main;
+    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main, content_btn;
     JTable tablePhieuNhap, tableSanPham;
     JScrollPane scrollTablePhieuNhap, scrollTableSanPham;
     DefaultTableModel tblModel, tblModelSP;
@@ -60,7 +62,8 @@ public class TaoPhieuXuat extends JPanel {
     Color BackgroundColor = new Color(240, 247, 250);
     
     
-    
+    int maphieu;
+    int manv;
 
     ArrayList<ChiTietSanPhamDTO> ctpb;
     SanPhamBUS spBUS = new SanPhamBUS();
@@ -161,7 +164,7 @@ public class TaoPhieuXuat extends JPanel {
         left_top.setBorder(new EmptyBorder(5, 5, 10, 10));
         left_top.setOpaque(false);
 
-        JPanel content_top, content_btn, content_left, content_right, content_right_top, content_right_bottom;
+        JPanel content_top, content_left, content_right, content_right_top, content_right_bottom;
         content_top = new JPanel(new GridLayout(1, 2, 5, 5));
         content_top.setOpaque(false);
         content_left = new JPanel(new BorderLayout(5, 5));
@@ -247,9 +250,10 @@ public class TaoPhieuXuat extends JPanel {
         btnDelete = new ButtonCustom("Xoá sản phẩm", "danger", 14);
         btnImport = new ButtonCustom("Nhập Excel", "excel", 14);
         content_btn.add(btnAddSp);
+        content_btn.add(btnImport);
         content_btn.add(btnEditSP);
         content_btn.add(btnDelete);
-        content_btn.add(btnImport);
+        
 
         btnAddSp.addActionListener(new ActionListener() {
             @Override
@@ -288,8 +292,11 @@ public class TaoPhieuXuat extends JPanel {
         txtMaphieu.setEditable(false);
         txtNhanVien = new InputForm("Nhân viên nhập");
         txtNhanVien.setEditable(false);
-        txtMaphieu.setText(PhieuXuatDAO.getInstance().getAutoIncrement()+"");
-        txtNhanVien.setText(tk.getManv()+"");
+        maphieu = PhieuXuatDAO.getInstance().getAutoIncrement();
+        manv = tk.getManv();
+        txtMaphieu.setText("PX"+PhieuXuatDAO.getInstance().getAutoIncrement());
+        NhanVienDTO nhanvien = NhanVienDAO.getInstance().selectById(tk.getManv()+"");
+        txtNhanVien.setText(nhanvien.getHoten());
         cbxNhaCungCap = new SelectForm("Nhà cung cấp", nccBus.getArrTenNhaCungCap());
         String[] arrTrangThai = {"Đang xử lý", "Đã nhập", "Huỷ"};
         cbxTrangThai = new SelectForm("Trạng thái", arrTrangThai);
@@ -384,7 +391,7 @@ public class TaoPhieuXuat extends JPanel {
         int dongia = phienBanBus.getByMaPhienBan(macauhinh).getGiaxuat();
         String[] arrimei = textAreaImei.getText().split("\n");
         int soLuong = arrimei.length;
-        ChiTietPhieuDTO ctpx = new ChiTietPhieuDTO(1, mapb, soLuong, dongia);
+        ChiTietPhieuDTO ctpx = new ChiTietPhieuDTO(maphieu, mapb, soLuong, dongia);
         System.out.println(ctpx);
         chitietphieu.add(ctpx);
         getChiTietSp();
@@ -394,7 +401,7 @@ public class TaoPhieuXuat extends JPanel {
     public void getChiTietSp(){
         String[] arrimei = textAreaImei.getText().split("\n");
         for(int i = 0; i < arrimei.length; i++){
-            ChiTietSanPhamDTO ct = new ChiTietSanPhamDTO(arrimei[i], mapb, 0, Integer.parseInt(txtMaphieu.getText()), 0);
+            ChiTietSanPhamDTO ct = new ChiTietSanPhamDTO(arrimei[i], mapb, 0, maphieu, 0);
             System.out.println(ct);
             chitietsanpham.add(ct);
         }
@@ -408,6 +415,17 @@ public class TaoPhieuXuat extends JPanel {
             v.add(new JCheckBox(ctpb.get(i).getImei(), false));
         }
         cbxImei = new CustomComboCheck(v, textAreaImei);
+    }
+    
+    public void actionbtn(String type) {
+        boolean val_1 = type.equals("add");
+        boolean val_2 = type.equals("update");
+        btnAddSp.setEnabled(val_1);
+        btnImport.setEnabled(val_1);
+        btnEditSP.setEnabled(val_2);
+        btnDelete.setEnabled(val_2);
+        content_btn.revalidate();
+        content_btn.repaint();
     }
     
     public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> ctPhieu) {
