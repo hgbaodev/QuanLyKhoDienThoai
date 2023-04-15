@@ -116,7 +116,7 @@ public class DungLuongRamDialog extends JDialog implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e) {
        if(e.getSource()==add){
-            if(this.ms.getText()==""){
+            if(this.ms.getText().trim()==""){
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
             }
             else{
