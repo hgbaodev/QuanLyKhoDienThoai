@@ -32,7 +32,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
     TaoPhieuXuat taoPhieuXuat;
     TaiKhoanDTO tk;
 
-    Color BackgroundColor = new Color(245, 229, 240);
+    Color BackgroundColor = new Color(240, 247, 250);
 
     public PhieuXuat(Main m,TaiKhoanDTO tk) {
         initComponent();

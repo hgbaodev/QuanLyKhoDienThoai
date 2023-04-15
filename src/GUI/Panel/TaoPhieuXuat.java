@@ -26,6 +26,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
+import GUI.Dialog.ListKhachHang;
+import GUI.Dialog.ListNhanVien;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.Formater;
@@ -46,6 +48,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 public class TaoPhieuXuat extends JPanel {
 
     PhienBanSanPhamBUS phienBanBus = new PhienBanSanPhamBUS();
+    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     MauSacBUS mausacBus = new MauSacBUS();
@@ -60,8 +63,7 @@ public class TaoPhieuXuat extends JPanel {
     SelectForm cbxNhaCungCap, cbxTrangThai, cbxPhienBan;
     JTextField txtTimKiem;
     Color BackgroundColor = new Color(240, 247, 250);
-    
-    
+
     int maphieu;
     int manv;
 
@@ -81,6 +83,7 @@ public class TaoPhieuXuat extends JPanel {
     ArrayList<ChiTietSanPhamDTO> chitietsanpham = new ArrayList<>();
     TaiKhoanDTO tk;
     private int mapb;
+    private JLabel lbltongtien;
 
     public TaoPhieuXuat(TaiKhoanDTO tk) {
         this.tk = tk;
@@ -253,12 +256,11 @@ public class TaoPhieuXuat extends JPanel {
         content_btn.add(btnImport);
         content_btn.add(btnEditSP);
         content_btn.add(btnDelete);
-        
 
         btnAddSp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(checkInfo()){
+                if (checkInfo()) {
                     getInfo();
                     loadDataTableChiTietPhieu(chitietphieu);
                 }
@@ -294,19 +296,40 @@ public class TaoPhieuXuat extends JPanel {
         txtNhanVien.setEditable(false);
         maphieu = PhieuXuatDAO.getInstance().getAutoIncrement();
         manv = tk.getManv();
-        txtMaphieu.setText("PX"+PhieuXuatDAO.getInstance().getAutoIncrement());
-        NhanVienDTO nhanvien = NhanVienDAO.getInstance().selectById(tk.getManv()+"");
+        txtMaphieu.setText("PX" + PhieuXuatDAO.getInstance().getAutoIncrement());
+        NhanVienDTO nhanvien = NhanVienDAO.getInstance().selectById(tk.getManv() + "");
         txtNhanVien.setText(nhanvien.getHoten());
         cbxNhaCungCap = new SelectForm("Nhà cung cấp", nccBus.getArrTenNhaCungCap());
         String[] arrTrangThai = {"Đang xử lý", "Đã nhập", "Huỷ"};
         cbxTrangThai = new SelectForm("Trạng thái", arrTrangThai);
+        
+        
         right_top.add(txtMaphieu);
         right_top.add(txtNhanVien);
         right_top.add(cbxNhaCungCap);
         right_top.add(cbxTrangThai);
 
-        right_center = new JPanel();
-        right_center.setPreferredSize(new Dimension(100, 100));
+        right_center = new JPanel(new BorderLayout());
+        JPanel khachJPanel = new JPanel(new BorderLayout(0,5));
+        khachJPanel.setPreferredSize(new Dimension(0,40));
+        khachJPanel.setBorder(new EmptyBorder(0,10,0,10));
+        khachJPanel.setOpaque(false);
+        ButtonCustom btnKh = new ButtonCustom("Chọn khách hàng", "success", 14);
+        
+        btnKh.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListKhachHang listkh = new ListKhachHang(TaoPhieuXuat.this, owner, "Chọn khách hàng", true);
+            }
+            
+        });
+        
+        JTextField txtKh = new JTextField("");
+        txtKh.setEditable(false);
+        khachJPanel.add(btnKh,BorderLayout.WEST);
+        khachJPanel.add(txtKh,BorderLayout.CENTER);
+        
+        right_center.add(khachJPanel,BorderLayout.NORTH);
         right_center.setOpaque(false);
 
         right_bottom = new JPanel(new GridLayout(2, 1));
@@ -318,7 +341,7 @@ public class TaoPhieuXuat extends JPanel {
         pn_tongtien.setOpaque(false);
         JLabel lbltien = new JLabel("TỔNG TIỀN: ");
         lbltien.setFont(new Font(FlatRobotoFont.FAMILY, 1, 18));
-        JLabel lbltongtien = new JLabel("0đ");
+        lbltongtien = new JLabel("0đ");
         lbltongtien.setFont(new Font(FlatRobotoFont.FAMILY, 1, 18));
         lbltien.setForeground(new Color(255, 51, 51));
         pn_tongtien.add(lbltien);
@@ -331,10 +354,34 @@ public class TaoPhieuXuat extends JPanel {
                 if (index != -1) {
                     setInfoSanPham(listSP.get(index));
                 }
+                if (!checkTonTai()) {
+                    actionbtn("add");
+                } else {
+                    actionbtn("update");
+//                    setFormChiTietPhieu(ctp);
+                }
+            }
+        });
+        
+        tablePhieuNhap.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int index = tablePhieuNhap.getSelectedRow();
+                if (index != -1) {
+                      actionbtn("update");
+//                    setInfoSanPham(listSP.get(index));
+                }
             }
         });
 
         btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
+        
+        btnNhapHang.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
         right_bottom.add(pn_tongtien);
         right_bottom.add(btnNhapHang);
 
@@ -344,6 +391,7 @@ public class TaoPhieuXuat extends JPanel {
 
         contentCenter.add(left, BorderLayout.CENTER);
         contentCenter.add(right, BorderLayout.EAST);
+        actionbtn("add");
     }
 
     public void loadDataTalbeSanPham(ArrayList<DTO.SanPhamDTO> result) {
@@ -357,7 +405,6 @@ public class TaoPhieuXuat extends JPanel {
         this.txtMaSp.setText(Integer.toString(sp.getMasp()));
         this.txtTenSp.setText(sp.getTensp());
         this.textAreaImei.setText("");
-
         ch = phienBanBus.getAll(sp.getMasp());
         int size = ch.size();
         String[] arr = new String[size];
@@ -373,19 +420,18 @@ public class TaoPhieuXuat extends JPanel {
 
     public boolean checkInfo() {
         boolean check = true;
-        if (txtMaSp.getText().equals("")){
+        if (txtMaSp.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm");
             check = false;
-        } 
-        else if (textAreaImei.getText().equals("")) {
+        } else if (textAreaImei.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn mã imei");
             check = false;
-        } 
-            
+        }
+
         return check;
     }
-    
-    public ChiTietPhieuDTO getInfo(){
+
+    public ChiTietPhieuDTO getInfo() {
         int masp = Integer.parseInt(txtMaSp.getText());
         int macauhinh = mapb;
         int dongia = phienBanBus.getByMaPhienBan(macauhinh).getGiaxuat();
@@ -397,10 +443,10 @@ public class TaoPhieuXuat extends JPanel {
         getChiTietSp();
         return null;
     }
-    
-    public void getChiTietSp(){
+
+    public void getChiTietSp() {
         String[] arrimei = textAreaImei.getText().split("\n");
-        for(int i = 0; i < arrimei.length; i++){
+        for (int i = 0; i < arrimei.length; i++) {
             ChiTietSanPhamDTO ct = new ChiTietSanPhamDTO(arrimei[i], mapb, 0, maphieu, 0);
             System.out.println(ct);
             chitietsanpham.add(ct);
@@ -416,10 +462,12 @@ public class TaoPhieuXuat extends JPanel {
         }
         cbxImei = new CustomComboCheck(v, textAreaImei);
     }
-    
+
     public void actionbtn(String type) {
         boolean val_1 = type.equals("add");
         boolean val_2 = type.equals("update");
+        if(val_1) cbxImei.setEnabled(true);
+        if(val_2) cbxImei.setEnabled(false);
         btnAddSp.setEnabled(val_1);
         btnImport.setEnabled(val_1);
         btnEditSP.setEnabled(val_2);
@@ -427,18 +475,32 @@ public class TaoPhieuXuat extends JPanel {
         content_btn.revalidate();
         content_btn.repaint();
     }
-    
+
+    public boolean checkTonTai() {
+        boolean check = false;
+        int pb = ch.get(cbxPhienBan.getSelectedIndex()).getMaphienbansp();
+        for (ChiTietPhieuDTO chiTietPhieu : chitietphieu) {
+            if (chiTietPhieu.getMaphienbansp() == pb) {
+                return true;
+            }
+        }
+        return check;
+    }
+
     public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> ctPhieu) {
         tblModel.setRowCount(0);
         int size = ctPhieu.size();
+        long sum = 0;
         for (int i = 0; i < size; i++) {
             PhienBanSanPhamDTO phienban = phienBanBus.getByMaPhienBan(ctPhieu.get(i).getMaphienbansp());
+            sum += ctPhieu.get(i).getDongia()*ctPhieu.get(i).getSoluong();
             tblModel.addRow(new Object[]{
                 i + 1, phienban.getMasp(), spBUS.getByMaSP(phienban.getMasp()).getTensp(), ramBus.getKichThuocById(phienban.getRam()) + "GB",
                 romBus.getKichThuocById(phienban.getRom()) + "GB", mausacBus.getTenMau(phienban.getMausac()),
                 Formater.FormatVND(ctPhieu.get(i).getDongia()), ctPhieu.get(i).getSoluong()
             });
         }
+        lbltongtien.setText( Formater.FormatVND(sum));
     }
 
 }
