@@ -67,9 +67,16 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham = new HashMap<>();
     int maphieunhap;
 
-    public TaoPhieuNhap(NhanVienDTO nv) {
+    public TaoPhieuNhap(NhanVienDTO nv, String type) {
         this.nvDto = nv;
         maphieunhap = phieunhapBus.phieunhapDAO.getAutoIncrement();
+        initComponent();
+        loadDataTalbeSanPham(listSP);
+    }
+    
+    public TaoPhieuNhap(NhanVienDTO nv, String type, PhieuNhapDTO phieunhap) {
+        this.nvDto = nv;
+        maphieunhap = phieunhap.getMaphieu();
         initComponent();
         loadDataTalbeSanPham(listSP);
     }

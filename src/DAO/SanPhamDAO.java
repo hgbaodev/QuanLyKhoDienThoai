@@ -177,5 +177,21 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO> {
         }
         return result;
     }
-
+    
+    public int updateSoLuongTon(int masp,int soluong) {
+        int quantity_current = this.selectById(Integer.toString(masp)).getSoluongton();
+        int result = 0;
+        int quantity_change = quantity_current + soluong;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "UPDATE `sanpham` SET `soluongton`=0 WHERE masp = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, quantity_change);
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 }

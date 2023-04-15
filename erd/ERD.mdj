@@ -4938,6 +4938,21 @@
 												},
 												{
 													"_type": "ERDColumnView",
+													"_id": "AAAAAAGHgU+aBovhQeE=",
+													"_parent": {
+														"$ref": "AAAAAAGHafv5D0AQ4yc="
+													},
+													"model": {
+														"$ref": "AAAAAAGHgU+Z4oveEhs="
+													},
+													"font": "Arial;13;0",
+													"left": 877,
+													"top": 1615,
+													"width": 194.8017578125,
+													"height": 13
+												},
+												{
+													"_type": "ERDColumnView",
 													"_id": "AAAAAAGHagADREA97fg=",
 													"_parent": {
 														"$ref": "AAAAAAGHafv5D0AQ4yc="
@@ -4947,7 +4962,7 @@
 													},
 													"font": "Arial;13;0",
 													"left": 877,
-													"top": 1615,
+													"top": 1630,
 													"width": 194.8017578125,
 													"height": 13
 												},
@@ -4962,7 +4977,7 @@
 													},
 													"font": "Arial;13;0",
 													"left": 877,
-													"top": 1630,
+													"top": 1645,
 													"width": 194.8017578125,
 													"height": 13
 												},
@@ -4977,7 +4992,7 @@
 													},
 													"font": "Arial;13;0",
 													"left": 877,
-													"top": 1645,
+													"top": 1660,
 													"width": 194.8017578125,
 													"height": 13
 												}
@@ -4986,14 +5001,14 @@
 											"left": 872,
 											"top": 1535,
 											"width": 204.8017578125,
-											"height": 128
+											"height": 143
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 872,
 									"top": 1512,
 									"width": 204.8017578125,
-									"height": 151,
+									"height": 166,
 									"nameLabel": {
 										"$ref": "AAAAAAGHafv5D0APOAw="
 									},
@@ -5627,7 +5642,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 905,
-											"top": 1681,
+											"top": 1696,
 											"height": 13,
 											"alpha": -0.5235987755982988,
 											"distance": 30,
@@ -5644,7 +5659,7 @@
 										"$ref": "AAAAAAGHamgHNUFpkkY="
 									},
 									"lineStyle": 2,
-									"points": "696:1720;920:1720;920:1662",
+									"points": "696:1720;920:1720;920:1677",
 									"nameLabel": {
 										"$ref": "AAAAAAGHanDDOkG7T2o="
 									},
@@ -10459,6 +10474,16 @@
 									"type": "INTEGER",
 									"length": 0,
 									"foreignKey": true
+								},
+								{
+									"_type": "ERDColumn",
+									"_id": "AAAAAAGHgU+Z4oveEhs=",
+									"_parent": {
+										"$ref": "AAAAAAGHafv5D0AMki4="
+									},
+									"name": "soluongton",
+									"type": "INTEGER",
+									"length": 0
 								},
 								{
 									"_type": "ERDColumn",
