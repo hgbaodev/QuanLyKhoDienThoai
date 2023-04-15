@@ -91,7 +91,8 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
                 String tenkhachhang = rs.getString("tenkhachhang");
                 String diachi = rs.getString("diachi");
                 String sdt = rs.getString("sdt");
-                KhachHangDTO kh = new KhachHangDTO(makh, tenkhachhang, sdt, diachi);
+                Date ngaythamgia = rs.getDate("ngaythamgia");
+                KhachHangDTO kh = new KhachHangDTO(makh, tenkhachhang, sdt, diachi,ngaythamgia);
                 result.add(kh);
             }
             JDBCUtil.closeConnection(con);
@@ -106,7 +107,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
         KhachHangDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM khachhang WHERE makhachhang='?'";
+            String sql = "SELECT * FROM khachhang WHERE makh=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
@@ -115,11 +116,12 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
                 String tenkhachhang = rs.getString("tenkhachhang");
                 String diachi = rs.getString("diachi");
                 String sdt = rs.getString("sdt");
-                
-                result = new KhachHangDTO(makh, tenkhachhang, sdt, diachi);
+                Date ngaythamgia = rs.getDate("ngaythamgia");
+                result = new KhachHangDTO(makh, tenkhachhang, sdt, diachi,ngaythamgia);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
+            System.out.println(e);
         }
         return result;
     }
