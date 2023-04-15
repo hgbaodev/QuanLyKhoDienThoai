@@ -128,7 +128,7 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO> {
         SanPhamDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM sanpham WHERE masp='?'";
+            String sql = "SELECT * FROM sanpham WHERE masp=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
@@ -177,16 +177,17 @@ public class SanPhamDAO implements DAOinterface<SanPhamDTO> {
         }
         return result;
     }
-    
-    public int updateSoLuongTon(int masp,int soluong) {
+
+    public int updateSoLuongTon(int masp, int soluong) {
         int quantity_current = this.selectById(Integer.toString(masp)).getSoluongton();
         int result = 0;
         int quantity_change = quantity_current + soluong;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `sanpham` SET `soluongton`=0 WHERE masp = ?";
+            String sql = "UPDATE `sanpham` SET `soluongton`=? WHERE masp = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, quantity_change);
+            pst.setInt(2, masp);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
