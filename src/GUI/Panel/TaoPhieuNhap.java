@@ -570,7 +570,10 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         } else if (source == btnEditSP) {
             int mapb = ch.get(cbxCauhinh.cbb.getSelectedIndex()).getMaphienbansp();
             chitietsanpham.remove(mapb);
-            chitietsanpham.put(mapb, getChiTietSanPham());
+            ArrayList<ChiTietSanPhamDTO> ctsp = getChiTietSanPham();
+            chitietsanpham.put(mapb, ctsp);
+            int index = tablePhieuNhap.getSelectedRow();
+            chitietphieu.get(index).setSoluong(ctsp.size());
             loadDataTableChiTietPhieu(chitietphieu);
         } else if (source == btnNhapHang) {
             eventBtnNhapHang();
@@ -578,7 +581,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     }
 
     public void eventBtnNhapHang() {
-        if (chitietphieu.size() == 0) {
+        if (chitietphieu.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Chưa có sản phẩm nào trong phiếu !", "Cảnh báo !", JOptionPane.ERROR_MESSAGE);
         } else {
             int mancc = nccBus.getByIndex(cbxNhaCungCap.getSelectedIndex()).getMancc();

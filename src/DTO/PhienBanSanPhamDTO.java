@@ -18,10 +18,22 @@ public class PhienBanSanPhamDTO {
     private int mausac;
     private int gianhap;
     private int giaxuat;
+    private int soluongton;
 
     public PhienBanSanPhamDTO() {
     }
 
+    public PhienBanSanPhamDTO(int maphienbansp, int masp, int ram, int rom, int mausac, int gianhap, int giaxuat, int soluongton) {
+        this.maphienbansp = maphienbansp;
+        this.masp = masp;
+        this.ram = ram;
+        this.rom = rom;
+        this.mausac = mausac;
+        this.gianhap = gianhap;
+        this.giaxuat = giaxuat;
+        this.soluongton = soluongton;
+    }
+    
     public PhienBanSanPhamDTO(int maphienbansp, int masp, int ram, int rom, int mausac, int gianhap, int giaxuat) {
         this.maphienbansp = maphienbansp;
         this.masp = masp;
@@ -88,16 +100,25 @@ public class PhienBanSanPhamDTO {
         this.giaxuat = giaxuat;
     }
 
+    public int getSoluongton() {
+        return soluongton;
+    }
+
+    public void setSoluongton(int soluongton) {
+        this.soluongton = soluongton;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 59 * hash + this.maphienbansp;
-        hash = 59 * hash + this.masp;
-        hash = 59 * hash + this.ram;
-        hash = 59 * hash + this.rom;
-        hash = 59 * hash + this.mausac;
-        hash = 59 * hash + this.gianhap;
-        hash = 59 * hash + this.giaxuat;
+        int hash = 7;
+        hash = 53 * hash + this.maphienbansp;
+        hash = 53 * hash + this.masp;
+        hash = 53 * hash + this.ram;
+        hash = 53 * hash + this.rom;
+        hash = 53 * hash + this.mausac;
+        hash = 53 * hash + this.gianhap;
+        hash = 53 * hash + this.giaxuat;
+        hash = 53 * hash + this.soluongton;
         return hash;
     }
 
@@ -131,11 +152,16 @@ public class PhienBanSanPhamDTO {
         if (this.gianhap != other.gianhap) {
             return false;
         }
-        return this.giaxuat == other.giaxuat;
+        if (this.giaxuat != other.giaxuat) {
+            return false;
+        }
+        return this.soluongton == other.soluongton;
     }
 
     @Override
     public String toString() {
-        return "PhienBanSanPhamDTO{" + "maphienbansp=" + maphienbansp + ", masp=" + masp + ", ram=" + ram + ", rom=" + rom + ", mausac=" + mausac + ", gianhap=" + gianhap + ", giaxuat=" + giaxuat + '}';
+        return "PhienBanSanPhamDTO{" + "maphienbansp=" + maphienbansp + ", masp=" + masp + ", ram=" + ram + ", rom=" + rom + ", mausac=" + mausac + ", gianhap=" + gianhap + ", giaxuat=" + giaxuat + ", soluongton=" + soluongton + '}';
     }
+
+    
 }
