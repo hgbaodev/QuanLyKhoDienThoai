@@ -66,6 +66,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     ArrayList<ChiTietPhieuNhapDTO> chitietphieu = new ArrayList<>();
     HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham = new HashMap<>();
     int maphieunhap;
+    int rowPhieuSelect = -1;
 
     public TaoPhieuNhap(NhanVienDTO nv, String type) {
         this.nvDto = nv;
@@ -134,6 +135,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
                 int index = tablePhieuNhap.getSelectedRow();
                 if (index != -1) {
                     setFormChiTietPhieu(chitietphieu.get(index));
+                    rowPhieuSelect = index;
                     actionbtn("update");
                 }
             }
@@ -457,12 +459,8 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             int index = cbxPtNhap.cbb.getSelectedIndex();
             CardLayout c = (CardLayout) content_right_bottom.getLayout();
             switch (index) {
-                case 0:
-                    c.first(content_right_bottom);
-                    break;
-                case 1:
-                    c.last(content_right_bottom);
-                    break;
+                case 0 -> c.first(content_right_bottom);
+                case 1 -> c.last(content_right_bottom);
             }
         }
     }
@@ -572,8 +570,9 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             chitietsanpham.remove(mapb);
             ArrayList<ChiTietSanPhamDTO> ctsp = getChiTietSanPham();
             chitietsanpham.put(mapb, ctsp);
-            int index = tablePhieuNhap.getSelectedRow();
-            chitietphieu.get(index).setSoluong(ctsp.size());
+            int ptnhap = cbxPtNhap.getSelectedIndex();
+            chitietphieu.get(rowPhieuSelect).setPhuongthucnnhap(ptnhap);
+            chitietphieu.get(rowPhieuSelect).setSoluong(ctsp.size());
             loadDataTableChiTietPhieu(chitietphieu);
         } else if (source == btnNhapHang) {
             eventBtnNhapHang();
