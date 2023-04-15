@@ -17,6 +17,7 @@ import DTO.ChiTietSanPhamDTO;
 import DTO.KhachHangDTO;
 import DTO.NhanVienDTO;
 import DTO.PhienBanSanPhamDTO;
+import DTO.PhieuXuatDTO;
 import DTO.SanPhamDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Component.ButtonCustom;
@@ -39,6 +40,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.event.AncestorListener;
@@ -66,6 +68,7 @@ public class TaoPhieuXuat extends JPanel {
     JTextField txtTimKiem;
     Color BackgroundColor = new Color(240, 247, 250);
 
+    int sum;
     int maphieu;
     int manv;
     int makh = -1;
@@ -385,7 +388,10 @@ public class TaoPhieuXuat extends JPanel {
                 } else if (makh == -1) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng");
                 } else {
-                      
+                    long now = System.currentTimeMillis();
+                    Timestamp currenTime = new Timestamp(now);
+                    PhieuXuatDTO phieuXuat = new PhieuXuatDTO(makh, maphieu, tk.getManv(), currenTime, sum, 1);
+                    PhieuXuatDAO.getInstance().insert(phieuXuat);
                 }
             }
         });
@@ -501,7 +507,7 @@ public class TaoPhieuXuat extends JPanel {
     public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> ctPhieu) {
         tblModel.setRowCount(0);
         int size = ctPhieu.size();
-        long sum = 0;
+        sum = 0;
         for (int i = 0; i < size; i++) {
             PhienBanSanPhamDTO phienban = phienBanBus.getByMaPhienBan(ctPhieu.get(i).getMaphienbansp());
             sum += ctPhieu.get(i).getDongia() * ctPhieu.get(i).getSoluong();

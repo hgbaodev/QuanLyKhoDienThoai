@@ -109,11 +109,18 @@ public class ListKhachHang extends JDialog implements MouseListener {
                 new String[]{}
         ));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã KH","Họ tên","Địa chỉ","Số điện thoại"};
+        String[] header = new String[]{"Mã KH","Họ tên","Địa chỉ","Số điện thoại","Ngày tham gia"};
         tblModel.setColumnIdentifiers(header);
         tableKhachHang.setDefaultRenderer(Object.class, centerRenderer);
         tableKhachHang.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableKhachHang);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tableKhachHang.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tableKhachHang.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        tableKhachHang.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tableKhachHang.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        tableKhachHang.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         jPanelTable.add(scrollTableSanPham);
         this.add(jPanelTable,BorderLayout.CENTER);
         
@@ -128,7 +135,7 @@ public class ListKhachHang extends JDialog implements MouseListener {
         tblModel.setRowCount(0);
         for (KhachHangDTO kh : listKh) {
             tblModel.addRow(new Object[]{
-                kh.getMaKH(),kh.getHoten(),kh.getDiachi(),kh.getSdt()
+                kh.getMaKH(),kh.getHoten(),kh.getDiachi(),kh.getSdt(),kh.getNgaythamgia()
             });
         }
     }

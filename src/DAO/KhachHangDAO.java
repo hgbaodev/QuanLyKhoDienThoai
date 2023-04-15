@@ -91,7 +91,8 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
                 String tenkhachhang = rs.getString("tenkhachhang");
                 String diachi = rs.getString("diachi");
                 String sdt = rs.getString("sdt");
-                KhachHangDTO kh = new KhachHangDTO(makh, tenkhachhang, sdt, diachi);
+                Date ngaythamgia = rs.getDate("ngaythamgia");
+                KhachHangDTO kh = new KhachHangDTO(makh, tenkhachhang, sdt, diachi,ngaythamgia);
                 result.add(kh);
             }
             JDBCUtil.closeConnection(con);
@@ -115,7 +116,8 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
                 String tenkhachhang = rs.getString("tenkhachhang");
                 String diachi = rs.getString("diachi");
                 String sdt = rs.getString("sdt");
-                result = new KhachHangDTO(makh, tenkhachhang, sdt, diachi);
+                Date ngaythamgia = rs.getDate("ngaythamgia");
+                result = new KhachHangDTO(makh, tenkhachhang, sdt, diachi,ngaythamgia);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {

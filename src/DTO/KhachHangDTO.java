@@ -4,6 +4,7 @@
  */
 package DTO;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class KhachHangDTO {
@@ -12,6 +13,7 @@ public class KhachHangDTO {
     private String hoten;
     private String sdt;
     private String diachi;
+    private Date ngaythamgia;
 
     public KhachHangDTO() {
     }
@@ -21,6 +23,22 @@ public class KhachHangDTO {
         this.hoten = hoten;
         this.sdt = sdt;
         this.diachi = diachi;
+    }
+    
+    public KhachHangDTO(int maKH, String hoten, String sdt, String diachi,Date ngaythamgia) {
+        this.maKH = maKH;
+        this.hoten = hoten;
+        this.sdt = sdt;
+        this.diachi = diachi;
+        this.ngaythamgia = ngaythamgia;
+    }
+
+    public Date getNgaythamgia() {
+        return ngaythamgia;
+    }
+
+    public void setNgaythamgia(Date ngaythamgia) {
+        this.ngaythamgia = ngaythamgia;
     }
 
     public int getMaKH() {
