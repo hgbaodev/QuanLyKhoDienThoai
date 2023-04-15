@@ -91,12 +91,12 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
                 String tenkhachhang = rs.getString("tenkhachhang");
                 String diachi = rs.getString("diachi");
                 String sdt = rs.getString("sdt");
-                
                 KhachHangDTO kh = new KhachHangDTO(makh, tenkhachhang, sdt, diachi);
                 result.add(kh);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
+            System.out.println(e);
         }
         return result;
     }

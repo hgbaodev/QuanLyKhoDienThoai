@@ -11,6 +11,7 @@ import DTO.KhachHangDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Panel.KhachHang;
 import GUI.Panel.TaiKhoan;
+import GUI.Panel.TaoPhieuXuat;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -42,17 +43,20 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ListKhachHang extends JDialog implements MouseListener {
 
-    private KhachHang khachHang;
+    private TaoPhieuXuat taoPhieuXuat;
     private JTable tableKhachHang;
     private JScrollPane scrollTableSanPham;
     private DefaultTableModel tblModel;
     private ArrayList<KhachHangDTO> listKh = KhachHangDAO.getInstance().selectAll();
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     
-    public ListKhachHang(KhachHang khachHang, JFrame owner, String title, boolean modal){
+    public ListKhachHang(TaoPhieuXuat taoPhieuXuat, JFrame owner, String title, boolean modal){
         super(owner, title, modal);
-        this.khachHang=khachHang;
+        this.taoPhieuXuat=taoPhieuXuat;
         init();
+        loadDataTalbe(search(""));
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     public void init(){
@@ -111,8 +115,7 @@ public class ListKhachHang extends JDialog implements MouseListener {
         scrollTableSanPham.setViewportView(tableKhachHang);
         jPanelTable.add(scrollTableSanPham);
         this.add(jPanelTable,BorderLayout.CENTER);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        
     }
     
     public int getRow(){
@@ -133,7 +136,6 @@ public class ListKhachHang extends JDialog implements MouseListener {
         if(text.length()>0){
             text = text.toLowerCase();
         ArrayList<KhachHangDTO> result = new ArrayList<>();
-        System.out.println(text);
         for(KhachHangDTO i : listKh) {
            if(i.getHoten().toLowerCase().contains(text) || i.getDiachi().toLowerCase().contains(text)
                    || i.getSdt().toLowerCase().contains(text)){
@@ -144,7 +146,6 @@ public class ListKhachHang extends JDialog implements MouseListener {
         } else {
             return KhachHangDAO.getInstance().selectAll();
         }
-        
     }
     
     @Override
