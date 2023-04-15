@@ -7,10 +7,12 @@ import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
 import BUS.PhieuNhapBUS;
 import BUS.SanPhamBUS;
+import DAO.ChiTietPhieuXuatDAO;
 import DAO.ChiTietSanPhamDAO;
 import DAO.KhachHangDAO;
 import DAO.NhanVienDAO;
 import DAO.PhieuXuatDAO;
+import DAO.SanPhamDAO;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
@@ -31,6 +33,7 @@ import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
 import GUI.Dialog.ListKhachHang;
 import GUI.Dialog.ListNhanVien;
+import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.Formater;
@@ -58,7 +61,7 @@ public class TaoPhieuXuat extends JPanel {
     MauSacBUS mausacBus = new MauSacBUS();
     PanelBorderRadius right, left;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main, content_btn;
-    JTable tablePhieuNhap, tableSanPham;
+    JTable tablePhieuXuat, tableSanPham;
     JScrollPane scrollTablePhieuNhap, scrollTableSanPham;
     DefaultTableModel tblModel, tblModelSP;
     NhapKho nhapKho;
@@ -91,8 +94,10 @@ public class TaoPhieuXuat extends JPanel {
     private int mapb;
     private JLabel lbltongtien;
     private JTextField txtKh;
+    private Main mainChinh;
 
-    public TaoPhieuXuat(TaiKhoanDTO tk) {
+    public TaoPhieuXuat(Main mainChinh,TaiKhoanDTO tk) {
+        this.mainChinh = mainChinh;
         this.tk = tk;
         initComponent();
         loadDataTalbeSanPham(listSP);
@@ -126,24 +131,24 @@ public class TaoPhieuXuat extends JPanel {
         this.setOpaque(true);
 
         // Phiếu nhập
-        tablePhieuNhap = new JTable();
+        tablePhieuXuat = new JTable();
         scrollTablePhieuNhap = new JScrollPane();
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"STT", "Mã SP", "Tên sản phẩm", "RAM", "ROM", "Màu sắc", "Đơn giá", "Số lượng"};
         tblModel.setColumnIdentifiers(header);
-        tablePhieuNhap.setModel(tblModel);
-        scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
+        tablePhieuXuat.setModel(tblModel);
+        scrollTablePhieuNhap.setViewportView(tablePhieuXuat);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        TableColumnModel columnModel = tablePhieuNhap.getColumnModel();
+        TableColumnModel columnModel = tablePhieuXuat.getColumnModel();
         for (int i = 0; i < 8; i++) {
             if (i != 2) {
                 columnModel.getColumn(i).setCellRenderer(centerRenderer);
             }
         }
-        tablePhieuNhap.getColumnModel().getColumn(2).setPreferredWidth(300);
-        tablePhieuNhap.setDefaultEditor(Object.class, null);
-        scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
+        tablePhieuXuat.getColumnModel().getColumn(2).setPreferredWidth(300);
+        tablePhieuXuat.setDefaultEditor(Object.class, null);
+        scrollTablePhieuNhap.setViewportView(tablePhieuXuat);
         // Table sản phẩm
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
@@ -212,6 +217,11 @@ public class TaoPhieuXuat extends JPanel {
             public void itemStateChanged(ItemEvent e) {
                 int pb = ch.get(cbxPhienBan.getSelectedIndex()).getMaphienbansp();
                 setImeiByPb(pb);
+                if(checkTonTai()){
+                    actionbtn("update");
+                } else {
+                    actionbtn("add");
+                }
             }
         });
 
@@ -271,10 +281,45 @@ public class TaoPhieuXuat extends JPanel {
                     getInfo();
                     loadDataTableChiTietPhieu(chitietphieu);
                 }
-
             }
-
         });
+        
+        btnDelete.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = tablePhieuXuat.getSelectedRow();
+                if(index < 0){
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn cấu hình cần xóa");
+                } else {
+                    ChiTietPhieuDTO ctPhieuDel = chitietphieu.get(index);
+                    int maphienban = ctPhieuDel.getMaphienbansp();
+                    ArrayList<ChiTietSanPhamDTO> ctSpDel = new ArrayList<>();
+                    for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
+                        if(chiTietSanPhamDTO.getMaphienbansp() != maphienban){
+                            ctSpDel.add(chiTietSanPhamDTO);
+                        }
+                    }
+                    chitietphieu.remove(index);
+                    chitietsanpham = ctSpDel;
+                    loadDataTableChiTietPhieu(chitietphieu);
+                }
+            }
+        });
+        
+        btnEditSP.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = tablePhieuXuat.getSelectedRow();
+                if(index < 0){
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn cấu hình cần xóa");
+                } else {
+                    ChiTietPhieuDTO ctPhieu = chitietphieu.get(index);
+                    setPhieuSelected();
+                }
+                
+            }
+        });
+        
 
         left_top.add(content_top, BorderLayout.CENTER);
         left_top.add(content_btn, BorderLayout.SOUTH);
@@ -314,12 +359,14 @@ public class TaoPhieuXuat extends JPanel {
         right_top.add(cbxNhaCungCap);
 
         right_center = new JPanel(new BorderLayout());
-        JPanel khachJPanel = new JPanel(new GridLayout(2,1));
-        khachJPanel.setPreferredSize(new Dimension(0, 60));
+        JPanel khachJPanel = new JPanel(new BorderLayout());
+        khachJPanel.setPreferredSize(new Dimension(0, 40));
         khachJPanel.setBorder(new EmptyBorder(0, 10, 0, 10));
         khachJPanel.setOpaque(false);
+        JPanel kJPanelLeft = new JPanel(new GridLayout(1,1));
+        kJPanelLeft.setPreferredSize(new Dimension(20,0));
         ButtonCustom btnKh = new ButtonCustom("Chọn khách hàng", "success", 14);
-
+        kJPanelLeft.add(btnKh);
         btnKh.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -330,8 +377,8 @@ public class TaoPhieuXuat extends JPanel {
 
         txtKh = new JTextField("");
         txtKh.setEditable(false);
-        khachJPanel.add(btnKh);
-        khachJPanel.add(txtKh);
+        khachJPanel.add(kJPanelLeft,BorderLayout.EAST);
+        khachJPanel.add(txtKh,BorderLayout.CENTER);
 
         right_center.add(khachJPanel, BorderLayout.NORTH);
         right_center.setOpaque(false);
@@ -367,13 +414,13 @@ public class TaoPhieuXuat extends JPanel {
             }
         });
 
-        tablePhieuNhap.addMouseListener(new MouseAdapter() {
+        tablePhieuXuat.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int index = tablePhieuNhap.getSelectedRow();
+                int index = tablePhieuXuat.getSelectedRow();
                 if (index != -1) {
                     actionbtn("update");
-//                    setInfoSanPham(listSP.get(index));
+                  setPhieuSelected();
                 }
             }
         });
@@ -392,6 +439,12 @@ public class TaoPhieuXuat extends JPanel {
                     Timestamp currenTime = new Timestamp(now);
                     PhieuXuatDTO phieuXuat = new PhieuXuatDTO(makh, maphieu, tk.getManv(), currenTime, sum, 1);
                     PhieuXuatDAO.getInstance().insert(phieuXuat);
+                    ChiTietPhieuXuatDAO.getInstance().insert(chitietphieu);
+                    for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
+                        ChiTietSanPhamDAO.getInstance().updateXuat(chiTietSanPhamDTO);
+                    }
+                    PhieuXuat phieuXuatPanel = new PhieuXuat(mainChinh,tk);
+                    mainChinh.setPanel(phieuXuatPanel);
                 }
             }
         });
@@ -430,6 +483,7 @@ public class TaoPhieuXuat extends JPanel {
         mapb = ch.get(0).getMaphienbansp();
         setImeiByPb(mapb);
     }
+    
 
     public boolean checkInfo() {
         boolean check = true;
@@ -451,7 +505,6 @@ public class TaoPhieuXuat extends JPanel {
         String[] arrimei = textAreaImei.getText().split("\n");
         int soLuong = arrimei.length;
         ChiTietPhieuDTO ctpx = new ChiTietPhieuDTO(maphieu, mapb, soLuong, dongia);
-        System.out.println(ctpx);
         chitietphieu.add(ctpx);
         getChiTietSp();
         return null;
@@ -461,17 +514,24 @@ public class TaoPhieuXuat extends JPanel {
         String[] arrimei = textAreaImei.getText().split("\n");
         for (int i = 0; i < arrimei.length; i++) {
             ChiTietSanPhamDTO ct = new ChiTietSanPhamDTO(arrimei[i], mapb, 0, maphieu, 0);
-            System.out.println(ct);
             chitietsanpham.add(ct);
         }
     }
 
     public void setImeiByPb(int mapb) {
         ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb + "");
+        textAreaImei.setText("");
         v.clear();
         v.add("Chọn sản phẩm");
         for (int i = 0; i < ctpb.size(); i++) {
-            v.add(new JCheckBox(ctpb.get(i).getImei(), false));
+            boolean check = false;
+            for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
+                if (chiTietSanPhamDTO.getImei().equals(ctpb.get(i).getImei())) {
+                    check = true;
+                    textAreaImei.append(chiTietSanPhamDTO.getImei()+"\n");
+                }
+            }
+            v.add(new JCheckBox(ctpb.get(i).getImei(), check));
         }
         cbxImei = new CustomComboCheck(v, textAreaImei);
     }
@@ -525,5 +585,12 @@ public class TaoPhieuXuat extends JPanel {
         KhachHangDTO khachhang = KhachHangDAO.getInstance().selectById(makh+"");
         txtKh.setText(khachhang.getHoten());
     }
-
+    
+    public void setPhieuSelected(){
+        ChiTietPhieuDTO ctphieu = chitietphieu.get(tablePhieuXuat.getSelectedRow());
+        SanPhamDTO spSel = SanPhamDAO.getInstance().selectByPhienBan(ctphieu.getMaphienbansp()+"");
+        setInfoSanPham(spSel);
+        cbxPhienBan.setSelectedItem(ctphieu.getMaphienbansp()+"");
+    }
+    
 }

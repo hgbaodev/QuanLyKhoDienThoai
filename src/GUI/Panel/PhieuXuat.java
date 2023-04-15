@@ -118,7 +118,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-            taoPhieuXuat = new TaoPhieuXuat(tk);
+            taoPhieuXuat = new TaoPhieuXuat(m,tk);
             m.setPanel(taoPhieuXuat);
         }
     }
