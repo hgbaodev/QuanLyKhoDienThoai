@@ -1,5 +1,6 @@
 package GUI.Panel;
 
+import DTO.PhieuXuatDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Component.InputFormInline;
 import GUI.Main;
@@ -9,8 +10,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -120,6 +123,21 @@ public class PhieuXuat extends JPanel implements ActionListener {
         if (e.getSource() == mainFunction.btnAdd) {
             taoPhieuXuat = new TaoPhieuXuat(m,tk);
             m.setPanel(taoPhieuXuat);
+        }
+    }
+    
+    public void loadDataTalbe(ArrayList<PhieuXuatDTO> listphieunhap) {
+        tblModel.setRowCount(0);
+        int size = listphieunhap.size();
+        for (int i = 0; i < size; i++) {
+            tblModel.addRow(new Object[]{
+                i + 1, listphieunhap.get(i).getMaphieu(),
+//                nccBUS.getTenNhaCungCap(listphieunhap.get(i).getManhacungcap()),
+//                nvBUS.getNameById(listphieunhap.get(i).getManguoitao()),
+                Formater.FormatTime(listphieunhap.get(i).getThoigiantao()),
+                Formater.FormatVND(listphieunhap.get(i).getTongTien()),
+                listphieunhap.get(i).getTrangthai() == 1 ? "Đã nhập" : "Huỷ"
+            });
         }
     }
 

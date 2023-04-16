@@ -229,14 +229,26 @@ public class TaoPhieuXuat extends JPanel {
         content_right_bottom.setBorder(new EmptyBorder(0, 10, 10, 10));
         content_right_bottom.setBackground(Color.WHITE);
         labelImei = new JLabel("Mã Imei");
-        labelImei.setPreferredSize(new Dimension(0, 30));
+        labelImei.setPreferredSize(new Dimension(70, 0));
+        ButtonCustom scanImei = new ButtonCustom("Quét imei", "success", 14);
+        scanImei.setPreferredSize(new Dimension(110,0));
+        JPanel panelScanCenter = new JPanel();
+        panelScanCenter.setBackground(Color.WHITE);
+        JPanel jpanelImei = new JPanel(new BorderLayout());
+        jpanelImei.setPreferredSize(new Dimension(0,40));
+        jpanelImei.setBackground(Color.WHITE);
+        jpanelImei.setBorder(new EmptyBorder(0,0,10,0));
+        jpanelImei.add(labelImei,BorderLayout.WEST);
+        
+        jpanelImei.add(panelScanCenter,BorderLayout.CENTER);
+        jpanelImei.add(scanImei,BorderLayout.EAST);
         textAreaImei = new JTextArea();
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204)));
         this.textAreaImei.setEditable(false);
         content_right_bottom_top = new JPanel(new BorderLayout());
         content_right_bottom_top.setSize(new Dimension(0, 100));
         content_right_bottom_top.setBackground(Color.white);
-        content_right_bottom_top.add(labelImei, BorderLayout.NORTH);
+        content_right_bottom_top.add(jpanelImei, BorderLayout.NORTH);
         content_right_bottom_top.add(textAreaImei, BorderLayout.CENTER);
         content_right_bottom_bottom = new JPanel(new BorderLayout());
         content_right_bottom_bottom.setSize(new Dimension(0, 50));
@@ -309,14 +321,25 @@ public class TaoPhieuXuat extends JPanel {
         btnEditSP.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                int index = tablePhieuXuat.getSelectedRow();
-                if(index < 0){
-                    JOptionPane.showMessageDialog(null, "Vui lòng chọn cấu hình cần xóa");
-                } else {
-                    ChiTietPhieuDTO ctPhieu = chitietphieu.get(index);
-                    setPhieuSelected();
-                }
-                
+               if(textAreaImei.getText().equals("")){
+                   JOptionPane.showMessageDialog(null, "Vui lòng thêm mã imei");
+               } else {
+                   ArrayList<ChiTietSanPhamDTO> ctspnew = new ArrayList<>();
+                   for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
+                       if(chiTietSanPhamDTO.getMaphienbansp() != mapb){
+                           ctspnew.add(chiTietSanPhamDTO);
+                       }
+                   }
+                   chitietsanpham = ctspnew;
+                   int soluongnew = getChiTietSp();
+                   int index = -1;
+                   for(int i = 0; i < chitietphieu.size();i++){
+                       if(chitietphieu.get(i).getMaphienbansp()==mapb) index = i;
+                   }
+                   chitietphieu.get(index).setSoluong(soluongnew);
+                   loadDataTableChiTietPhieu(chitietphieu);
+               }
+               
             }
         });
         
@@ -503,19 +526,19 @@ public class TaoPhieuXuat extends JPanel {
         int macauhinh = mapb;
         int dongia = phienBanBus.getByMaPhienBan(macauhinh).getGiaxuat();
         String[] arrimei = textAreaImei.getText().split("\n");
-        int soLuong = arrimei.length;
+        int soLuong = getChiTietSp();
         ChiTietPhieuDTO ctpx = new ChiTietPhieuDTO(maphieu, mapb, soLuong, dongia);
         chitietphieu.add(ctpx);
-        getChiTietSp();
         return null;
     }
 
-    public void getChiTietSp() {
+    public int getChiTietSp() {
         String[] arrimei = textAreaImei.getText().split("\n");
         for (int i = 0; i < arrimei.length; i++) {
             ChiTietSanPhamDTO ct = new ChiTietSanPhamDTO(arrimei[i], mapb, 0, maphieu, 0);
             chitietsanpham.add(ct);
         }
+        return arrimei.length;
     }
 
     public void setImeiByPb(int mapb) {
