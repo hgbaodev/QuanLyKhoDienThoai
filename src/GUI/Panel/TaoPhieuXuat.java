@@ -84,7 +84,7 @@ public class TaoPhieuXuat extends JPanel {
     private JLabel labelImei;
     private JPanel content_right_bottom_top;
     private JPanel content_right_bottom_bottom;
-    private ArrayList<PhienBanSanPhamDTO> ch;
+    private ArrayList<PhienBanSanPhamDTO> ch = new ArrayList<>();
     private Vector v;
     private CustomComboCheck cbxImei;
 
@@ -242,6 +242,17 @@ public class TaoPhieuXuat extends JPanel {
         
         jpanelImei.add(panelScanCenter,BorderLayout.CENTER);
         jpanelImei.add(scanImei,BorderLayout.EAST);
+        
+        scanImei.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(ch.size() == 0){
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm để quét mã");
+                } else {
+                    
+                }
+            }
+        });
         textAreaImei = new JTextArea();
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204)));
         this.textAreaImei.setEditable(false);

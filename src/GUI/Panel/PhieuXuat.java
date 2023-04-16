@@ -1,5 +1,7 @@
 package GUI.Panel;
 
+import BUS.NhaCungCapBUS;
+import BUS.NhanVienBUS;
 import DTO.PhieuXuatDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Component.InputFormInline;
@@ -36,6 +38,9 @@ public class PhieuXuat extends JPanel implements ActionListener {
     TaiKhoanDTO tk;
 
     Color BackgroundColor = new Color(240, 247, 250);
+    
+    NhaCungCapBUS nccBUS = new NhaCungCapBUS();
+    NhanVienBUS nvBUS = new NhanVienBUS();
 
     public PhieuXuat(Main m,TaiKhoanDTO tk) {
         initComponent();
