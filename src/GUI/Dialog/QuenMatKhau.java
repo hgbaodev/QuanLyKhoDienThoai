@@ -125,17 +125,6 @@ public class QuenMatKhau extends JDialog implements ActionListener {
 
     }
 
-    public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new FlatLightLaf());
-        QuenMatKhau p = new QuenMatKhau(new javax.swing.JFrame(), true);
-        p.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                System.exit(0);
-            }
-        });
-        p.setVisible(true);
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
