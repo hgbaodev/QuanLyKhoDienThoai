@@ -68,6 +68,23 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
         }
         return result;
     }
+    
+    public int updateXuat(ChiTietSanPhamDTO t) {
+        int result = 0;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "UPDATE `ctsanpham` SET `maphieuxuat`=?,`tinhtrang`=? WHERE `maimei`=?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, t.getMaphieuxuat());
+            pst.setInt(2, t.getTinhtrang());
+            pst.setString(3, t.getImei());
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(ChiTietSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 
     @Override
     public int delete(String t) {
@@ -107,11 +124,12 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
         return result;
     }
     
+    
     public ArrayList<ChiTietSanPhamDTO> selectAllbyPb(String mapbsp) {
         ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM ctsanpham where maphienbansp = ?";
+            String sql = "SELECT * FROM ctsanpham where maphienbansp = ? and tinhtrang = '1'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, mapbsp);
             ResultSet rs = (ResultSet) pst.executeQuery();

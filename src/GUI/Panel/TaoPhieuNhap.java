@@ -70,6 +70,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham = new HashMap<>();
     int maphieunhap;
     int rowPhieuSelect = -1;
+    private ButtonCustom scanImei;
 
     public TaoPhieuNhap(NhanVienDTO nv, String type, Main m) {
         this.nvDto = nv;
@@ -257,12 +258,23 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         JPanel card_content_two_model = new JPanel(new BorderLayout());
         card_content_two_model.setBorder(new EmptyBorder(10, 10, 10, 10));
         labelImei = new JLabel("Mã Imei");
-        labelImei.setPreferredSize(new Dimension(0, 30));
+        labelImei.setPreferredSize(new Dimension(70, 0));
+        scanImei = new ButtonCustom("Quét imei", "success", 14);
+        scanImei.setPreferredSize(new Dimension(110,0));
+        JPanel panelScanCenter = new JPanel();
+        panelScanCenter.setBackground(Color.WHITE);
+        JPanel jpanelImei = new JPanel(new BorderLayout());
+        jpanelImei.setPreferredSize(new Dimension(0,40));
+        jpanelImei.setBackground(Color.WHITE);
+        jpanelImei.setBorder(new EmptyBorder(0,0,10,0));
+        jpanelImei.add(labelImei,BorderLayout.WEST);
+        jpanelImei.add(panelScanCenter,BorderLayout.CENTER);
+        jpanelImei.add(scanImei,BorderLayout.EAST);
         textAreaImei = new JTextArea(6, 4);
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
         card_content_two_model.setSize(new Dimension(0, 100));
         card_content_two_model.setBackground(Color.white);
-        card_content_two_model.add(labelImei, BorderLayout.NORTH);
+        card_content_two_model.add(jpanelImei, BorderLayout.NORTH);
         card_content_two_model.add(textAreaImei, BorderLayout.CENTER);
 
         content_right_bottom.add(card_content_one);
@@ -597,6 +609,12 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             loadDataTableChiTietPhieu(chitietphieu);
         } else if (source == btnNhapHang) {
             eventBtnNhapHang();
+        } else if (source == scanImei){
+            if(ch.size() == 0){
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm để quét mã!");
+            } else {
+                
+            }
         }
     }
 
