@@ -33,6 +33,7 @@ import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
 import GUI.Dialog.ListKhachHang;
 import GUI.Dialog.ListNhanVien;
+import GUI.Dialog.QRCode_Dialog;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
@@ -249,7 +250,7 @@ public class TaoPhieuXuat extends JPanel {
                 if(ch.size() == 0){
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm để quét mã");
                 } else {
-                    
+                    QRCode_Dialog qr = new QRCode_Dialog(owner, "Scan", true, textAreaImei);                 
                 }
             }
         });
@@ -374,8 +375,8 @@ public class TaoPhieuXuat extends JPanel {
         right.setLayout(new BorderLayout());
 
         JPanel right_top, right_center, right_bottom, pn_tongtien;
-        right_top = new JPanel(new GridLayout(3, 1, 0, 0));
-        right_top.setPreferredSize(new Dimension(300, 270));
+        right_top = new JPanel(new GridLayout(2, 1, 0, 0));
+        right_top.setPreferredSize(new Dimension(300, 180));
         txtMaphieu = new InputForm("Mã phiếu nhập");
         txtMaphieu.setEditable(false);
         txtNhanVien = new InputForm("Nhân viên nhập");
@@ -385,12 +386,10 @@ public class TaoPhieuXuat extends JPanel {
         txtMaphieu.setText("PX" + PhieuXuatDAO.getInstance().getAutoIncrement());
         NhanVienDTO nhanvien = NhanVienDAO.getInstance().selectById(tk.getManv() + "");
         txtNhanVien.setText(nhanvien.getHoten());
-        cbxNhaCungCap = new SelectForm("Nhà cung cấp", nccBus.getArrTenNhaCungCap());
        
 
         right_top.add(txtMaphieu);
         right_top.add(txtNhanVien);
-        right_top.add(cbxNhaCungCap);
 
         right_center = new JPanel(new BorderLayout());
         JPanel khachJPanel = new JPanel(new BorderLayout());

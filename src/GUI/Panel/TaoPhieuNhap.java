@@ -21,6 +21,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
+import GUI.Dialog.QRCode_Dialog;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
@@ -54,6 +55,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     JTextArea textAreaImei;
     Main m;
     Color BackgroundColor = new Color(240, 247, 250);
+    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
 
     SanPhamBUS spBUS = new SanPhamBUS();
     NhaCungCapBUS nccBus = new NhaCungCapBUS();
@@ -65,7 +67,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     NhanVienDTO nvDto;
 
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
-    ArrayList<PhienBanSanPhamDTO> ch;
+    ArrayList<PhienBanSanPhamDTO> ch = new ArrayList<>();
     ArrayList<ChiTietPhieuNhapDTO> chitietphieu;
     HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham = new HashMap<>();
     int maphieunhap;
@@ -270,6 +272,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         jpanelImei.add(labelImei,BorderLayout.WEST);
         jpanelImei.add(panelScanCenter,BorderLayout.CENTER);
         jpanelImei.add(scanImei,BorderLayout.EAST);
+        scanImei.addActionListener(this);
         textAreaImei = new JTextArea(6, 4);
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
         card_content_two_model.setSize(new Dimension(0, 100));
@@ -601,7 +604,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             if(ch.size() == 0){
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm để quét mã!");
             } else {
-                
+                QRCode_Dialog qr = new QRCode_Dialog(owner, "Scan", true, textAreaImei);
             }
         }
     }
