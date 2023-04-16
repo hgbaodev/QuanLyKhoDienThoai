@@ -1,6 +1,6 @@
 package DAO;
 
-import DTO.ChiTietPhieuNhapDTO;
+import DTO.ChiTietPhieuDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,29 +14,29 @@ import java.sql.ResultSet;
  *
  * @author Tran Nhat Sinh
  */
-public class ChiTietPhieuNhapDAO implements ChiTietInterface<ChiTietPhieuNhapDTO> {
+public class ChiTietPhieuXuatDAO implements ChiTietInterface<ChiTietPhieuDTO> {
 
-    public static ChiTietPhieuNhapDAO getInstance() {
-        return new ChiTietPhieuNhapDAO();
+    public static ChiTietPhieuXuatDAO getInstance() {
+        return new ChiTietPhieuXuatDAO();
     }
 
     @Override
-    public int insert(ArrayList<ChiTietPhieuNhapDTO> t) {
+    public int insert(ArrayList<ChiTietPhieuDTO> t) {
         int result = 0;
         for (int i = 0; i < t.size(); i++) {
             try {
                 Connection con = (Connection) JDBCUtil.getConnection();
-                String sql = "INSERT INTO `ctphieunhap`(`maphieunhap`, `maphienbansp`, `soluong`, `dongia`, `hinhthucnhap`) VALUES (?,?,?,?,?)";
+                String sql = "INSERT INTO `ctphieuxuat`(`maphieuxuat`, `maphienbansp`, `soluong`, `dongia`) VALUES (?,?,?,?)";
                 PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                 pst.setInt(1, t.get(i).getMaphieu());
                 pst.setInt(2, t.get(i).getMaphienbansp());
                 pst.setInt(3, t.get(i).getSoluong());
+                PhienBanSanPhamDAO.getInstance().updateSoLuongTon(t.get(i).getMaphienbansp(), -(t.get(i).getSoluong()));
                 pst.setInt(4, t.get(i).getDongia());
-                pst.setInt(5, t.get(i).getPhuongthucnnhap());
                 result = pst.executeUpdate();
                 JDBCUtil.closeConnection(con);
             } catch (SQLException ex) {
-                Logger.getLogger(ChiTietPhieuNhapDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ChiTietPhieuXuatDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
             PhienBanSanPhamDAO.getInstance().updateSoLuongTon(t.get(i).getMaphienbansp(), t.get(i).getSoluong());
         }
@@ -48,19 +48,19 @@ public class ChiTietPhieuNhapDAO implements ChiTietInterface<ChiTietPhieuNhapDTO
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM ctphieunhap WHERE maphieunhap = ?";
+            String sql = "DELETE FROM ctphieuxuat WHERE maphieuxuat = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(ChiTietPhieuNhapDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ChiTietPhieuXuatDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
-    public int update(ArrayList<ChiTietPhieuNhapDTO> t, String pk) {
+    public int update(ArrayList<ChiTietPhieuDTO> t, String pk) {
         int result = this.delete(pk);
         if (result != 0) {
             result = this.insert(t);
@@ -69,26 +69,25 @@ public class ChiTietPhieuNhapDAO implements ChiTietInterface<ChiTietPhieuNhapDTO
     }
 
     @Override
-    public ArrayList<ChiTietPhieuNhapDTO> selectAll(String t) {
-        ArrayList<ChiTietPhieuNhapDTO> result = new ArrayList<>();
+    public ArrayList<ChiTietPhieuDTO> selectAll(String t) {
+        ArrayList<ChiTietPhieuDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM ctphieunhap WHERE maphieunhap = ?";
+            String sql = "SELECT * FROM ctphieuxuat WHERE maphieuxuat = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
-                int maphieu = rs.getInt("maphieunhap");
+                int maphieu = rs.getInt("maphieuxuat");
                 int maphienbansp = rs.getInt("maphienbansp");
                 int dongia = rs.getInt("dongia");
                 int soluong = rs.getInt("soluong");
-                int phuongthucnhap = rs.getInt("hinhthucnhap");
-                ChiTietPhieuNhapDTO ctphieu = new ChiTietPhieuNhapDTO(phuongthucnhap, maphieu, maphienbansp, soluong, dongia);
+                int phuongthucnhap = rs.getInt("phuongthucnhap");
+                ChiTietPhieuDTO ctphieu = new ChiTietPhieuDTO(phuongthucnhap, maphieu, maphienbansp, soluong);
                 result.add(ctphieu);
             }
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
-            System.out.println(e);
         }
         return result;
     }

@@ -50,6 +50,6 @@ public class PhienBanSanPhamBUS {
     public Boolean add(ArrayList<PhienBanSanPhamDTO> listch) {
         boolean check = cauhinhDAO.insert(listch) != 0;
         return check;
-    }
+    } 
 }
 

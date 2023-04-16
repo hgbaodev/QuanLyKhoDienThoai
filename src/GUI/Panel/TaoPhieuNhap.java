@@ -7,6 +7,7 @@ import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
 import BUS.PhieuNhapBUS;
 import BUS.SanPhamBUS;
+import DAO.NhanVienDAO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
@@ -20,6 +21,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
+import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.Formater;
@@ -50,6 +52,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     JTextField txtTimKiem;
     JLabel labelImei, lbltongtien;
     JTextArea textAreaImei;
+    Main m;
     Color BackgroundColor = new Color(240, 247, 250);
 
     SanPhamBUS spBUS = new SanPhamBUS();
@@ -63,22 +66,30 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
 
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
     ArrayList<PhienBanSanPhamDTO> ch;
-    ArrayList<ChiTietPhieuNhapDTO> chitietphieu = new ArrayList<>();
+    ArrayList<ChiTietPhieuNhapDTO> chitietphieu;
     HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham = new HashMap<>();
     int maphieunhap;
+    int rowPhieuSelect = -1;
+    private ButtonCustom scanImei;
 
-    public TaoPhieuNhap(NhanVienDTO nv, String type) {
+    public TaoPhieuNhap(NhanVienDTO nv, String type, Main m) {
         this.nvDto = nv;
+        this.m = m;
         maphieunhap = phieunhapBus.phieunhapDAO.getAutoIncrement();
+        chitietphieu = new ArrayList<>();
         initComponent();
         loadDataTalbeSanPham(listSP);
     }
     
-    public TaoPhieuNhap(NhanVienDTO nv, String type, PhieuNhapDTO phieunhap) {
-        this.nvDto = nv;
+    public TaoPhieuNhap(NhanVienDTO nv, String type, PhieuNhapDTO phieunhap, Main m) {
+        this.nvDto = NhanVienDAO.getInstance().selectById(Integer.toString(phieunhap.getManguoitao()));
+        this.m = m;
         maphieunhap = phieunhap.getMaphieu();
+        chitietphieu = phieunhapBus.getChiTietPhieu(maphieunhap);
+        chitietsanpham = phieunhapBus.getChiTietSanPham(maphieunhap);
         initComponent();
         loadDataTalbeSanPham(listSP);
+        loadDataTableChiTietPhieu(chitietphieu);
     }
 
     public void initPadding() {
@@ -134,6 +145,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
                 int index = tablePhieuNhap.getSelectedRow();
                 if (index != -1) {
                     setFormChiTietPhieu(chitietphieu.get(index));
+                    rowPhieuSelect = index;
                     actionbtn("update");
                 }
             }
@@ -246,12 +258,23 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         JPanel card_content_two_model = new JPanel(new BorderLayout());
         card_content_two_model.setBorder(new EmptyBorder(10, 10, 10, 10));
         labelImei = new JLabel("Mã Imei");
-        labelImei.setPreferredSize(new Dimension(0, 30));
+        labelImei.setPreferredSize(new Dimension(70, 0));
+        scanImei = new ButtonCustom("Quét imei", "success", 14);
+        scanImei.setPreferredSize(new Dimension(110,0));
+        JPanel panelScanCenter = new JPanel();
+        panelScanCenter.setBackground(Color.WHITE);
+        JPanel jpanelImei = new JPanel(new BorderLayout());
+        jpanelImei.setPreferredSize(new Dimension(0,40));
+        jpanelImei.setBackground(Color.WHITE);
+        jpanelImei.setBorder(new EmptyBorder(0,0,10,0));
+        jpanelImei.add(labelImei,BorderLayout.WEST);
+        jpanelImei.add(panelScanCenter,BorderLayout.CENTER);
+        jpanelImei.add(scanImei,BorderLayout.EAST);
         textAreaImei = new JTextArea(6, 4);
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
         card_content_two_model.setSize(new Dimension(0, 100));
         card_content_two_model.setBackground(Color.white);
-        card_content_two_model.add(labelImei, BorderLayout.NORTH);
+        card_content_two_model.add(jpanelImei, BorderLayout.NORTH);
         card_content_two_model.add(textAreaImei, BorderLayout.CENTER);
 
         content_right_bottom.add(card_content_one);
@@ -457,12 +480,8 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             int index = cbxPtNhap.cbb.getSelectedIndex();
             CardLayout c = (CardLayout) content_right_bottom.getLayout();
             switch (index) {
-                case 0:
-                    c.first(content_right_bottom);
-                    break;
-                case 1:
-                    c.last(content_right_bottom);
-                    break;
+                case 0 -> c.first(content_right_bottom);
+                case 1 -> c.last(content_right_bottom);
             }
         }
     }
@@ -572,11 +591,18 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             chitietsanpham.remove(mapb);
             ArrayList<ChiTietSanPhamDTO> ctsp = getChiTietSanPham();
             chitietsanpham.put(mapb, ctsp);
-            int index = tablePhieuNhap.getSelectedRow();
-            chitietphieu.get(index).setSoluong(ctsp.size());
+            int ptnhap = cbxPtNhap.getSelectedIndex();
+            chitietphieu.get(rowPhieuSelect).setPhuongthucnnhap(ptnhap);
+            chitietphieu.get(rowPhieuSelect).setSoluong(ctsp.size());
             loadDataTableChiTietPhieu(chitietphieu);
         } else if (source == btnNhapHang) {
             eventBtnNhapHang();
+        } else if (source == scanImei){
+            if(ch.size() == 0){
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm để quét mã!");
+            } else {
+                
+            }
         }
     }
 
@@ -591,6 +617,8 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             boolean result = phieunhapBus.add(pn, chitietphieu, chitietsanpham);
             if (result) {
                 JOptionPane.showMessageDialog(this, "Nhập hàng thành công !");
+                PhieuNhap pnlPhieu = new PhieuNhap(m, nvDto);
+                m.setPanel(pnlPhieu);
             } else {
                 JOptionPane.showMessageDialog(this, "Nhập hàng không thành công !", "Cảnh báo !", JOptionPane.ERROR_MESSAGE);
             }

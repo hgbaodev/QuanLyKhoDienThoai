@@ -8,6 +8,7 @@ import DTO.ChiTietQuyenDTO;
 import DTO.NhanVienDTO;
 import DTO.NhomQuyenDTO;
 import DTO.TaiKhoanDTO;
+import GUI.Log_In;
 import GUI.Main;
 import GUI.Panel.ChuyenKho;
 import GUI.Panel.KhachHang;
@@ -260,6 +261,17 @@ public class MenuTaskbar extends JPanel {
             public void mousePressed(MouseEvent evt) {
                 phanQuyen = new PhanQuyen();
                 main.setPanel(phanQuyen);
+            }
+        });
+        listitem[12].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                int rety = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất?","Đăng xuất",JOptionPane.YES_NO_OPTION);
+                if(rety == JOptionPane.YES_OPTION){
+                    main.dispose();
+                    Log_In lg = new Log_In();
+                    lg.setVisible(true);
+                }
             }
         });
     }

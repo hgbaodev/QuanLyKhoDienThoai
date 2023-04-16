@@ -56,7 +56,7 @@ public class KhachHang extends JPanel implements ActionListener {
         tableKhachHang = new JTable();
         scrollTableKhachHang = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại"};
+        String[] header = new String[]{"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại","Ngày tham gia"};
         tblModel.setColumnIdentifiers(header);
         tableKhachHang.setModel(tblModel);
         scrollTableKhachHang.setViewportView(tableKhachHang);
@@ -66,6 +66,7 @@ public class KhachHang extends JPanel implements ActionListener {
         tableKhachHang.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        tableKhachHang.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 
         // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
         pnlBorder1 = new JPanel();
@@ -152,7 +153,7 @@ public class KhachHang extends JPanel implements ActionListener {
         tblModel.setRowCount(0);
         for (DTO.KhachHangDTO khachHang : result) {
             tblModel.addRow(new Object[]{
-                khachHang.getMaKH(), khachHang.getHoten(), khachHang.getDiachi(), khachHang.getSdt()
+                khachHang.getMaKH(), khachHang.getHoten(), khachHang.getDiachi(), khachHang.getSdt(),khachHang.getNgaythamgia()
             });
         }
     }

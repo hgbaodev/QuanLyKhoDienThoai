@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -67,6 +68,23 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
         }
         return result;
     }
+    
+    public int updateXuat(ChiTietSanPhamDTO t) {
+        int result = 0;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "UPDATE `ctsanpham` SET `maphieuxuat`=?,`tinhtrang`=? WHERE `maimei`=?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, t.getMaphieuxuat());
+            pst.setInt(2, t.getTinhtrang());
+            pst.setString(3, t.getImei());
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(ChiTietSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 
     @Override
     public int delete(String t) {
@@ -106,11 +124,12 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
         return result;
     }
     
+    
     public ArrayList<ChiTietSanPhamDTO> selectAllbyPb(String mapbsp) {
         ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM ctsanpham where maphienbansp = ?";
+            String sql = "SELECT * FROM ctsanpham where maphienbansp = ? and tinhtrang = '1'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, mapbsp);
             ResultSet rs = (ResultSet) pst.executeQuery();
@@ -139,5 +158,47 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
     public int getAutoIncrement() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
+    public ArrayList<Integer> getMaPhienBanSPOfPhieu(int maphieu) {
+        ArrayList<Integer> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM ctsanpham where maphieunhap = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, maphieu);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                int maphienban = rs.getInt("maphienbansp");
+                result.add(maphienban);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public ArrayList<ChiTietSanPhamDTO> selectAllByMaPhieuNhap(int maphieunhap) {
+        ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM ctsanpham where maphieunhap = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, maphieunhap);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                String imei = rs.getString("maimei");
+                int maphienban = rs.getInt("maphienbansp");
+                int mapn = rs.getInt("maphieunhap");
+                int maphieuxuat = rs.getInt("maphieuxuat");
+                int tinhtrang = rs.getInt("tinhtrang");
+                ChiTietSanPhamDTO ct = new ChiTietSanPhamDTO(imei, maphienban, mapn, maphieuxuat, tinhtrang);
+                result.add(ct);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
 }

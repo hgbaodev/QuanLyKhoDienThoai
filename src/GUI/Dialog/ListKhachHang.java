@@ -11,6 +11,7 @@ import DTO.KhachHangDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Panel.KhachHang;
 import GUI.Panel.TaiKhoan;
+import GUI.Panel.TaoPhieuXuat;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -42,17 +43,20 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ListKhachHang extends JDialog implements MouseListener {
 
-    private KhachHang khachHang;
+    private TaoPhieuXuat taoPhieuXuat;
     private JTable tableKhachHang;
     private JScrollPane scrollTableSanPham;
     private DefaultTableModel tblModel;
     private ArrayList<KhachHangDTO> listKh = KhachHangDAO.getInstance().selectAll();
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     
-    public ListKhachHang(KhachHang khachHang, JFrame owner, String title, boolean modal){
+    public ListKhachHang(TaoPhieuXuat taoPhieuXuat, JFrame owner, String title, boolean modal){
         super(owner, title, modal);
-        this.khachHang=khachHang;
+        this.taoPhieuXuat=taoPhieuXuat;
         init();
+        loadDataTalbe(search(""));
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     public void init(){
@@ -82,6 +86,7 @@ public class ListKhachHang extends JDialog implements MouseListener {
                     int input = JOptionPane.showConfirmDialog(null, 
                 "Vui lòng chọn khách hàng!:)", "Thông báo", JOptionPane.DEFAULT_OPTION);
                 } else{
+                    taoPhieuXuat.setKhachHang(listKh.get(getRow()).getMaKH());
                     dispose();
                 }
             }
@@ -104,15 +109,21 @@ public class ListKhachHang extends JDialog implements MouseListener {
                 new String[]{}
         ));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã KH","Họ tên","Địa chỉ","Số điện thoại"};
+        String[] header = new String[]{"Mã KH","Họ tên","Địa chỉ","Số điện thoại","Ngày tham gia"};
         tblModel.setColumnIdentifiers(header);
         tableKhachHang.setDefaultRenderer(Object.class, centerRenderer);
         tableKhachHang.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableKhachHang);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tableKhachHang.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tableKhachHang.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        tableKhachHang.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tableKhachHang.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        tableKhachHang.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         jPanelTable.add(scrollTableSanPham);
         this.add(jPanelTable,BorderLayout.CENTER);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        
     }
     
     public int getRow(){
@@ -124,7 +135,7 @@ public class ListKhachHang extends JDialog implements MouseListener {
         tblModel.setRowCount(0);
         for (KhachHangDTO kh : listKh) {
             tblModel.addRow(new Object[]{
-                kh.getMaKH(),kh.getHoten(),kh.getDiachi(),kh.getSdt()
+                kh.getMaKH(),kh.getHoten(),kh.getDiachi(),kh.getSdt(),kh.getNgaythamgia()
             });
         }
     }
@@ -133,7 +144,6 @@ public class ListKhachHang extends JDialog implements MouseListener {
         if(text.length()>0){
             text = text.toLowerCase();
         ArrayList<KhachHangDTO> result = new ArrayList<>();
-        System.out.println(text);
         for(KhachHangDTO i : listKh) {
            if(i.getHoten().toLowerCase().contains(text) || i.getDiachi().toLowerCase().contains(text)
                    || i.getSdt().toLowerCase().contains(text)){
@@ -144,7 +154,6 @@ public class ListKhachHang extends JDialog implements MouseListener {
         } else {
             return KhachHangDAO.getInstance().selectAll();
         }
-        
     }
     
     @Override
