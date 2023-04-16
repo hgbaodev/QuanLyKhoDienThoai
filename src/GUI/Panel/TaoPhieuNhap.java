@@ -79,17 +79,17 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         this.m = m;
         maphieunhap = phieunhapBus.phieunhapDAO.getAutoIncrement();
         chitietphieu = new ArrayList<>();
-        initComponent();
+        initComponent(type);
         loadDataTalbeSanPham(listSP);
     }
-    
+
     public TaoPhieuNhap(NhanVienDTO nv, String type, PhieuNhapDTO phieunhap, Main m) {
         this.nvDto = NhanVienDAO.getInstance().selectById(Integer.toString(phieunhap.getManguoitao()));
         this.m = m;
         maphieunhap = phieunhap.getMaphieu();
         chitietphieu = phieunhapBus.getChiTietPhieu(maphieunhap);
         chitietsanpham = phieunhapBus.getChiTietSanPham(maphieunhap);
-        initComponent();
+        initComponent(type);
         loadDataTalbeSanPham(listSP);
         loadDataTableChiTietPhieu(chitietphieu);
     }
@@ -116,7 +116,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         this.add(pnlBorder4, BorderLayout.WEST);
     }
 
-    private void initComponent() {
+    private void initComponent(String type) {
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -310,7 +310,6 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         content_btn.add(btnDelete);
 
         left_top.add(content_top, BorderLayout.CENTER);
-        left_top.add(content_btn, BorderLayout.SOUTH);
 
         main = new JPanel();
         main.setOpaque(false);
@@ -363,11 +362,22 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         lbltien.setForeground(new Color(255, 51, 51));
         pn_tongtien.add(lbltien);
         pn_tongtien.add(lbltongtien);
-
-        btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
-        btnNhapHang.addActionListener(this);
         right_bottom.add(pn_tongtien);
-        right_bottom.add(btnNhapHang);
+
+        switch (type) {
+            case "create" -> {
+                btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
+                btnNhapHang.addActionListener(this);
+                right_bottom.add(btnNhapHang);
+                left_top.add(content_btn, BorderLayout.SOUTH);
+            }
+            case "update" -> {
+                left_top.add(content_btn, BorderLayout.SOUTH);
+            }
+            case "view" -> {
+                main.setPreferredSize(new Dimension(0, 350));
+            }
+        }
 
         right.add(right_top, BorderLayout.NORTH);
         right.add(right_center, BorderLayout.CENTER);
@@ -483,8 +493,10 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             int index = cbxPtNhap.cbb.getSelectedIndex();
             CardLayout c = (CardLayout) content_right_bottom.getLayout();
             switch (index) {
-                case 0 -> c.first(content_right_bottom);
-                case 1 -> c.last(content_right_bottom);
+                case 0 ->
+                    c.first(content_right_bottom);
+                case 1 ->
+                    c.last(content_right_bottom);
             }
         }
     }
