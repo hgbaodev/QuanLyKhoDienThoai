@@ -1,7 +1,6 @@
 package BUS;
 
 import DAO.PhienBanSanPhamDAO;
-import DTO.ChiTietPhieuNhapDTO;
 import DTO.PhienBanSanPhamDTO;
 import java.util.ArrayList;
 
