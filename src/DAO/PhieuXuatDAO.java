@@ -87,15 +87,16 @@ public class PhieuXuatDAO implements DAOinterface<PhieuXuatDTO> {
             while(rs.next()){
                 int maphieu = rs.getInt("maphieuxuat");
                 Timestamp thoigiantao = rs.getTimestamp("thoigian");
-                int mancc = rs.getInt("manhacungcap");
-                int nguoitao = rs.getInt("nguoitao");
+                int makh = rs.getInt("makh");
+                int nguoitao = rs.getInt("nguoitaophieuxuat");
                 long tongtien = rs.getLong("tongtien");
                 int trangthai = rs.getInt("trangthai");
-                PhieuXuatDTO phieuxuat = new PhieuXuatDTO(mancc, maphieu, nguoitao, thoigiantao, tongtien, trangthai);
+                PhieuXuatDTO phieuxuat = new PhieuXuatDTO(makh, maphieu, nguoitao, thoigiantao, tongtien, trangthai);
                 result.add(phieuxuat);
             }
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
+            System.out.println(e);
         }
         return result;
     }
@@ -112,11 +113,11 @@ public class PhieuXuatDAO implements DAOinterface<PhieuXuatDTO> {
             while(rs.next()){
                 int maphieu = rs.getInt("maphieuxuat");
                 Timestamp thoigiantao = rs.getTimestamp("thoigian");
-                int mancc = rs.getInt("manhacungcap");
+                int makh = rs.getInt("manhacungcap");
                 int nguoitao = rs.getInt("nguoitao");
                 long tongtien = rs.getLong("tongtien");
                 int trangthai = rs.getInt("trangthai");
-                result = new PhieuXuatDTO(mancc, maphieu, nguoitao, thoigiantao, tongtien, trangthai);
+                result = new PhieuXuatDTO(makh, maphieu, nguoitao, thoigiantao, tongtien, trangthai);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {

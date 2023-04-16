@@ -2,6 +2,7 @@ package GUI.Panel;
 
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
+import BUS.PhieuXuatBUS;
 import DTO.PhieuXuatDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Component.InputFormInline;
@@ -41,11 +42,13 @@ public class PhieuXuat extends JPanel implements ActionListener {
     
     NhaCungCapBUS nccBUS = new NhaCungCapBUS();
     NhanVienBUS nvBUS = new NhanVienBUS();
+    PhieuXuatBUS pxBUS = new PhieuXuatBUS();
 
     public PhieuXuat(Main m,TaiKhoanDTO tk) {
         initComponent();
         this.m = m;
         this.tk = tk;
+        loadDataTalbe(pxBUS.getAll());
     }
 
     private void initComponent() {
@@ -84,7 +87,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
         tablePhieuXuat = new JTable();
         scrollTablePhieuXuat = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"STT", "Mã phiếu xuất", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
+        String[] header = new String[]{"STT", "Mã phiếu xuất", "Khách hàng", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
         tblModel.setColumnIdentifiers(header);
         tablePhieuXuat.setModel(tblModel);
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
@@ -93,6 +96,9 @@ public class PhieuXuat extends JPanel implements ActionListener {
         tablePhieuXuat.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tablePhieuXuat.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tablePhieuXuat.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tablePhieuXuat.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        tablePhieuXuat.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        tablePhieuXuat.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
 
         main.add(scrollTablePhieuXuat);
@@ -136,12 +142,12 @@ public class PhieuXuat extends JPanel implements ActionListener {
         int size = listphieunhap.size();
         for (int i = 0; i < size; i++) {
             tblModel.addRow(new Object[]{
-                i + 1, listphieunhap.get(i).getMaphieu(),
-//                nccBUS.getTenNhaCungCap(listphieunhap.get(i).getManhacungcap()),
-//                nvBUS.getNameById(listphieunhap.get(i).getManguoitao()),
+                i + 1, 
+                listphieunhap.get(i).getMaphieu(),
+                nccBUS.getTenNhaCungCap(listphieunhap.get(i).getMakh()),
+                nvBUS.getNameById(listphieunhap.get(i).getManguoitao()),
                 Formater.FormatTime(listphieunhap.get(i).getThoigiantao()),
                 Formater.FormatVND(listphieunhap.get(i).getTongTien()),
-                listphieunhap.get(i).getTrangthai() == 1 ? "Đã nhập" : "Huỷ"
             });
         }
     }

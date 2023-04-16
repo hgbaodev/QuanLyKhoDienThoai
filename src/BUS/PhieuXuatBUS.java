@@ -25,6 +25,10 @@ public class PhieuXuatBUS {
         listPhieuXuat = phieuXuatDAO.selectAll();
     }
     
+    public ArrayList<PhieuXuatDTO> getAll(){
+        return this.listPhieuXuat;
+    }
+    
     
     
 }
