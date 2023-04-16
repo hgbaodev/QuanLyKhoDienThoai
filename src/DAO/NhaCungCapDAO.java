@@ -77,7 +77,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
 
     @Override
     public ArrayList<NhaCungCapDTO> selectAll() {
-        ArrayList<NhaCungCapDTO> result = new ArrayList<NhaCungCapDTO>();
+        ArrayList<NhaCungCapDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM nhacungcap WHERE trangthai = 1";

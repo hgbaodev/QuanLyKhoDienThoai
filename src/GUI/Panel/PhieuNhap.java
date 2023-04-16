@@ -154,12 +154,12 @@ public class PhieuNhap extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == mainFunction.btnAdd) {
-            nhapKho = new TaoPhieuNhap(nv, "create");
+            nhapKho = new TaoPhieuNhap(nv, "create",m);
             m.setPanel(nhapKho);
         } else if (source == mainFunction.btnDetail) {
             int index = getRowSelected();
             if (index != -1) {
-                nhapKho = new TaoPhieuNhap(nv, "view", listPhieu.get(index));
+                nhapKho = new TaoPhieuNhap(nv, "view", listPhieu.get(index),m);
                 m.setPanel(nhapKho);
             }
         }
