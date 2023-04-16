@@ -107,9 +107,11 @@ public class QRCode_Dialog extends JDialog {
                     }
 
                     if (result != null) {
-                        if (!textArea.getText().contains(result.getText() + "\n")) {
+                        if(!textArea.getText().contains(result.getText())){
                             soundScan();
                             textArea.append(result.getText() + "\n");
+                        } else {
+                            System.out.println("Mã đã được quét!");
                         }
                     }
 
@@ -118,19 +120,12 @@ public class QRCode_Dialog extends JDialog {
         };
         t.setDaemon(true);
         t.start();
+        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                t.stop();
                 wCamPanel.stop();
-                dispose();
-            }
-        });
-        btnExit.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
                 t.stop();
-                wCamPanel.stop();
                 dispose();
             }
         });
