@@ -80,6 +80,7 @@ public class PhieuNhap extends JPanel implements ActionListener {
         String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền", "Trạng thái"};
         tblModel.setColumnIdentifiers(header);
         tablePhieuNhap.setModel(tblModel);
+        tablePhieuNhap.setAutoCreateRowSorter(true);
         tablePhieuNhap.setDefaultEditor(Object.class, null);
         scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -154,12 +155,18 @@ public class PhieuNhap extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == mainFunction.btnAdd) {
-            nhapKho = new TaoPhieuNhap(nv, "create",m);
+            nhapKho = new TaoPhieuNhap(nv, "create", m);
             m.setPanel(nhapKho);
         } else if (source == mainFunction.btnDetail) {
             int index = getRowSelected();
             if (index != -1) {
-                nhapKho = new TaoPhieuNhap(nv, "view", listPhieu.get(index),m);
+                nhapKho = new TaoPhieuNhap(nv, "view", listPhieu.get(index), m);
+                m.setPanel(nhapKho);
+            }
+        } else if (source == mainFunction.btnEdit) {
+            int index = getRowSelected();
+            if (index != -1) {
+                nhapKho = new TaoPhieuNhap(nv, "update", listPhieu.get(index), m);
                 m.setPanel(nhapKho);
             }
         }
