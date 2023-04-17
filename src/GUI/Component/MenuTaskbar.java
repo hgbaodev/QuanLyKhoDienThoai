@@ -1,6 +1,5 @@
 package GUI.Component;
 
-import BUS.TaiKhoanBUS;
 import DAO.ChiTietQuyenDAO;
 import DAO.NhanVienDAO;
 import DAO.NhomQuyenDAO;
@@ -30,7 +29,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import org.apache.poi.util.LocaleID;
 //import GUI.Component.itemTaskbar;
 
 public class MenuTaskbar extends JPanel {
@@ -52,9 +50,10 @@ public class MenuTaskbar extends JPanel {
         {"Sản phẩm", "product_32px.svg", "trangchu"},
         {"Thuộc tính", "brand_32px.svg", "thuonghieu"},
         {"Khu vực kho", "area_32px.svg", "khuvuckho"},
-        {"Kiểm kê", "inventory_32px.svg", "kiemke"},
+        {"Phiếu kiểm kê", "inventory_32px.svg", "kiemke"},
         {"Phiếu nhập", "import_32px.svg", "phieunhap"},
         {"Phiếu xuất", "export_32px.svg", "phieuxuat"},
+        
         {"Khách hàng", "customer_32px.svg", "khachang"},
         {"Nhà cung cấp", "supplier_32px.svg", "nhacungcap"},
         {"Nhân viên", "staff_32px.svg", "nhanvien"},
