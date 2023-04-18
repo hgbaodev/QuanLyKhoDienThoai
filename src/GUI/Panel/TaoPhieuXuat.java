@@ -568,30 +568,6 @@ public class TaoPhieuXuat extends JPanel {
             v.add(new JCheckBox(ctpb.get(i).getImei(), check));
         }
         cbxImei = new CustomComboCheck(v, textAreaImei);
-        cbxImei.setEditable(true); // Cho phép người dùng nhập vào JComboBox
-        cbxImei.setPrototypeDisplayValue("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-// Tăng kích thước của JComboBox để hiển thị toàn bộ các phần tử
-
-// Tắt sự kiện focusLost
-        cbxImei.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                // Không làm gì cả
-            }
-        });
-
-// Thêm sự kiện ActionListener để xử lý khi chọn phần tử
-        cbxImei.addActionListener(e -> {
-            // Xử lý khi chọn phần tử
-        });
-
-// Thêm sự kiện MouseAdapter để xử lý khi nhấn vào JComboBox
-        cbxImei.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                cbxImei.showPopup(); // Hiển thị dropdown
-            }
-        });
     }
 
     public void actionbtn(String type) {
