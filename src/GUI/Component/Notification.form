@@ -46,7 +46,7 @@
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/javaswingdev/sucess.png"/>
+          <Image iconType="3" name="/icon/sucess.png"/>
         </Property>
       </Properties>
     </Component>
@@ -64,7 +64,7 @@
                       <Component id="lbMessage" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="lbMessageText" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="217" max="32767" attributes="0"/>
+                  <EmptySpace pref="167" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -105,7 +105,7 @@
     <Component class="javax.swing.JButton" name="cmdClose">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/javaswingdev/close.png"/>
+          <Image iconType="3" name="/icon/close.png"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>

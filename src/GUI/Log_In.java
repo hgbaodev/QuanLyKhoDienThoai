@@ -3,6 +3,7 @@ package GUI;
 import DAO.TaiKhoanDAO;
 import DTO.TaiKhoanDTO;
 import GUI.Component.InputForm;
+import GUI.Component.Notification;
 import GUI.Dialog.QuenMatKhau;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
@@ -133,6 +134,8 @@ public class Log_In extends JFrame implements KeyListener{
                 JOptionPane.showMessageDialog(this, "Tài khoản của bạn không tồn tại trên hệ thống", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
             } else {
                 if (BCrypt.checkpw(passwordCheck, tk.getMatkhau())) {
+                    Notification dialogIcon = new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Đăng nhập thành công!");
+                    dialogIcon.showNotification();
                     this.dispose();
                     Main main = new Main(tk);
                     main.setVisible(true);

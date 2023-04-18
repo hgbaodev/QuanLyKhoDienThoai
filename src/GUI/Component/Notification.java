@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import org.jdesktop.animation.timing.Animator;
@@ -43,13 +44,13 @@ public class Notification extends JComponent {
         dialog.add(this);
         dialog.setSize(getPreferredSize());
         if (type == Type.SUCCESS) {
-            lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("./sucess.png")));
+            lbIcon.setIcon(new ImageIcon(getClass().getResource("/icon/sucess.png")));
             lbMessage.setText("Success");
         } else if (type == Type.INFO) {
-            lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("./info.png")));
+            lbIcon.setIcon(new ImageIcon(getClass().getResource("/icon/info.png")));
             lbMessage.setText("Info");
         } else {
-            lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("./warning.png")));
+            lbIcon.setIcon(new ImageIcon(getClass().getResource("/icon/warning.png")));
             lbMessage.setText("Warning");
         }
         lbMessageText.setText(message);
@@ -228,7 +229,7 @@ public class Notification extends JComponent {
         cmdClose = new javax.swing.JButton();
 
         lbIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaswingdev/sucess.png"))); // NOI18N
+        lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/sucess.png"))); // NOI18N
 
         panel.setOpaque(false);
 
@@ -248,7 +249,7 @@ public class Notification extends JComponent {
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbMessage)
                     .addComponent(lbMessageText))
-                .addContainerGap(217, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,7 +261,7 @@ public class Notification extends JComponent {
                 .addContainerGap())
         );
 
-        cmdClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaswingdev/close.png"))); // NOI18N
+        cmdClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/close.png"))); // NOI18N
         cmdClose.setBorder(null);
         cmdClose.setContentAreaFilled(false);
         cmdClose.setFocusable(false);
@@ -295,6 +296,7 @@ public class Notification extends JComponent {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void cmdCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCloseActionPerformed
         closeNotification();
     }//GEN-LAST:event_cmdCloseActionPerformed
