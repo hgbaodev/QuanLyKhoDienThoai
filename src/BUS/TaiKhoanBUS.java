@@ -31,6 +31,18 @@ public class TaiKhoanBUS {
     public TaiKhoanDTO getTaiKhoan(int index){
         return listTaiKhoan.get(index);
     }
+    public int getTaiKhoanByMaNV(int manv){
+         int i = 0;
+        int vitri = -1;
+        while (i < this.listTaiKhoan.size() && vitri == -1) {
+            if (listTaiKhoan.get(i).getManv()== manv) {
+                vitri = i;
+            } else {
+                i++;
+            }
+        }
+        return vitri;
+    }
     
     public NhomQuyenDTO getNhomQuyenDTO(int index){
         System.out.println("Size:"+listNhomQuyen.size());
