@@ -2040,7 +2040,7 @@
 												"$ref": "AAAAAAGGhIFwJwWrFTE="
 											},
 											"font": "Arial;13;1",
-											"left": 696,
+											"left": 680,
 											"top": 1053,
 											"width": 243.56689453125,
 											"height": 13,
@@ -2066,7 +2066,7 @@
 														"$ref": "AAAAAAGGhITRogXyE5c="
 													},
 													"font": "Arial;13;0",
-													"left": 701,
+													"left": 685,
 													"top": 1076,
 													"width": 233.56689453125,
 													"height": 13
@@ -2082,7 +2082,7 @@
 													},
 													"visible": false,
 													"font": "Arial;13;0",
-													"left": 717,
+													"left": 685,
 													"top": 1011,
 													"width": 233.56689453125,
 													"height": 13
@@ -2098,7 +2098,7 @@
 													},
 													"visible": false,
 													"font": "Arial;13;0",
-													"left": 717,
+													"left": 685,
 													"top": 1026,
 													"width": 233.56689453125,
 													"height": 13
@@ -2114,7 +2114,7 @@
 													},
 													"visible": false,
 													"font": "Arial;13;0",
-													"left": 717,
+													"left": 685,
 													"top": 1011,
 													"width": 233.56689453125,
 													"height": 13
@@ -2129,7 +2129,7 @@
 														"$ref": "AAAAAAGHePrUrbBX+0g="
 													},
 													"font": "Arial;13;0",
-													"left": 701,
+													"left": 685,
 													"top": 1091,
 													"width": 233.56689453125,
 													"height": 13
@@ -2144,7 +2144,7 @@
 														"$ref": "AAAAAAGHePsiILBhdB8="
 													},
 													"font": "Arial;13;0",
-													"left": 701,
+													"left": 685,
 													"top": 1106,
 													"width": 233.56689453125,
 													"height": 13
@@ -2159,21 +2159,21 @@
 														"$ref": "AAAAAAGHePsyTbBosJY="
 													},
 													"font": "Arial;13;0",
-													"left": 701,
+													"left": 685,
 													"top": 1121,
 													"width": 233.56689453125,
 													"height": 13
 												}
 											],
 											"font": "Arial;13;0",
-											"left": 696,
+											"left": 680,
 											"top": 1071,
 											"width": 243.56689453125,
 											"height": 68
 										}
 									],
 									"font": "Arial;13;0",
-									"left": 696,
+									"left": 680,
 									"top": 1048,
 									"width": 243.56689453125,
 									"height": 91,
