@@ -7,6 +7,7 @@ import DTO.ChiTietQuyenDTO;
 import DTO.NhanVienDTO;
 import DTO.NhomQuyenDTO;
 import DTO.TaiKhoanDTO;
+import GUI.Dialog.MyAccount;
 import GUI.Log_In;
 import GUI.Main;
 import GUI.Panel.ChuyenKho;
@@ -45,6 +46,7 @@ public class MenuTaskbar extends JPanel {
     NhanVien nhanVien;
     TaiKhoan taiKhoan;
     PhanQuyen phanQuyen;
+    JButton myacc;
     String[][] getSt = {
         {"Trang chủ", "home_32px.svg", "trangchu"},
         {"Sản phẩm", "product_32px.svg", "trangchu"},
@@ -53,7 +55,6 @@ public class MenuTaskbar extends JPanel {
         {"Phiếu kiểm kê", "inventory_32px.svg", "kiemke"},
         {"Phiếu nhập", "import_32px.svg", "phieunhap"},
         {"Phiếu xuất", "export_32px.svg", "phieuxuat"},
-        
         {"Khách hàng", "customer_32px.svg", "khachang"},
         {"Nhà cung cấp", "supplier_32px.svg", "nhacungcap"},
         {"Nhân viên", "staff_32px.svg", "nhanvien"},
@@ -77,7 +78,8 @@ public class MenuTaskbar extends JPanel {
     Color HowerBackgroundColor = new Color(187, 222, 251);
     private ArrayList<ChiTietQuyenDTO> listQuyen;
     NhomQuyenDTO nhomQuyenDTO;
-    NhanVienDTO nhanVienDTO;
+    public NhanVienDTO nhanVienDTO;
+    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
 
     public MenuTaskbar(Main main) {
         this.main = main;
@@ -222,7 +224,7 @@ public class MenuTaskbar extends JPanel {
         listitem[6].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                phieuXuat = new PhieuXuat(main,user);
+                phieuXuat = new PhieuXuat(main, user);
                 main.setPanel(phieuXuat);
             }
         });
@@ -265,8 +267,8 @@ public class MenuTaskbar extends JPanel {
         listitem[12].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                int rety = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất?","Đăng xuất",JOptionPane.YES_NO_OPTION);
-                if(rety == JOptionPane.YES_OPTION){
+                int rety = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất?", "Đăng xuất", JOptionPane.YES_NO_OPTION);
+                if (rety == JOptionPane.YES_OPTION) {
                     main.dispose();
                     Log_In lg = new Log_In();
                     lg.setVisible(true);
@@ -288,21 +290,23 @@ public class MenuTaskbar extends JPanel {
     }
 
     public void pnlMenuTaskbarMousePress(MouseEvent evt) {
-        for (int i = 0; i < getSt.length; i++) {
-            if (evt.getSource() == listitem[i]) {
-                listitem[i].isSelected = true;
-                listitem[i].setBackground(HowerBackgroundColor);
-                listitem[i].setForeground(HowerFontColor);
-            } else {
-                listitem[i].isSelected = false;
-                listitem[i].setBackground(DefaultColor);
-                listitem[i].setForeground(FontColor);
-            }
-        }
+        
+            for (int i = 0; i < getSt.length; i++) {
+                if (evt.getSource() == listitem[i]) {
+                    listitem[i].isSelected = true;
+                    listitem[i].setBackground(HowerBackgroundColor);
+                    listitem[i].setForeground(HowerFontColor);
+                } else {
+                    listitem[i].isSelected = false;
+                    listitem[i].setBackground(DefaultColor);
+                    listitem[i].setForeground(FontColor);
+                }
+
+    }
     }
 
     public void in4(JPanel info) {
-        JPanel pnlIcon = new JPanel();
+        JPanel pnlIcon = new JPanel(new FlowLayout());
         pnlIcon.setPreferredSize(new Dimension(60, 0));
         pnlIcon.setOpaque(false);
         info.add(pnlIcon, BorderLayout.WEST);
@@ -318,7 +322,7 @@ public class MenuTaskbar extends JPanel {
         JPanel pnlInfo = new JPanel();
         pnlInfo.setOpaque(false);
         pnlInfo.setLayout(new FlowLayout(0, 10, 5));
-        pnlInfo.setBorder(new EmptyBorder(15,0,0,0));
+        pnlInfo.setBorder(new EmptyBorder(15, 0, 0, 0));
         info.add(pnlInfo, BorderLayout.CENTER);
 
         lblUsername = new JLabel(nhanVienDTO.getHoten());
@@ -329,6 +333,14 @@ public class MenuTaskbar extends JPanel {
         lblTenNhomQuyen.putClientProperty("FlatLaf.style", "font: 120% $light.font");
         lblTenNhomQuyen.setForeground(Color.GRAY);
         pnlInfo.add(lblTenNhomQuyen);
-
+        myacc = new JButton("Chỉnh sửa thông tin cá nhân");
+        myacc.setBorderPainted(false);
+        myacc.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                MyAccount ma=new MyAccount(owner,MenuTaskbar.this,"Chỉnh sửa thông tin cá nhân",true);
+            }
+        });
+        pnlInfo.add(myacc);
     }
 }
