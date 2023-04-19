@@ -7,7 +7,6 @@ import DTO.ChiTietQuyenDTO;
 import DTO.NhanVienDTO;
 import DTO.NhomQuyenDTO;
 import DTO.TaiKhoanDTO;
-import GUI.Dialog.MyAccount;
 import GUI.Log_In;
 import GUI.Main;
 import GUI.Panel.ChuyenKho;
@@ -30,6 +29,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import GUI.Dialog.MyAccount;
 //import GUI.Component.itemTaskbar;
 
 public class MenuTaskbar extends JPanel {
@@ -46,7 +46,6 @@ public class MenuTaskbar extends JPanel {
     NhanVien nhanVien;
     TaiKhoan taiKhoan;
     PhanQuyen phanQuyen;
-    JButton myacc;
     String[][] getSt = {
         {"Trang chủ", "home_32px.svg", "trangchu"},
         {"Sản phẩm", "product_32px.svg", "trangchu"},
@@ -264,14 +263,18 @@ public class MenuTaskbar extends JPanel {
                 main.setPanel(phanQuyen);
             }
         });
+
         listitem[12].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                int rety = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất?", "Đăng xuất", JOptionPane.YES_NO_OPTION);
-                if (rety == JOptionPane.YES_OPTION) {
+
+                int input = JOptionPane.showConfirmDialog(null,
+                        "Bạn có chắc chắn muốn đăng xuất?", "Đăng xuất",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (input == 0) {
+                    Log_In login = new Log_In();
                     main.dispose();
-                    Log_In lg = new Log_In();
-                    lg.setVisible(true);
+                    login.setVisible(true);
                 }
             }
         });
@@ -333,14 +336,12 @@ public class MenuTaskbar extends JPanel {
         lblTenNhomQuyen.putClientProperty("FlatLaf.style", "font: 120% $light.font");
         lblTenNhomQuyen.setForeground(Color.GRAY);
         pnlInfo.add(lblTenNhomQuyen);
-        myacc = new JButton("!");
-        myacc.setBorderPainted(false);
-        myacc.addMouseListener(new MouseAdapter() {
+        
+        lblIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
                 MyAccount ma=new MyAccount(owner,MenuTaskbar.this,"!",true);
             }
         });
-        pnlInfo.add(myacc);
     }
 }

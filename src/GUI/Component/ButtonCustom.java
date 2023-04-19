@@ -46,6 +46,10 @@ public class ButtonCustom extends JButton {
         initComponent(type, text, fontsize, 150, 40);
     }
 
+    public ButtonCustom(String text, String type, int fontsize, int w, int h) {
+        initComponent(type, text, fontsize, w, h);
+    }
+
     public ButtonCustom(String text, String type, int fontsize, String linkIcon) {
         initComponent(type, text, fontsize, 150, 40);
         this.setIcon(new ImageIcon(getClass().getResource(linkIcon)));

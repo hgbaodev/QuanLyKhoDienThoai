@@ -7,6 +7,7 @@ package GUI.Dialog.ThuocTinhSanPham;
 import BUS.MauSacBUS;
 import DAO.MauSacDAO;
 import DTO.ThuocTinhSanPham.MauSacDTO;
+import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Panel.QuanLyThuocTinhSP;
@@ -38,7 +39,7 @@ public class MauSacDialog extends JDialog implements MouseListener {
     DefaultTableModel tblModel;
     JTable table;
     JScrollPane scrollTable;
-    JButton add, del, update;
+    ButtonCustom add, del, update;
     MauSacBUS msBUS = new MauSacBUS();
     ArrayList<MauSacDTO> list = msBUS.getAll();
 
@@ -86,14 +87,14 @@ public class MauSacDialog extends JDialog implements MouseListener {
         main.add(ms);
         main.add(scrollTable);
 
-        add = new JButton("Thêm");
+        add = new ButtonCustom("Thêm", "excel",15,100,40);
         add.addMouseListener(this);
-        del = new JButton("Xóa");
+        del = new ButtonCustom("Xóa", "danger",15,100,40);
         del.addMouseListener(this);
-        update = new JButton("Sửa");
+        update = new ButtonCustom("Sửa", "success",15,100,40);
         update.addMouseListener(this);
         bottom.setBackground(Color.white);
-        bottom.setLayout(new FlowLayout(1, 50, 20));
+        bottom.setLayout(new FlowLayout(1, 20, 20));
         bottom.add(add);
         bottom.add(del);
         bottom.add(update);
