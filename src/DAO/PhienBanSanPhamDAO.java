@@ -187,15 +187,16 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
         int quantity_change = pbsp.getSoluongton() + soluong;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `sanpham` SET `soluongton`=? WHERE masp = ?";
+            String sql = "UPDATE `phienbansanpham` SET `soluongton`=? WHERE maphienbansp = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, quantity_change);
-            pst.setInt(2, pbsp.getMasp());
+            pst.setInt(2, pbsp.getMaphienbansp());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
             Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        SanPhamDAO.getInstance().updateSoLuongTon(pbsp.getMasp(), soluong);
         return result;
     }
 }

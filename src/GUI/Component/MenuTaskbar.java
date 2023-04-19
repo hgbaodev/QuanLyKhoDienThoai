@@ -1,6 +1,5 @@
 package GUI.Component;
 
-import BUS.TaiKhoanBUS;
 import DAO.ChiTietQuyenDAO;
 import DAO.NhanVienDAO;
 import DAO.NhomQuyenDAO;
@@ -30,7 +29,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import org.apache.poi.util.LocaleID;
 //import GUI.Component.itemTaskbar;
 
 public class MenuTaskbar extends JPanel {
@@ -47,12 +45,13 @@ public class MenuTaskbar extends JPanel {
     NhanVien nhanVien;
     TaiKhoan taiKhoan;
     PhanQuyen phanQuyen;
+    JButton myacc;
     String[][] getSt = {
         {"Trang chủ", "home_32px.svg", "trangchu"},
         {"Sản phẩm", "product_32px.svg", "trangchu"},
         {"Thuộc tính", "brand_32px.svg", "thuonghieu"},
         {"Khu vực kho", "area_32px.svg", "khuvuckho"},
-        {"Kiểm kê", "inventory_32px.svg", "kiemke"},
+        {"Phiếu kiểm kê", "inventory_32px.svg", "kiemke"},
         {"Phiếu nhập", "import_32px.svg", "phieunhap"},
         {"Phiếu xuất", "export_32px.svg", "phieuxuat"},
         {"Khách hàng", "customer_32px.svg", "khachang"},
@@ -78,7 +77,8 @@ public class MenuTaskbar extends JPanel {
     Color HowerBackgroundColor = new Color(187, 222, 251);
     private ArrayList<ChiTietQuyenDTO> listQuyen;
     NhomQuyenDTO nhomQuyenDTO;
-    NhanVienDTO nhanVienDTO;
+    public NhanVienDTO nhanVienDTO;
+    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
 
     public MenuTaskbar(Main main) {
         this.main = main;
@@ -293,21 +293,23 @@ public class MenuTaskbar extends JPanel {
     }
 
     public void pnlMenuTaskbarMousePress(MouseEvent evt) {
-        for (int i = 0; i < getSt.length; i++) {
-            if (evt.getSource() == listitem[i]) {
-                listitem[i].isSelected = true;
-                listitem[i].setBackground(HowerBackgroundColor);
-                listitem[i].setForeground(HowerFontColor);
-            } else {
-                listitem[i].isSelected = false;
-                listitem[i].setBackground(DefaultColor);
-                listitem[i].setForeground(FontColor);
-            }
-        }
+        
+            for (int i = 0; i < getSt.length; i++) {
+                if (evt.getSource() == listitem[i]) {
+                    listitem[i].isSelected = true;
+                    listitem[i].setBackground(HowerBackgroundColor);
+                    listitem[i].setForeground(HowerFontColor);
+                } else {
+                    listitem[i].isSelected = false;
+                    listitem[i].setBackground(DefaultColor);
+                    listitem[i].setForeground(FontColor);
+                }
+
+    }
     }
 
     public void in4(JPanel info) {
-        JPanel pnlIcon = new JPanel();
+        JPanel pnlIcon = new JPanel(new FlowLayout());
         pnlIcon.setPreferredSize(new Dimension(60, 0));
         pnlIcon.setOpaque(false);
         info.add(pnlIcon, BorderLayout.WEST);
@@ -334,6 +336,14 @@ public class MenuTaskbar extends JPanel {
         lblTenNhomQuyen.putClientProperty("FlatLaf.style", "font: 120% $light.font");
         lblTenNhomQuyen.setForeground(Color.GRAY);
         pnlInfo.add(lblTenNhomQuyen);
-
+        myacc = new JButton("Chỉnh sửa thông tin cá nhân");
+        myacc.setBorderPainted(false);
+        myacc.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                MyAccount ma=new MyAccount(owner,MenuTaskbar.this,"Chỉnh sửa thông tin cá nhân",true);
+            }
+        });
+        pnlInfo.add(myacc);
     }
 }

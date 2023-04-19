@@ -1,7 +1,6 @@
 package DAO;
 
 import DTO.ChiTietPhieuNhapDTO;
-import DTO.ChiTietPhieuDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,6 +38,7 @@ public class ChiTietPhieuNhapDAO implements ChiTietInterface<ChiTietPhieuNhapDTO
             } catch (SQLException ex) {
                 Logger.getLogger(ChiTietPhieuNhapDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
+            PhienBanSanPhamDAO.getInstance().updateSoLuongTon(t.get(i).getMaphienbansp(), t.get(i).getSoluong());
         }
         return result;
     }
@@ -82,12 +82,13 @@ public class ChiTietPhieuNhapDAO implements ChiTietInterface<ChiTietPhieuNhapDTO
                 int maphienbansp = rs.getInt("maphienbansp");
                 int dongia = rs.getInt("dongia");
                 int soluong = rs.getInt("soluong");
-                int phuongthucnhap = rs.getInt("phuongthucnhap");
+                int phuongthucnhap = rs.getInt("hinhthucnhap");
                 ChiTietPhieuNhapDTO ctphieu = new ChiTietPhieuNhapDTO(phuongthucnhap, maphieu, maphienbansp, soluong, dongia);
                 result.add(ctphieu);
             }
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
+            System.out.println(e);
         }
         return result;
     }

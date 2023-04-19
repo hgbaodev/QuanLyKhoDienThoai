@@ -3,18 +3,21 @@ package GUI;
 import DAO.TaiKhoanDAO;
 import DTO.TaiKhoanDTO;
 import GUI.Component.InputForm;
+import GUI.Component.Notification;
 import GUI.Dialog.QuenMatKhau;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.BCrypt;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.border.EmptyBorder;
 
-public class Log_In extends JFrame {
+public class Log_In extends JFrame implements KeyListener{
 
     JPanel pnlMain, pnlLogIn;
     JLabel lblImage, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7;
@@ -67,8 +70,13 @@ public class Log_In extends JFrame {
         paneldn.add(txtUsername);
         txtPassword = new InputForm("Mật khẩu", "password");
         paneldn.add(txtPassword);
+        
+        txtUsername.getTxtForm().addKeyListener(this);
+        txtPassword.getTxtPass().addKeyListener(this);
+        
 
         pnlMain.add(paneldn);
+        
 
         lbl6 = new JLabel("ĐĂNG NHẬP");
         lbl6.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 16));
@@ -177,5 +185,22 @@ public class Log_In extends JFrame {
         lblImage = new JLabel();
         lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/phone2.jpg")));
         bo.add(lblImage);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode()==KeyEvent.VK_ENTER){
+            checkLogin();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

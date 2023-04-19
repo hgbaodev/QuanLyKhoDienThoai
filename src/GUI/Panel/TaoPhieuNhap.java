@@ -7,6 +7,7 @@ import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
 import BUS.PhieuNhapBUS;
 import BUS.SanPhamBUS;
+import DAO.NhanVienDAO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
@@ -20,6 +21,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
+import GUI.Dialog.QRCode_Dialog;
+import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.Formater;
@@ -50,7 +53,9 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     JTextField txtTimKiem;
     JLabel labelImei, lbltongtien;
     JTextArea textAreaImei;
+    Main m;
     Color BackgroundColor = new Color(240, 247, 250);
+    JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
 
     SanPhamBUS spBUS = new SanPhamBUS();
     NhaCungCapBUS nccBus = new NhaCungCapBUS();
@@ -62,24 +67,31 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     NhanVienDTO nvDto;
 
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
-    ArrayList<PhienBanSanPhamDTO> ch;
-    ArrayList<ChiTietPhieuNhapDTO> chitietphieu = new ArrayList<>();
+    ArrayList<PhienBanSanPhamDTO> ch = new ArrayList<>();
+    ArrayList<ChiTietPhieuNhapDTO> chitietphieu;
     HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham = new HashMap<>();
     int maphieunhap;
     int rowPhieuSelect = -1;
+    private ButtonCustom scanImei;
 
-    public TaoPhieuNhap(NhanVienDTO nv, String type) {
+    public TaoPhieuNhap(NhanVienDTO nv, String type, Main m) {
         this.nvDto = nv;
+        this.m = m;
         maphieunhap = phieunhapBus.phieunhapDAO.getAutoIncrement();
-        initComponent();
+        chitietphieu = new ArrayList<>();
+        initComponent(type);
         loadDataTalbeSanPham(listSP);
     }
-    
-    public TaoPhieuNhap(NhanVienDTO nv, String type, PhieuNhapDTO phieunhap) {
-        this.nvDto = nv;
+
+    public TaoPhieuNhap(NhanVienDTO nv, String type, PhieuNhapDTO phieunhap, Main m) {
+        this.nvDto = NhanVienDAO.getInstance().selectById(Integer.toString(phieunhap.getManguoitao()));
+        this.m = m;
         maphieunhap = phieunhap.getMaphieu();
-        initComponent();
+        chitietphieu = phieunhapBus.getChiTietPhieu(maphieunhap);
+        chitietsanpham = phieunhapBus.getChiTietSanPham(maphieunhap);
+        initComponent(type);
         loadDataTalbeSanPham(listSP);
+        loadDataTableChiTietPhieu(chitietphieu);
     }
 
     public void initPadding() {
@@ -104,7 +116,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         this.add(pnlBorder4, BorderLayout.WEST);
     }
 
-    private void initComponent() {
+    private void initComponent(String type) {
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -248,12 +260,24 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         JPanel card_content_two_model = new JPanel(new BorderLayout());
         card_content_two_model.setBorder(new EmptyBorder(10, 10, 10, 10));
         labelImei = new JLabel("Mã Imei");
-        labelImei.setPreferredSize(new Dimension(0, 30));
+        labelImei.setPreferredSize(new Dimension(70, 0));
+        scanImei = new ButtonCustom("Quét imei", "success", 14);
+        scanImei.setPreferredSize(new Dimension(110,0));
+        JPanel panelScanCenter = new JPanel();
+        panelScanCenter.setBackground(Color.WHITE);
+        JPanel jpanelImei = new JPanel(new BorderLayout());
+        jpanelImei.setPreferredSize(new Dimension(0,40));
+        jpanelImei.setBackground(Color.WHITE);
+        jpanelImei.setBorder(new EmptyBorder(0,0,10,0));
+        jpanelImei.add(labelImei,BorderLayout.WEST);
+        jpanelImei.add(panelScanCenter,BorderLayout.CENTER);
+        jpanelImei.add(scanImei,BorderLayout.EAST);
+        scanImei.addActionListener(this);
         textAreaImei = new JTextArea(6, 4);
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
         card_content_two_model.setSize(new Dimension(0, 100));
         card_content_two_model.setBackground(Color.white);
-        card_content_two_model.add(labelImei, BorderLayout.NORTH);
+        card_content_two_model.add(jpanelImei, BorderLayout.NORTH);
         card_content_two_model.add(textAreaImei, BorderLayout.CENTER);
 
         content_right_bottom.add(card_content_one);
@@ -286,7 +310,6 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         content_btn.add(btnDelete);
 
         left_top.add(content_top, BorderLayout.CENTER);
-        left_top.add(content_btn, BorderLayout.SOUTH);
 
         main = new JPanel();
         main.setOpaque(false);
@@ -339,11 +362,22 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         lbltien.setForeground(new Color(255, 51, 51));
         pn_tongtien.add(lbltien);
         pn_tongtien.add(lbltongtien);
-
-        btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
-        btnNhapHang.addActionListener(this);
         right_bottom.add(pn_tongtien);
-        right_bottom.add(btnNhapHang);
+
+        switch (type) {
+            case "create" -> {
+                btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
+                btnNhapHang.addActionListener(this);
+                right_bottom.add(btnNhapHang);
+                left_top.add(content_btn, BorderLayout.SOUTH);
+            }
+            case "update" -> {
+                left_top.add(content_btn, BorderLayout.SOUTH);
+            }
+            case "view" -> {
+                main.setPreferredSize(new Dimension(0, 350));
+            }
+        }
 
         right.add(right_top, BorderLayout.NORTH);
         right.add(right_center, BorderLayout.CENTER);
@@ -459,8 +493,10 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             int index = cbxPtNhap.cbb.getSelectedIndex();
             CardLayout c = (CardLayout) content_right_bottom.getLayout();
             switch (index) {
-                case 0 -> c.first(content_right_bottom);
-                case 1 -> c.last(content_right_bottom);
+                case 0 ->
+                    c.first(content_right_bottom);
+                case 1 ->
+                    c.last(content_right_bottom);
             }
         }
     }
@@ -576,6 +612,12 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             loadDataTableChiTietPhieu(chitietphieu);
         } else if (source == btnNhapHang) {
             eventBtnNhapHang();
+        } else if (source == scanImei){
+            if(ch.size() == 0){
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm để quét mã!");
+            } else {
+                QRCode_Dialog qr = new QRCode_Dialog(owner, "Scan", true, textAreaImei);
+            }
         }
     }
 
@@ -590,6 +632,8 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             boolean result = phieunhapBus.add(pn, chitietphieu, chitietsanpham);
             if (result) {
                 JOptionPane.showMessageDialog(this, "Nhập hàng thành công !");
+                PhieuNhap pnlPhieu = new PhieuNhap(m, nvDto);
+                m.setPanel(pnlPhieu);
             } else {
                 JOptionPane.showMessageDialog(this, "Nhập hàng không thành công !", "Cảnh báo !", JOptionPane.ERROR_MESSAGE);
             }
