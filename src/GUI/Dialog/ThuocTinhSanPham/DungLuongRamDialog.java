@@ -7,6 +7,7 @@ package GUI.Dialog.ThuocTinhSanPham;
 import BUS.DungLuongRamBUS;
 import DAO.DungLuongRamDAO;
 import DTO.ThuocTinhSanPham.DungLuongRamDTO;
+import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Panel.QuanLyThuocTinhSP;
@@ -37,7 +38,7 @@ public class DungLuongRamDialog extends JDialog implements MouseListener{
     DefaultTableModel tblModel;
     JTable table;
     JScrollPane scrollTable;
-    JButton add, del, update;
+    ButtonCustom add, del, update;
     DungLuongRamBUS dlrBUS = new DungLuongRamBUS();
     ArrayList<DungLuongRamDTO> list = dlrBUS.getAll();
     QuanLyThuocTinhSP qltt; 
@@ -85,14 +86,14 @@ public class DungLuongRamDialog extends JDialog implements MouseListener{
         main.add(ms);
         main.add(scrollTable);
         
-        add = new JButton("Thêm");
+        add = new ButtonCustom("Thêm", "excel",15,100,40);
         add.addMouseListener(this);
-        del = new JButton("Xóa");
+        del = new ButtonCustom("Xóa", "danger",15,100,40);
         del.addMouseListener(this);
-        update = new JButton("Sửa");
+        update = new ButtonCustom("Sửa", "success",15,100,40);
         update.addMouseListener(this);
         bottom.setBackground(Color.white);
-        bottom.setLayout(new FlowLayout(1,50,20));
+        bottom.setLayout(new FlowLayout(1,20,20));
         bottom.add(add);
         bottom.add(del);
         bottom.add(update);

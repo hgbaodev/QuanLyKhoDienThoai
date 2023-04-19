@@ -75,7 +75,7 @@ public class Log_In extends JFrame {
         lbl6.setForeground(Color.white);
 
         pnlLogIn = new JPanel();
-        pnlLogIn.setBackground(UIManager.getDefaults().getColor("Actions.Blue"));
+        pnlLogIn.setBackground(Color.BLACK);
         pnlLogIn.setPreferredSize(new Dimension(380, 45));
         pnlLogIn.setLayout(new FlowLayout(1, 0, 15));
 
@@ -149,7 +149,7 @@ public class Log_In extends JFrame {
 
     private void pnlLogInMouseExited(java.awt.event.MouseEvent evt) {
 
-        pnlLogIn.setBackground(UIManager.getDefaults().getColor("Actions.Blue"));
+        pnlLogIn.setBackground(Color.BLACK);
         pnlLogIn.setForeground(Color.white);
     }
 
@@ -169,13 +169,13 @@ public class Log_In extends JFrame {
 
     public void imgIntro() {
         JPanel bo = new JPanel();
-        bo.setBorder(new EmptyBorder(3, 1, 4, 5));
+        bo.setBorder(new EmptyBorder(3, 10, 5, 5));
         bo.setPreferredSize(new Dimension(500, 740));
         bo.setBackground(Color.white);
         this.add(bo, BorderLayout.WEST);
 
         lblImage = new JLabel();
-        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/login.jpg")));
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/phone2.jpg")));
         bo.add(lblImage);
     }
 }

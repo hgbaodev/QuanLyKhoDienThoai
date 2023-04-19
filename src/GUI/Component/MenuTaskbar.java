@@ -8,6 +8,7 @@ import DTO.ChiTietQuyenDTO;
 import DTO.NhanVienDTO;
 import DTO.NhomQuyenDTO;
 import DTO.TaiKhoanDTO;
+import GUI.Log_In;
 import GUI.Main;
 import GUI.Panel.ChuyenKho;
 import GUI.Panel.KhachHang;
@@ -222,7 +223,7 @@ public class MenuTaskbar extends JPanel {
         listitem[6].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                phieuXuat = new PhieuXuat(main,user);
+                phieuXuat = new PhieuXuat(main, user);
                 main.setPanel(phieuXuat);
             }
         });
@@ -260,6 +261,21 @@ public class MenuTaskbar extends JPanel {
             public void mousePressed(MouseEvent evt) {
                 phanQuyen = new PhanQuyen();
                 main.setPanel(phanQuyen);
+            }
+        });
+
+        listitem[12].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+
+                int input = JOptionPane.showConfirmDialog(null,
+                        "Bạn có chắc chắn muốn đăng xuất?", "Đăng xuất",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (input == 0) {
+                    Log_In login = new Log_In();
+                    main.dispose();
+                    login.setVisible(true);
+                }
             }
         });
     }
@@ -307,7 +323,7 @@ public class MenuTaskbar extends JPanel {
         JPanel pnlInfo = new JPanel();
         pnlInfo.setOpaque(false);
         pnlInfo.setLayout(new FlowLayout(0, 10, 5));
-        pnlInfo.setBorder(new EmptyBorder(15,0,0,0));
+        pnlInfo.setBorder(new EmptyBorder(15, 0, 0, 0));
         info.add(pnlInfo, BorderLayout.CENTER);
 
         lblUsername = new JLabel(nhanVienDTO.getHoten());
