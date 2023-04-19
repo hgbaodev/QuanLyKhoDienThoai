@@ -333,12 +333,12 @@ public class MenuTaskbar extends JPanel {
         lblTenNhomQuyen.putClientProperty("FlatLaf.style", "font: 120% $light.font");
         lblTenNhomQuyen.setForeground(Color.GRAY);
         pnlInfo.add(lblTenNhomQuyen);
-        myacc = new JButton("Chỉnh sửa thông tin cá nhân");
+        myacc = new JButton("!");
         myacc.setBorderPainted(false);
         myacc.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                MyAccount ma=new MyAccount(owner,MenuTaskbar.this,"Chỉnh sửa thông tin cá nhân",true);
+                MyAccount ma=new MyAccount(owner,MenuTaskbar.this,"!",true);
             }
         });
         pnlInfo.add(myacc);
