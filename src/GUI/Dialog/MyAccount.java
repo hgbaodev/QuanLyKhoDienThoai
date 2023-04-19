@@ -61,12 +61,13 @@ public class MyAccount extends JDialog implements ActionListener {
         tkbus = new TaiKhoanBUS();
         nvbus = new NhanVienBUS();
         this.menuTaskbar = menutaskbar;
-        this.setSize(450, 300);
+        this.setSize(400, 300);
         this.setLayout(new BorderLayout(0, 0));
         this.setBackground(Color.WHITE);
         nv = menuTaskbar.nhanVienDTO;
         top = new JPanel();
         top.setBackground(Color.WHITE);
+        top.setLayout(new FlowLayout(0,0,0));
         title = new HeaderTitle("CHỈNH SỬA THÔNG TIN");
         top.add(title);
         this.add(top, BorderLayout.NORTH);
@@ -121,10 +122,10 @@ public class MyAccount extends JDialog implements ActionListener {
         bottom = new JPanel(new FlowLayout(1, 20, 10));
         bottom.setBackground(Color.WHITE);
 
-        cancel = new ButtonCustom("Hủy", "danger", 25);
+        cancel = new ButtonCustom("Hủy", "danger", 15);
         cancel.addActionListener(this);
         bottom.add(cancel);
-        save = new ButtonCustom("Lưu", "success", 25);
+        save = new ButtonCustom("Lưu", "success", 15);
         save.addActionListener(this);
         bottom.add(save);
         this.add(bottom, BorderLayout.SOUTH);
@@ -139,8 +140,10 @@ public class MyAccount extends JDialog implements ActionListener {
         for (int i = 0; i < 3; i++) {
             if (e.getSource() == jbr[i]) {
                 if (i == 2) {
-                    this.setSize(new Dimension(450, 500));
+                    this.setSize(new Dimension(400, 500));
                     this.setLocationRelativeTo(null);
+                } else {
+                    this.setSize(400, 300);
                 }
                 main_center.removeAll();
                 main_center.add(panel[i]);
@@ -189,10 +192,10 @@ public class MyAccount extends JDialog implements ActionListener {
                 }
             }
         }
-    }
+    } 
 
     public boolean checknull(InputForm x, String object) {
-        if (x.getText().trim() == ""||x.getPass().trim()=="") {
+        if (x.getText().trim() == "" || x.getPass().trim() == "") {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập " + object);
             return false;
         } else {

@@ -29,6 +29,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import GUI.Dialog.MyAccount;
 //import GUI.Component.itemTaskbar;
 
 public class MenuTaskbar extends JPanel {
@@ -45,7 +46,6 @@ public class MenuTaskbar extends JPanel {
     NhanVien nhanVien;
     TaiKhoan taiKhoan;
     PhanQuyen phanQuyen;
-    JButton myacc;
     String[][] getSt = {
         {"Trang chủ", "home_32px.svg", "trangchu"},
         {"Sản phẩm", "product_32px.svg", "trangchu"},
@@ -336,14 +336,12 @@ public class MenuTaskbar extends JPanel {
         lblTenNhomQuyen.putClientProperty("FlatLaf.style", "font: 120% $light.font");
         lblTenNhomQuyen.setForeground(Color.GRAY);
         pnlInfo.add(lblTenNhomQuyen);
-        myacc = new JButton("Chỉnh sửa thông tin cá nhân");
-        myacc.setBorderPainted(false);
-        myacc.addMouseListener(new MouseAdapter() {
+        
+        lblIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
                 MyAccount ma=new MyAccount(owner,MenuTaskbar.this,"Chỉnh sửa thông tin cá nhân",true);
             }
         });
-        pnlInfo.add(myacc);
     }
 }
