@@ -125,13 +125,13 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
     }
     
     
-    public ArrayList<ChiTietSanPhamDTO> selectAllbyPb(String mapbsp) {
+    public ArrayList<ChiTietSanPhamDTO> selectAllbyPb(int mapbsp) {
         ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM ctsanpham where maphienbansp = ? and tinhtrang = '1'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(1, mapbsp);
+            pst.setInt(1, mapbsp);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
                 String imei = rs.getString("maimei");
