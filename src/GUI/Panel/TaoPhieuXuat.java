@@ -25,6 +25,7 @@ import DTO.TaiKhoanDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.CustomComboCheck;
 import GUI.Component.InputForm;
+import GUI.Component.Notification;
 import GUI.Main;
 import java.awt.*;
 import javax.swing.*;
@@ -305,7 +306,10 @@ public class TaoPhieuXuat extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (checkInfo()) {
                     getInfo();
+                    Notification notification = new Notification(mainChinh, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Thêm sản phẩm thành công!");
+                    notification.showNotification();
                     loadDataTableChiTietPhieu(chitietphieu);
+                    actionbtn("update");
                 }
             }
         });
@@ -553,7 +557,7 @@ public class TaoPhieuXuat extends JPanel {
     }
 
     public void setImeiByPb(int mapb) {
-        ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb + "");
+        ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb);
         textAreaImei.setText("");
         v.clear();
         v.add("Chọn sản phẩm");

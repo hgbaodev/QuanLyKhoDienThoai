@@ -59,4 +59,14 @@ public class KhachHangBUS {
         }
         return result;
     }
+
+    public Object getTenKhachHang(int makh) {
+        String name = "";
+        for (KhachHangDTO khachHangDTO : listKhachHang) {
+            if(khachHangDTO.getMaKH() == makh){
+                name = khachHangDTO.getHoten();
+            }
+        }
+        return name;
+    }
 }
