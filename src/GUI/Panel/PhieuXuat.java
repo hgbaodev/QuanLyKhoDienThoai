@@ -1,5 +1,6 @@
 package GUI.Panel;
 
+import BUS.KhachHangBUS;
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
 import BUS.PhieuXuatBUS;
@@ -43,6 +44,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
     NhaCungCapBUS nccBUS = new NhaCungCapBUS();
     NhanVienBUS nvBUS = new NhanVienBUS();
     PhieuXuatBUS pxBUS = new PhieuXuatBUS();
+    KhachHangBUS khachHangBUS = new KhachHangBUS();
 
     public PhieuXuat(Main m,TaiKhoanDTO tk) {
         initComponent();
@@ -137,17 +139,17 @@ public class PhieuXuat extends JPanel implements ActionListener {
         }
     }
     
-    public void loadDataTalbe(ArrayList<PhieuXuatDTO> listphieunhap) {
+    public void loadDataTalbe(ArrayList<PhieuXuatDTO> listphieuxuat) {
         tblModel.setRowCount(0);
-        int size = listphieunhap.size();
+        int size = listphieuxuat.size();
         for (int i = 0; i < size; i++) {
             tblModel.addRow(new Object[]{
                 i + 1, 
-                listphieunhap.get(i).getMaphieu(),
-                nccBUS.getTenNhaCungCap(listphieunhap.get(i).getMakh()),
-                nvBUS.getNameById(listphieunhap.get(i).getManguoitao()),
-                Formater.FormatTime(listphieunhap.get(i).getThoigiantao()),
-                Formater.FormatVND(listphieunhap.get(i).getTongTien()),
+                listphieuxuat.get(i).getMaphieu(),
+                khachHangBUS.getTenKhachHang(listphieuxuat.get(i).getMakh()),
+                nvBUS.getNameById(listphieuxuat.get(i).getManguoitao()),
+                Formater.FormatTime(listphieuxuat.get(i).getThoigiantao()),
+                Formater.FormatVND(listphieuxuat.get(i).getTongTien()),
             });
         }
     }
