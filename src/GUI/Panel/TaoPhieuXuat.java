@@ -557,7 +557,7 @@ public class TaoPhieuXuat extends JPanel {
     }
 
     public void setImeiByPb(int mapb) {
-        ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb + "");
+        ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb);
         textAreaImei.setText("");
         v.clear();
         v.add("Chọn sản phẩm");

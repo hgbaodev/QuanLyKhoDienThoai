@@ -162,7 +162,12 @@ public final class SanPham extends JPanel implements ActionListener {
 //                    loadDataTalbe(listSP);
 //                }
 //            }
-               ChiTietSanPhamDialog ct = new ChiTietSanPhamDialog(owner, "Chi tiết sản phẩm",true);
+//              ChiTietSanPhamDialog ct = new ChiTietSanPhamDialog(owner, "Chi tiết sản phẩm",true);
+            int index = getRowSelected();
+            if (index != -1) {
+                System.out.println(listSP.get(index));
+                ChiTietSanPhamDialog ct = new ChiTietSanPhamDialog(owner, "Chi tiêt sản phẩm", true,listSP.get(index));
+            }
         } else if (e.getSource() == mainFunction.btnDetail) {
             int index = getRowSelected();
             if (index != -1) {
