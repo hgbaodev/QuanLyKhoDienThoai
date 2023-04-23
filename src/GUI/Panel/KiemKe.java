@@ -2,11 +2,9 @@ package GUI.Panel;
 
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
-import BUS.PhieuNhapBUS;
 import DTO.SanPhamDTO;
 import BUS.SanPhamBUS;
 import DTO.NhanVienDTO;
-import DTO.PhieuNhapDTO;
 
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -39,10 +37,6 @@ public class KiemKe extends JPanel implements ActionListener {
     Main m;
     NhanVienDTO nv;
 
-    PhieuNhapBUS phieunhapBUS = new PhieuNhapBUS();
-    NhaCungCapBUS nccBUS = new NhaCungCapBUS();
-    NhanVienBUS nvBUS = new NhanVienBUS();
-    ArrayList<PhieuNhapDTO> listPhieu;
 
     Color BackgroundColor = new Color(239, 235, 233);
 
@@ -50,8 +44,6 @@ public class KiemKe extends JPanel implements ActionListener {
         initComponent();
         this.m =m;
                 this.nv = nv;
-        this.listPhieu = phieunhapBUS.getAll();
-        loadDataTable(listPhieu);
     }
 
     private void initComponent() {
@@ -121,18 +113,6 @@ public class KiemKe extends JPanel implements ActionListener {
         main.add(scrollTableSanPham);
     }
 
-    public void loadDataTable(ArrayList<PhieuNhapDTO> listphieunhap) {
- tblModel.setRowCount(0);
-        int size = listphieunhap.size();
-        for (int i = 0; i < size; i++) {
-            tblModel.addRow(new Object[]{
-                i + 1, listphieunhap.get(i).getMaphieu(),
-                nccBUS.getTenNhaCungCap(listphieunhap.get(i).getManhacungcap()),
-                nvBUS.getNameById(listphieunhap.get(i).getManguoitao()),
-                Formater.FormatTime(listphieunhap.get(i).getThoigiantao()),
-            });
-        }
-    }
 
     public void initPadding() {
         pnlBorder1 = new JPanel();
@@ -165,14 +145,10 @@ public class KiemKe extends JPanel implements ActionListener {
         } else if (source == mainFunction.btnDetail) {
             int index = getRowSelected();
             if (index != -1) {
-                TaoPhieuKiemKe phieukiemke = new TaoPhieuKiemKe(nv, "view", listPhieu.get(index), m);
-                m.setPanel(phieukiemke);
             }
         } else if (source == mainFunction.btnEdit) {
             int index = getRowSelected();
             if (index != -1) {
-                TaoPhieuKiemKe phieukiemke = new TaoPhieuKiemKe(nv, "update", listPhieu.get(index), m);
-                m.setPanel(phieukiemke);
             }
         }
 
