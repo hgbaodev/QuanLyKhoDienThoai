@@ -3,10 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/helper/Formater.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/PhieuNhap.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/helper/Validation.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/TaoPhieuNhap.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Component/Notification.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Log_In.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Panel/TaoPhieuXuat.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Dialog/TaiKhoanDialog.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Panel/TaiKhoan.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Component/MenuTaskbar.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Panel/PhieuNhap.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Panel/TaoPhieuNhap.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Panel/NhaCungCap.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Panel/KiemKe.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Panel/TaoPhieuKiemKe.java</file>
         </group>
     </open-files>
 </project-private>

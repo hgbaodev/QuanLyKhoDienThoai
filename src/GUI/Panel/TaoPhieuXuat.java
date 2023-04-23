@@ -376,13 +376,14 @@ public class TaoPhieuXuat extends JPanel {
         right.setPreferredSize(new Dimension(320, 0));
         right.setBorder(new EmptyBorder(5, 5, 5, 5));
         right.setLayout(new BorderLayout());
+        
 
         JPanel right_top, right_center, right_bottom, pn_tongtien;
         right_top = new JPanel(new GridLayout(2, 1, 0, 0));
         right_top.setPreferredSize(new Dimension(300, 180));
-        txtMaphieu = new InputForm("Mã phiếu nhập");
+        txtMaphieu = new InputForm("Mã phiếu xuất");
         txtMaphieu.setEditable(false);
-        txtNhanVien = new InputForm("Nhân viên nhập");
+        txtNhanVien = new InputForm("Nhân viên xuất");
         txtNhanVien.setEditable(false);
         maphieu = PhieuXuatDAO.getInstance().getAutoIncrement();
         manv = tk.getManv();
