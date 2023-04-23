@@ -11,6 +11,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import GUI.Dialog.ChiTietSanPhamDialog;
 import GUI.Dialog.SanPhamDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -153,13 +154,19 @@ public final class SanPham extends JPanel implements ActionListener {
                 SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chỉnh sửa sản phẩm", true, "update", listSP.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDelete) {
+//            int index = getRowSelected();
+//            if (index != -1) {
+//                int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa Sản phẩm :)!", "Xóa sản phẩm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+//                if (input == 0) {
+//                    spBUS.delete(listSP.get(index));
+//                    loadDataTalbe(listSP);
+//                }
+//            }
+//              ChiTietSanPhamDialog ct = new ChiTietSanPhamDialog(owner, "Chi tiết sản phẩm",true);
             int index = getRowSelected();
             if (index != -1) {
-                int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa Sản phẩm :)!", "Xóa sản phẩm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                if (input == 0) {
-                    spBUS.delete(listSP.get(index));
-                    loadDataTalbe(listSP);
-                }
+                System.out.println(listSP.get(index));
+                ChiTietSanPhamDialog ct = new ChiTietSanPhamDialog(owner, "Chi tiêt sản phẩm", true,listSP.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDetail) {
             int index = getRowSelected();

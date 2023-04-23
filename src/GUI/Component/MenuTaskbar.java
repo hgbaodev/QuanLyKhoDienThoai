@@ -341,7 +341,7 @@ public class MenuTaskbar extends JPanel {
         lblIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                MyAccount ma=new MyAccount(owner,MenuTaskbar.this,"Chỉnh sửa thông tin cá nhân",true);
+                MyAccount ma=new MyAccount(owner,MenuTaskbar.this,"!",true);
             }
         });
     }

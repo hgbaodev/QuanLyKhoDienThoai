@@ -25,6 +25,7 @@ import DTO.TaiKhoanDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.CustomComboCheck;
 import GUI.Component.InputForm;
+import GUI.Component.Notification;
 import GUI.Main;
 import java.awt.*;
 import javax.swing.*;
@@ -305,7 +306,10 @@ public class TaoPhieuXuat extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (checkInfo()) {
                     getInfo();
+                    Notification notification = new Notification(mainChinh, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Thêm sản phẩm thành công!");
+                    notification.showNotification();
                     loadDataTableChiTietPhieu(chitietphieu);
+                    actionbtn("update");
                 }
             }
         });
@@ -415,8 +419,15 @@ public class TaoPhieuXuat extends JPanel {
         txtKh.setEditable(false);
         khachJPanel.add(kJPanelLeft, BorderLayout.EAST);
         khachJPanel.add(txtKh, BorderLayout.CENTER);
+        JPanel khPanel = new JPanel(new GridLayout(2,1,5,0));
+        khPanel.setBackground(Color.WHITE);
+        khPanel.setPreferredSize(new Dimension(0,80));
+        JLabel khachKhangJLabel = new JLabel("Khách hàng");
+        khachKhangJLabel.setBorder(new EmptyBorder(0, 10, 0, 10));
+        khPanel.add(khachKhangJLabel);
+        khPanel.add(khachJPanel);
 
-        right_center.add(khachJPanel, BorderLayout.NORTH);
+        right_center.add(khPanel, BorderLayout.NORTH);
         right_center.setOpaque(false);
 
         right_bottom = new JPanel(new GridLayout(2, 1));
@@ -554,7 +565,7 @@ public class TaoPhieuXuat extends JPanel {
     }
 
     public void setImeiByPb(int mapb) {
-        ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb + "");
+        ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb);
         textAreaImei.setText("");
         v.clear();
         v.add("Chọn sản phẩm");
