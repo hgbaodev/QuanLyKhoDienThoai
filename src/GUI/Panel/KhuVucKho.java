@@ -16,6 +16,7 @@ import GUI.Component.PanelBorderRadius;
 import GUI.Component.itemTaskbar;
 import GUI.Dialog.KhuVucKhoDialog;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -148,8 +149,8 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         right.setBackground(BackgroundColor);
         right.setLayout(new FlowLayout(0, 4, 10));
         right.setPreferredSize(new Dimension(400, 800));
-        JLabel tit = new JLabel("                Danh sách sản phẩm trong kho");
-        tit.setFont(new java.awt.Font("Segoe UI", 1, 16));
+        JLabel tit = new JLabel("Danh sách sản phẩm trong kho");
+        tit.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 1, 16));
         right.add(tit);
 //        right.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách sản phẩm trong kho", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14)));
         scrollPane = new JScrollPane(right, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -257,8 +258,8 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
 
     public void ListCustomersInDePot(ArrayList<SanPhamDTO> result) {
         right.removeAll();
-        JLabel tit = new JLabel("                Danh sách sản phẩm trong kho");
-        tit.setFont(new java.awt.Font("Segoe UI", 1, 16));
+        JLabel tit = new JLabel("Danh sách sản phẩm trong kho");
+        tit.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 1, 16));
         right.add(tit);
         itemTaskbar listItem[] = new itemTaskbar[result.size()];
         int i = 0;
@@ -270,7 +271,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
             }
         }
 
-        if (result.size() == 0) {
+        if (result.isEmpty()) {
             JLabel lblIcon = new JLabel("Không có sản phẩm");
             lblIcon.setPreferredSize(new Dimension(380, 300));
             lblIcon.setIcon(new FlatSVGIcon("./icon/null.svg"));

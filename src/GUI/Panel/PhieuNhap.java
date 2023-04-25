@@ -49,22 +49,22 @@ public class PhieuNhap extends JPanel implements ActionListener {
 
     public void initPadding() {
         pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 20));
+        pnlBorder1.setPreferredSize(new Dimension(0, 10));
         pnlBorder1.setBackground(BackgroundColor);
         this.add(pnlBorder1, BorderLayout.NORTH);
 
         pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 20));
+        pnlBorder2.setPreferredSize(new Dimension(0, 10));
         pnlBorder2.setBackground(BackgroundColor);
         this.add(pnlBorder2, BorderLayout.SOUTH);
 
         pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(20, 0));
+        pnlBorder3.setPreferredSize(new Dimension(10, 0));
         pnlBorder3.setBackground(BackgroundColor);
         this.add(pnlBorder3, BorderLayout.EAST);
 
         pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(20, 0));
+        pnlBorder4.setPreferredSize(new Dimension(10, 0));
         pnlBorder4.setBackground(BackgroundColor);
         this.add(pnlBorder4, BorderLayout.WEST);
     }
@@ -77,7 +77,7 @@ public class PhieuNhap extends JPanel implements ActionListener {
         tablePhieuNhap = new JTable();
         scrollTablePhieuNhap = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền", "Trạng thái"};
+        String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
         tblModel.setColumnIdentifiers(header);
         tablePhieuNhap.setModel(tblModel);
         tablePhieuNhap.setAutoCreateRowSorter(true);
@@ -96,7 +96,7 @@ public class PhieuNhap extends JPanel implements ActionListener {
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
         contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(20, 20));
+        contentCenter.setLayout(new BorderLayout(10, 10));
         this.add(contentCenter, BorderLayout.CENTER);
 
         functionBar = new PanelBorderRadius();
@@ -104,16 +104,14 @@ public class PhieuNhap extends JPanel implements ActionListener {
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        mainFunction = new MainFunction();
+        String[] action = {"create","detail","delete","cancel","import","export"};
+        mainFunction = new MainFunction(action);
         functionBar.add(mainFunction);
 
-        //        //Add Event MouseListener
-        mainFunction.btnAdd.addActionListener(this);
-        mainFunction.btnDelete.addActionListener(this);
-        mainFunction.btnDetail.addActionListener(this);
-        mainFunction.btnEdit.addActionListener(this);
-        mainFunction.btnNhapExcel.addActionListener(this);
-        mainFunction.btnXuatExcel.addActionListener(this);
+        //Add Event MouseListener
+        for(String ac : action){
+            mainFunction.btn.get(ac).addActionListener(this);
+        }
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
@@ -146,7 +144,7 @@ public class PhieuNhap extends JPanel implements ActionListener {
                 nvBUS.getNameById(listphieunhap.get(i).getManguoitao()),
                 Formater.FormatTime(listphieunhap.get(i).getThoigiantao()),
                 Formater.FormatVND(listphieunhap.get(i).getTongTien()),
-                listphieunhap.get(i).getTrangthai() == 1 ? "Đã nhập" : "Huỷ"
+//                listphieunhap.get(i).getTrangthai() == 1 ? "Đã nhập" : "Huỷ"
             });
         }
     }
@@ -154,20 +152,22 @@ public class PhieuNhap extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (source == mainFunction.btnAdd) {
+        if (source == mainFunction.btn.get("create")) {
             nhapKho = new TaoPhieuNhap(nv, "create", m);
             m.setPanel(nhapKho);
-        } else if (source == mainFunction.btnDetail) {
+        } else if (source ==  mainFunction.btn.get("detail")) {
             int index = getRowSelected();
             if (index != -1) {
                 nhapKho = new TaoPhieuNhap(nv, "view", listPhieu.get(index), m);
                 m.setPanel(nhapKho);
             }
-        } else if (source == mainFunction.btnEdit) {
+        } else if (source == mainFunction.btn.get("cancel")) {
             int index = getRowSelected();
             if (index != -1) {
-                nhapKho = new TaoPhieuNhap(nv, "update", listPhieu.get(index), m);
-                m.setPanel(nhapKho);
+                int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn huỷ phiếu ?\nThao tác này không thể hoàn tác nên hãy suy nghĩ kĩ !", "Huỷ phiếu", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (input == 0) {
+                    JOptionPane.showMessageDialog(null, "ok");
+                }
             }
         }
     }
