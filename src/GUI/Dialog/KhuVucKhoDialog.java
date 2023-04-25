@@ -12,6 +12,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Panel.KhuVucKho;
+import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,6 +25,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -184,9 +186,16 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
         ghichu.setText(kvk.getGhichu());
     }
 
+       boolean Validation(){
+        if (Validation.isEmpty(tenkhuvuc.getText())) {
+            JOptionPane.showMessageDialog(this, "Tên khu vực kho không được rỗng", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+         }
+          return true;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnThem) {
+        if (e.getSource() == btnThem && Validation()) {
             int makhuvuc = KhuVucKhoDAO.getInstance().getAutoIncrement();
             String tenkhuvuc = this.tenkhuvuc.getText();
             String ghichu = this.ghichu.getText();
@@ -195,7 +204,7 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
             dispose();
         } else if (e.getSource() == btnHuyBo) {
             dispose();
-        } else if (e.getSource() == btnCapNhat) {
+        } else if (e.getSource() == btnCapNhat && Validation()) {
             String tenkhuvuc = this.tenkhuvuc.getText();
             String ghichu = this.ghichu.getText();
             jpkvk.kvkBUS.update(new KhuVucKhoDTO(kvk.getMakhuvuckho(), tenkhuvuc, ghichu));

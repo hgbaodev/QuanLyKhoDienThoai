@@ -7,6 +7,7 @@ import DAO.KhachHangDAO;
 import DTO.KhachHangDTO;
 import GUI.Panel.KhachHang;
 import BUS.KhachHangBUS;
+import helper.Validation;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -22,11 +23,11 @@ public class KhachHangDialog extends JDialog implements MouseListener {
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
     private InputForm tenKH, sdtKH, diachiKH;
     private JTextField maKH;
+    KhachHangDTO kh;
 
     public KhachHangDialog(KhachHang jpKH, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
         this.jpKH = jpKH;
-        maKH = new JTextField("");
         tenKH = new InputForm("Tên khách hàng");
         sdtKH = new InputForm("Số điện thoại");
         diachiKH = new InputForm("Địa chỉ");
@@ -35,6 +36,7 @@ public class KhachHangDialog extends JDialog implements MouseListener {
 
     public KhachHangDialog(KhachHang jpKH, JFrame owner, String title, boolean modal, String type, DTO.KhachHangDTO kh) {
         super(owner, title, modal);
+        this.kh=kh;
         maKH = new JTextField("");
         setMaKH(Integer.toString(kh.getMaKH()));
         tenKH = new InputForm("Tên khách hàng");
@@ -129,35 +131,33 @@ public class KhachHangDialog extends JDialog implements MouseListener {
 //        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    boolean Validation(){
+        if (Validation.isEmpty(tenKH.getText())) {
+            JOptionPane.showMessageDialog(this, "Tên khách hàng không được rỗng", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+         }
+         else if (Validation.isEmpty(sdtKH.getText()) || !Validation.isNumber(sdtKH.getText()) && sdtKH.getText().length()!=10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại không được rỗng và phải là 10 ký tự số", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+         }
+        else  if (Validation.isEmpty(diachiKH.getText())) {
+            JOptionPane.showMessageDialog(this, "Địa chỉ không được rỗng", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+         }
+          return true;
+    }
     @Override
     public void mousePressed(MouseEvent e) {
-        if (e.getSource() == btnThem) {
-            int id = 0;
-            String name = tenKH.getText();
-            String phone = sdtKH.getText();
-            String address = diachiKH.getText();
-            if (name.equals("") || phone.equals("") || address.equals("")) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
-            } 
-            else if  (!isPhoneNumber(phone)){
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ số điện thoại và là số!");
-
-            } else {
-                DTO.KhachHangDTO kh = new DTO.KhachHangDTO(id, name, phone, address);
-                jpKH.khachhangBUS.add(kh);
+        if (e.getSource() == btnThem && Validation()) {
+                int id=KhachHangDAO.getInstance().getAutoIncrement();
+                jpKH.khachhangBUS.add(new DTO.KhachHangDTO(id, tenKH.getText(),sdtKH.getText(), diachiKH.getText()));
                 jpKH.loadDataTable(jpKH.listkh);
                 dispose();
-            }
 
         } else if (e.getSource() == btnHuyBo) {
             dispose();
-        } else if (e.getSource() == btnCapNhat) {
-            int id = Integer.parseInt(getMaKH());
-            String name = tenKH.getText();
-            String phone = sdtKH.getText();
-            String address = diachiKH.getText();
-            DTO.KhachHangDTO kh = new DTO.KhachHangDTO(id, name, phone, address);
-            jpKH.khachhangBUS.update(kh);
+        } else if (e.getSource() == btnCapNhat && Validation()) {
+            jpKH.khachhangBUS.update(new KhachHangDTO(kh.getMaKH(), tenKH.getText(), sdtKH.getText(), diachiKH.getText()));
             jpKH.loadDataTable(jpKH.listkh);
             dispose();
         }

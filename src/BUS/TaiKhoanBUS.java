@@ -60,5 +60,33 @@ public class TaiKhoanBUS {
     public void deleteAcc(int manv){
         
     }
-    
+    public ArrayList<TaiKhoanDTO> search(String txt, String type) {
+        ArrayList<TaiKhoanDTO> result = new ArrayList<>();
+        txt = txt.toLowerCase();
+        switch (type) {
+            case "Tất cả" -> {
+                for (TaiKhoanDTO i : listTaiKhoan) {
+                    if (Integer.toString(i.getManv()).contains(txt) || i.getUsername().contains(txt) ) {
+                        result.add(i);
+                    }
+                }
+            }
+            case "Mã nhân viên" -> {
+                for (TaiKhoanDTO i : listTaiKhoan) {
+                    if (Integer.toString(i.getManv()).contains(txt)) {
+                        result.add(i);
+                    }
+                }
+            }
+            case "Username" -> {
+                for (TaiKhoanDTO i : listTaiKhoan) {
+                    if (i.getUsername().toLowerCase().contains(txt)) {
+                        result.add(i);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
 }
