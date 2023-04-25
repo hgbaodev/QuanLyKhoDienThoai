@@ -13,8 +13,8 @@ public class ChuyenKho extends JPanel {
 
     PanelBorderRadius box1, box2, main, functionBar, right;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
-    JTable tableChuyenKho;
-    JScrollPane scrollTableChuyenKho;
+    JTable tableSanPham;
+    JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
     JLabel lbl1, lblImage;
@@ -28,23 +28,23 @@ public class ChuyenKho extends JPanel {
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
-        tableChuyenKho = new JTable();
-        scrollTableChuyenKho = new JScrollPane();
-        tableChuyenKho.setModel(new javax.swing.table.DefaultTableModel(
+        tableSanPham = new JTable();
+        scrollTableSanPham = new JScrollPane();
+        tableSanPham.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{}
         ));
-        tableChuyenKho.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã khu vực kho", "Tên khu vực", "Mã kho hàng"};
+        String[] header = new String[]{"STT", "Mã phiếu kiểm kê", "Nhân viên kiểm kê", "Thời gian", "Số lượng thực tế","Chênh lệch"};
         tblModel.setColumnIdentifiers(header);
-        tableChuyenKho.setModel(tblModel);
-        scrollTableChuyenKho.setViewportView(tableChuyenKho);
+        tableSanPham.setModel(tblModel);
+        scrollTableSanPham.setViewportView(tableSanPham);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tableChuyenKho.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tableChuyenKho.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        tableChuyenKho.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        tableSanPham.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -94,9 +94,9 @@ public class ChuyenKho extends JPanel {
         main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
-        scrollTableChuyenKho.setViewportView(tableChuyenKho);
+        scrollTableSanPham.setViewportView(tableSanPham);
 
-        main.add(scrollTableChuyenKho);
+        main.add(scrollTableSanPham);
 
         right = new PanelBorderRadius();
         right.setPreferredSize(new Dimension(400, 0));

@@ -66,7 +66,7 @@ public class Main extends JFrame {
         UIManager.put( "PasswordField.showRevealButton", true );
         FlatIntelliJLaf.registerCustomDefaultsSource("style");
         FlatIntelliJLaf.setup();
-        UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
+        UIManager.put("Table.selectionBackground", new Color(55, 71, 79));
     }
 
     public void setPanel(JPanel pn) {
@@ -90,7 +90,7 @@ public class Main extends JFrame {
         UIManager.put( "PasswordField.showRevealButton", true );
         FlatIntelliJLaf.registerCustomDefaultsSource("style");
         FlatIntelliJLaf.setup();
-        UIManager.put("Table.selectionBackground", new Color(1, 4, 77));
+        UIManager.put("Table.selectionBackground", new Color(187, 222, 251));
         Main main = new Main();
         main.setVisible(true);
     }

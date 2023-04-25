@@ -166,7 +166,7 @@ public final class SanPham extends JPanel implements ActionListener {
             int index = getRowSelected();
             if (index != -1) {
                 System.out.println(listSP.get(index));
-                ChiTietSanPhamDialog ct = new ChiTietSanPhamDialog(owner, "Chi tiêt sản phẩm", true,listSP.get(index));
+                ChiTietSanPhamDialog ct = new ChiTietSanPhamDialog(owner, "Tất cả sản phẩm", true,listSP.get(index));
             }
         } else if (e.getSource() == mainFunction.btnDetail) {
             int index = getRowSelected();

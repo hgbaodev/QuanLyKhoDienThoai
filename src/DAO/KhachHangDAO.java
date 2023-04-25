@@ -32,7 +32,6 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
             pst.setString(2, t.getHoten());
             pst.setString(3, t.getDiachi());
             pst.setString(4, t.getSdt());
-
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -67,7 +66,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "DELETE FROM `khachhang` WHERE `makh` = ?";
+            String sql = "UPDATE  `khachhang` SET trangthai=0 WHERE `makh` = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -83,7 +82,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
         ArrayList<KhachHangDTO> result = new ArrayList<KhachHangDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM khachhang";
+            String sql = "SELECT * FROM khachhang WHERE trangthai=1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){

@@ -10,12 +10,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.awt.BorderLayout;
+import javax.swing.border.EmptyBorder;
 
 public class itemTaskbar extends JPanel implements MouseListener {
 
     Color FontColor = new Color(96, 125, 139);
     Color DefaultColor = new Color(255, 255, 255);
-    JLabel lblIcon, pnlContent;
+    JLabel lblIcon, pnlContent, pnlSoLuong;
+    JPanel right;
+    InputImage1 img;
     public boolean isSelected;
 
     public itemTaskbar(String linkIcon, String content) {
@@ -54,6 +58,35 @@ public class itemTaskbar extends JPanel implements MouseListener {
         this.add(pnlContent);
 
 //        box[i].setBorder(new EmptyBorder(20, 20, 20, 20));
+    }
+
+    public itemTaskbar(String linkImg, String tenSP, int soLuong) {
+
+        this.setLayout(new BorderLayout(0, 0));
+        this.setPreferredSize(new Dimension(380, 60));
+        this.setBackground(Color.white);
+
+        img = new InputImage1("");
+        img.setUrl_img(linkImg);
+        this.add(img, BorderLayout.WEST);
+
+        right = new JPanel();
+        right.setLayout(new FlowLayout(0,0, 0));
+        right.setBorder(new EmptyBorder(10, 0, 0, 0));
+        right.setOpaque(false);
+        this.add(right,BorderLayout.CENTER);
+
+        pnlContent = new JLabel(tenSP);
+        pnlContent.putClientProperty("FlatLaf.style", "font: 150% $semibold.font");
+        pnlContent.setForeground(Color.black);
+        right.add(pnlContent);
+
+        pnlSoLuong = new JLabel("Số lượng: " + soLuong);
+        pnlSoLuong.setPreferredSize(new Dimension(350,20));
+        pnlSoLuong.putClientProperty("FlatLaf.style", "font: 100% $medium.font");
+        pnlSoLuong.setForeground(Color.gray);
+        right.add(pnlSoLuong);
+
     }
 
     @Override

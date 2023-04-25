@@ -169,8 +169,6 @@ public class Log_In extends JFrame implements KeyListener{
         FlatIntelliJLaf.registerCustomDefaultsSource("style");
         FlatIntelliJLaf.setup();
         UIManager.put("PasswordField.showRevealButton", true);
-        UIManager.put("Button.iconTextGap", 10);
-        UIManager.put("TextComponent.arc", 5);
         Log_In login = new Log_In();
         login.setVisible(true);
     }

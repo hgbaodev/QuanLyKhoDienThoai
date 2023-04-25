@@ -380,13 +380,14 @@ public class TaoPhieuXuat extends JPanel {
         right.setPreferredSize(new Dimension(320, 0));
         right.setBorder(new EmptyBorder(5, 5, 5, 5));
         right.setLayout(new BorderLayout());
+        
 
         JPanel right_top, right_center, right_bottom, pn_tongtien;
         right_top = new JPanel(new GridLayout(2, 1, 0, 0));
         right_top.setPreferredSize(new Dimension(300, 180));
-        txtMaphieu = new InputForm("Mã phiếu nhập");
+        txtMaphieu = new InputForm("Mã phiếu xuất");
         txtMaphieu.setEditable(false);
-        txtNhanVien = new InputForm("Nhân viên nhập");
+        txtNhanVien = new InputForm("Nhân viên xuất");
         txtNhanVien.setEditable(false);
         maphieu = PhieuXuatDAO.getInstance().getAutoIncrement();
         manv = tk.getManv();
@@ -418,8 +419,15 @@ public class TaoPhieuXuat extends JPanel {
         txtKh.setEditable(false);
         khachJPanel.add(kJPanelLeft, BorderLayout.EAST);
         khachJPanel.add(txtKh, BorderLayout.CENTER);
+        JPanel khPanel = new JPanel(new GridLayout(2,1,5,0));
+        khPanel.setBackground(Color.WHITE);
+        khPanel.setPreferredSize(new Dimension(0,80));
+        JLabel khachKhangJLabel = new JLabel("Khách hàng");
+        khachKhangJLabel.setBorder(new EmptyBorder(0, 10, 0, 10));
+        khPanel.add(khachKhangJLabel);
+        khPanel.add(khachJPanel);
 
-        right_center.add(khachJPanel, BorderLayout.NORTH);
+        right_center.add(khPanel, BorderLayout.NORTH);
         right_center.setOpaque(false);
 
         right_bottom = new JPanel(new GridLayout(2, 1));
