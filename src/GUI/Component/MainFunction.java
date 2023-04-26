@@ -17,29 +17,30 @@ public class MainFunction extends JToolBar {
         initComponent();
     }
 
-    public MainFunction(int manhomquyen,String chucnang, String[] listBtn) {
+    public MainFunction(int manhomquyen, String chucnang, String[] listBtn) {
         initData();
-        initComponent(manhomquyen,chucnang,listBtn);
-    }
-    
-    public void initData() {
-        btn.put("create", new ButtonToolBar("THÊM", "add.svg"));
-        btn.put("delete", new ButtonToolBar("XÓA", "delete.svg"));
-        btn.put("update", new ButtonToolBar("SỬA", "edit.svg"));
-        btn.put("cancel", new ButtonToolBar("HUỶ PHIẾU", "cancel.svg"));
-        btn.put("detail",new ButtonToolBar("CHI TIẾT", "detail.svg"));
-        btn.put("import", new ButtonToolBar("NHẬP EXCEL", "import_excel.svg"));
-        btn.put("export", new ButtonToolBar("XUẤT EXCEL", "export_excel.svg"));
+        initComponent(manhomquyen, chucnang, listBtn);
     }
 
-    private void initComponent(int manhomquyen, String chucnang,String[] listBtn) {
+    public void initData() {
+        btn.put("create", new ButtonToolBar("THÊM", "add.svg", "create"));
+        btn.put("delete", new ButtonToolBar("XÓA", "delete.svg", "delete"));
+        btn.put("update", new ButtonToolBar("SỬA", "edit.svg", "update"));
+        btn.put("cancel", new ButtonToolBar("HUỶ PHIẾU", "cancel.svg", "delete"));
+        btn.put("detail", new ButtonToolBar("CHI TIẾT", "detail.svg", "view"));
+        btn.put("import", new ButtonToolBar("NHẬP EXCEL", "import_excel.svg", "create"));
+        btn.put("export", new ButtonToolBar("XUẤT EXCEL", "export_excel.svg", "view"));
+        btn.put("phone", new ButtonToolBar("XEM DS", "phone.svg", "view"));
+    }
+
+    private void initComponent(int manhomquyen, String chucnang, String[] listBtn) {
         this.setBackground(Color.WHITE);
         this.setRollover(true);
         initData();
-        for (String action : listBtn) {
-            this.add(btn.get(action));
-            if(nhomquyenBus.checkPermisson(manhomquyen, chucnang, action)) {
-                btn.get(action).setEnabled(false);
+        for (String btnn : listBtn) {
+            this.add(btn.get(btnn));
+            if (!nhomquyenBus.checkPermisson(manhomquyen, chucnang, btn.get(btnn).getPermisson())) {
+                btn.get(btnn).setEnabled(false);
             }
         }
     }

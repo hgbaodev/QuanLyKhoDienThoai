@@ -7,6 +7,7 @@ import BUS.ThuongHieuBUS;
 import BUS.XuatXuBUS;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
+import GUI.Main;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -34,6 +35,7 @@ public final class SanPham extends JPanel implements ActionListener {
     MainFunction mainFunction;
     IntegratedSearch search;
     DefaultTableModel tblModel;
+    Main m;
     public SanPhamBUS spBUS = new SanPhamBUS();
 
     public KhuVucKhoBUS kvkhoBus = new KhuVucKhoBUS();
@@ -48,7 +50,6 @@ public final class SanPham extends JPanel implements ActionListener {
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
-
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
@@ -72,7 +73,7 @@ public final class SanPham extends JPanel implements ActionListener {
 
         contentCenter = new JPanel();
         contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(20, 20));
+        contentCenter.setLayout(new BorderLayout(10, 10));
         this.add(contentCenter, BorderLayout.CENTER);
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
@@ -81,14 +82,11 @@ public final class SanPham extends JPanel implements ActionListener {
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        mainFunction = new MainFunction();
-        //Add Event MouseListener
-        mainFunction.btnAdd.addActionListener(this);
-        mainFunction.btnEdit.addActionListener(this);
-        mainFunction.btnDetail.addActionListener(this);
-        mainFunction.btnDelete.addActionListener(this);
-        mainFunction.btnXuatExcel.addActionListener(this);
-        mainFunction.btnNhapExcel.addActionListener(this);
+        String[] action = {"create", "update", "delete", "detail", "phone", "import", "export"};
+        mainFunction = new MainFunction(m.user.getManhomquyen(), "nhaphang", action);
+        for (String ac : action) {
+            mainFunction.btn.get(ac).addActionListener(this);
+        }
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
@@ -121,7 +119,8 @@ public final class SanPham extends JPanel implements ActionListener {
         main.add(scrollTableSanPham);
     }
 
-    public SanPham() {
+    public SanPham(Main m) {
+        this.m = m;
         initComponent();
         loadDataTalbe(listSP);
     }
@@ -146,33 +145,33 @@ public final class SanPham extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == mainFunction.btnAdd) {
+        if (e.getSource() == mainFunction.btn.get("create")) {
             SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Thêm sản phẩm mới", true, "create");
-        } else if (e.getSource() == mainFunction.btnEdit) {
+        } else if (e.getSource() == mainFunction.btn.get("update")) {
             int index = getRowSelected();
             if (index != -1) {
                 SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Chỉnh sửa sản phẩm", true, "update", listSP.get(index));
             }
-        } else if (e.getSource() == mainFunction.btnDelete) {
-//            int index = getRowSelected();
-//            if (index != -1) {
-//                int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa Sản phẩm :)!", "Xóa sản phẩm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-//                if (input == 0) {
-//                    spBUS.delete(listSP.get(index));
-//                    loadDataTalbe(listSP);
-//                }
-//            }
-//              ChiTietSanPhamDialog ct = new ChiTietSanPhamDialog(owner, "Chi tiết sản phẩm",true);
+        } else if (e.getSource() == mainFunction.btn.get("delete")) {
             int index = getRowSelected();
             if (index != -1) {
-                System.out.println(listSP.get(index));
-                ChiTietSanPhamDialog ct = new ChiTietSanPhamDialog(owner, "Tất cả sản phẩm", true,listSP.get(index));
+                int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa Sản phẩm :)!", "Xóa sản phẩm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (input == 0) {
+                    spBUS.delete(listSP.get(index));
+                    loadDataTalbe(listSP);
+                }
             }
-        } else if (e.getSource() == mainFunction.btnDetail) {
+        } else if (e.getSource() == mainFunction.btn.get("detail")) {
             int index = getRowSelected();
             if (index != -1) {
                 System.out.println(listSP.get(index));
                 SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Xem chi tiết sản phẩm", true, "view", listSP.get(index));
+            }
+        } else if (e.getSource() == mainFunction.btn.get("phone")) {
+            int index = getRowSelected();
+            if (index != -1) {
+                System.out.println(listSP.get(index));
+                ChiTietSanPhamDialog ct = new ChiTietSanPhamDialog(owner, "Tất cả sản phẩm", true, listSP.get(index));
             }
         }
     }
@@ -187,22 +186,22 @@ public final class SanPham extends JPanel implements ActionListener {
 
     private void initPadding() {
         pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 20));
+        pnlBorder1.setPreferredSize(new Dimension(0, 10));
         pnlBorder1.setBackground(BackgroundColor);
         this.add(pnlBorder1, BorderLayout.NORTH);
 
         pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 20));
+        pnlBorder2.setPreferredSize(new Dimension(0, 10));
         pnlBorder2.setBackground(BackgroundColor);
         this.add(pnlBorder2, BorderLayout.SOUTH);
 
         pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(20, 0));
+        pnlBorder3.setPreferredSize(new Dimension(10, 0));
         pnlBorder3.setBackground(BackgroundColor);
         this.add(pnlBorder3, BorderLayout.EAST);
 
         pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(20, 0));
+        pnlBorder4.setPreferredSize(new Dimension(10, 0));
         pnlBorder4.setBackground(BackgroundColor);
         this.add(pnlBorder4, BorderLayout.WEST);
     }

@@ -75,20 +75,7 @@ public class PhieuNhap extends JPanel implements ActionListener {
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
-
-//        tablePhieuNhap = new JTable();
-//        scrollTablePhieuNhap = new JScrollPane();
-//        tblModel = new DefaultTableModel();
-//        String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền", "Trạng thái"};
-//        tblModel.setColumnIdentifiers(header);
-//        tablePhieuNhap.setModel(tblModel);
-//        tablePhieuNhap.setAutoCreateRowSorter(true);
-//        tablePhieuNhap.setDefaultEditor(Object.class, null);
-//        scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
-//        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-//        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-//        tablePhieuNhap.setDefaultRenderer(Object.class, centerRenderer);
-//        tablePhieuNhap.setFocusable(false);
+        
         tablePhieuNhap = new TableColumn();
         scrollTablePhieuNhap = new JScrollPane();
         tblModel = new DefaultTableModel();
