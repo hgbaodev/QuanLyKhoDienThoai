@@ -5,7 +5,6 @@ import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
 import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
-import BUS.PhieuNhapBUS;
 import BUS.SanPhamBUS;
 import DAO.ChiTietPhieuXuatDAO;
 import DAO.ChiTietSanPhamDAO;
@@ -14,7 +13,6 @@ import DAO.NhanVienDAO;
 import DAO.PhieuXuatDAO;
 import DAO.SanPhamDAO;
 import DTO.ChiTietPhieuDTO;
-import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.KhachHangDTO;
 import DTO.NhanVienDTO;
@@ -26,14 +24,12 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.CustomComboCheck;
 import GUI.Component.InputForm;
 import GUI.Component.Notification;
-import GUI.Main;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
 import GUI.Dialog.ListKhachHang;
-import GUI.Dialog.ListNhanVien;
 import GUI.Dialog.QRCode_Dialog;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -41,8 +37,6 @@ import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -50,7 +44,6 @@ import java.awt.event.MouseEvent;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -105,6 +98,16 @@ public class TaoPhieuXuat extends JPanel {
         this.tk = tk;
         initComponent();
         loadDataTalbeSanPham(listSP);
+    }
+    
+    public TaoPhieuXuat(Main mainChinh, TaiKhoanDTO tk, PhieuXuatDTO phieuXuatDTO) {
+        this.mainChinh = mainChinh;
+        this.tk = tk;
+        chitietsanpham = ChiTietSanPhamDAO.getInstance().selectAllByMaPhieuXuat(phieuXuatDTO.getMaphieu());
+        chitietphieu = ChiTietPhieuXuatDAO.getInstance().selectAll(phieuXuatDTO.getMaphieu()+"");
+        initComponent();
+        loadDataTalbeSanPham(listSP);
+        loadDataTableChiTietPhieu(chitietphieu);
     }
 
     public void initPadding() {
@@ -205,7 +208,7 @@ public class TaoPhieuXuat extends JPanel {
 
         content_right_top = new JPanel(new BorderLayout());
         content_right_top.setPreferredSize(new Dimension(100, 165));
-        txtMaSp = new InputForm("Mã sản phẩm");
+        txtMaSp = new InputForm("Mã SP");
         txtMaSp.setEditable(false);
         txtTenSp = new InputForm("Tên sản phẩm");
         txtTenSp.setEditable(false);
@@ -616,6 +619,7 @@ public class TaoPhieuXuat extends JPanel {
         sum = 0;
         for (int i = 0; i < size; i++) {
             PhienBanSanPhamDTO phienban = phienBanBus.getByMaPhienBan(ctPhieu.get(i).getMaphienbansp());
+            System.out.println(phienban);
             sum += ctPhieu.get(i).getDongia() * ctPhieu.get(i).getSoluong();
             tblModel.addRow(new Object[]{
                 i + 1, phienban.getMasp(), spBUS.getByMaSP(phienban.getMasp()).getTensp(), ramBus.getKichThuocById(phienban.getRam()) + "GB",

@@ -16,7 +16,6 @@ import DTO.PhieuNhapDTO;
 import DTO.SanPhamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.InputForm;
-import GUI.Component.Notification;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -48,9 +47,9 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     JTable tablePhieuNhap, tableSanPham;
     JScrollPane scrollTablePhieuNhap, scrollTableSanPham;
     DefaultTableModel tblModel, tblModelSP;
-    ButtonCustom btnAddSp, btnEditSP, btnDelete, btnImport, btnNhapHang;
+    ButtonCustom btnAddSp, btnEditSP, btnDelete, btnImport, btnNhapHang, btnTroVe;
     InputForm txtMaphieu, txtNhanVien, txtMaSp, txtTenSp, txtDongia, txtMaImeiTheoLo, txtSoLuongImei;
-    SelectForm cbxNhaCungCap, cbxTrangThai, cbxCauhinh, cbxPtNhap;
+    SelectForm cbxNhaCungCap, cbxCauhinh, cbxPtNhap;
     JTextField txtTimKiem;
     JLabel labelImei, lbltongtien;
     JTextArea textAreaImei;
@@ -263,16 +262,16 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         labelImei = new JLabel("Mã Imei");
         labelImei.setPreferredSize(new Dimension(70, 0));
         scanImei = new ButtonCustom("Quét imei", "success", 14);
-        scanImei.setPreferredSize(new Dimension(110,0));
+        scanImei.setPreferredSize(new Dimension(110, 0));
         JPanel panelScanCenter = new JPanel();
         panelScanCenter.setBackground(Color.WHITE);
         JPanel jpanelImei = new JPanel(new BorderLayout());
-        jpanelImei.setPreferredSize(new Dimension(0,40));
+        jpanelImei.setPreferredSize(new Dimension(0, 40));
         jpanelImei.setBackground(Color.WHITE);
-        jpanelImei.setBorder(new EmptyBorder(0,0,10,0));
-        jpanelImei.add(labelImei,BorderLayout.WEST);
-        jpanelImei.add(panelScanCenter,BorderLayout.CENTER);
-        jpanelImei.add(scanImei,BorderLayout.EAST);
+        jpanelImei.setBorder(new EmptyBorder(0, 0, 10, 0));
+        jpanelImei.add(labelImei, BorderLayout.WEST);
+        jpanelImei.add(panelScanCenter, BorderLayout.CENTER);
+        jpanelImei.add(scanImei, BorderLayout.EAST);
         scanImei.addActionListener(this);
         textAreaImei = new JTextArea(6, 4);
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
@@ -339,7 +338,6 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         txtNhanVien.setEditable(false);
         cbxNhaCungCap = new SelectForm("Nhà cung cấp", nccBus.getArrTenNhaCungCap());
         String[] arrTrangThai = {"Đã nhập", "Huỷ"};
-        cbxTrangThai = new SelectForm("Trạng thái", arrTrangThai);
         right_top.add(txtMaphieu);
         right_top.add(txtNhanVien);
         right_top.add(cbxNhaCungCap);
@@ -376,6 +374,9 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
                 left_top.add(content_btn, BorderLayout.SOUTH);
             }
             case "view" -> {
+                btnTroVe = new ButtonCustom("Về trang trước", "excel", 14);
+                btnTroVe.addActionListener(this);
+                right_bottom.add(btnTroVe);
                 main.setPreferredSize(new Dimension(0, 350));
             }
         }
@@ -613,12 +614,15 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             loadDataTableChiTietPhieu(chitietphieu);
         } else if (source == btnNhapHang) {
             eventBtnNhapHang();
-        } else if (source == scanImei){
-            if(ch.size() == 0){
+        } else if (source == scanImei) {
+            if (ch.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm để quét mã!");
             } else {
                 QRCode_Dialog qr = new QRCode_Dialog(owner, "Scan", true, textAreaImei);
             }
+        } else if (source == btnTroVe) {
+            PhieuNhap pnlPhieu = new PhieuNhap(m, nvDto);
+            m.setPanel(pnlPhieu);
         }
     }
 

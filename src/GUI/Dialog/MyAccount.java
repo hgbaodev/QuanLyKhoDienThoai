@@ -18,24 +18,18 @@ import helper.BCrypt;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
 
 public class MyAccount extends JDialog implements ActionListener {
 
@@ -64,6 +58,7 @@ public class MyAccount extends JDialog implements ActionListener {
         this.setSize(400, 300);
         this.setLayout(new BorderLayout(0, 0));
         this.setBackground(Color.WHITE);
+        this.setResizable(false);
         nv = menuTaskbar.nhanVienDTO;
         top = new JPanel();
         top.setBackground(Color.WHITE);
@@ -73,6 +68,7 @@ public class MyAccount extends JDialog implements ActionListener {
         this.add(top, BorderLayout.NORTH);
 
         top_center = new JPanel(new FlowLayout(1, 40, 0));
+        top_center.setBorder(new EmptyBorder(20,0,0,0));
         top_center.setBackground(Color.WHITE);
         main_center = new JPanel();
         main_center.setBackground(Color.WHITE);
@@ -133,6 +129,7 @@ public class MyAccount extends JDialog implements ActionListener {
         this.setVisible(true);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cancel) {
             this.dispose();
@@ -195,7 +192,7 @@ public class MyAccount extends JDialog implements ActionListener {
     } 
 
     public boolean checknull(InputForm x, String object) {
-        if (x.getText().trim() == "" || x.getPass().trim() == "") {
+        if ("".equals(x.getText().trim()) || "".equals(x.getPass().trim())) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập " + object);
             return false;
         } else {

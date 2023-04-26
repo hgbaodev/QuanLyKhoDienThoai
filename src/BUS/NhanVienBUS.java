@@ -38,7 +38,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class NhanVienBUS implements ActionListener, DocumentListener {
 
-    private GUI.Panel.NhanVien nv;
+    public GUI.Panel.NhanVien nv;
     private JTextField textField;
     public ArrayList<DTO.NhanVienDTO> listNv = NhanVienDAO.getInstance().selectAll();
 

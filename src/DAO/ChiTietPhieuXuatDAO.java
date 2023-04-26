@@ -82,12 +82,12 @@ public class ChiTietPhieuXuatDAO implements ChiTietInterface<ChiTietPhieuDTO> {
                 int maphienbansp = rs.getInt("maphienbansp");
                 int dongia = rs.getInt("dongia");
                 int soluong = rs.getInt("soluong");
-                int phuongthucnhap = rs.getInt("phuongthucnhap");
-                ChiTietPhieuDTO ctphieu = new ChiTietPhieuDTO(phuongthucnhap, maphieu, maphienbansp, soluong);
+                ChiTietPhieuDTO ctphieu = new ChiTietPhieuDTO(maphieu, maphieu, maphienbansp, soluong);
                 result.add(ctphieu);
             }
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
+            System.out.println(e);
         }
         return result;
     }

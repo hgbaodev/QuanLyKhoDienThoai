@@ -298,6 +298,7 @@ public class MenuTaskbar extends JPanel {
             if (listQuyen.get(i).getHanhdong().equals("view")) {
                 if (s.equals(listQuyen.get(i).getMachucnang())) {
                     check = true;
+                    return check;
                 }
             }
         }
@@ -352,7 +353,7 @@ public class MenuTaskbar extends JPanel {
         lblIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                MyAccount ma=new MyAccount(owner,MenuTaskbar.this,"!",true);
+                MyAccount ma=new MyAccount(owner,MenuTaskbar.this,"Chỉnh sửa thông tin tài khoản",true);
             }
         });
     }

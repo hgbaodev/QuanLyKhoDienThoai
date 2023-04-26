@@ -14,13 +14,17 @@ import GUI.Dialog.ListNhanVien;
 import GUI.Dialog.TaiKhoanDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class TaiKhoan extends JPanel implements ActionListener {
+public class TaiKhoan extends JPanel implements ActionListener,ItemListener {
 
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -100,9 +104,18 @@ public class TaiKhoan extends JPanel implements ActionListener {
         mainFunction.btnXuatExcel.addActionListener(this);
         mainFunction.btnNhapExcel.addActionListener(this);
         functionBar.add(mainFunction);
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        search = new IntegratedSearch(new String[]{"Tất cả","Mã nhân viên","Username"});
+        search.cbxChoose.addItemListener(this);
         functionBar.add(search);
-
+        search.txtSearchForm.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String type = (String) search.cbxChoose.getSelectedItem();
+                String txt = search.txtSearchForm.getText();
+                listTk = taiKhoanBus.search(txt, type);
+                loadTable(listTk);
+            }
+        });
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
         // main là phần ở dưới để thống kê bảng biểu
@@ -191,6 +204,14 @@ public class TaiKhoan extends JPanel implements ActionListener {
                 TaiKhoanDialog add = new TaiKhoanDialog(this, owner, "Thêm tài khoản", true, "view", listTk.get(index));
             }
         }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        String type = (String) search.cbxChoose.getSelectedItem();
+        String txt = search.txtSearchForm.getText();
+        listTk = taiKhoanBus.search(txt, type);
+        loadTable(listTk);
     }
 
 }

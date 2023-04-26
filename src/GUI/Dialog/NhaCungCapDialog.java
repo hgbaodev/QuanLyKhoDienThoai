@@ -10,6 +10,7 @@ import GUI.Panel.NhaCungCap;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -81,7 +83,8 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
         btnHuyBo.addActionListener(this);
 
         switch (type) {
-            case "create" -> pnbottom.add(btnThem);
+            case "create" ->
+                pnbottom.add(btnThem);
             case "update" -> {
                 pnbottom.add(btnCapNhat);
                 initInfo();
@@ -90,7 +93,8 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
                 initInfo();
                 initView();
             }
-            default -> throw new AssertionError();
+            default ->
+                throw new AssertionError();
         }
         pnbottom.add(btnHuyBo);
         this.add(titlePage, BorderLayout.NORTH);
@@ -114,26 +118,38 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
         sodienthoai.setEditable(false);
 
     }
+    public boolean Validation(){
+         if (Validation.isEmpty(tenNcc.getText())) {
+            JOptionPane.showMessageDialog(this, "Tên nhà cung cấp không được rỗng", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+         }
+         else  if (Validation.isEmpty(diachi.getText())) {
+            JOptionPane.showMessageDialog(this, "Địa chỉ không được rỗng", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+         }
+         else if (Validation.isEmpty(email.getText()) || !Validation.isEmail(email.getText())) {
+            JOptionPane.showMessageDialog(this, "Email không được rỗng và phải đúng cú pháp", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+         }
+         else if (Validation.isEmpty(sodienthoai.getText()) || !Validation.isNumber(sodienthoai.getText()) && sodienthoai.getText().length()!=10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại không được rỗng và phải là 10 ký tự số", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+         }
+          return true;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnThem) {
-            int mancc = NhaCungCapDAO.getInstance().getAutoIncrement();
-            String tenNcc = this.tenNcc.getText();
-            String diachi = this.diachi.getText();
-            String email = this.email.getText();
-            String sodienthoai = this.sodienthoai.getText();
-            jpNcc.nccBUS.add(new NhaCungCapDTO(mancc, tenNcc, diachi, email, sodienthoai));
+        if (e.getSource() == btnThem && Validation()) {
+            int mancc = NhaCungCapDAO.getInstance().getAutoIncrement();  
+            jpNcc.nccBUS.add(new NhaCungCapDTO(mancc, tenNcc.getText(), diachi.getText(), email.getText(), sodienthoai.getText()));
             jpNcc.loadDataTable(jpNcc.listncc);
             dispose();
+
         } else if (e.getSource() == btnHuyBo) {
             dispose();
-        } else if (e.getSource() == btnCapNhat) {
-            String tenNcc = this.tenNcc.getText();
-            String diachi = this.diachi.getText();
-            String email = this.email.getText();
-            String sodienthoai = this.sodienthoai.getText();
-            jpNcc.nccBUS.update(new NhaCungCapDTO(nccDTO.getMancc(), tenNcc, diachi, email, sodienthoai));
+        } else if (e.getSource() == btnCapNhat && Validation()) {
+            jpNcc.nccBUS.update(new NhaCungCapDTO(nccDTO.getMancc(), tenNcc.getText(), diachi.getText(), email.getText(), sodienthoai.getText()));
             jpNcc.loadDataTable(jpNcc.listncc);
             dispose();
         }

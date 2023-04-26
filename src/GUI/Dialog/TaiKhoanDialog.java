@@ -26,7 +26,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 /**
  *
  * @author robot
@@ -149,4 +148,5 @@ public class TaiKhoanDialog extends JDialog{
         }
         return listNhomQuyen;
     }
+
 }

@@ -13,6 +13,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputDate;
 import GUI.Component.InputForm;
+import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,6 +32,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
@@ -231,5 +233,19 @@ public class NhanVienDialog extends JDialog {
         this.add(bottom, BorderLayout.SOUTH);
 
     }
-
+        boolean ValidationInput(){
+         if (Validation.isEmpty(name.getText())) {
+            JOptionPane.showMessageDialog(this, "Tên nhân viên không được rỗng", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+         }
+         else  if (Validation.isEmpty(sdt.getText())&&!Validation.isNumber(sdt.getText())&&sdt.getText().length()!=10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại không được rỗng và phải là 10 ký tự số", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+         }
+         else if (Validation.isEmpty(email.getText()) || !Validation.isEmail(email.getText())) {
+            JOptionPane.showMessageDialog(this, "Email không được rỗng và phải đúng cú pháp", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+         }
+         return true;
+    }
 }
