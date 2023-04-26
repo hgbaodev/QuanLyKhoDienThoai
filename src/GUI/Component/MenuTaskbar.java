@@ -324,7 +324,9 @@ public class MenuTaskbar extends JPanel {
             }
         }
     }
-
+    public void resetChange(){
+        this.nhanVienDTO = new NhanVienDAO().selectById(String.valueOf(nhanVienDTO.getManv()));
+    }
     public void in4(JPanel info) {
         JPanel pnlIcon = new JPanel(new FlowLayout());
         pnlIcon.setPreferredSize(new Dimension(60, 0));

@@ -285,6 +285,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         right.validate();
         }
     }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

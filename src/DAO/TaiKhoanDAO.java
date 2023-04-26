@@ -46,12 +46,13 @@ public class TaiKhoanDAO implements DAOinterface<TaiKhoanDTO>{
           int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `taikhoan` SET `tendangnhap`=?,`trangthai`=?,`manhomquyen`=? WHERE manv=?";
+            String sql = "UPDATE `taikhoan` SET `tendangnhap`=?,`matkhau`=?,`trangthai`=?,`manhomquyen`=? WHERE manv=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getUsername());
-            pst.setInt(2, t.getTrangthai());
-            pst.setInt(3, t.getManhomquyen());
-            pst.setInt(4, t.getManv());
+            pst.setString(2,t.getMatkhau());
+            pst.setInt(3, t.getTrangthai());
+            pst.setInt(4, t.getManhomquyen());
+            pst.setInt(5, t.getManv());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
