@@ -2,30 +2,48 @@ package GUI.Component;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.*;
 
 public class MainFunction extends JToolBar {
 
-    public ButtonToolBar btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel;
+    public ButtonToolBar btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel, btnHuyPhieu;
     public JSeparator separator1;
-    private ArrayList<ButtonToolBar> listBtn = new ArrayList<>();
+    public HashMap<String, ButtonToolBar> btn = new HashMap<>();
+
+    public MainFunction() {
+        initComponent();
+    }
+
+    public MainFunction(String[] listBtn) {
+        initData();
+        initComponent(listBtn);
+    }
     
-    String[][] chucnang = {
-        {"THÊM","Add_50px(1).png","create"},
-        {"XÓA","Delete Trash_50px.png","delete"},
-        {"SỬA","Edit_50px.png","update"},
-        {"CHI TIẾT","info_50px.png","detail"},
-        {"NHẬP EXCEL","xls_50px.png","create"},
-        {"XUẤT EXCEL","import_csv_50px.png","view"},
-    };
+    public void initData() {
+        btn.put("create", new ButtonToolBar("THÊM", "add.svg"));
+        btn.put("delete", new ButtonToolBar("XÓA", "delete.svg"));
+        btn.put("update", new ButtonToolBar("SỬA", "edit.svg"));
+        btn.put("cancel", new ButtonToolBar("HUỶ PHIẾU", "cancel.svg"));
+        btn.put("detail",new ButtonToolBar("CHI TIẾT", "detail.svg"));
+        btn.put("import", new ButtonToolBar("NHẬP EXCEL", "import_excel.svg"));
+        btn.put("export", new ButtonToolBar("XUẤT EXCEL", "export_excel.svg"));
+    }
+
+    private void initComponent(String[] listBtn) {
+        this.setBackground(Color.WHITE);
+        this.setRollover(true);
+        initData();
+        for (String action : listBtn) {
+            // Check quyền
+            this.add(btn.get(action));
+        }
+    }
 
     private void initComponent() {
         this.setBackground(Color.WHITE);
-//        this.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14)));
         this.setRollover(true);
-//
-        
+
         btnAdd = new ButtonToolBar("THÊM", new FlatSVGIcon("./icon/add.svg"));
         this.add(btnAdd);
 
@@ -43,9 +61,5 @@ public class MainFunction extends JToolBar {
         btnNhapExcel = new ButtonToolBar("NHẬP EXCEL", new FlatSVGIcon("./icon/export_excel.svg"));
         this.add(btnXuatExcel);
         this.add(btnNhapExcel);
-    }
-
-    public MainFunction() {
-        initComponent();
     }
 }

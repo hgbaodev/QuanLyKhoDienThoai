@@ -108,6 +108,7 @@ public class TaiKhoan extends JPanel implements ActionListener,ItemListener {
         search.cbxChoose.addItemListener(this);
         functionBar.add(search);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyReleased(KeyEvent e) {
                 String type = (String) search.cbxChoose.getSelectedItem();
                 String txt = search.txtSearchForm.getText();

@@ -40,12 +40,7 @@ public class IntegratedSearch extends JPanel {
         btnReset.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 14));
         btnReset.setIcon(new FlatSVGIcon("./icon/refresh.svg"));
         btnReset.setPreferredSize(new Dimension(140, 0));
-        btnReset.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                btnResetActionPerformed(e);
-            }
-        });
+        btnReset.addActionListener(this::btnResetActionPerformed);
         jpSearch.add(btnReset,BorderLayout.EAST);
         this.add(jpSearch);
     }
