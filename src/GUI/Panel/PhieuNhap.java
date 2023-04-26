@@ -104,7 +104,7 @@ public class PhieuNhap extends JPanel implements ActionListener {
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        String[] action = {"create","detail","delete","cancel","import","export"};
+        String[] action = {"create","detail","cancel","export"};
         mainFunction = new MainFunction(action);
         functionBar.add(mainFunction);
 
