@@ -9,6 +9,7 @@ import DTO.TaiKhoanDTO;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
+import GUI.Component.Notification;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -133,14 +134,28 @@ public class PhieuXuat extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btn.get("create")) {
-            taoPhieuXuat = new TaoPhieuXuat(m,tk);
+            taoPhieuXuat = new TaoPhieuXuat(m,tk,"create");
             m.setPanel(taoPhieuXuat);
         } else if(e.getSource() == mainFunction.btn.get("detail")){
             if(getRow()<0){
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu cần xem!");
             } else {
-                taoPhieuXuat = new TaoPhieuXuat(m,tk,pxBUS.getSelect(getRow()));
+                taoPhieuXuat = new TaoPhieuXuat(m,tk,pxBUS.getSelect(getRow()),"detail");
                 m.setPanel(taoPhieuXuat);
+            }
+        } else if(e.getSource() == mainFunction.btn.get("cancel")){
+            if(tablePhieuXuat.getSelectedRow()<0){
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu!");
+            } else {
+                int n = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa phiếu này?","Xóa phiếu",JOptionPane.YES_NO_OPTION);
+                if(n == JOptionPane.YES_OPTION){
+                    PhieuXuatDTO px = pxBUS.getSelect(tablePhieuXuat.getSelectedRow());
+                    pxBUS.cancel(px.getMaphieu());
+                    pxBUS.remove(tablePhieuXuat.getSelectedRow());
+                    loadDataTalbe(pxBUS.getAll());
+                    Notification notification = new Notification(m, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Hủy phiếu thành công");
+                    notification.showNotification();
+                }
             }
         }
     }

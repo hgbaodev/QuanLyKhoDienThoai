@@ -33,6 +33,12 @@ public class PhieuXuatBUS {
         return listPhieuXuat.get(index);
     }
     
+    public void cancel(int px){
+        phieuXuatDAO.cancel(px);
+    }
     
+    public void remove(int index){
+        listPhieuXuat.remove(index);
+    }
     
 }

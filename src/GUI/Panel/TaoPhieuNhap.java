@@ -33,12 +33,23 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionListener {
 
@@ -70,9 +81,10 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     ArrayList<PhienBanSanPhamDTO> ch = new ArrayList<>();
     ArrayList<ChiTietPhieuNhapDTO> chitietphieu;
     HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham = new HashMap<>();
+    ArrayList<String> listmaimei = new ArrayList<>();
     int maphieunhap;
     int rowPhieuSelect = -1;
-    private ButtonCustom scanImei;
+    private ButtonCustom scanImei, importImei;
 
     public TaoPhieuNhap(NhanVienDTO nv, String type, Main m) {
         this.nvDto = nv;
@@ -261,8 +273,10 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         card_content_two_model.setBorder(new EmptyBorder(10, 10, 10, 10));
         labelImei = new JLabel("Mã Imei");
         labelImei.setPreferredSize(new Dimension(70, 0));
-        scanImei = new ButtonCustom("Quét imei", "success", 14);
+        scanImei = new ButtonCustom("Quét imei", "success", 13);
         scanImei.setPreferredSize(new Dimension(110, 0));
+        importImei = new ButtonCustom("Nhập Excel", "excel", 13);
+        importImei.setPreferredSize(new Dimension(110, 0));
         JPanel panelScanCenter = new JPanel();
         panelScanCenter.setBackground(Color.WHITE);
         JPanel jpanelImei = new JPanel(new BorderLayout());
@@ -271,8 +285,14 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         jpanelImei.setBorder(new EmptyBorder(0, 0, 10, 0));
         jpanelImei.add(labelImei, BorderLayout.WEST);
         jpanelImei.add(panelScanCenter, BorderLayout.CENTER);
-        jpanelImei.add(scanImei, BorderLayout.EAST);
+        JPanel chucnang = new JPanel(new GridLayout(1, 2));
+        chucnang.setOpaque(false);
+        chucnang.add(scanImei);
+        chucnang.add(importImei);
+        jpanelImei.add(chucnang, BorderLayout.EAST);
+
         scanImei.addActionListener(this);
+        importImei.addActionListener(this);
         textAreaImei = new JTextArea(6, 4);
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
         card_content_two_model.setSize(new Dimension(0, 100));
@@ -623,6 +643,12 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         } else if (source == btnTroVe) {
             PhieuNhap pnlPhieu = new PhieuNhap(m, nvDto);
             m.setPanel(pnlPhieu);
+        } else if (source == importImei) {
+            getImeifromFile();
+            for (String i : listmaimei) {
+                textAreaImei.append(i + "\n");
+            }
+
         }
     }
 
@@ -641,6 +667,41 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
                 m.setPanel(pnlPhieu);
             } else {
                 JOptionPane.showMessageDialog(this, "Nhập hàng không thành công !", "Cảnh báo !", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    public void getImeifromFile() {
+        File excelFile;
+        FileInputStream excelFIS = null;
+        BufferedInputStream excelBIS = null;
+        XSSFWorkbook excelJTableImport = null;
+        JFileChooser jf = new JFileChooser();
+        int result = jf.showOpenDialog(null);
+        jf.setDialogTitle("Open file");
+        Workbook workbook = null;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                excelFile = jf.getSelectedFile();
+                JOptionPane.showMessageDialog(this, excelFile);
+                excelFIS = new FileInputStream(excelFile);
+                excelBIS = new BufferedInputStream(excelFIS);
+                excelJTableImport = new XSSFWorkbook(excelBIS);
+                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
+                    XSSFRow excelRow = excelSheet.getRow(row);
+                    String maimei = excelRow.getCell(0).getStringCellValue();
+                    if (maimei.length() != 15) {
+                        continue;
+                    } else {
+                        this.listmaimei.add(maimei);
+                        System.out.println(maimei);
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                System.out.println("Lỗi đọc file 1");
+            } catch (IOException ex) {
+                System.out.println("Lỗi đọc file 2");
             }
         }
     }
