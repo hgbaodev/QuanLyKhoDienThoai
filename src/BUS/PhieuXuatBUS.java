@@ -29,6 +29,10 @@ public class PhieuXuatBUS {
         return this.listPhieuXuat;
     }
     
+    public PhieuXuatDTO getSelect(int index){
+        return listPhieuXuat.get(index);
+    }
+    
     
     
 }
