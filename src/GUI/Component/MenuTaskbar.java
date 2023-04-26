@@ -57,7 +57,7 @@ public class MenuTaskbar extends JPanel {
         {"Phiếu kiểm kê", "inventory_32px.svg", "kiemke"},
         {"Phiếu nhập", "import_32px.svg", "nhaphang"},
         {"Phiếu xuất", "export_32px.svg", "xuathang"},
-        {"Khách hàng", "customer_32px.svg", "khachang"},
+        {"Khách hàng", "customer_32px.svg", "khachhang"},
         {"Nhà cung cấp", "supplier_32px.svg", "nhacungcap"},
         {"Nhân viên", "staff_32px.svg", "nhanvien"},
         {"Tài khoản", "account_32px.svg", "taikhoan"},

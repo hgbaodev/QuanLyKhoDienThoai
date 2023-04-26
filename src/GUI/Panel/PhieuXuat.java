@@ -142,6 +142,17 @@ public class PhieuXuat extends JPanel implements ActionListener {
                 taoPhieuXuat = new TaoPhieuXuat(m,tk,pxBUS.getSelect(getRow()),"detail");
                 m.setPanel(taoPhieuXuat);
             }
+        } else if(e.getSource() == mainFunction.btn.get("cancel")){
+            if(tablePhieuXuat.getSelectedRow()<0){
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu!");
+            } else {
+                int n = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa phiếu này?","Xóa phiếu",JOptionPane.YES_NO_OPTION);
+                if(n == JOptionPane.YES_OPTION){
+                    PhieuXuatDTO px = pxBUS.getSelect(tablePhieuXuat.getSelectedRow());
+                    pxBUS.cancel(px.getMaphieu());
+                    loadDataTalbe(pxBUS.getAll());
+                }
+            }
         }
     }
     

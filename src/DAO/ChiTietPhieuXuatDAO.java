@@ -42,6 +42,15 @@ public class ChiTietPhieuXuatDAO implements ChiTietInterface<ChiTietPhieuDTO> {
         }
         return result;
     }
+    
+    public int reset(ArrayList<ChiTietPhieuDTO> t){
+        int result = 0;
+        for (int i = 0; i < t.size(); i++) {
+        PhienBanSanPhamDAO.getInstance().updateSoLuongTon(t.get(i).getMaphienbansp(), +(t.get(i).getSoluong()));
+        delete(t.get(i).getMaphieu()+"");
+        }
+        return result;
+    }
 
     @Override
     public int delete(String t) {

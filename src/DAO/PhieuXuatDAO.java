@@ -1,5 +1,7 @@
 package DAO;
 
+import DTO.ChiTietPhieuDTO;
+import DTO.ChiTietSanPhamDTO;
 import DTO.PhieuXuatDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
@@ -75,6 +77,8 @@ public class PhieuXuatDAO implements DAOinterface<PhieuXuatDTO> {
         }
         return result;
     }
+    
+    
 
     @Override
     public ArrayList<PhieuXuatDTO> selectAll() {
@@ -121,6 +125,37 @@ public class PhieuXuatDAO implements DAOinterface<PhieuXuatDTO> {
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
+        }
+        return result;
+    }
+    
+    public PhieuXuatDTO cancel(int phieu) {
+        PhieuXuatDTO result = null;
+        try {
+            ArrayList<ChiTietSanPhamDTO> chitietsanpham = ChiTietSanPhamDAO.getInstance().selectAllByMaPhieuXuat(phieu);
+            ArrayList<ChiTietPhieuDTO> chitietphieu = ChiTietPhieuXuatDAO.getInstance().selectAll(phieu+"");
+            ChiTietPhieuXuatDAO.getInstance().reset(chitietphieu);
+            for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
+                ChiTietSanPhamDAO.getInstance().reset(chiTietSanPhamDTO);
+            }
+            deletePhieu(phieu);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public int deletePhieu(int t) {
+        int result = 0 ;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "DELETE FROM `phieuxuat` WHERE maphieuxuat = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, t);
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieuXuatDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
