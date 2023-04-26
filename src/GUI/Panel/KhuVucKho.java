@@ -271,6 +271,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
             }
         }
 
+        if (i==0) {
         if (result.isEmpty()) {
             JLabel lblIcon = new JLabel("Không có sản phẩm");
             lblIcon.setPreferredSize(new Dimension(380, 300));
@@ -282,6 +283,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
 
         right.repaint();
         right.validate();
+        }
     }
 
     @Override

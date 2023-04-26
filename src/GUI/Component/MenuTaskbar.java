@@ -31,6 +31,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Dialog.MyAccount;
 import GUI.Panel.KiemKe;
+import GUI.Panel.ThongKe;
 //import GUI.Component.itemTaskbar;
 
 public class MenuTaskbar extends JPanel {
@@ -47,6 +48,7 @@ public class MenuTaskbar extends JPanel {
     NhanVien nhanVien;
     TaiKhoan taiKhoan;
     PhanQuyen phanQuyen;
+    ThongKe thongKe;
     String[][] getSt = {
         {"Trang chủ", "home_32px.svg", "trangchu"},
         {"Sản phẩm", "product_32px.svg", "trangchu"},
@@ -60,6 +62,7 @@ public class MenuTaskbar extends JPanel {
         {"Nhân viên", "staff_32px.svg", "nhanvien"},
         {"Tài khoản", "account_32px.svg", "taikhoan"},
         {"Phân quyền", "permission_32px.svg", "phanquyen"},
+        {"Thống kê", "permission_32px.svg", "thongke"},
         {"Đăng xuất", "log_out_32px.svg", "dangxuat"},};
 
     Main main;
@@ -265,7 +268,15 @@ public class MenuTaskbar extends JPanel {
             }
         });
 
-        listitem[12].addMouseListener(new MouseAdapter() {
+                listitem[12].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                thongKe = new ThongKe(); 
+                main.setPanel(thongKe);
+            }
+        });
+        
+        listitem[13].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
 
