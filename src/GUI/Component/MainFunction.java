@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import BUS.NhomQuyenBUS;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.*;
 import java.util.HashMap;
@@ -10,14 +11,15 @@ public class MainFunction extends JToolBar {
     public ButtonToolBar btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel, btnHuyPhieu;
     public JSeparator separator1;
     public HashMap<String, ButtonToolBar> btn = new HashMap<>();
+    private NhomQuyenBUS nhomquyenBus = new NhomQuyenBUS();
 
     public MainFunction() {
         initComponent();
     }
 
-    public MainFunction(String[] listBtn) {
+    public MainFunction(int manhomquyen,String chucnang, String[] listBtn) {
         initData();
-        initComponent(listBtn);
+        initComponent(manhomquyen,chucnang,listBtn);
     }
     
     public void initData() {
@@ -30,13 +32,15 @@ public class MainFunction extends JToolBar {
         btn.put("export", new ButtonToolBar("XUẤT EXCEL", "export_excel.svg"));
     }
 
-    private void initComponent(String[] listBtn) {
+    private void initComponent(int manhomquyen, String chucnang,String[] listBtn) {
         this.setBackground(Color.WHITE);
         this.setRollover(true);
         initData();
         for (String action : listBtn) {
-            // Check quyền
             this.add(btn.get(action));
+            if(nhomquyenBus.checkPermisson(manhomquyen, chucnang, action)) {
+                btn.get(action).setEnabled(false);
+            }
         }
     }
 

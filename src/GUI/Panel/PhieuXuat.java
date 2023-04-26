@@ -42,9 +42,9 @@ public class PhieuXuat extends JPanel implements ActionListener {
     KhachHangBUS khachHangBUS = new KhachHangBUS();
 
     public PhieuXuat(Main m,TaiKhoanDTO tk) {
-        initComponent();
         this.m = m;
         this.tk = tk;
+        initComponent();
         loadDataTalbe(pxBUS.getAll());
     }
 
@@ -68,7 +68,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         String[] action = {"create","detail","cancel","export"};
-        mainFunction = new MainFunction(action);
+        mainFunction = new MainFunction(m.user.getManhomquyen(),"xuathang",action);
         functionBar.add(mainFunction);
         
         //Add Event MouseListener

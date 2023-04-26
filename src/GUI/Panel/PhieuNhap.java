@@ -22,8 +22,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class PhieuNhap extends JPanel implements ActionListener {
-
-    PanelBorderRadius main, functionBar, right;
+    PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     TableColumn tablePhieuNhap;
     JScrollPane scrollTablePhieuNhap;
@@ -128,7 +127,7 @@ public class PhieuNhap extends JPanel implements ActionListener {
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         String[] action = {"create","detail","cancel","export"};
-        mainFunction = new MainFunction(action);
+        mainFunction = new MainFunction(m.user.getManhomquyen(),"nhaphang",action);
         functionBar.add(mainFunction);
 
         //Add Event MouseListener
