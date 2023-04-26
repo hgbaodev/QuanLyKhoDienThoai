@@ -283,6 +283,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
 
         right.repaint();
         right.validate();
+        }
     }
     }
 
