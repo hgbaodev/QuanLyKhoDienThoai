@@ -37,5 +37,8 @@ public class PhieuXuatBUS {
         phieuXuatDAO.cancel(px);
     }
     
+    public void remove(int index){
+        listPhieuXuat.remove(index);
+    }
     
 }

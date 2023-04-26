@@ -39,7 +39,7 @@ public class MainFunction extends JToolBar {
         for (String action : listBtn) {
             this.add(btn.get(action));
             if(nhomquyenBus.checkPermisson(manhomquyen, chucnang, action)) {
-                btn.get(action).setEnabled(false);
+//                btn.get(action).setEnabled(false);
             }
         }
     }

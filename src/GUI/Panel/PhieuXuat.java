@@ -9,6 +9,7 @@ import DTO.TaiKhoanDTO;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
+import GUI.Component.Notification;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -150,7 +151,10 @@ public class PhieuXuat extends JPanel implements ActionListener {
                 if(n == JOptionPane.YES_OPTION){
                     PhieuXuatDTO px = pxBUS.getSelect(tablePhieuXuat.getSelectedRow());
                     pxBUS.cancel(px.getMaphieu());
+                    pxBUS.remove(tablePhieuXuat.getSelectedRow());
                     loadDataTalbe(pxBUS.getAll());
+                    Notification notification = new Notification(m, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Hủy phiếu thành công");
+                    notification.showNotification();
                 }
             }
         }
