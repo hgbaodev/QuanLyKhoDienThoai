@@ -618,6 +618,8 @@ public class TaoPhieuXuat extends JPanel {
         int size = ctPhieu.size();
         sum = 0;
         for (int i = 0; i < size; i++) {
+            System.out.println(ctPhieu.get(i));
+            System.out.println("Ma pb:"+ctPhieu.get(i).getMaphienbansp());
             PhienBanSanPhamDTO phienban = phienBanBus.getByMaPhienBan(ctPhieu.get(i).getMaphienbansp());
             System.out.println(phienban);
             sum += ctPhieu.get(i).getDongia() * ctPhieu.get(i).getSoluong();

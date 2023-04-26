@@ -93,12 +93,8 @@ public class PhieuNhap extends JPanel implements ActionListener {
         tablePhieuNhap = new TableColumn();
         scrollTablePhieuNhap = new JScrollPane();
         tblModel = new DefaultTableModel();
-<<<<<<< HEAD
         src = new ScrollBar();
-        String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền", "Trạng thái"};
-=======
         String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
->>>>>>> f4cb278637e48151d40c1ae71c102739301f699f
         tblModel.setColumnIdentifiers(header);
         tablePhieuNhap.setModel(tblModel);
         tablePhieuNhap.setAutoCreateRowSorter(true);
