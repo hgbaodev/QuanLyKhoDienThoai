@@ -6,7 +6,6 @@ import BUS.NhanVienBUS;
 import BUS.PhieuXuatBUS;
 import DTO.PhieuXuatDTO;
 import DTO.TaiKhoanDTO;
-import GUI.Component.InputFormInline;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -23,17 +22,13 @@ import javax.swing.table.DefaultTableModel;
 
 public class PhieuXuat extends JPanel implements ActionListener {
 
-    PanelBorderRadius box1, box2, main, functionBar, right;
+    PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tablePhieuXuat;
     JScrollPane scrollTablePhieuXuat;
     MainFunction mainFunction;
     IntegratedSearch search;
-    JLabel lbl1, lblImage, lblTongTien, lbl2;
-    JButton btnXuatKho;
     DefaultTableModel tblModel;
-
-    InputFormInline maphieuxuat, khachhang;
 
     Main m;
     TaoPhieuXuat taoPhieuXuat;
@@ -47,9 +42,9 @@ public class PhieuXuat extends JPanel implements ActionListener {
     KhachHangBUS khachHangBUS = new KhachHangBUS();
 
     public PhieuXuat(Main m,TaiKhoanDTO tk) {
-        initComponent();
         this.m = m;
         this.tk = tk;
+        initComponent();
         loadDataTalbe(pxBUS.getAll());
     }
 
@@ -64,7 +59,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
         contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(20, 20));
+        contentCenter.setLayout(new BorderLayout(10, 10));
         this.add(contentCenter, BorderLayout.CENTER);
 
         functionBar = new PanelBorderRadius();
@@ -72,8 +67,14 @@ public class PhieuXuat extends JPanel implements ActionListener {
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        mainFunction = new MainFunction();
+        String[] action = {"create","detail","cancel","export"};
+        mainFunction = new MainFunction(m.user.getManhomquyen(),"xuathang",action);
         functionBar.add(mainFunction);
+        
+        //Add Event MouseListener
+        for(String ac : action){
+            mainFunction.btn.get(ac).addActionListener(this);
+        }
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
@@ -105,41 +106,36 @@ public class PhieuXuat extends JPanel implements ActionListener {
 
         main.add(scrollTablePhieuXuat);
 
-        //Add Event MouseListener
-        mainFunction.btnAdd.addActionListener(this);
-        mainFunction.btnDelete.addActionListener(this);
-        mainFunction.btnDetail.addActionListener(this);
-        mainFunction.btnEdit.addActionListener(this);
     }
 
     public void initPadding() {
         pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 20));
+        pnlBorder1.setPreferredSize(new Dimension(0, 10));
         pnlBorder1.setBackground(BackgroundColor);
         this.add(pnlBorder1, BorderLayout.NORTH);
 
         pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 20));
+        pnlBorder2.setPreferredSize(new Dimension(0, 10));
         pnlBorder2.setBackground(BackgroundColor);
         this.add(pnlBorder2, BorderLayout.SOUTH);
 
         pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(20, 0));
+        pnlBorder3.setPreferredSize(new Dimension(10, 0));
         pnlBorder3.setBackground(BackgroundColor);
         this.add(pnlBorder3, BorderLayout.EAST);
 
         pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(20, 0));
+        pnlBorder4.setPreferredSize(new Dimension(10, 0));
         pnlBorder4.setBackground(BackgroundColor);
         this.add(pnlBorder4, BorderLayout.WEST);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == mainFunction.btnAdd) {
+        if (e.getSource() == mainFunction.btn.get("create")) {
             taoPhieuXuat = new TaoPhieuXuat(m,tk,"create");
             m.setPanel(taoPhieuXuat);
-        } else if(e.getSource() == mainFunction.btnDetail){
+        } else if(e.getSource() == mainFunction.btn.get("detail")){
             if(getRow()<0){
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu cần xem!");
             } else {

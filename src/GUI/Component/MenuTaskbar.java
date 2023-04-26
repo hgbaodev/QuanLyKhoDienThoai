@@ -51,17 +51,17 @@ public class MenuTaskbar extends JPanel {
     ThongKe thongKe;
     String[][] getSt = {
         {"Trang chủ", "home_32px.svg", "trangchu"},
-        {"Sản phẩm", "product_32px.svg", "trangchu"},
-        {"Thuộc tính", "brand_32px.svg", "thuonghieu"},
+        {"Sản phẩm", "product_32px.svg", "sanpham"},
+        {"Thuộc tính", "brand_32px.svg", "thuoctinh"},
         {"Khu vực kho", "area_32px.svg", "khuvuckho"},
         {"Phiếu kiểm kê", "inventory_32px.svg", "kiemke"},
-        {"Phiếu nhập", "import_32px.svg", "phieunhap"},
-        {"Phiếu xuất", "export_32px.svg", "phieuxuat"},
+        {"Phiếu nhập", "import_32px.svg", "nhaphang"},
+        {"Phiếu xuất", "export_32px.svg", "xuathang"},
         {"Khách hàng", "customer_32px.svg", "khachang"},
         {"Nhà cung cấp", "supplier_32px.svg", "nhacungcap"},
         {"Nhân viên", "staff_32px.svg", "nhanvien"},
         {"Tài khoản", "account_32px.svg", "taikhoan"},
-        {"Phân quyền", "permission_32px.svg", "phanquyen"},
+        {"Phân quyền", "permission_32px.svg", "nhomquyen"},
         {"Thống kê", "permission_32px.svg", "thongke"},
         {"Đăng xuất", "log_out_32px.svg", "dangxuat"},};
 
@@ -94,7 +94,7 @@ public class MenuTaskbar extends JPanel {
         this.user = tk;
         this.nhomQuyenDTO = NhomQuyenDAO.getInstance().selectById(Integer.toString(tk.getManhomquyen()));
         this.nhanVienDTO = NhanVienDAO.getInstance().selectById(Integer.toString(tk.getManv()));
-        listQuyen = ChiTietQuyenDAO.getInstance().selectAll(tk.getManhomquyen() + "");
+        listQuyen = ChiTietQuyenDAO.getInstance().selectAll(Integer.toString(tk.getManhomquyen()));
         initComponent();
     }
 
@@ -162,7 +162,11 @@ public class MenuTaskbar extends JPanel {
             } else {
                 listitem[i] = new itemTaskbar(getSt[i][1], getSt[i][0]);
                 pnlCenter.add(listitem[i]);
-//                if(!checkRole(getSt[i][2])) listitem[i].setVisible(false);
+                if (i != 0) {
+                    if (!checkRole(getSt[i][2])) {
+                        listitem[i].setVisible(false);
+                    }
+                }
             }
         }
 
@@ -227,6 +231,7 @@ public class MenuTaskbar extends JPanel {
         listitem[6].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
+                System.out.println(main.user);
                 phieuXuat = new PhieuXuat(main, user);
                 main.setPanel(phieuXuat);
             }
@@ -268,14 +273,14 @@ public class MenuTaskbar extends JPanel {
             }
         });
 
-                listitem[12].addMouseListener(new MouseAdapter() {
+        listitem[12].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                thongKe = new ThongKe(); 
+                thongKe = new ThongKe();
                 main.setPanel(thongKe);
             }
         });
-        
+
         listitem[13].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
@@ -306,19 +311,18 @@ public class MenuTaskbar extends JPanel {
     }
 
     public void pnlMenuTaskbarMousePress(MouseEvent evt) {
-        
-            for (int i = 0; i < getSt.length; i++) {
-                if (evt.getSource() == listitem[i]) {
-                    listitem[i].isSelected = true;
-                    listitem[i].setBackground(HowerBackgroundColor);
-                    listitem[i].setForeground(HowerFontColor);
-                } else {
-                    listitem[i].isSelected = false;
-                    listitem[i].setBackground(DefaultColor);
-                    listitem[i].setForeground(FontColor);
-                }
 
-    }
+        for (int i = 0; i < getSt.length; i++) {
+            if (evt.getSource() == listitem[i]) {
+                listitem[i].isSelected = true;
+                listitem[i].setBackground(HowerBackgroundColor);
+                listitem[i].setForeground(HowerFontColor);
+            } else {
+                listitem[i].isSelected = false;
+                listitem[i].setBackground(DefaultColor);
+                listitem[i].setForeground(FontColor);
+            }
+        }
     }
 
     public void in4(JPanel info) {
@@ -349,11 +353,11 @@ public class MenuTaskbar extends JPanel {
         lblTenNhomQuyen.putClientProperty("FlatLaf.style", "font: 120% $light.font");
         lblTenNhomQuyen.setForeground(Color.GRAY);
         pnlInfo.add(lblTenNhomQuyen);
-        
+
         lblIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                MyAccount ma=new MyAccount(owner,MenuTaskbar.this,"Chỉnh sửa thông tin tài khoản",true);
+                MyAccount ma = new MyAccount(owner, MenuTaskbar.this, "Chỉnh sửa thông tin tài khoản", true);
             }
         });
     }
