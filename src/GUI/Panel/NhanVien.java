@@ -7,20 +7,21 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import GUI.Main;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
-public class NhanVien extends JPanel {
+public final class NhanVien extends JPanel {
 
    public JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     NhanVienBUS nvBus = new NhanVienBUS(this);
-    PanelBorderRadius box1, box2, main, functionBar;
+    PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tableNhanVien;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
-    JLabel lbl1, lblImage;
+    Main m;
     ArrayList<DTO.NhanVienDTO> listnv = nvBus.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
@@ -33,29 +34,29 @@ public class NhanVien extends JPanel {
 
         // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
         pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 20));
+        pnlBorder1.setPreferredSize(new Dimension(0, 10));
         pnlBorder1.setBackground(BackgroundColor);
         this.add(pnlBorder1, BorderLayout.NORTH);
 
         pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 20));
+        pnlBorder2.setPreferredSize(new Dimension(0, 10));
         pnlBorder2.setBackground(BackgroundColor);
         this.add(pnlBorder2, BorderLayout.SOUTH);
 
         pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(20, 0));
+        pnlBorder3.setPreferredSize(new Dimension(10, 0));
         pnlBorder3.setBackground(BackgroundColor);
         this.add(pnlBorder3, BorderLayout.EAST);
 
         pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(20, 0));
+        pnlBorder4.setPreferredSize(new Dimension(10, 0));
         pnlBorder4.setBackground(BackgroundColor);
         this.add(pnlBorder4, BorderLayout.WEST);
 
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
         contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(20, 20));
+        contentCenter.setLayout(new BorderLayout(10, 10));
         this.add(contentCenter, BorderLayout.CENTER);
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
@@ -63,21 +64,16 @@ public class NhanVien extends JPanel {
         functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-        mainFunction = new MainFunction();
-        functionBar.add(mainFunction);
-
-        search = new IntegratedSearch(new String[]{"Tất cả","Họ tên","Email"});
-        functionBar.add(search);
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
-       
-        mainFunction.btnAdd.addActionListener(nvBus);
-        mainFunction.btnDelete.addActionListener(nvBus);
-        mainFunction.btnDetail.addActionListener(nvBus);
-        mainFunction.btnEdit.addActionListener(nvBus);
-        mainFunction.btnNhapExcel.addActionListener(nvBus);
-        mainFunction.btnXuatExcel.addActionListener(nvBus);
+        String[] action = {"create", "update", "delete", "detail", "import", "export"};
+        mainFunction = new MainFunction(m.user.getManhomquyen(), "nhanvien", action);
+        for (String ac : action) {
+            mainFunction.btn.get(ac).addActionListener(nvBus);
+        }
+        functionBar.add(mainFunction);
+        search = new IntegratedSearch(new String[]{"Tất cả","Họ tên","Email"});
+        functionBar.add(search);
         search.btnReset.addActionListener(nvBus);
         search.cbxChoose.addActionListener(nvBus);
         search.txtSearchForm.getDocument().addDocumentListener(new NhanVienBUS(search.txtSearchForm,this));
@@ -103,7 +99,8 @@ public class NhanVien extends JPanel {
     
     
 
-    public NhanVien() {
+    public NhanVien(Main m) {
+        this.m = m;
         initComponent();
         tableNhanVien.setDefaultEditor(Object.class, null);
         loadDataTalbe(listnv);
@@ -126,7 +123,4 @@ public class NhanVien extends JPanel {
             });
         }
     }
-    
-    
-
 }
