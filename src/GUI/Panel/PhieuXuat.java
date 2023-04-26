@@ -107,6 +107,9 @@ public class PhieuXuat extends JPanel implements ActionListener {
 
         //Add Event MouseListener
         mainFunction.btnAdd.addActionListener(this);
+        mainFunction.btnDelete.addActionListener(this);
+        mainFunction.btnDetail.addActionListener(this);
+        mainFunction.btnEdit.addActionListener(this);
     }
 
     public void initPadding() {
@@ -136,6 +139,13 @@ public class PhieuXuat extends JPanel implements ActionListener {
         if (e.getSource() == mainFunction.btnAdd) {
             taoPhieuXuat = new TaoPhieuXuat(m,tk);
             m.setPanel(taoPhieuXuat);
+        } else if(e.getSource() == mainFunction.btnDetail){
+            if(getRow()<0){
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu cần xem!");
+            } else {
+                taoPhieuXuat = new TaoPhieuXuat(m,tk,pxBUS.getSelect(getRow()));
+                m.setPanel(taoPhieuXuat);
+            }
         }
     }
     
@@ -152,6 +162,10 @@ public class PhieuXuat extends JPanel implements ActionListener {
                 Formater.FormatVND(listphieuxuat.get(i).getTongTien()),
             });
         }
+    }
+    
+    public int getRow(){
+        return tablePhieuXuat.getSelectedRow();
     }
 
 }

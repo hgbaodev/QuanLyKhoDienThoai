@@ -201,4 +201,28 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
         }
         return result;
     }
+    
+    public ArrayList<ChiTietSanPhamDTO> selectAllByMaPhieuXuat(int maphieunhap) {
+        ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM ctsanpham where maphieuxuat = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, maphieunhap);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                String imei = rs.getString("maimei");
+                int maphienban = rs.getInt("maphienbansp");
+                int mapn = rs.getInt("maphieunhap");
+                int maphieuxuat = rs.getInt("maphieuxuat");
+                int tinhtrang = rs.getInt("tinhtrang");
+                ChiTietSanPhamDTO ct = new ChiTietSanPhamDTO(imei, maphienban, mapn, maphieuxuat, tinhtrang);
+                result.add(ct);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
 }

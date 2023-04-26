@@ -287,6 +287,7 @@ public class MenuTaskbar extends JPanel {
             if (listQuyen.get(i).getHanhdong().equals("view")) {
                 if (s.equals(listQuyen.get(i).getMachucnang())) {
                     check = true;
+                    return check;
                 }
             }
         }
