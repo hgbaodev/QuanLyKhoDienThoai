@@ -190,13 +190,13 @@ public class PhieuXuat extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-            taoPhieuXuat = new TaoPhieuXuat(m, tk);
+            taoPhieuXuat = new TaoPhieuXuat(m, tk, "create");
             m.setPanel(taoPhieuXuat);
         } else if (e.getSource() == mainFunction.btnDetail) {
             if (getRow() < 0) {
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu cần xem!");
             } else {
-                taoPhieuXuat = new TaoPhieuXuat(m, tk, pxBUS.getSelect(getRow()));
+                taoPhieuXuat = new TaoPhieuXuat(m, tk, pxBUS.getSelect(getRow()),"detail");
                 m.setPanel(taoPhieuXuat);
             }
         } else if(e.getSource() == mainFunction.btn.get("cancel")){
