@@ -106,6 +106,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
         String[] header = new String[]{"STT", "Mã phiếu xuất", "Khách hàng", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
         tblModel.setColumnIdentifiers(header);
         tablePhieuXuat.setModel(tblModel);
+        tablePhieuXuat.setFocusable(false);
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -189,10 +190,10 @@ public class PhieuXuat extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == mainFunction.btnAdd) {
+        if (e.getSource() == mainFunction.btn.get("create")) {
             taoPhieuXuat = new TaoPhieuXuat(m, tk, "create");
             m.setPanel(taoPhieuXuat);
-        } else if (e.getSource() == mainFunction.btnDetail) {
+        } else if (e.getSource() == mainFunction.btn.get("detail")) {
             if (getRow() < 0) {
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu cần xem!");
             } else {
