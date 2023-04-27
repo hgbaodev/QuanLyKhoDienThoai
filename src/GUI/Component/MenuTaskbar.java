@@ -231,7 +231,6 @@ public class MenuTaskbar extends JPanel {
         listitem[6].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                System.out.println(main.user);
                 phieuXuat = new PhieuXuat(main, user);
                 main.setPanel(phieuXuat);
             }
@@ -239,14 +238,14 @@ public class MenuTaskbar extends JPanel {
         listitem[7].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                khachHang = new KhachHang();
+                khachHang = new KhachHang(main);
                 main.setPanel(khachHang);
             }
         });
         listitem[8].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                nhacungcap = new NhaCungCap();
+                nhacungcap = new NhaCungCap(main);
                 main.setPanel(nhacungcap);
             }
         });
@@ -254,21 +253,21 @@ public class MenuTaskbar extends JPanel {
         listitem[9].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                nhanVien = new NhanVien();
+                nhanVien = new NhanVien(main);
                 main.setPanel(nhanVien);
             }
         });
         listitem[10].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                taiKhoan = new TaiKhoan();
+                taiKhoan = new TaiKhoan(main);
                 main.setPanel(taiKhoan);
             }
         });
         listitem[11].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                phanQuyen = new PhanQuyen();
+                phanQuyen = new PhanQuyen(main);
                 main.setPanel(phanQuyen);
             }
         });

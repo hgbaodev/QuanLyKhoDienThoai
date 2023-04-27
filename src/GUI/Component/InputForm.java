@@ -58,7 +58,7 @@ public final class InputForm extends JPanel {
     public InputForm(String title, int w, int h) {
         this.setLayout(new GridLayout(2, 1));
         this.setBackground(Color.white);
-        this.setBorder(new EmptyBorder(0, 10, 5, 10));
+//        this.setBorder(new EmptyBorder(0, 10, 5, 10));
         this.setPreferredSize(new Dimension(w, h));
         lblTitle = new JLabel(title);
         txtForm = new JTextField();
@@ -141,6 +141,10 @@ public final class InputForm extends JPanel {
 
     public void setEditable(boolean value) {
         txtForm.setEditable(value);
+    }
+
+    public String getDocument() {
+        return txtForm.getText();
     }
 
 }

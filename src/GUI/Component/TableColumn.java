@@ -12,6 +12,8 @@ public class TableColumn extends JTable {
     public TableColumn() {
         setBackground(new Color(245, 245, 245));
         setRowHeight(40);
+        setBorder(null);
+
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
             @Override

@@ -77,8 +77,6 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String btn = e.getActionCommand();
-        System.out.println("Bạn đang nhấn nút " + btn);
-
         switch (btn) {
             case "THÊM" -> {
                 NhanVienDialog nvthem = new NhanVienDialog(this, nv.owner, true, "Thêm nhân viên", "create");
@@ -182,7 +180,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     
     public void exportExcel(ArrayList<NhanVienDTO> list, String[] header) {
         try {
-            if(list.size()>0){
+            if(!list.isEmpty()){
             JFileChooser jFileChooser = new JFileChooser();
             jFileChooser.showSaveDialog(nv.owner);
             File saveFile = jFileChooser.getSelectedFile();
@@ -270,44 +268,6 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         cell.setCellValue(""+nv.getNgaysinh());
     }
 
-//    public void importExcel() {
-//        File excelFile;
-//        FileInputStream excelFIS = null;
-//        BufferedInputStream excelBIS = null;
-//        XSSFWorkbook excelJTableImport = null;
-//        ArrayList<DTO.DonViTinhDTO> listExcel = new ArrayList<DTO.DonViTinhDTO>();
-//        JFileChooser jf = new JFileChooser();
-//        int result = jf.showOpenDialog(null);
-//        jf.setDialogTitle("Open file");
-//        Workbook workbook = null;
-//        if (result == JFileChooser.APPROVE_OPTION) {
-//            try {
-//                excelFile = jf.getSelectedFile();
-//                excelFIS = new FileInputStream(excelFile);
-//                excelBIS = new BufferedInputStream(excelFIS);
-//                excelJTableImport = new XSSFWorkbook(excelBIS);
-//                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
-//                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
-//                    XSSFRow excelRow = excelSheet.getRow(row);
-////                    int id = getAutoIncrement();
-//                    String tenDvt = excelRow.getCell(0).getStringCellValue();
-////                    DTO.DonViTinhDTO dv = new DTO.DonViTinhDTO(id, tenDvt);
-////                    dvtBUS.getAll().add(dv);
-////                    listExcel.add(dv);
-//                    tblModel.setRowCount(0);
-//                }
-//            } catch (FileNotFoundException ex) {
-//                System.out.println("Lỗi đọc file");
-//            } catch (IOException ex) {
-//                System.out.println("Lỗi đọc file");
-//            }
-//        }
-//
-//        for (DTO.DonViTinhDTO donViTinh : listExcel) {
-//            MauSacSanPhamDAO.getInstance().insert(donViTinh);
-//        }
-//        loadDataTalbe(listdvt);
-//    }
     public ArrayList<NhanVienDTO> search(String text) {
         text = text.toLowerCase();
         ArrayList<NhanVienDTO> result = new ArrayList<>();
@@ -319,5 +279,4 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         }
         return result;
     }
-    
 }
