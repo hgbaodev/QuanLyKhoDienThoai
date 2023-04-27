@@ -85,6 +85,21 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
         }
         return result;
     }
+    
+    public int reset(ChiTietSanPhamDTO t) {
+        int result = 0;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "UPDATE `ctsanpham` SET `maphieuxuat`= NULL ,`tinhtrang`='1' WHERE `maimei`=?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, t.getImei());
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(ChiTietSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 
     @Override
     public int delete(String t) {
@@ -129,7 +144,31 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
         ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM ctsanpham where maphienbansp = ? and tinhtrang = '1'";
+            String sql = "SELECT * FROM ctsanpham where maphienbansp = ? and tinhtrang = 1";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, mapbsp);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                String imei = rs.getString("maimei");
+                int maphienban = rs.getInt("maphienbansp");
+                int maphieunhap = rs.getInt("maphieunhap");
+                int maphieuxuat = rs.getInt("maphieuxuat");
+                int tinhtrang = rs.getInt("tinhtrang");
+                ChiTietSanPhamDTO ct = new ChiTietSanPhamDTO(imei, maphienban, maphieunhap, maphieuxuat, tinhtrang);
+                result.add(ct);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public ArrayList<ChiTietSanPhamDTO> selectAllbyPbAll(int mapbsp) {
+        ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM ctsanpham where maphienbansp = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, mapbsp);
             ResultSet rs = (ResultSet) pst.executeQuery();

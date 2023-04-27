@@ -4,13 +4,12 @@ import BUS.KhuVucKhoBUS;
 import BUS.SanPhamBUS;
 import DAO.KhuVucKhoDAO;
 import DTO.KhuVucKhoDTO;
-import DTO.SanPhamDTO;
-import GUI.Component.InputImage;
-import GUI.Component.InputImage1;
-import GUI.Component.IntegratedSearch;
-import GUI.Component.MainFunction;
+import DTO.SanPhamDTO;;
 import java.awt.*;
 import javax.swing.*;
+import GUI.Main;
+import GUI.Component.IntegratedSearch;
+import GUI.Component.MainFunction;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.itemTaskbar;
@@ -53,11 +52,11 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     Color BackgroundColor = new Color(240, 247, 250);
     DefaultTableModel tblModel;
+    Main m;
     public KhuVucKhoBUS kvkBUS = new KhuVucKhoBUS();
     public SanPhamBUS spBUS = new SanPhamBUS();
 
     public ArrayList<KhuVucKhoDTO> listKVK = kvkBUS.getAll();
-//    public ArrayList<SanPhamDTO> listSP = spBUS.getAll();
 
     private void initComponent() {
         tableKhuvuc = new JTable();
@@ -82,29 +81,29 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
 
         // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
         pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 20));
+        pnlBorder1.setPreferredSize(new Dimension(0, 10));
         pnlBorder1.setBackground(BackgroundColor);
         this.add(pnlBorder1, BorderLayout.NORTH);
 
         pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 20));
+        pnlBorder2.setPreferredSize(new Dimension(0, 10));
         pnlBorder2.setBackground(BackgroundColor);
         this.add(pnlBorder2, BorderLayout.SOUTH);
 
         pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(20, 0));
+        pnlBorder3.setPreferredSize(new Dimension(10, 0));
         pnlBorder3.setBackground(BackgroundColor);
         this.add(pnlBorder3, BorderLayout.EAST);
 
         pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(20, 0));
+        pnlBorder4.setPreferredSize(new Dimension(10, 0));
         pnlBorder4.setBackground(BackgroundColor);
         this.add(pnlBorder4, BorderLayout.WEST);
 
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
         contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(20, 20));
+        contentCenter.setLayout(new BorderLayout(10, 10));
         this.add(contentCenter, BorderLayout.CENTER);
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
@@ -113,19 +112,17 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        mainFunction = new MainFunction();
-        //Add Event MouseListener
-        mainFunction.btnAdd.addActionListener(this);
-        mainFunction.btnEdit.addActionListener(this);
-        mainFunction.btnDetail.addActionListener(this);
-        mainFunction.btnDelete.addActionListener(this);
-        mainFunction.btnXuatExcel.addActionListener(this);
-        mainFunction.btnNhapExcel.addActionListener(this);
+        String[] action = {"create", "update", "delete", "detail", "import", "export"};
+        mainFunction = new MainFunction(m.user.getManhomquyen(), "khuvuckho", action);
+        for (String ac : action) {
+            mainFunction.btn.get(ac).addActionListener(this);
+        }
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch(new String[]{"Tất cả", "Mã khu vực kho", "Tên khu vực kho"});
         search.cbxChoose.addItemListener(this);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyReleased(KeyEvent e) {
                 String type = (String) search.cbxChoose.getSelectedItem();
                 String txt = search.txtSearchForm.getText();
@@ -159,7 +156,8 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         contentCenter.add(scrollPane, BorderLayout.EAST);
     }
 
-    public KhuVucKho() {
+    public KhuVucKho(Main m) {
+        this.m = m;
         initComponent();
         tableKhuvuc.setDefaultEditor(Object.class, null);
         loadDataTable(listKVK);
@@ -272,7 +270,6 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         }
 
         if (i==0) {
-
         if (result.isEmpty()) {
             JLabel lblIcon = new JLabel("Không có sản phẩm");
             lblIcon.setPreferredSize(new Dimension(380, 300));
@@ -284,20 +281,21 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
 
         right.repaint();
         right.validate();
+        }
     }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == mainFunction.btnAdd) {
+        if (e.getSource() == mainFunction.btn.get("create")) {
             KhuVucKhoDialog kvkDialog = new KhuVucKhoDialog(this, owner, "Thêm khu vực kho", true, "create");
-        } else if (e.getSource() == mainFunction.btnEdit) {
+        } else if (e.getSource() == mainFunction.btn.get("update")) {
             int index = tableKhuvuc.getSelectedRow();
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn khu vực cần sửa");
             } else {
                 KhuVucKhoDialog kvkDialog = new KhuVucKhoDialog(this, owner, "Chỉnh sửa khu vực kho", true, "update", listKVK.get(index));
             }
-        } else if (e.getSource() == mainFunction.btnDelete) {
+        } else if (e.getSource() == mainFunction.btn.get("delete")) {
             int index = tableKhuvuc.getSelectedRow();
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn khu vực cần xóa");
@@ -310,7 +308,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
                     loadDataTable(listKVK);
                 }
             }
-        } else if (e.getSource() == mainFunction.btnDetail) {
+        } else if (e.getSource() == mainFunction.btn.get("detail")) {
             int index = tableKhuvuc.getSelectedRow();
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần xem");

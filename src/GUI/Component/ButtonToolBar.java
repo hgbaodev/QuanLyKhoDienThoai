@@ -15,6 +15,7 @@ import javax.swing.JButton;
  * @author Tran Nhat Sinh
  */
 public class ButtonToolBar extends JButton{
+    String permisson;
     public ButtonToolBar(String text, FlatSVGIcon icon) {
         this.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 1, 14));
         this.setForeground(new Color(1, 88, 155));
@@ -27,7 +28,8 @@ public class ButtonToolBar extends JButton{
         this.putClientProperty("JButton.buttonType", "toolBarButton");
     }
     
-    public ButtonToolBar(String text, String icon) {
+    public ButtonToolBar(String text, String icon, String permisson) {
+        this.permisson = permisson;
         this.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 1, 14));
         this.setForeground(new Color(1, 88, 155));
         this.setIcon(new FlatSVGIcon("./icon/"+icon));
@@ -38,4 +40,9 @@ public class ButtonToolBar extends JButton{
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.putClientProperty("JButton.buttonType", "toolBarButton");
     }
+    
+    public String getPermisson() {
+        return this.permisson;
+    }
+    
 }

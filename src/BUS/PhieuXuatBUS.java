@@ -33,6 +33,9 @@ public class PhieuXuatBUS {
         return listPhieuXuat.get(index);
     }
     
+    public void cancel(int px){
+        phieuXuatDAO.cancel(px);
+    }
     
         public ArrayList<PhieuXuatDTO> filterByMoney(String head, String tail) {
         ArrayList<PhieuXuatDTO> result = new ArrayList<>();

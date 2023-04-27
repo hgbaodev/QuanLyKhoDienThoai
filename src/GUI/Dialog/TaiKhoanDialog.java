@@ -109,7 +109,7 @@ public class TaiKhoanDialog extends JDialog{
                 int tt = trangthai.getSelectedIndex();
                 TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, pass, manhom, tt);
                 TaiKhoanDAO.getInstance().update(tk);
-                taiKhoan.taiKhoanBus.updateAcc(taiKhoan.getRow(), tk);
+                taiKhoan.taiKhoanBus.updateAcc(taiKhoan.getRowSelected(), tk);
                 taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());
                 dispose();
             }

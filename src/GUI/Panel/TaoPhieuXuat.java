@@ -72,6 +72,7 @@ public class TaoPhieuXuat extends JPanel {
     int maphieu;
     int manv;
     int makh = -1;
+    String type;
 
     ArrayList<ChiTietSanPhamDTO> ctpb;
     SanPhamBUS spBUS = new SanPhamBUS();
@@ -92,22 +93,27 @@ public class TaoPhieuXuat extends JPanel {
     private JLabel lbltongtien;
     private JTextField txtKh;
     private Main mainChinh;
+    private ButtonCustom btnQuayLai;
 
-    public TaoPhieuXuat(Main mainChinh, TaiKhoanDTO tk) {
+    public TaoPhieuXuat(Main mainChinh, TaiKhoanDTO tk, String type) {
         this.mainChinh = mainChinh;
         this.tk = tk;
-        initComponent();
+        this.type=type;
+        initComponent(type);
         loadDataTalbeSanPham(listSP);
     }
     
-    public TaoPhieuXuat(Main mainChinh, TaiKhoanDTO tk, PhieuXuatDTO phieuXuatDTO) {
+    public TaoPhieuXuat(Main mainChinh, TaiKhoanDTO tk, PhieuXuatDTO phieuXuatDTO, String type) {
         this.mainChinh = mainChinh;
         this.tk = tk;
+        this.type=type;
+        initComponent(type);
         chitietsanpham = ChiTietSanPhamDAO.getInstance().selectAllByMaPhieuXuat(phieuXuatDTO.getMaphieu());
         chitietphieu = ChiTietPhieuXuatDAO.getInstance().selectAll(phieuXuatDTO.getMaphieu()+"");
-        initComponent();
         loadDataTalbeSanPham(listSP);
         loadDataTableChiTietPhieu(chitietphieu);
+        setKhachHang(phieuXuatDTO.getMakh());
+        
     }
 
     public void initPadding() {
@@ -132,7 +138,7 @@ public class TaoPhieuXuat extends JPanel {
         this.add(pnlBorder4, BorderLayout.WEST);
     }
 
-    private void initComponent() {
+    private void initComponent(String type) {
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -459,7 +465,6 @@ public class TaoPhieuXuat extends JPanel {
                     actionbtn("add");
                 } else {
                     actionbtn("update");
-//                    setFormChiTietPhieu(ctp);
                 }
             }
         });
@@ -476,7 +481,15 @@ public class TaoPhieuXuat extends JPanel {
         });
 
         btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
-
+        btnQuayLai = new ButtonCustom("Quay lại", "excel", 14);
+        right_bottom.add(pn_tongtien);
+        if(type.equals("create")){
+             right_bottom.add(btnNhapHang);
+        } else if(type.equals("detail")){
+             right_bottom.add(btnQuayLai);
+        }
+        
+        
         btnNhapHang.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -498,8 +511,15 @@ public class TaoPhieuXuat extends JPanel {
                 }
             }
         });
-        right_bottom.add(pn_tongtien);
-        right_bottom.add(btnNhapHang);
+        
+        btnQuayLai.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            PhieuXuat phieuXuatPanel = new PhieuXuat(mainChinh, tk);
+            mainChinh.setPanel(phieuXuatPanel);
+            }
+        });
 
         right.add(right_top, BorderLayout.NORTH);
         right.add(right_center, BorderLayout.CENTER);
@@ -568,7 +588,12 @@ public class TaoPhieuXuat extends JPanel {
     }
 
     public void setImeiByPb(int mapb) {
-        ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb);
+        if(type.equals("create")){
+            ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb);
+        } else if(type.equals("detail")){
+            ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPbAll(mapb);
+        }
+        
         textAreaImei.setText("");
         v.clear();
         v.add("Chọn sản phẩm");
@@ -619,7 +644,6 @@ public class TaoPhieuXuat extends JPanel {
         sum = 0;
         for (int i = 0; i < size; i++) {
             PhienBanSanPhamDTO phienban = phienBanBus.getByMaPhienBan(ctPhieu.get(i).getMaphienbansp());
-            System.out.println(phienban);
             sum += ctPhieu.get(i).getDongia() * ctPhieu.get(i).getSoluong();
             tblModel.addRow(new Object[]{
                 i + 1, phienban.getMasp(), spBUS.getByMaSP(phienban.getMasp()).getTensp(), ramBus.getKichThuocById(phienban.getRam()) + "GB",

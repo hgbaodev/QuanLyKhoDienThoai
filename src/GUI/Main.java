@@ -13,7 +13,7 @@ import javax.swing.border.EmptyBorder;
 public class Main extends JFrame {
 
     public JPanel MainContent;
-    TaiKhoanDTO user;
+    public TaiKhoanDTO user;
     Color MainColor = new Color(250, 250, 250);
 
     private MenuTaskbar menuTaskbar;
