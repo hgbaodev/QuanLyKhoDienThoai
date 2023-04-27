@@ -121,7 +121,7 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         String[] action = {"create", "detail", "delete", "cancel", "import", "export"};
-        mainFunction = new MainFunction(action);
+        mainFunction = new MainFunction(m.user.getManhomquyen(), "nhaphang", action);
         functionBar.add(mainFunction);
 
         //Add Event MouseListener
