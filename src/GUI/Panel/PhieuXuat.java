@@ -52,9 +52,9 @@ public class PhieuXuat extends JPanel implements ActionListener {
     KhachHangBUS khachHangBUS = new KhachHangBUS();
 
     public PhieuXuat(Main m, TaiKhoanDTO tk) {
-        initComponent();
         this.m = m;
         this.tk = tk;
+        initComponent();
         initComponent();
         loadDataTalbe(pxBUS.getAll());
     }
