@@ -34,5 +34,38 @@ public class PhieuXuatBUS {
     }
     
     
+        public ArrayList<PhieuXuatDTO> filterByMoney(String head, String tail) {
+        ArrayList<PhieuXuatDTO> result = new ArrayList<>();
+        if (!head.equals("") && !tail.equals("")) {
+            Long min = Long.parseLong(head);
+            Long max = Long.parseLong(tail);
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                if (i.getTongTien() >= min && i.getTongTien() <= max) {
+                    result.add(i);
+                }
+            }
+        } else if (!head.equals("") && tail.equals("")) {
+            Long min = Long.parseLong(head);
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                if (i.getTongTien() >= min) {
+                    result.add(i);
+                }
+            }
+        } else if (head.equals("") && !tail.equals("")) {
+            Long max = Long.parseLong(tail);
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                if (i.getTongTien() <= max) {
+                    result.add(i);
+                }
+            }
+        } else {
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                result.add(i);
+            }
+        }
+
+        return result;
+
+    }
     
 }

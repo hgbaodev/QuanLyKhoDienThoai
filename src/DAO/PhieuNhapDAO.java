@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
 
 /**
  *
@@ -17,6 +18,11 @@ import java.util.logging.Logger;
  */
 public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
 
+        public static PhieuNhapDAO getInstance() {
+        return new PhieuNhapDAO();
+    }
+    
+    
     @Override
     public int insert(PhieuNhapDTO t) {
         int result = 0;
@@ -39,7 +45,7 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
 
     @Override
     public int update(PhieuNhapDTO t) {
-        int result = 0 ;
+        int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "UPDATE `phieunhap` SET `thoigian`=?,`manhacungcap`=?,`tongtien`=?,`trangthai`=? WHERE `maphieunhap`=?";
@@ -59,7 +65,7 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
 
     @Override
     public int delete(String t) {
-        int result = 0 ;
+        int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "UPDATE phieunhap SET trangthai = 0 WHERE maphieunhap = ?";
@@ -81,7 +87,7 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
             String sql = "SELECT * FROM phieunhap ORDER BY maphieunhap DESC";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int maphieu = rs.getInt("maphieunhap");
                 Timestamp thoigiantao = rs.getTimestamp("thoigian");
                 int mancc = rs.getInt("manhacungcap");
@@ -106,7 +112,7 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int maphieu = rs.getInt("maphieunhap");
                 Timestamp thoigiantao = rs.getTimestamp("thoigian");
                 int mancc = rs.getInt("manhacungcap");
@@ -121,6 +127,32 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
         return result;
     }
 
+    public ArrayList<PhieuNhapDTO> statistical(long min, long max) {
+        ArrayList<PhieuNhapDTO> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM phieunhap WHERE tongtien BETWEEN ? AND ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setLong(1, min);
+            pst.setLong(2,max);
+
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                int maphieu = rs.getInt("maphieunhap");
+                Timestamp thoigiantao = rs.getTimestamp("thoigian");
+                int mancc = rs.getInt("manhacungcap");
+                int nguoitao = rs.getInt("nguoitao");
+                long tongtien = rs.getLong("tongtien");
+                int trangthai = rs.getInt("trangthai");
+                PhieuNhapDTO phieunhap = new PhieuNhapDTO(mancc, maphieu, nguoitao, thoigiantao, tongtien, trangthai);
+                result.add(phieunhap);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+        }
+        return result;
+    }
+
     @Override
     public int getAutoIncrement() {
         int result = -1;
@@ -129,10 +161,10 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
             String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND TABLE_NAME   = 'phieunhap'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery(sql);
-            if (!rs2.isBeforeFirst() ) {
+            if (!rs2.isBeforeFirst()) {
                 System.out.println("No data");
             } else {
-                while ( rs2.next() ) {
+                while (rs2.next()) {
                     result = rs2.getInt("AUTO_INCREMENT");
                 }
             }

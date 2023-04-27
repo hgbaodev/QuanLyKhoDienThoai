@@ -6,6 +6,8 @@ import BUS.NhanVienBUS;
 import BUS.PhieuXuatBUS;
 import DTO.PhieuXuatDTO;
 import DTO.TaiKhoanDTO;
+import GUI.Component.InputDate;
+import GUI.Component.InputForm;
 import GUI.Component.InputFormInline;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
@@ -17,13 +19,15 @@ import GUI.Component.PanelBorderRadius;
 import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class PhieuXuat extends JPanel implements ActionListener {
 
-    PanelBorderRadius box1, box2, main, functionBar, right;
+    PanelBorderRadius box1, box2, main, functionBar, box;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tablePhieuXuat;
     JScrollPane scrollTablePhieuXuat;
@@ -32,6 +36,8 @@ public class PhieuXuat extends JPanel implements ActionListener {
     JLabel lbl1, lblImage, lblTongTien, lbl2;
     JButton btnXuatKho;
     DefaultTableModel tblModel;
+    InputDate dateStart, dateEnd;
+    InputForm moneyMin, moneyMax;
 
     InputFormInline maphieuxuat, khachhang;
 
@@ -40,13 +46,15 @@ public class PhieuXuat extends JPanel implements ActionListener {
     TaiKhoanDTO tk;
 
     Color BackgroundColor = new Color(240, 247, 250);
+
+    ArrayList<PhieuXuatDTO> listPhieuXuat;
     
     NhaCungCapBUS nccBUS = new NhaCungCapBUS();
     NhanVienBUS nvBUS = new NhanVienBUS();
     PhieuXuatBUS pxBUS = new PhieuXuatBUS();
     KhachHangBUS khachHangBUS = new KhachHangBUS();
 
-    public PhieuXuat(Main m,TaiKhoanDTO tk) {
+    public PhieuXuat(Main m, TaiKhoanDTO tk) {
         initComponent();
         this.m = m;
         this.tk = tk;
@@ -80,6 +88,8 @@ public class PhieuXuat extends JPanel implements ActionListener {
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
+        leftFunc();
+        
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
@@ -134,37 +144,80 @@ public class PhieuXuat extends JPanel implements ActionListener {
         this.add(pnlBorder4, BorderLayout.WEST);
     }
 
+    public void leftFunc() {
+        box = new PanelBorderRadius();
+        box.setPreferredSize(new Dimension(250, 0));
+        box.setLayout(new GridLayout(6, 1, 10, 0));
+//        box.setLayout(new FlowLayout(0, 10, 10));
+        box.setBorder(new EmptyBorder(0, 5, 150, 5));
+        contentCenter.add(box, BorderLayout.WEST);
+
+        JLabel lbl1 = new JLabel("Lọc theo ngày");
+        lbl1.putClientProperty("FlatLaf.style", "font: 130% $semibold.font");
+        JLabel lbl2 = new JLabel("Lọc theo giá");
+        lbl2.putClientProperty("FlatLaf.style", "font: 130% $semibold.font");
+        dateStart = new InputDate("Từ ngày");
+        dateEnd = new InputDate("Đến ngày");
+        moneyMin = new InputForm("Từ số tiền (VND)");
+        moneyMax = new InputForm("Đến số tiền (VND)");
+
+        moneyMin.getTxtForm().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String min = moneyMin.getText();
+                String max = moneyMax.getText();
+                listPhieuXuat = pxBUS.filterByMoney(min, max);
+                loadDataTalbe(listPhieuXuat);
+            }
+        });
+        moneyMax.getTxtForm().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String min = moneyMin.getText();
+                String max = moneyMax.getText();
+                listPhieuXuat = pxBUS.filterByMoney(min, max);
+                loadDataTalbe(listPhieuXuat);
+            }
+        });
+
+        box.add(lbl1);
+        box.add(dateStart);
+        box.add(dateEnd);
+        box.add(lbl2);
+        box.add(moneyMin);
+        box.add(moneyMax);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btnAdd) {
-            taoPhieuXuat = new TaoPhieuXuat(m,tk);
+            taoPhieuXuat = new TaoPhieuXuat(m, tk);
             m.setPanel(taoPhieuXuat);
-        } else if(e.getSource() == mainFunction.btnDetail){
-            if(getRow()<0){
+        } else if (e.getSource() == mainFunction.btnDetail) {
+            if (getRow() < 0) {
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu cần xem!");
             } else {
-                taoPhieuXuat = new TaoPhieuXuat(m,tk,pxBUS.getSelect(getRow()));
+                taoPhieuXuat = new TaoPhieuXuat(m, tk, pxBUS.getSelect(getRow()));
                 m.setPanel(taoPhieuXuat);
             }
         }
     }
-    
+
     public void loadDataTalbe(ArrayList<PhieuXuatDTO> listphieuxuat) {
         tblModel.setRowCount(0);
         int size = listphieuxuat.size();
         for (int i = 0; i < size; i++) {
             tblModel.addRow(new Object[]{
-                i + 1, 
+                i + 1,
                 listphieuxuat.get(i).getMaphieu(),
                 khachHangBUS.getTenKhachHang(listphieuxuat.get(i).getMakh()),
                 nvBUS.getNameById(listphieuxuat.get(i).getManguoitao()),
                 Formater.FormatTime(listphieuxuat.get(i).getThoigiantao()),
-                Formater.FormatVND(listphieuxuat.get(i).getTongTien()),
-            });
+                Formater.FormatVND(listphieuxuat.get(i).getTongTien()),});
         }
     }
-    
-    public int getRow(){
+
+    public int getRow() {
         return tablePhieuXuat.getSelectedRow();
     }
 
