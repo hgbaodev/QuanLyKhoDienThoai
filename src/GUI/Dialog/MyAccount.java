@@ -63,13 +63,13 @@ public class MyAccount extends JDialog implements ActionListener {
         nv = menuTaskbar.nhanVienDTO;
         top = new JPanel();
         top.setBackground(Color.WHITE);
-        top.setLayout(new FlowLayout(0,0,0));
+        top.setLayout(new FlowLayout(0, 0, 0));
         title = new HeaderTitle("CHỈNH SỬA THÔNG TIN");
         top.add(title);
         this.add(top, BorderLayout.NORTH);
 
         top_center = new JPanel(new FlowLayout(1, 40, 0));
-        top_center.setBorder(new EmptyBorder(20,0,0,0));
+        top_center.setBorder(new EmptyBorder(20, 0, 0, 0));
         top_center.setBackground(Color.WHITE);
         main_center = new JPanel();
         main_center.setBackground(Color.WHITE);
@@ -172,20 +172,20 @@ public class MyAccount extends JDialog implements ActionListener {
             if (jbr[2].isSelected()) {
                 TaiKhoanDTO tkdto = tkbus.getTaiKhoan(tkbus.getTaiKhoanByMaNV(nv.getManv()));
                 if (checknullPass(current_pwd, "mật khẩu hiện tại")) {
-                    
+
                     if (!BCrypt.checkpw(current_pwd.getPass(), tkdto.getMatkhau())) {
                         JOptionPane.showMessageDialog(this, "Mật khẩu hiện tại không đúng");
                     } else {
-                        if (checknullPass(new_pwd, "mật khẩu mới") || checknullPass(confirm, "xác nhận mật khẩu mới")) {
-                            if (new_pwd.getPass().equals(confirm.getPass())==false) {
-                                JOptionPane.showMessageDialog(this, "Mật khẩu nhập lại không khớp");
-                            } else {
-                                String pass = BCrypt.hashpw(confirm.getPass(), BCrypt.gensalt(12));
-                                System.out.println(tkdto.getMatkhau());
-                                TaiKhoanDAO.getInstance().update( new TaiKhoanDTO(tkdto.getManv(), tkdto.getUsername(), pass, tkdto.getManhomquyen(), tkdto.getTrangthai()));
-                                System.out.println(pass);
-                                JOptionPane.showMessageDialog(this, "Cập nhật thành công");
-                                this.dispose();
+                        if (checknullPass(new_pwd, "mật khẩu mới")) {
+                            if (checknullPass(confirm, "xác nhận mật khẩu mới")) {
+                                if (new_pwd.getPass().equals(confirm.getPass()) == false) {
+                                    JOptionPane.showMessageDialog(this, "Mật khẩu nhập lại không khớp");
+                                } else {
+                                    String pass = BCrypt.hashpw(confirm.getPass(), BCrypt.gensalt(12));
+                                    TaiKhoanDAO.getInstance().update(new TaiKhoanDTO(tkdto.getManv(), tkdto.getUsername(), pass, tkdto.getManhomquyen(), tkdto.getTrangthai()));
+                                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+                                    this.dispose();
+                                }
                             }
                         }
                     }
@@ -193,7 +193,7 @@ public class MyAccount extends JDialog implements ActionListener {
             }
             menuTaskbar.resetChange();
         }
-    } 
+    }
 
     public boolean checknull(InputForm x, String object) {
         if (Validation.isEmpty(x.getText())) {
@@ -203,6 +203,7 @@ public class MyAccount extends JDialog implements ActionListener {
             return true;
         }
     }
+
     public boolean checknullPass(InputForm x, String object) {
         if (Validation.isEmpty(x.getPass())) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập " + object);
