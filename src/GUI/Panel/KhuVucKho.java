@@ -77,6 +77,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         columnModel.getColumn(2).setPreferredWidth(300);
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
         columnModel.getColumn(2).setCellRenderer(centerRenderer);
+        tableKhuvuc. setFocusable(false);
 
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
@@ -141,7 +142,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+//        main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
         main.add(scrollTableSanPham);
 
@@ -286,7 +287,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
             right.validate();
         }
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btn.get("create")) {

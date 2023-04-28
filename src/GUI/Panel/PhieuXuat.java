@@ -45,8 +45,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
     Color BackgroundColor = new Color(240, 247, 250);
 
     ArrayList<PhieuXuatDTO> listPhieuXuat;
-    
-    NhaCungCapBUS nccBUS = new NhaCungCapBUS();
+
     NhanVienBUS nvBUS = new NhanVienBUS();
     PhieuXuatBUS pxBUS = new PhieuXuatBUS();
     KhachHangBUS khachHangBUS = new KhachHangBUS();
@@ -78,12 +77,12 @@ public class PhieuXuat extends JPanel implements ActionListener {
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        String[] action = {"create","detail","cancel","export"};
-        mainFunction = new MainFunction(m.user.getManhomquyen(),"xuathang",action);
+        String[] action = {"create", "detail", "cancel", "export"};
+        mainFunction = new MainFunction(m.user.getManhomquyen(), "xuathang", action);
         functionBar.add(mainFunction);
-        
+
         //Add Event MouseListener
-        for(String ac : action){
+        for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
 
@@ -93,11 +92,11 @@ public class PhieuXuat extends JPanel implements ActionListener {
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
         leftFunc();
-        
+
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+//        main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
         tablePhieuXuat = new JTable();
@@ -110,13 +109,9 @@ public class PhieuXuat extends JPanel implements ActionListener {
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tablePhieuXuat.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tablePhieuXuat.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        tablePhieuXuat.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        tablePhieuXuat.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        tablePhieuXuat.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-        tablePhieuXuat.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        tablePhieuXuat.setDefaultRenderer(Object.class, centerRenderer);
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
+        tablePhieuXuat.setFocusable(false);
 
         main.add(scrollTablePhieuXuat);
 
@@ -180,10 +175,10 @@ public class PhieuXuat extends JPanel implements ActionListener {
             }
         });
 
-        box.add(lbl1);
+//        box.add(lbl1);
         box.add(dateStart);
         box.add(dateEnd);
-        box.add(lbl2);
+//        box.add(lbl2);
         box.add(moneyMin);
         box.add(moneyMax);
     }
@@ -197,15 +192,15 @@ public class PhieuXuat extends JPanel implements ActionListener {
             if (getRow() < 0) {
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu cần xem!");
             } else {
-                taoPhieuXuat = new TaoPhieuXuat(m, tk, pxBUS.getSelect(getRow()),"detail");
+                taoPhieuXuat = new TaoPhieuXuat(m, tk, pxBUS.getSelect(getRow()), "detail");
                 m.setPanel(taoPhieuXuat);
             }
-        } else if(e.getSource() == mainFunction.btn.get("cancel")){
-            if(tablePhieuXuat.getSelectedRow()<0){
+        } else if (e.getSource() == mainFunction.btn.get("cancel")) {
+            if (tablePhieuXuat.getSelectedRow() < 0) {
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu!");
             } else {
-                int n = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa phiếu này?","Xóa phiếu",JOptionPane.YES_NO_OPTION);
-                if(n == JOptionPane.YES_OPTION){
+                int n = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa phiếu này?", "Xóa phiếu", JOptionPane.YES_NO_OPTION);
+                if (n == JOptionPane.YES_OPTION) {
                     PhieuXuatDTO px = pxBUS.getSelect(tablePhieuXuat.getSelectedRow());
                     pxBUS.cancel(px.getMaphieu());
                     pxBUS.remove(tablePhieuXuat.getSelectedRow());

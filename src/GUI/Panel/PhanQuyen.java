@@ -87,7 +87,7 @@ public class PhanQuyen extends JPanel implements ActionListener {
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(10, 10, 10, 10));
+//        main.setBorder(new EmptyBorder(10, 10, 10, 10));
         contentCenter.add(main, BorderLayout.CENTER);
 
         tblNhomQuyen = new JTable();
@@ -105,6 +105,7 @@ public class PhanQuyen extends JPanel implements ActionListener {
         columnModel.getColumn(0).setPreferredWidth(2);
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
         columnModel.getColumn(1).setPreferredWidth(300);
+        tblNhomQuyen.setFocusable(false);
         main.add(scrollTable);
     }
 
