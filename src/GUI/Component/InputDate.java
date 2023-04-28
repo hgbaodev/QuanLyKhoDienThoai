@@ -9,32 +9,21 @@ import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class InputDate extends JPanel {
 
     JLabel lbltitle;
-    JDateChooser date;
+    public JDateChooser date;
     DecimalFormat formatter = new DecimalFormat("###,###,###");
     SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/YYYY HH:mm");
     private final SimpleDateFormat dateFormat;
-//    public DecimalFormat getFormatter() {
-//        return formatter;
-//    }
-//
-//    public SimpleDateFormat getFormatDate() {
-//        return formatDate;
-//    }
 
     public InputDate(String title) {
         this.setLayout(new GridLayout(2, 1));
@@ -52,8 +41,6 @@ public class InputDate extends JPanel {
         this.setLayout(new GridLayout(2, 1));
         this.setBackground(Color.white);
         this.setPreferredSize(new Dimension(w, h));
-
-//        this.setBorder(new EmptyBorder(10, 10, 10, 10));
         lbltitle = new JLabel(title);
         date = new JDateChooser();
         date.setDateFormatString("dd/MM/yyyy");
@@ -61,10 +48,19 @@ public class InputDate extends JPanel {
         this.add(lbltitle);
         this.add(date);
     }
+    
+    public JDateChooser getDateChooser() {
+        return this.date;
+    }
 
     public Date getDate() throws ParseException {
-        String txt_date = dateFormat.format(date.getDate());
-        return dateFormat.parse(txt_date);
+        Date dt = date.getDate();
+        if (dt != null) {
+            String txt_date = dateFormat.format(dt);
+            return dateFormat.parse(txt_date);
+        } else {
+            return null;
+        }
     }
 
     public void setDate(JDateChooser date) {

@@ -8,6 +8,7 @@ import DTO.ChiTietSanPhamDTO;
 import DTO.PhieuNhapDTO;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -97,7 +98,7 @@ public class PhieuNhapBUS {
         text = text.toLowerCase();
         ArrayList<PhieuNhapDTO> result = new ArrayList<>();
         switch (index) {
-            case 0:
+            case 0 -> {
                 for (PhieuNhapDTO i : this.listPhieuNhap) {
                     if (Integer.toString(i.getMaphieu()).contains(text)
                             || nccBUS.getTenNhaCungCap(i.getManhacungcap()).toLowerCase().contains(text)
@@ -105,69 +106,65 @@ public class PhieuNhapBUS {
                         result.add(i);
                     }
                 }
-                break;
+            }
 
-            case 1:
+            case 1 -> {
                 for (PhieuNhapDTO i : this.listPhieuNhap) {
                     if (Integer.toString(i.getMaphieu()).contains(text)) {
                         result.add(i);
                     }
                 }
-                break;
-            case 2:
+            }
+            case 2 -> {
                 for (PhieuNhapDTO i : this.listPhieuNhap) {
                     if (nccBUS.getTenNhaCungCap(i.getManhacungcap()).toLowerCase().contains(text)) {
                         result.add(i);
                     }
                 }
-                break;
-            case 3:
+            }
+            case 3 -> {
                 for (PhieuNhapDTO i : this.listPhieuNhap) {
                     if (nvBUS.getNameById(i.getManguoitao()).toLowerCase().contains(text)) {
                         result.add(i);
                     }
                 }
-                break;
+            }
         }
         return result;
     }
 
-    public ArrayList<PhieuNhapDTO> filterByMoney(String head, String tail) {
+    public ArrayList<PhieuNhapDTO> fillerPhieuNhap(int type, String input, Date time_s, Date time_e, String price_minnn, String price_maxxx) {
+        Long price_min = !price_minnn.equals("") ? Long.valueOf(price_minnn) : 0L;
+        Long price_max = !price_maxxx.equals("") ? Long.valueOf(price_maxxx) : Long.MAX_VALUE;
+        Timestamp time_start = new Timestamp(time_s.getTime());
+        Timestamp time_end = new Timestamp(time_e.getTime());
         ArrayList<PhieuNhapDTO> result = new ArrayList<>();
-        if (!head.equals("") && !tail.equals("")) {
-            Long min = Long.parseLong(head);
-            Long max = Long.parseLong(tail);
-            for (PhieuNhapDTO i : this.listPhieuNhap) {
-                if (i.getTongTien() >= min && i.getTongTien() <= max) {
-                    result.add(i);
+        for (PhieuNhapDTO phieuNhap : getAllList()) {
+            boolean match = false;
+            switch (type) {
+                case 0 ->
+                    match = true;
+                case 1 -> {
+                    if (!input.isEmpty() && String.valueOf(phieuNhap.getMaphieu()).contains(input)) {
+                        match = true;
+                    }
+                }
+                case 2 -> {
+                    if (!input.isEmpty() && String.valueOf(phieuNhap.getManhacungcap()).equals(input)) {
+                        match = true;
+                    }
                 }
             }
-        } else if (!head.equals("") && tail.equals("")) {
-            Long min = Long.parseLong(head);
-            for (PhieuNhapDTO i : this.listPhieuNhap) {
-                if (i.getTongTien() >= min) {
-                    result.add(i);
-                }
-            }
-        } else if (head.equals("") && !tail.equals("")) {
-            Long max = Long.parseLong(tail);
-            for (PhieuNhapDTO i : this.listPhieuNhap) {
-                if (i.getTongTien() <= max) {
-                    result.add(i);
-                }
-            }
-        } else {
-            for (PhieuNhapDTO i : this.listPhieuNhap) {
-                result.add(i);
+
+            if (match
+                    && (phieuNhap.getThoigiantao().compareTo(time_start) >= 0)
+                    && (phieuNhap.getThoigiantao().compareTo(time_end) <= 0)
+                    && phieuNhap.getTongTien() >= price_min
+                    && phieuNhap.getTongTien() <= price_max) {
+                result.add(phieuNhap);
             }
         }
 
-        return result;
-    }
-
-    public ArrayList<PhieuNhapDTO> fillerPhieuNhap(int type, int input, Timestamp time_start, Timestamp time_end, long price_min, long price_max) {
-        ArrayList<PhieuNhapDTO> result = new ArrayList<>();
-        
         return result;
     }
 

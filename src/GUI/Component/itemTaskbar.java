@@ -18,7 +18,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
     Color DefaultColor = new Color(255, 255, 255);
     JLabel lblIcon, pnlContent, pnlSoLuong;
     JPanel right;
-    InputImage1 img;
+    InputImage img;
     public boolean isSelected;
 
     public itemTaskbar(String linkIcon, String content) {
@@ -65,7 +65,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
         this.setPreferredSize(new Dimension(380, 60));
         this.setBackground(Color.white);
 
-        img = new InputImage1("");
+        img = new InputImage("");
         img.setUrl_img(linkImg);
         this.add(img, BorderLayout.WEST);
 
