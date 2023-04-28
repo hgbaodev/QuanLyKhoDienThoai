@@ -3,7 +3,6 @@ package GUI.Panel;
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
 import BUS.PhieuNhapBUS;
-import DAO.PhieuNhapDAO;
 import DTO.NhanVienDTO;
 import DTO.PhieuNhapDTO;
 import GUI.Component.InputDate;
@@ -21,12 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Date;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -89,7 +83,7 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
-         tablePhieuNhap = new JTable();
+        tablePhieuNhap = new JTable();
         scrollTablePhieuNhap = new JScrollPane();
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
@@ -121,7 +115,7 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         String[] action = {"create", "detail", "delete", "cancel", "import", "export"};
-        mainFunction = new MainFunction(action);
+        mainFunction = new MainFunction(m.user.getManhomquyen(), "nhaphang", action);
         functionBar.add(mainFunction);
 
         //Add Event MouseListener
@@ -180,25 +174,20 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
             }
         });
 
-        box.add(lbl1);
+//        box.add(lbl1);
         box.add(dateStart);
         box.add(dateEnd);
-        box.add(lbl2);
+//        box.add(lbl2);
         box.add(moneyMin);
         box.add(moneyMax);
 
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+        main.setBorder(new EmptyBorder(0, 0, 0, 0));
         contentCenter.add(main, BorderLayout.CENTER);
 
         main.add(scrollTablePhieuNhap);
-
-//        right = new PanelBorderRadius();
-//        right.setPreferredSize(new Dimension(400, 0));
-//        right.setLayout(new FlowLayout(1, 15, 40));
-//        contentCenter.add(right, BorderLayout.EAST);
     }
 
     public void loadDataTalbe(ArrayList<PhieuNhapDTO> listphieunhap) {

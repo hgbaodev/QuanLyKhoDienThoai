@@ -113,7 +113,7 @@ public final class SanPham extends JPanel implements ActionListener {
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+        main.setBorder(new EmptyBorder(0, 0, 0, 0));
         contentCenter.add(main, BorderLayout.CENTER);
 
         main.add(scrollTableSanPham);

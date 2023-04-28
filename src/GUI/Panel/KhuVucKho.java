@@ -4,7 +4,8 @@ import BUS.KhuVucKhoBUS;
 import BUS.SanPhamBUS;
 import DAO.KhuVucKhoDAO;
 import DTO.KhuVucKhoDTO;
-import DTO.SanPhamDTO;;
+import DTO.SanPhamDTO;
+;
 import java.awt.*;
 import javax.swing.*;
 import GUI.Main;
@@ -39,6 +40,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
 
 public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
 
@@ -269,18 +272,18 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
             }
         }
 
-        if (i==0) {
-        if (result.isEmpty()) {
-            JLabel lblIcon = new JLabel("Không có sản phẩm");
-            lblIcon.setPreferredSize(new Dimension(380, 300));
-            lblIcon.setIcon(new FlatSVGIcon("./icon/null.svg"));
-            lblIcon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-            lblIcon.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-            right.add(lblIcon);
-        }
+        if (i == 0) {
+            if (result.isEmpty()) {
+                JLabel lblIcon = new JLabel("Không có sản phẩm");
+                lblIcon.setPreferredSize(new Dimension(380, 300));
+                lblIcon.setIcon(new FlatSVGIcon("./icon/null.svg"));
+                lblIcon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+                lblIcon.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+                right.add(lblIcon);
+            }
 
-        right.repaint();
-        right.validate();
+            right.repaint();
+            right.validate();
         }
     }
     
@@ -335,5 +338,4 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         listKVK = kvkBUS.search(txt, type);
         loadDataTable(listKVK);
     }
-
 }

@@ -15,29 +15,33 @@ import java.util.ArrayList;
  * @author robot
  */
 public class PhieuXuatBUS {
-    
+
     private final PhieuXuatDAO phieuXuatDAO = PhieuXuatDAO.getInstance();
     private final ChiTietPhieuNhapDAO chiTietPhieuNhapDAO = ChiTietPhieuNhapDAO.getInstance();
     private final ChiTietSanPhamDAO chiTietSanPhamDAO = ChiTietSanPhamDAO.getInstance();
     private ArrayList<PhieuXuatDTO> listPhieuXuat;
-    
-    public PhieuXuatBUS(){
+
+    public PhieuXuatBUS() {
         listPhieuXuat = phieuXuatDAO.selectAll();
     }
-    
-    public ArrayList<PhieuXuatDTO> getAll(){
+
+    public ArrayList<PhieuXuatDTO> getAll() {
         return this.listPhieuXuat;
     }
-    
-    public PhieuXuatDTO getSelect(int index){
+
+    public PhieuXuatDTO getSelect(int index) {
         return listPhieuXuat.get(index);
     }
-    
-    public void cancel(int px){
+
+    public void cancel(int px) {
         phieuXuatDAO.cancel(px);
     }
     
-        public ArrayList<PhieuXuatDTO> filterByMoney(String head, String tail) {
+    public void remove(int px){
+        listPhieuXuat.remove(px);
+    }
+
+    public ArrayList<PhieuXuatDTO> filterByMoney(String head, String tail) {
         ArrayList<PhieuXuatDTO> result = new ArrayList<>();
         if (!head.equals("") && !tail.equals("")) {
             Long min = Long.parseLong(head);
@@ -70,5 +74,5 @@ public class PhieuXuatBUS {
         return result;
 
     }
-    
+
 }
