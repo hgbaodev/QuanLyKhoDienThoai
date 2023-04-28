@@ -26,7 +26,7 @@ public class IntegratedSearch extends JPanel {
         cbxChoose = new JComboBox();
         cbxChoose.setModel(new DefaultComboBoxModel<>(str));
         cbxChoose.setPreferredSize(new Dimension(140, 0));
-        cbxChoose.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 14));
+        cbxChoose.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 13));
         cbxChoose.setFocusable(false);
         jpSearch.add(cbxChoose,BorderLayout.WEST);
 

@@ -149,6 +149,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         }
         tablePhieuNhap.getColumnModel().getColumn(2).setPreferredWidth(300);
         tablePhieuNhap.setDefaultEditor(Object.class, null);
+        tablePhieuNhap.setFocusable(false);
         scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
 
         tablePhieuNhap.addMouseListener(new MouseAdapter() {
@@ -174,6 +175,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(300);
         tableSanPham.setDefaultEditor(Object.class, null);
+        tableSanPham.setFocusable(false);
         scrollTableSanPham.setViewportView(tableSanPham);
 
         tableSanPham.addMouseListener(new MouseAdapter() {

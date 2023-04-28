@@ -96,7 +96,9 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tablePhieuNhap.setDefaultRenderer(Object.class, centerRenderer);
         tablePhieuNhap.setFocusable(false);
-
+        tablePhieuNhap.getColumnModel().getColumn(0).setPreferredWidth(10);
+        tablePhieuNhap.getColumnModel().getColumn(1).setPreferredWidth(10);
+        tablePhieuNhap.getColumnModel().getColumn(2).setPreferredWidth(200);
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -123,7 +125,7 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
             mainFunction.btn.get(ac).addActionListener(this);
         }
 
-        String[] objToSearch = {"Tất cả","Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập"};
+        String[] objToSearch = {"Tất cả", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập"};
         search = new IntegratedSearch(objToSearch);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             @Override
@@ -203,7 +205,6 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
             });
         }
     }
-
 
     public int getRowSelected() {
         int index = tablePhieuNhap.getSelectedRow();
