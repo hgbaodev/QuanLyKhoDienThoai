@@ -15,30 +15,64 @@ import java.util.ArrayList;
  * @author robot
  */
 public class PhieuXuatBUS {
-    
+
     private final PhieuXuatDAO phieuXuatDAO = PhieuXuatDAO.getInstance();
     private final ChiTietPhieuNhapDAO chiTietPhieuNhapDAO = ChiTietPhieuNhapDAO.getInstance();
     private final ChiTietSanPhamDAO chiTietSanPhamDAO = ChiTietSanPhamDAO.getInstance();
     private ArrayList<PhieuXuatDTO> listPhieuXuat;
-    
-    public PhieuXuatBUS(){
+
+    public PhieuXuatBUS() {
         listPhieuXuat = phieuXuatDAO.selectAll();
     }
-    
-    public ArrayList<PhieuXuatDTO> getAll(){
+
+    public ArrayList<PhieuXuatDTO> getAll() {
         return this.listPhieuXuat;
     }
-    
-    public PhieuXuatDTO getSelect(int index){
+
+    public PhieuXuatDTO getSelect(int index) {
         return listPhieuXuat.get(index);
     }
-    
-    public void cancel(int px){
+
+    public void cancel(int px) {
         phieuXuatDAO.cancel(px);
     }
     
-    public void remove(int index){
-        listPhieuXuat.remove(index);
+    public void remove(int px){
+        listPhieuXuat.remove(px);
     }
-    
+
+    public ArrayList<PhieuXuatDTO> filterByMoney(String head, String tail) {
+        ArrayList<PhieuXuatDTO> result = new ArrayList<>();
+        if (!head.equals("") && !tail.equals("")) {
+            Long min = Long.parseLong(head);
+            Long max = Long.parseLong(tail);
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                if (i.getTongTien() >= min && i.getTongTien() <= max) {
+                    result.add(i);
+                }
+            }
+        } else if (!head.equals("") && tail.equals("")) {
+            Long min = Long.parseLong(head);
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                if (i.getTongTien() >= min) {
+                    result.add(i);
+                }
+            }
+        } else if (head.equals("") && !tail.equals("")) {
+            Long max = Long.parseLong(tail);
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                if (i.getTongTien() <= max) {
+                    result.add(i);
+                }
+            }
+        } else {
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                result.add(i);
+            }
+        }
+
+        return result;
+
+    }
+
 }

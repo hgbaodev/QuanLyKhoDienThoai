@@ -506,6 +506,8 @@ public class TaoPhieuXuat extends JPanel {
                     for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
                         ChiTietSanPhamDAO.getInstance().updateXuat(chiTietSanPhamDTO);
                     }
+                    Notification notification = new Notification(owner, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Thêm phiếu thành công");
+                    notification.showNotification();
                     PhieuXuat phieuXuatPanel = new PhieuXuat(mainChinh, tk);
                     mainChinh.setPanel(phieuXuatPanel);
                 }

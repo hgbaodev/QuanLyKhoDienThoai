@@ -5,6 +5,8 @@ import BUS.NhanVienBUS;
 import BUS.PhieuNhapBUS;
 import DTO.NhanVienDTO;
 import DTO.PhieuNhapDTO;
+import GUI.Component.InputDate;
+import GUI.Component.InputForm;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -12,24 +14,29 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
-import GUI.Component.ScrollBar;
-import GUI.Component.TableColumn;
 import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class PhieuNhap extends JPanel implements ActionListener {
-    PanelBorderRadius main, functionBar;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
-    TableColumn tablePhieuNhap;
+public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
+
+    PanelBorderRadius main, functionBar, box;
+    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, synthetic;
+    JTable tablePhieuNhap;
     JScrollPane scrollTablePhieuNhap;
-    ScrollBar src;
     MainFunction mainFunction;
     IntegratedSearch search;
     DefaultTableModel tblModel;
+    InputDate dateStart, dateEnd;
+    InputForm moneyMin, moneyMax;
+    JTextField a;
+
     TaoPhieuNhap nhapKho;
     Main m;
     NhanVienDTO nv;
@@ -75,28 +82,23 @@ public class PhieuNhap extends JPanel implements ActionListener {
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
-        
-        tablePhieuNhap = new TableColumn();
+
+        tablePhieuNhap = new JTable();
         scrollTablePhieuNhap = new JScrollPane();
         tblModel = new DefaultTableModel();
-        src = new ScrollBar();
-        String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền", "Trạng thái"};
-//        String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
+        String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
         tblModel.setColumnIdentifiers(header);
         tablePhieuNhap.setModel(tblModel);
         tablePhieuNhap.setAutoCreateRowSorter(true);
         tablePhieuNhap.setDefaultEditor(Object.class, null);
-        tablePhieuNhap.setBackground(new java.awt.Color(255,255,255));
         scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tablePhieuNhap.setDefaultRenderer(Object.class, centerRenderer);
         tablePhieuNhap.setFocusable(false);
-        scrollTablePhieuNhap.setBackground(new java.awt.Color(255,255,255));
-        scrollTablePhieuNhap.setBorder(null);
-        scrollTablePhieuNhap.setVerticalScrollBar(src);
-        src.setBackground(new java.awt.Color(245, 245, 245));
-
+        tablePhieuNhap.getColumnModel().getColumn(0).setPreferredWidth(10);
+        tablePhieuNhap.getColumnModel().getColumn(1).setPreferredWidth(10);
+        tablePhieuNhap.getColumnModel().getColumn(2).setPreferredWidth(200);
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -114,34 +116,80 @@ public class PhieuNhap extends JPanel implements ActionListener {
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        String[] action = {"create","detail","cancel","export"};
-        mainFunction = new MainFunction(m.user.getManhomquyen(),"nhaphang",action);
+        String[] action = {"create", "detail", "delete", "cancel", "import", "export"};
+        mainFunction = new MainFunction(m.user.getManhomquyen(), "nhaphang", action);
         functionBar.add(mainFunction);
 
         //Add Event MouseListener
-        for(String ac : action){
+        for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        String[] objToSearch = {"Tất cả", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập"};
+        search = new IntegratedSearch(objToSearch);
+        search.txtSearchForm.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String txt = search.txtSearchForm.getText();
+                int index = search.cbxChoose.getSelectedIndex();
+                listPhieu = phieunhapBUS.search(txt, index);
+                loadDataTalbe(listPhieu);
+            }
+
+        });
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
+        box = new PanelBorderRadius();
+        box.setPreferredSize(new Dimension(250, 0));
+        box.setLayout(new GridLayout(6, 1, 10, 0));
+//        box.setLayout(new FlowLayout(0, 10, 10));
+        box.setBorder(new EmptyBorder(0, 5, 150, 5));
+        contentCenter.add(box, BorderLayout.WEST);
+
+        JLabel lbl1 = new JLabel("Lọc theo ngày");
+        lbl1.putClientProperty("FlatLaf.style", "font: 130% $semibold.font");
+        JLabel lbl2 = new JLabel("Lọc theo giá");
+        lbl2.putClientProperty("FlatLaf.style", "font: 130% $semibold.font");
+        dateStart = new InputDate("Từ ngày");
+        dateEnd = new InputDate("Đến ngày");
+        moneyMin = new InputForm("Từ số tiền (VND)");
+        moneyMax = new InputForm("Đến số tiền (VND)");
+
+        moneyMin.getTxtForm().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String min = moneyMin.getText();
+                String max = moneyMax.getText();
+                listPhieu = phieunhapBUS.filterByMoney(min, max);
+                loadDataTalbe(listPhieu);
+            }
+        });
+        moneyMax.getTxtForm().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String min = moneyMin.getText();
+                String max = moneyMax.getText();
+                listPhieu = phieunhapBUS.filterByMoney(min, max);
+                loadDataTalbe(listPhieu);
+            }
+        });
+
+//        box.add(lbl1);
+        box.add(dateStart);
+        box.add(dateEnd);
+//        box.add(lbl2);
+        box.add(moneyMin);
+        box.add(moneyMax);
+
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+        main.setBorder(new EmptyBorder(0, 0, 0, 0));
         contentCenter.add(main, BorderLayout.CENTER);
 
-        scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
-
         main.add(scrollTablePhieuNhap);
-
-//        right = new PanelBorderRadius();
-//        right.setPreferredSize(new Dimension(400, 0));
-//        right.setLayout(new FlowLayout(1, 15, 40));
-//        contentCenter.add(right, BorderLayout.EAST);
     }
 
     public void loadDataTalbe(ArrayList<PhieuNhapDTO> listphieunhap) {
@@ -153,19 +201,32 @@ public class PhieuNhap extends JPanel implements ActionListener {
                 nccBUS.getTenNhaCungCap(listphieunhap.get(i).getManhacungcap()),
                 nvBUS.getNameById(listphieunhap.get(i).getManguoitao()),
                 Formater.FormatTime(listphieunhap.get(i).getThoigiantao()),
-                Formater.FormatVND(listphieunhap.get(i).getTongTien()),
-//                listphieunhap.get(i).getTrangthai() == 1 ? "Đã nhập" : "Huỷ"
+                Formater.FormatVND(listphieunhap.get(i).getTongTien()), //                listphieunhap.get(i).getTrangthai() == 1 ? "Đã nhập" : "Huỷ"
             });
         }
     }
 
+    public int getRowSelected() {
+        int index = tablePhieuNhap.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu nhập");
+        }
+        return index;
+    }
+
+    public void filterByDate(ArrayList<PhieuNhapDTO> listphieunhap) {
+        ArrayList<PhieuNhapDTO> phieunhap = new ArrayList<>();
+
+    }
+
+//    public void FilterByDate
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == mainFunction.btn.get("create")) {
             nhapKho = new TaoPhieuNhap(nv, "create", m);
             m.setPanel(nhapKho);
-        } else if (source ==  mainFunction.btn.get("detail")) {
+        } else if (source == mainFunction.btn.get("detail")) {
             int index = getRowSelected();
             if (index != -1) {
                 nhapKho = new TaoPhieuNhap(nv, "view", listPhieu.get(index), m);
@@ -182,12 +243,19 @@ public class PhieuNhap extends JPanel implements ActionListener {
         }
     }
 
-    public int getRowSelected() {
-        int index = tablePhieuNhap.getSelectedRow();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu nhập");
-        }
-        return index;
+    @Override
+    public void keyTyped(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 
 }

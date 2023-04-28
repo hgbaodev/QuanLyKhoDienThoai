@@ -76,7 +76,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
         this.add(right,BorderLayout.CENTER);
 
         pnlContent = new JLabel(tenSP);
-        pnlContent.putClientProperty("FlatLaf.style", "font: 150% $semibold.font");
+        pnlContent.putClientProperty("FlatLaf.style", "font: 120% $semibold.font");
         pnlContent.setForeground(Color.black);
         right.add(pnlContent);
 

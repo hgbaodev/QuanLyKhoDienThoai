@@ -34,7 +34,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-public class KhuVucKhoDialog extends JDialog implements ActionListener {
+public final class KhuVucKhoDialog extends JDialog implements ActionListener {
 
     private KhuVucKho jpkvk;
     private HeaderTitle titlePage;
@@ -54,10 +54,10 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
         super(owner, title, modal);
         this.jpkvk = jpkvk;
         this.kvk = kvk;
-        initComponents(title, type,kvk);
+        initComponents(title, type);
     }
 
-    public void initComponents(String title, String type,KhuVucKhoDTO kvk) {
+    public void initComponents(String title, String type) {
         this.setSize(new Dimension(500, 360));
         this.setLayout(new BorderLayout(0, 0));
         titlePage = new HeaderTitle(title.toUpperCase());
@@ -82,95 +82,12 @@ public class KhuVucKhoDialog extends JDialog implements ActionListener {
         btnHuyBo.addActionListener(this);
 
         switch (type) {
-            case "create":
-                pnbottom.add(btnThem);
-                break;
-            case "update":
+            case "create" -> pnbottom.add(btnThem);
+            case "update" -> {
                 pnbottom.add(btnCapNhat);
                 initInfo();
-                break;
-            case "view":
-                this.setSize(new Dimension(800, 400));
-                BoxLayout boxly = new BoxLayout(pnmain, BoxLayout.Y_AXIS);
-                pnmain.setLayout(boxly);
-                pnmain.setBorder(new EmptyBorder(20, 20, 20, 20));
-
-                JScrollPane scrollTableSanPham = new JScrollPane();
-                JTable tableSanPham = new JTable();
-                tableSanPham.setSize(new Dimension(480,300));
-                SanPhamBUS spBUS = new SanPhamBUS();
-                DefaultTableModel tblModel = new DefaultTableModel();
-                ArrayList<SanPhamDTO> spbus = spBUS.getByMakhuvuc(kvk.getMakhuvuckho());
-                tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
-                tblModel = new DefaultTableModel();
-                String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Tên đơn vị tính","Tên loại hàng"};
-                tblModel.setColumnIdentifiers(header);
-                tableSanPham.setModel(tblModel);
-                scrollTableSanPham.setViewportView(tableSanPham);
-                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-                centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-                TableColumnModel columnModel = tableSanPham.getColumnModel();
-                columnModel.getColumn(0).setPreferredWidth(30);
-                tblModel.setRowCount(0);
-                for (DTO.SanPhamDTO sp : spbus) {
-                    tblModel.addRow(new Object[]{
-//                        sp.getMasp(), sp.getTensp(), sp.getMaDVT(), sp.getMaloaihang()
-                    });
-                }
-                scrollTableSanPham.add(tableSanPham);
-                scrollTableSanPham.setBackground(Color.red);
-                pnmain.add(scrollTableSanPham);
-                
-                btnCapNhat.setVisible(false);
-                btnThem.setVisible(false);
-                tenkhuvuc.setVisible(false);
-                ghichu.setVisible(false);
-                break;
-            default:
-                throw new AssertionError();
-        }
-        pnbottom.add(btnHuyBo);
-        this.add(titlePage, BorderLayout.NORTH);
-        this.add(pnmain, BorderLayout.CENTER);
-        this.add(pnbottom, BorderLayout.SOUTH);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-
-    }
-    public void initComponents(String title, String type) {
-        this.setSize(new Dimension(500, 360));
-        this.setLayout(new BorderLayout(0, 0));
-        titlePage = new HeaderTitle(title.toUpperCase());
-        pnmain = new JPanel(new GridLayout(2, 2, 20, 0));
-        pnmain.setBackground(Color.white);
-        tenkhuvuc = new InputForm("Tên khu vực kho", "password");
-        ghichu = new InputForm("Ghi chú", "password");
-
-        pnmain.add(tenkhuvuc);
-        pnmain.add(ghichu);
-
-        pnbottom = new JPanel(new FlowLayout());
-        pnbottom.setBorder(new EmptyBorder(10, 0, 10, 0));
-        pnbottom.setBackground(Color.white);
-        btnThem = new ButtonCustom("Thêm khu vực kho", "success", 14);
-        btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
-        btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
-
-        //Add MouseListener btn
-        btnThem.addActionListener(this);
-        btnCapNhat.addActionListener(this);
-        btnHuyBo.addActionListener(this);
-
-        switch (type) {
-            case "create":
-                pnbottom.add(btnThem);
-                break;
-            case "update":
-                pnbottom.add(btnCapNhat);
-                initInfo();
-                break;
-            default:
-                throw new AssertionError();
+            }
+            default -> throw new AssertionError();
         }
         pnbottom.add(btnHuyBo);
         this.add(titlePage, BorderLayout.NORTH);

@@ -25,8 +25,8 @@ public class IntegratedSearch extends JPanel {
         jpSearch.setBackground(Color.white);
         cbxChoose = new JComboBox();
         cbxChoose.setModel(new DefaultComboBoxModel<>(str));
-        cbxChoose.setPreferredSize(new Dimension(130, 0));
-        cbxChoose.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 14));
+        cbxChoose.setPreferredSize(new Dimension(140, 0));
+        cbxChoose.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 13));
         cbxChoose.setFocusable(false);
         jpSearch.add(cbxChoose,BorderLayout.WEST);
 
@@ -39,7 +39,7 @@ public class IntegratedSearch extends JPanel {
         btnReset = new JButton("Làm mới");
         btnReset.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 14));
         btnReset.setIcon(new FlatSVGIcon("./icon/refresh.svg"));
-        btnReset.setPreferredSize(new Dimension(140, 0));
+        btnReset.setPreferredSize(new Dimension(125, 0));
         btnReset.addActionListener(this::btnResetActionPerformed);
         jpSearch.add(btnReset,BorderLayout.EAST);
         this.add(jpSearch);

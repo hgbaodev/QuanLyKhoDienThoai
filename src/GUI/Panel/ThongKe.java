@@ -7,8 +7,8 @@ import javax.swing.table.DefaultTableModel;
 import chart.ModelChart;
 import chart.Chart;
 import GUI.Component.PanelRound;
-import GUI.Component.ScrollBar;
 import GUI.Component.TableColumn;
+import javax.swing.JScrollBar;
 
 
 public class ThongKe extends JPanel {
@@ -53,7 +53,7 @@ public class ThongKe extends JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new TableColumn();
         jLabel2 = new javax.swing.JLabel();
-        scrollBar1 = new ScrollBar();
+        scrollBar1 = new JScrollBar();
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(79, 79, 79));
@@ -156,7 +156,7 @@ public class ThongKe extends JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private PanelRound panelRound1;
-    private ScrollBar scrollBar1;
+    private JScrollBar scrollBar1;
     private TableColumn table;
     // End of variables declaration                   
 }

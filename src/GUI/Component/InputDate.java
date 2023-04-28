@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class InputDate extends JPanel{
+public class InputDate extends JPanel {
 
     JLabel lbltitle;
     JDateChooser date;
@@ -35,6 +35,7 @@ public class InputDate extends JPanel{
 //    public SimpleDateFormat getFormatDate() {
 //        return formatDate;
 //    }
+
     public InputDate(String title) {
         this.setLayout(new GridLayout(2, 1));
         this.setBackground(Color.white);
@@ -47,22 +48,34 @@ public class InputDate extends JPanel{
         this.add(date);
     }
 
+    public InputDate(String title, int w, int h) {
+        this.setLayout(new GridLayout(2, 1));
+        this.setBackground(Color.white);
+        this.setPreferredSize(new Dimension(w, h));
+
+//        this.setBorder(new EmptyBorder(10, 10, 10, 10));
+        lbltitle = new JLabel(title);
+        date = new JDateChooser();
+        date.setDateFormatString("dd/MM/yyyy");
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        this.add(lbltitle);
+        this.add(date);
+    }
+
     public Date getDate() throws ParseException {
         String txt_date = dateFormat.format(date.getDate());
-        return dateFormat.parse( txt_date );
+        return dateFormat.parse(txt_date);
     }
-    
-    
 
     public void setDate(JDateChooser date) {
         this.date = date;
     }
-    
-    public void setDate(Date date){
+
+    public void setDate(Date date) {
         this.date.setDate(date);
     }
 
-    public void setDisable(){
+    public void setDisable() {
         JTextFieldDateEditor editor = (JTextFieldDateEditor) date.getDateEditor();
         editor.setEditable(false);
     }
