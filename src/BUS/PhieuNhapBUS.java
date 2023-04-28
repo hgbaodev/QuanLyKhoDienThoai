@@ -6,6 +6,7 @@ import DAO.PhieuNhapDAO;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.PhieuNhapDTO;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -98,14 +99,14 @@ public class PhieuNhapBUS {
         switch (index) {
             case 0:
                 for (PhieuNhapDTO i : this.listPhieuNhap) {
-                    if (Integer.toString(i.getMaphieu()).contains(text) 
+                    if (Integer.toString(i.getMaphieu()).contains(text)
                             || nccBUS.getTenNhaCungCap(i.getManhacungcap()).toLowerCase().contains(text)
                             || nvBUS.getNameById(i.getManguoitao()).toLowerCase().contains(text)) {
                         result.add(i);
-                    }     
+                    }
                 }
                 break;
-            
+
             case 1:
                 for (PhieuNhapDTO i : this.listPhieuNhap) {
                     if (Integer.toString(i.getMaphieu()).contains(text)) {
@@ -162,6 +163,12 @@ public class PhieuNhapBUS {
         }
 
         return result;
-
     }
+
+    public ArrayList<PhieuNhapDTO> fillerPhieuNhap(int type, int input, Timestamp time_start, Timestamp time_end, long price_min, long price_max) {
+        ArrayList<PhieuNhapDTO> result = new ArrayList<>();
+        
+        return result;
+    }
+
 }
