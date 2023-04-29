@@ -54,6 +54,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         String[] header = new String[]{"MaNV", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
         tblModel.setColumnIdentifiers(header);
         tableTaiKhoan.setModel(tblModel);
+        tableTaiKhoan.setFocusable(false);
         scrollTableSanPham.setViewportView(tableTaiKhoan);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         tableTaiKhoan.setDefaultRenderer(Object.class, centerRenderer);
