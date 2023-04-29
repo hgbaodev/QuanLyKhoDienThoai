@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Main;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public final class NhanVien extends JPanel {
@@ -82,7 +83,7 @@ public final class NhanVien extends JPanel {
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+//        main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
         tableNhanVien = new JTable();
@@ -93,6 +94,16 @@ public final class NhanVien extends JPanel {
         
         tblModel.setColumnIdentifiers(header);
         tableNhanVien.setModel(tblModel);
+        tableNhanVien.setFocusable(false);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        tableNhanVien.setDefaultRenderer(Object.class, centerRenderer);
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tableNhanVien.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tableNhanVien.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        tableNhanVien.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tableNhanVien.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        tableNhanVien.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        tableNhanVien.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
         scrollTableSanPham.setViewportView(tableNhanVien);
         main.add(scrollTableSanPham);
     }
