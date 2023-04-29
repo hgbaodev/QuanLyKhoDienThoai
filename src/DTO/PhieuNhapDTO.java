@@ -54,8 +54,6 @@ public class PhieuNhapDTO extends PhieuDTO{
 
     @Override
     public String toString() {
-        return "PhieuNhapDTO{" + "manhacungcap=" + manhacungcap + '}';
+        return "PhieuNhapDTO{" + "manhacungcap=" + manhacungcap +'}'+super.toString();
     }
-
-    
 }

@@ -1,5 +1,7 @@
 package DAO;
 
+import DTO.ChiTietPhieuNhapDTO;
+import DTO.ChiTietSanPhamDTO;
 import DTO.PhieuNhapDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
@@ -149,6 +151,56 @@ public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
             }
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
+        }
+        return result;
+    }
+    
+    public boolean checkCancelPn(int maphieu){
+        ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM ctsanpham WHERE maphieunhap=?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, maphieu);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                String imei = rs.getString("maimei");
+                int macauhinh = rs.getInt("maphienbansp");
+                int maphieunhap = rs.getInt("maphieunhap");
+                int maphieuxuat = rs.getInt("maphieuxuat");
+                int tinhtrang = rs.getInt("tinhtrang");
+                ChiTietSanPhamDTO ct = new ChiTietSanPhamDTO(imei, macauhinh, maphieunhap, maphieuxuat, tinhtrang);
+                result.add(ct);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        for (ChiTietSanPhamDTO chiTietSanPhamDTO : result) {
+            if(chiTietSanPhamDTO.getMaphieuxuat()!=0){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public int cancelPhieuNhap(int maphieu){
+        int result = 0;
+        ChiTietSanPhamDAO.getInstance().deletePn(maphieu);
+        ArrayList<ChiTietPhieuNhapDTO> arrCt = ChiTietPhieuNhapDAO.getInstance().selectAll(Integer.toString(maphieu));
+        for (ChiTietPhieuNhapDTO chiTietPhieuNhapDTO : arrCt) {
+            PhienBanSanPhamDAO.getInstance().updateSoLuongTon(chiTietPhieuNhapDTO.getMaphienbansp(), -(chiTietPhieuNhapDTO.getSoluong()));
+        }
+        ChiTietPhieuNhapDAO.getInstance().delete(Integer.toString(maphieu));
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "DELETE FROM phieunhap WHERE maphieunhap = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, maphieu);
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieuNhapDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
