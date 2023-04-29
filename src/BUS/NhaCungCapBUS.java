@@ -124,11 +124,12 @@ public class NhaCungCapBUS {
         }
         return result;
     }
-    
+
     public String getTenNhaCungCap(int mancc) {
         return this.listNcc.get(getIndexByMaNCC(mancc)).getTenncc();
     }
-        public NhaCungCapDTO findCT(ArrayList<NhaCungCapDTO> ncc, String tenncc) {
+
+    public NhaCungCapDTO findCT(ArrayList<NhaCungCapDTO> ncc, String tenncc) {
         NhaCungCapDTO p = null;
         int i = 0;
         while (i < ncc.size() && p == null) {

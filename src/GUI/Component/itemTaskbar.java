@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.BorderLayout;
+import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 
 public class itemTaskbar extends JPanel implements MouseListener {
@@ -18,7 +19,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
     Color DefaultColor = new Color(255, 255, 255);
     JLabel lblIcon, pnlContent, pnlSoLuong;
     JPanel right;
-    InputImage img;
+    JLabel img;
     public boolean isSelected;
 
     public itemTaskbar(String linkIcon, String content) {
@@ -65,13 +66,13 @@ public class itemTaskbar extends JPanel implements MouseListener {
         this.setPreferredSize(new Dimension(380, 60));
         this.setBackground(Color.white);
 
-        img = new InputImage("");
-        img.setUrl_img(linkImg);
+        img = new JLabel("");
+        img.setIcon(InputImage.resizeImage(new ImageIcon("./src/img_product/"+linkImg), 38));
         this.add(img, BorderLayout.WEST);
 
         right = new JPanel();
         right.setLayout(new FlowLayout(0,0, 0));
-        right.setBorder(new EmptyBorder(10, 0, 0, 0));
+        right.setBorder(new EmptyBorder(10, 10, 0, 0));
         right.setOpaque(false);
         this.add(right,BorderLayout.CENTER);
 
