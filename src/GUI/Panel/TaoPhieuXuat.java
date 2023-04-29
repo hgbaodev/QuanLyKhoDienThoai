@@ -259,7 +259,7 @@ public class TaoPhieuXuat extends JPanel {
         scanImei.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (ch.size() == 0) {
+                if (ch.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm để quét mã");
                 } else {
                     QRCode_Dialog qr = new QRCode_Dialog(owner, "Scan", true, textAreaImei);
@@ -416,12 +416,8 @@ public class TaoPhieuXuat extends JPanel {
         kJPanelLeft.setPreferredSize(new Dimension(20, 0));
         ButtonCustom btnKh = new ButtonCustom("Chọn khách hàng", "success", 14);
         kJPanelLeft.add(btnKh);
-        btnKh.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ListKhachHang listkh = new ListKhachHang(TaoPhieuXuat.this, owner, "Chọn khách hàng", true);
-            }
-
+        btnKh.addActionListener((ActionEvent e) -> {
+            ListKhachHang listkh = new ListKhachHang(TaoPhieuXuat.this, owner, "Chọn khách hàng", true);
         });
 
         txtKh = new JTextField("");
