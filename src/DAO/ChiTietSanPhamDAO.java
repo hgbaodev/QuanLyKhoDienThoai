@@ -115,6 +115,21 @@ public class ChiTietSanPhamDAO implements DAOinterface<ChiTietSanPhamDTO> {
         }
         return result;
     }
+    
+    public int deletePn(int t) {
+        int result = 0;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "DELETE FROM ctsanpham WHERE maphieunhap = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, t);
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(ChiTietPhieuXuatDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 
     @Override
     public ArrayList<ChiTietSanPhamDTO> selectAll() {

@@ -167,5 +167,14 @@ public class PhieuNhapBUS {
 
         return result;
     }
+    
+    
+    public boolean checkCancelPn(int maphieu){
+        return phieunhapDAO.checkCancelPn(maphieu);
+    }
+    
+    public int cancelPhieuNhap(int maphieu){
+        return phieunhapDAO.cancelPhieuNhap(maphieu);
+    }
 
 }
