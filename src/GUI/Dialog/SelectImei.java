@@ -5,7 +5,6 @@
 package GUI.Dialog;
 
 import DTO.ChiTietSanPhamDTO;
-import DTO.SanPhamDTO;
 import GUI.Component.CheckListItem;
 import GUI.Component.CheckListRenderer;
 import GUI.Panel.TaoPhieuXuat;
@@ -20,8 +19,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -60,26 +57,6 @@ public class SelectImei extends JDialog{
             loadImei();
             }
         });
-//        for (ChiTietSanPhamDTO chiTietSanPhamDTO : ct) {
-//            CheckListItem check = new CheckListItem(chiTietSanPhamDTO.getImei());
-//            if(taoPhieuXuat.checkImeiArea(chiTietSanPhamDTO.getImei())){
-//                check.setSelected(true);
-//            }
-//            listMode.addElement(check);
-//        }
-//        list = new JList(listMode);
-//        list.setCellRenderer(new CheckListRenderer());
-//        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//        list.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent event) {
-//                JList list = (JList) event.getSource();
-//                int index = list.locationToIndex(event.getPoint());// Get index of item
-//                CheckListItem item = (CheckListItem) list.getModel().getElementAt(index);
-//                item.setSelected(!item.isSelected()); // Toggle selected state
-//                list.repaint(list.getCellBounds(index, index));// Repaint cell
-//            }
-//        });
         this.add(findImei,BorderLayout.NORTH);
         this.getContentPane().add(new JScrollPane(list));
         setLocationRelativeTo(null);
