@@ -91,4 +91,8 @@ public class SanPhamBUS {
         }
         return result;
     }
+    
+    public SanPhamDTO getSp(int mapb){
+        return spDAO.selectByPhienBan(mapb + "");
+    }
 }

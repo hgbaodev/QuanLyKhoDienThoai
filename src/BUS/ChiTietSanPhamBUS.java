@@ -55,4 +55,8 @@ public class ChiTietSanPhamBUS {
             ctspDAO.updateXuat(chiTietSanPhamDTO);
         }
     }
+    
+    public ArrayList<ChiTietSanPhamDTO> selectAllByMaPhieuXuat(int maphieu){
+        return ctspDAO.selectAllByMaPhieuXuat(maphieu);
+    }
 }

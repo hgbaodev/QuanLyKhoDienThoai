@@ -85,5 +85,9 @@ public class PhieuXuatBUS {
     public void insertCtp(ArrayList<ChiTietPhieuDTO> ct){
         chiTietPhieuXuatDAO.insert(ct);
     }
+    
+    public ArrayList<ChiTietPhieuDTO> selectCTP(int maphieu){
+        return chiTietPhieuXuatDAO.selectAll(Integer.toString(maphieu));
+    }
 
 }

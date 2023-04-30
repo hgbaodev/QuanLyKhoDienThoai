@@ -4,16 +4,14 @@ import BUS.ChiTietSanPhamBUS;
 import BUS.PhienBanSanPhamBUS;
 import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
+import BUS.KhachHangBUS;
 import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
 import BUS.PhieuXuatBUS;
 import BUS.SanPhamBUS;
-import DAO.ChiTietPhieuXuatDAO;
 import DAO.ChiTietSanPhamDAO;
-import DAO.KhachHangDAO;
 import DAO.NhanVienDAO;
 import DAO.PhieuXuatDAO;
-import DAO.SanPhamDAO;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.KhachHangDTO;
@@ -80,6 +78,7 @@ public class TaoPhieuXuat extends JPanel {
     NhaCungCapBUS nccBus = new NhaCungCapBUS();
     PhieuXuatBUS phieuXuatBUS = new PhieuXuatBUS();
     ChiTietSanPhamBUS chiTietSanPhamBUS = new ChiTietSanPhamBUS();
+    KhachHangBUS khachHangBUS = new KhachHangBUS();
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
     private JTextArea textAreaImei;
     private JLabel labelImei;
@@ -112,8 +111,8 @@ public class TaoPhieuXuat extends JPanel {
         this.tk = tk;
         this.type = type;
         initComponent(type);
-        chitietsanpham = ChiTietSanPhamDAO.getInstance().selectAllByMaPhieuXuat(phieuXuatDTO.getMaphieu());
-        chitietphieu = ChiTietPhieuXuatDAO.getInstance().selectAll(phieuXuatDTO.getMaphieu() + "");
+        chitietsanpham = chiTietSanPhamBUS.selectAllByMaPhieuXuat(phieuXuatDTO.getMaphieu());
+        chitietphieu = phieuXuatBUS.selectCTP(phieuXuatDTO.getMaphieu());
         loadDataTalbeSanPham(listSP);
         loadDataTableChiTietPhieu(chitietphieu);
         setKhachHang(phieuXuatDTO.getMakh());
@@ -651,13 +650,13 @@ public class TaoPhieuXuat extends JPanel {
     
     public void setKhachHang(int index) {
         makh = index;
-        KhachHangDTO khachhang = KhachHangDAO.getInstance().selectById(makh + "");
+        KhachHangDTO khachhang = khachHangBUS.selectKh(makh);
         txtKh.setText(khachhang.getHoten());
     }
     
     public void setPhieuSelected() {
         ChiTietPhieuDTO ctphieu = chitietphieu.get(tablePhieuXuat.getSelectedRow());
-        SanPhamDTO spSel = SanPhamDAO.getInstance().selectByPhienBan(ctphieu.getMaphienbansp() + "");
+        SanPhamDTO spSel = spBUS.getSp(ctphieu.getMaphieu());
         setInfoSanPham(spSel);
         cbxPhienBan.setSelectedItem(ctphieu.getMaphienbansp() + "");
     }
