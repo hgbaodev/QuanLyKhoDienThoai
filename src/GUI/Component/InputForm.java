@@ -62,6 +62,10 @@ public final class InputForm extends JPanel {
         this.add(lblTitle);
         this.add(txtForm);
     }
+    
+    public void setTitle(String title) {
+        this.lblTitle.setText(title);
+    }
 
     
     public String getPass() {

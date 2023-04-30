@@ -87,7 +87,7 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         this.m = m;
         maphieunhap = phieunhap.getMaphieu();
         chitietphieu = phieunhapBus.getChiTietPhieu(maphieunhap);
-        chitietsanpham = phieunhapBus.getChiTietSanPham(maphieunhap);
+//        chitietsanpham = phieunhapBus.getChiTietSanPham(maphieunhap);
         initComponent(type);
     }
 

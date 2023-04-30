@@ -3,6 +3,7 @@ package BUS;
 import DAO.ChiTietPhieuNhapDAO;
 import DAO.ChiTietSanPhamDAO;
 import DAO.PhieuNhapDAO;
+import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.PhieuNhapDTO;
@@ -46,22 +47,17 @@ public class PhieuNhapBUS {
         return result;
     }
 
-    public HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> getChiTietSanPham(int maphieunhap) {
-        ArrayList<ChiTietSanPhamDTO> chitietsp = chitietsanphamDAO.selectAllByMaPhieuNhap(maphieunhap);
-        HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> result = new HashMap<>();
-        for (ChiTietSanPhamDTO i : chitietsp) {
-            if (result.get(i.getMaphienbansp()) == null) {
-                result.put(i.getMaphienbansp(), new ArrayList<>());
-            }
-        }
-        for (ChiTietSanPhamDTO i : chitietsp) {
-            result.get(i.getMaphienbansp()).add(i);
-        }
-        return result;
-    }
-
     public ArrayList<ChiTietPhieuNhapDTO> getChiTietPhieu(int maphieunhap) {
         return ctPhieuNhapDAO.selectAll(Integer.toString(maphieunhap));
+    }
+    
+    public ArrayList<ChiTietPhieuDTO> getChiTietPhieu_Type(int maphieunhap) {
+        ArrayList<ChiTietPhieuNhapDTO> arr = ctPhieuNhapDAO.selectAll(Integer.toString(maphieunhap));
+        ArrayList<ChiTietPhieuDTO> result = new ArrayList<>();
+        for(ChiTietPhieuDTO i : arr) {
+            result.add(i);
+        }
+        return result;
     }
 
     public boolean add(PhieuNhapDTO phieu, ArrayList<ChiTietPhieuNhapDTO> ctPhieu, HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham) {
