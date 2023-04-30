@@ -106,19 +106,6 @@ public final class TaoPhieuXuat extends JPanel {
         loadDataTalbeSanPham(listSP);
     }
 
-    public TaoPhieuXuat(Main mainChinh, TaiKhoanDTO tk, PhieuXuatDTO phieuXuatDTO, String type) {
-        this.mainChinh = mainChinh;
-        this.tk = tk;
-        this.type = type;
-        initComponent(type);
-        chitietsanpham = chiTietSanPhamBUS.selectAllByMaPhieuXuat(phieuXuatDTO.getMaphieu());
-        chitietphieu = phieuXuatBUS.selectCTP(phieuXuatDTO.getMaphieu());
-        loadDataTalbeSanPham(listSP);
-        loadDataTableChiTietPhieu(chitietphieu);
-        setKhachHang(phieuXuatDTO.getMakh());
-
-    }
-
     public void initPadding() {
         pnlBorder1 = new JPanel();
         pnlBorder1.setPreferredSize(new Dimension(0, 5));
