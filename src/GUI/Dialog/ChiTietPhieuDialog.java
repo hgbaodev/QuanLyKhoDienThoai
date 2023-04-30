@@ -1,13 +1,17 @@
 package GUI.Dialog;
 
+import BUS.ChiTietSanPhamBUS;
 import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
 import BUS.MauSacBUS;
 import BUS.PhienBanSanPhamBUS;
 import BUS.PhieuNhapBUS;
+import BUS.PhieuXuatBUS;
 import BUS.SanPhamBUS;
+import DAO.KhachHangDAO;
 import DAO.NhaCungCapDAO;
 import DAO.NhanVienDAO;
+import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
@@ -46,25 +50,31 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
     DefaultTableModel tblModel, tblModelImei;
     JTable table, tblImei;
     JScrollPane scrollTable, scrollTableImei;
+    
     PhieuNhapDTO phieunhap;
     PhieuXuatDTO phieuxuat;
     PhienBanSanPhamBUS phienbanBus = new PhienBanSanPhamBUS();
-    PhieuNhapBUS phieunhapBus = new PhieuNhapBUS();
-    PhieuNhapBUS phieunhapBus = new PhieuNhapBUS();
+    ChiTietSanPhamBUS ctspBus = new ChiTietSanPhamBUS();
+    PhieuNhapBUS phieunhapBus;
+    PhieuXuatBUS phieuxuatBus;
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     MauSacBUS mausacBus = new MauSacBUS();
     SanPhamBUS sanPhamBUS = new SanPhamBUS();
+    
+    
     ButtonCustom btnPdf, btnHuyBo;
 
-    ArrayList<ChiTietPhieuNhapDTO> chitietphieu;
+    ArrayList<ChiTietPhieuDTO> chitietphieu;
+
     HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham = new HashMap<>();
 
     public ChiTietPhieuDialog(JFrame owner, String title, boolean modal, PhieuNhapDTO phieunhapDTO) {
         super(owner, title, modal);
         this.phieunhap = phieunhapDTO;
-        chitietphieu = phieunhapBus.getChiTietPhieu(phieunhapDTO.getMaphieu());
-        chitietsanpham = phieunhapBus.getChiTietSanPham(phieunhapDTO.getMaphieu());
+        phieunhapBus = new PhieuNhapBUS();
+        chitietphieu = phieunhapBus.getChiTietPhieu_Type(phieunhapDTO.getMaphieu());
+        chitietsanpham = ctspBus.getChiTietSanPhamFromMaPN(phieunhapDTO.getMaphieu());
         initComponent(title);
         initPhieuNhap();
         loadDataTableChiTietPhieu(chitietphieu);
@@ -74,10 +84,11 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
     public ChiTietPhieuDialog(JFrame owner, String title, boolean modal, PhieuXuatDTO phieuxuatDTO) {
         super(owner, title, modal);
         this.phieuxuat = phieuxuatDTO;
-        chitietphieu = phieunhapBus.getChiTietPhieu(phieuxuatDTO.getMaphieu());
-        chitietsanpham = phieunhapBus.getChiTietSanPham(phieuxuatDTO.getMaphieu());
+        phieuxuatBus = new PhieuXuatBUS();
+        chitietphieu = phieuxuatBus.selectCTP(phieuxuatDTO.getMaphieu());
+        chitietsanpham = ctspBus.getChiTietSanPhamFromMaPX(phieuxuatDTO.getMaphieu());
         initComponent(title);
-        initPhieuNhap();
+        initPhieuXuat();
         loadDataTableChiTietPhieu(chitietphieu);
         this.setVisible(true);
     }
@@ -90,14 +101,14 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
     }
 
     public void initPhieuXuat() {
-        txtMaPhieu.setText("PX" + Integer.toString(this.phieunhap.getMaphieu()));
+        txtMaPhieu.setText("PX" + Integer.toString(this.phieuxuat.getMaphieu()));
         txtNhaCungCap.setTitle("Khách hàng");
-        txtNhaCungCap.setText(NhaCungCapDAO.getInstance().selectById(phieunhap.getManhacungcap() + "").getTenncc());
-        txtNhanVien.setText(NhanVienDAO.getInstance().selectById(phieunhap.getManguoitao() + "").getHoten());
-        txtThoiGian.setText(Formater.FormatTime(phieunhap.getThoigiantao()));
+        txtNhaCungCap.setText(KhachHangDAO.getInstance().selectById(phieuxuat.getMakh()+ "").getHoten());
+        txtNhanVien.setText(NhanVienDAO.getInstance().selectById(phieuxuat.getManguoitao() + "").getHoten());
+        txtThoiGian.setText(Formater.FormatTime(phieuxuat.getThoigiantao()));
     }
 
-    public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuNhapDTO> ctPhieu) {
+    public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> ctPhieu) {
         tblModel.setRowCount(0);
         int size = ctPhieu.size();
         for (int i = 0; i < size; i++) {
@@ -159,6 +170,7 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.setDefaultRenderer(Object.class, centerRenderer);
+        table.getColumnModel().getColumn(2).setPreferredWidth(200);
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {

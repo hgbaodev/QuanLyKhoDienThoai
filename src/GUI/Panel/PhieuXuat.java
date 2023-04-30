@@ -17,6 +17,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
+import GUI.Dialog.ChiTietPhieuDialog;
 import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -222,8 +223,7 @@ public final class PhieuXuat extends JPanel implements ActionListener, KeyListen
             if (getRow() < 0) {
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu cần xem!");
             } else {
-                taoPhieuXuat = new TaoPhieuXuat(m, tk, pxBUS.getSelect(getRow()), "detail");
-                m.setPanel(taoPhieuXuat);
+                ChiTietPhieuDialog ctp = new ChiTietPhieuDialog(m, "Thông tin phiếu xuất", true, pxBUS.getSelect(getRow()));
             }
         } else if (source == mainFunction.btn.get("cancel")) {
             if (tablePhieuXuat.getSelectedRow() < 0) {
