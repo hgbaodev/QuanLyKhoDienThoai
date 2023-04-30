@@ -118,8 +118,6 @@ public class ChiTietSanPhamDialog extends JDialog implements ActionListener, Ite
         this.add(titlePage, BorderLayout.NORTH);
         this.add(pnmain, BorderLayout.CENTER);
         this.setLocationRelativeTo(null);
-        
-        
     }
 
     public void loadDataTable(ArrayList<ChiTietSanPhamDTO> result) {

@@ -59,7 +59,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     JTable tablePhieuNhap, tableSanPham;
     JScrollPane scrollTablePhieuNhap, scrollTableSanPham;
     DefaultTableModel tblModel, tblModelSP;
-    ButtonCustom btnAddSp, btnEditSP, btnDelete, btnImport, btnNhapHang, btnTroVe;
+    ButtonCustom btnAddSp, btnEditSP, btnDelete, btnImport, btnNhapHang;
     InputForm txtMaphieu, txtNhanVien, txtMaSp, txtTenSp, txtDongia, txtMaImeiTheoLo, txtSoLuongImei;
     SelectForm cbxNhaCungCap, cbxCauhinh, cbxPtNhap;
     JTextField txtTimKiem;
@@ -85,7 +85,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     ArrayList<String> listmaimei = new ArrayList<>();
     int maphieunhap;
     int rowPhieuSelect = -1;
-    private ButtonCustom scanImei, importImei, pdf;
+    private ButtonCustom scanImei, importImei;
 
     public TaoPhieuNhap(NhanVienDTO nv, String type, Main m) {
         this.nvDto = nv;
@@ -94,17 +94,6 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         chitietphieu = new ArrayList<>();
         initComponent(type);
         loadDataTalbeSanPham(listSP);
-    }
-
-    public TaoPhieuNhap(NhanVienDTO nv, String type, PhieuNhapDTO phieunhap, Main m) {
-        this.nvDto = NhanVienDAO.getInstance().selectById(Integer.toString(phieunhap.getManguoitao()));
-        this.m = m;
-        maphieunhap = phieunhap.getMaphieu();
-        chitietphieu = phieunhapBus.getChiTietPhieu(maphieunhap);
-        chitietsanpham = phieunhapBus.getChiTietSanPham(maphieunhap);
-        initComponent(type);
-        loadDataTalbeSanPham(listSP);
-        loadDataTableChiTietPhieu(chitietphieu);
     }
 
     public void initPadding() {
@@ -364,14 +353,9 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         txtNhanVien.setText(nvDto.getHoten());
         txtNhanVien.setEditable(false);
         cbxNhaCungCap = new SelectForm("Nhà cung cấp", nccBus.getArrTenNhaCungCap());
-        String[] arrTrangThai = {"Đã nhập", "Huỷ"};
-        pdf = new ButtonCustom("File PDF", "warning", 14);
-        pdf.addActionListener(this);
         right_top.add(txtMaphieu);
         right_top.add(txtNhanVien);
         right_top.add(cbxNhaCungCap);
-        right_top.add(pdf);
-//        right_top.add(cbxTrangThai);
 
         right_center = new JPanel();
         right_center.setPreferredSize(new Dimension(100, 100));
@@ -393,23 +377,10 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         pn_tongtien.add(lbltongtien);
         right_bottom.add(pn_tongtien);
 
-        switch (type) {
-            case "create" -> {
-                btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
-                btnNhapHang.addActionListener(this);
-                right_bottom.add(btnNhapHang);
-                left_top.add(content_btn, BorderLayout.SOUTH);
-            }
-            case "update" -> {
-                left_top.add(content_btn, BorderLayout.SOUTH);
-            }
-            case "view" -> {
-                btnTroVe = new ButtonCustom("Về trang trước", "excel", 14);
-                btnTroVe.addActionListener(this);
-                right_bottom.add(btnTroVe);
-                main.setPreferredSize(new Dimension(0, 350));
-            }
-        }
+        btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
+        btnNhapHang.addActionListener(this);
+        right_bottom.add(btnNhapHang);
+        left_top.add(content_btn, BorderLayout.SOUTH);
 
         right.add(right_top, BorderLayout.NORTH);
         right.add(right_center, BorderLayout.CENTER);
@@ -530,6 +501,8 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
                 case 1 ->
                     c.last(content_right_bottom);
             }
+        } else if(source == btnImport ) {
+            JOptionPane.showMessageDialog(this, "Tính năng chưa phát triển");
         }
     }
 
@@ -650,17 +623,11 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             } else {
                 QRCode_Dialog qr = new QRCode_Dialog(owner, "Scan", true, textAreaImei);
             }
-        } else if (source == btnTroVe) {
-            PhieuNhap pnlPhieu = new PhieuNhap(m, nvDto);
-            m.setPanel(pnlPhieu);
         } else if (source == importImei) {
             getImeifromFile();
             for (String i : listmaimei) {
                 textAreaImei.append(i + "\n");
             }
-        } else if (source == pdf) {
-            writePDF w = new writePDF();
-            w.writePhieuNhap(maphieunhap, nvDto.getManv());
         }
     }
 
@@ -669,7 +636,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             JOptionPane.showMessageDialog(this, "Chưa có sản phẩm nào trong phiếu !", "Cảnh báo !", JOptionPane.ERROR_MESSAGE);
         } else {
             int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn tạo phiếu nhập !", "Xác nhận tạo phiếu", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-            if (input != 0) {
+            if (input == 0) {
                 int mancc = nccBus.getByIndex(cbxNhaCungCap.getSelectedIndex()).getMancc();
                 long now = System.currentTimeMillis();
                 Timestamp currenTime = new Timestamp(now);

@@ -108,6 +108,7 @@ public final class InputForm extends JPanel {
         this.listenerList = listenerList;
     }
 
+    @Override
     public AccessibleContext getAccessibleContext() {
         return accessibleContext;
     }
