@@ -30,6 +30,7 @@ import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
 import GUI.Dialog.ListKhachHang;
 import GUI.Dialog.QRCode_Dialog;
+import GUI.Dialog.SelectImei;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
@@ -94,7 +95,8 @@ public final class TaoPhieuXuat extends JPanel {
     private JTextField txtKh;
     private Main mainChinh;
     private ButtonCustom btnQuayLai;
-
+    private ButtonCustom chonImei;
+    
     public TaoPhieuXuat(Main mainChinh, TaiKhoanDTO tk, String type) {
         this.mainChinh = mainChinh;
         this.tk = tk;
@@ -272,14 +274,21 @@ public final class TaoPhieuXuat extends JPanel {
         content_right_bottom_bottom = new JPanel(new BorderLayout());
         content_right_bottom_bottom.setSize(new Dimension(0, 50));
         content_right_bottom_bottom.setBorder(new EmptyBorder(20, 0, 0, 0));
-        JLabel labelImei = new JLabel("Chọn IMEI");
-        labelImei.setPreferredSize(new Dimension(80, 0));
+        chonImei = new ButtonCustom("Chọn Imei", "success", 14);
+        chonImei.setPreferredSize(new Dimension(120, 0));
+        chonImei.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SelectImei selectImei = new SelectImei(owner, "Chọn IMEI", true);
+            }
+        });
+        
         v = new Vector();
         v.add("Chọn sản phẩm");
         cbxImei = new CustomComboCheck(v, textAreaImei);
         AutoCompleteDecorator.decorate(cbxImei);
         content_right_bottom_bottom.setBackground(Color.white);
-        content_right_bottom_bottom.add(labelImei, BorderLayout.WEST);
+        content_right_bottom_bottom.add(chonImei, BorderLayout.WEST);
         content_right_bottom_bottom.add(cbxImei, BorderLayout.CENTER);
         content_right_bottom.add(content_right_bottom_top, BorderLayout.CENTER);
         content_right_bottom.add(content_right_bottom_bottom, BorderLayout.SOUTH);
