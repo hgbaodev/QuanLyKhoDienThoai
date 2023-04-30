@@ -1,11 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BUS;
 
 import DAO.ChiTietSanPhamDAO;
-import DAO.PhienBanSanPhamDAO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
 import java.util.ArrayList;
@@ -44,7 +39,7 @@ public class ChiTietSanPhamBUS {
         return listctsp;
     }
 
-    void Show(ArrayList<ChiTietSanPhamDTO> x) {
+    public void Show(ArrayList<ChiTietSanPhamDTO> x) {
         for (ChiTietSanPhamDTO a : x) {
             System.out.println(a.getImei());
         }

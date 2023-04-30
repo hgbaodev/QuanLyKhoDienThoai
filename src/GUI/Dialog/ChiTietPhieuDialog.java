@@ -12,6 +12,7 @@ import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.PhieuNhapDTO;
+import DTO.PhieuXuatDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
@@ -46,7 +47,9 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
     JTable table, tblImei;
     JScrollPane scrollTable, scrollTableImei;
     PhieuNhapDTO phieunhap;
+    PhieuXuatDTO phieuxuat;
     PhienBanSanPhamBUS phienbanBus = new PhienBanSanPhamBUS();
+    PhieuNhapBUS phieunhapBus = new PhieuNhapBUS();
     PhieuNhapBUS phieunhapBus = new PhieuNhapBUS();
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
@@ -68,8 +71,27 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
         this.setVisible(true);
     }
 
+    public ChiTietPhieuDialog(JFrame owner, String title, boolean modal, PhieuXuatDTO phieuxuatDTO) {
+        super(owner, title, modal);
+        this.phieuxuat = phieuxuatDTO;
+        chitietphieu = phieunhapBus.getChiTietPhieu(phieuxuatDTO.getMaphieu());
+        chitietsanpham = phieunhapBus.getChiTietSanPham(phieuxuatDTO.getMaphieu());
+        initComponent(title);
+        initPhieuNhap();
+        loadDataTableChiTietPhieu(chitietphieu);
+        this.setVisible(true);
+    }
+
     public void initPhieuNhap() {
         txtMaPhieu.setText("PN" + Integer.toString(this.phieunhap.getMaphieu()));
+        txtNhaCungCap.setText(NhaCungCapDAO.getInstance().selectById(phieunhap.getManhacungcap() + "").getTenncc());
+        txtNhanVien.setText(NhanVienDAO.getInstance().selectById(phieunhap.getManguoitao() + "").getHoten());
+        txtThoiGian.setText(Formater.FormatTime(phieunhap.getThoigiantao()));
+    }
+
+    public void initPhieuXuat() {
+        txtMaPhieu.setText("PX" + Integer.toString(this.phieunhap.getMaphieu()));
+        txtNhaCungCap.setTitle("Khách hàng");
         txtNhaCungCap.setText(NhaCungCapDAO.getInstance().selectById(phieunhap.getManhacungcap() + "").getTenncc());
         txtNhanVien.setText(NhanVienDAO.getInstance().selectById(phieunhap.getManguoitao() + "").getHoten());
         txtThoiGian.setText(Formater.FormatTime(phieunhap.getThoigiantao()));

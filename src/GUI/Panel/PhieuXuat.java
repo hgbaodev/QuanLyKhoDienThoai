@@ -30,6 +30,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -98,8 +100,10 @@ public final class PhieuXuat extends JPanel implements ActionListener, KeyListen
         }
 
         search = new IntegratedSearch(new String[]{"Tất cả", "Mã phiếu", "Khách hàng", "Nhân viên xuất"});
+        search.cbxChoose.addItemListener(this);
+        search.txtSearchForm.addKeyListener(this);
+        search.btnReset.addActionListener(this);
         functionBar.add(search);
-
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
         leftFunc();
@@ -210,17 +214,18 @@ public final class PhieuXuat extends JPanel implements ActionListener, KeyListen
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == mainFunction.btn.get("create")) {
+        Object source = e.getSource();
+        if (source == mainFunction.btn.get("create")) {
             taoPhieuXuat = new TaoPhieuXuat(m, tk, "create");
             m.setPanel(taoPhieuXuat);
-        } else if (e.getSource() == mainFunction.btn.get("detail")) {
+        } else if (source == mainFunction.btn.get("detail")) {
             if (getRow() < 0) {
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu cần xem!");
             } else {
                 taoPhieuXuat = new TaoPhieuXuat(m, tk, pxBUS.getSelect(getRow()), "detail");
                 m.setPanel(taoPhieuXuat);
             }
-        } else if (e.getSource() == mainFunction.btn.get("cancel")) {
+        } else if (source == mainFunction.btn.get("cancel")) {
             if (tablePhieuXuat.getSelectedRow() < 0) {
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu!");
             } else {
@@ -234,6 +239,8 @@ public final class PhieuXuat extends JPanel implements ActionListener, KeyListen
                     notification.showNotification();
                 }
             }
+        } else if (source == search.btnReset) {
+            resetForm();
         }
     }
 
@@ -258,14 +265,14 @@ public final class PhieuXuat extends JPanel implements ActionListener, KeyListen
     public void Fillter() throws ParseException {
         if (validateSelectDate()) {
             int type = search.cbxChoose.getSelectedIndex();
-            int mancc = cbxKhachHang.getSelectedIndex() == 0 ? 0 : khachHangBUS.getByIndex(cbxKhachHang.getSelectedIndex() - 1).getMaKH();
+            int makh = cbxKhachHang.getSelectedIndex() == 0 ? 0 : khachHangBUS.getByIndex(cbxKhachHang.getSelectedIndex() - 1).getMaKH();
             int manv = cbxNhanVien.getSelectedIndex() == 0 ? 0 : nvBUS.getByIndex(cbxNhanVien.getSelectedIndex() - 1).getManv();
             String input = search.txtSearchForm.getText() != null ? search.txtSearchForm.getText() : "";
             Date time_start = dateStart.getDate() != null ? dateStart.getDate() : new Date(0);
             Date time_end = dateEnd.getDate() != null ? dateEnd.getDate() : new Date(System.currentTimeMillis());
             String min_price = moneyMin.getText();
             String max_price = moneyMax.getText();
-//            this.listPhieuXuat = pxBUS.fillerPhieuNhap(type, input, mancc, manv, time_start, time_end, min_price, max_price);
+            this.listPhieuXuat = pxBUS.fillerPhieuXuat(type, input, makh, manv, time_start, time_end, min_price, max_price);
             loadDataTalbe(listPhieuXuat);
         }
     }
@@ -308,27 +315,39 @@ public final class PhieuXuat extends JPanel implements ActionListener, KeyListen
 
     @Override
     public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
 //        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
+    public void keyPressed(KeyEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        try {
+            Fillter();
+        } catch (ParseException ex) {
+            Logger.getLogger(PhieuXuat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        try {
+            Fillter();
+        } catch (ParseException ex) {
+            Logger.getLogger(PhieuXuat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
     public void itemStateChanged(ItemEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Fillter();
+        } catch (ParseException ex) {
+            Logger.getLogger(PhieuXuat.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

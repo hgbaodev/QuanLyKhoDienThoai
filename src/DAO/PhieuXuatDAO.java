@@ -85,7 +85,7 @@ public class PhieuXuatDAO implements DAOinterface<PhieuXuatDTO> {
         ArrayList<PhieuXuatDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM phieuxuat WHERE trangthai = 1";
+            String sql = "SELECT * FROM phieuxuat ORDER BY maphieuxuat DESC";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
