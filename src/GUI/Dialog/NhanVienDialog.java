@@ -13,6 +13,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputDate;
 import GUI.Component.InputForm;
+import GUI.Component.NumericDocumentFilter;
 import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -36,6 +37,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.PlainDocument;
 
 /**
  *
@@ -93,6 +95,8 @@ public class NhanVienDialog extends JDialog {
         main.setBackground(Color.white);
         name = new InputForm("Họ và tên");
         sdt = new InputForm("Số điện thoại");
+        PlainDocument phonex = (PlainDocument)sdt.getTxtForm().getDocument();
+        phonex.setDocumentFilter((new NumericDocumentFilter()));
         email = new InputForm("Email");
         male = new JRadioButton("Nam");
         female = new JRadioButton("Nữ");
