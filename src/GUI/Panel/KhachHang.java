@@ -48,6 +48,7 @@ public class KhachHang extends JPanel implements ActionListener {
         String[] header = new String[]{"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại", "Ngày tham gia"};
         tblModel.setColumnIdentifiers(header);
         tableKhachHang.setModel(tblModel);
+        tableKhachHang.setFocusable(false);
         scrollTableKhachHang.setViewportView(tableKhachHang);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -120,7 +121,7 @@ public class KhachHang extends JPanel implements ActionListener {
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+//        main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
         main.add(scrollTableKhachHang);

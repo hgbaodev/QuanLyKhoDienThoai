@@ -1,40 +1,51 @@
 package GUI.Panel;
 
 import BUS.KhachHangBUS;
-import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
 import BUS.PhieuXuatBUS;
 import DTO.PhieuXuatDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Component.InputDate;
 import GUI.Component.InputForm;
-import GUI.Component.InputFormInline;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import GUI.Component.Notification;
+import GUI.Component.NumericDocumentFilter;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import GUI.Component.SelectForm;
 import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.stream.Stream;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import javax.swing.text.PlainDocument;
 
-public class PhieuXuat extends JPanel implements ActionListener {
+public final class PhieuXuat extends JPanel implements ActionListener, KeyListener, PropertyChangeListener, ItemListener {
 
-    PanelBorderRadius box1, box2, main, functionBar, box;
+    PanelBorderRadius main, functionBar, box;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tablePhieuXuat;
     JScrollPane scrollTablePhieuXuat;
     MainFunction mainFunction;
     IntegratedSearch search;
     DefaultTableModel tblModel;
+    SelectForm cbxKhachHang, cbxNhanVien;
     InputDate dateStart, dateEnd;
     InputForm moneyMin, moneyMax;
 
@@ -54,8 +65,8 @@ public class PhieuXuat extends JPanel implements ActionListener {
         this.m = m;
         this.tk = tk;
         initComponent();
-        initComponent();
-        loadDataTalbe(pxBUS.getAll());
+        this.listPhieuXuat = pxBUS.getAll();
+        loadDataTalbe(this.listPhieuXuat);
     }
 
     private void initComponent() {
@@ -86,7 +97,7 @@ public class PhieuXuat extends JPanel implements ActionListener {
             mainFunction.btn.get(ac).addActionListener(this);
         }
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Mã phiếu", "Khách hàng", "Nhân viên xuất"});
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
@@ -96,7 +107,6 @@ public class PhieuXuat extends JPanel implements ActionListener {
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-//        main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
         tablePhieuXuat = new JTable();
@@ -106,12 +116,28 @@ public class PhieuXuat extends JPanel implements ActionListener {
         tblModel.setColumnIdentifiers(header);
         tablePhieuXuat.setModel(tblModel);
         tablePhieuXuat.setFocusable(false);
+        tablePhieuXuat.setAutoCreateRowSorter(true);
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tablePhieuXuat.setDefaultRenderer(Object.class, centerRenderer);
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
         tablePhieuXuat.setFocusable(false);
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tblModel);
+        sorter.setComparator(5, (String s1, String s2) -> {
+            String cleanO1 = s1.replaceAll("[^\\d]", "");
+            String cleanO2 = s2.replaceAll("[^\\d]", "");
+            if (cleanO1.isEmpty() && cleanO2.isEmpty()) {
+                return 0;
+            } else if (cleanO1.isEmpty()) {
+                return -1;
+            } else if (cleanO2.isEmpty()) {
+                return 1;
+            }
+            Double n1 = Double.valueOf(cleanO1);
+            Double n2 = Double.valueOf(cleanO2);
+            return Double.compare(n1, n2);
+        });
 
         main.add(scrollTablePhieuXuat);
 
@@ -143,42 +169,41 @@ public class PhieuXuat extends JPanel implements ActionListener {
         box = new PanelBorderRadius();
         box.setPreferredSize(new Dimension(250, 0));
         box.setLayout(new GridLayout(6, 1, 10, 0));
-//        box.setLayout(new FlowLayout(0, 10, 10));
         box.setBorder(new EmptyBorder(0, 5, 150, 5));
         contentCenter.add(box, BorderLayout.WEST);
 
-        JLabel lbl1 = new JLabel("Lọc theo ngày");
-        lbl1.putClientProperty("FlatLaf.style", "font: 130% $semibold.font");
-        JLabel lbl2 = new JLabel("Lọc theo giá");
-        lbl2.putClientProperty("FlatLaf.style", "font: 130% $semibold.font");
+        // Handel
+        String[] listKh = khachHangBUS.getArrTenKhachHang();
+        listKh = Stream.concat(Stream.of("Tất cả"), Arrays.stream(listKh)).toArray(String[]::new);
+        String[] listNv = nvBUS.getArrTenNhanVien();
+        listNv = Stream.concat(Stream.of("Tất cả"), Arrays.stream(listNv)).toArray(String[]::new);
+
+        // init
+        cbxKhachHang = new SelectForm("Khách hàng", listKh);
+        cbxNhanVien = new SelectForm("Nhân viên xuất", listNv);
         dateStart = new InputDate("Từ ngày");
         dateEnd = new InputDate("Đến ngày");
         moneyMin = new InputForm("Từ số tiền (VND)");
         moneyMax = new InputForm("Đến số tiền (VND)");
 
-        moneyMin.getTxtForm().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                String min = moneyMin.getText();
-                String max = moneyMax.getText();
-                listPhieuXuat = pxBUS.filterByMoney(min, max);
-                loadDataTalbe(listPhieuXuat);
-            }
-        });
-        moneyMax.getTxtForm().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                String min = moneyMin.getText();
-                String max = moneyMax.getText();
-                listPhieuXuat = pxBUS.filterByMoney(min, max);
-                loadDataTalbe(listPhieuXuat);
-            }
-        });
+        PlainDocument doc_min = (PlainDocument) moneyMin.getTxtForm().getDocument();
+        doc_min.setDocumentFilter(new NumericDocumentFilter());
 
-//        box.add(lbl1);
+        PlainDocument doc_max = (PlainDocument) moneyMax.getTxtForm().getDocument();
+        doc_max.setDocumentFilter(new NumericDocumentFilter());
+
+        // add listener
+        cbxKhachHang.getCbb().addItemListener(this);
+        cbxNhanVien.getCbb().addItemListener(this);
+        dateStart.getDateChooser().addPropertyChangeListener(this);
+        dateEnd.getDateChooser().addPropertyChangeListener(this);
+        moneyMin.getTxtForm().addKeyListener(this);
+        moneyMax.getTxtForm().addKeyListener(this);
+
+        box.add(cbxKhachHang);
+        box.add(cbxNhanVien);
         box.add(dateStart);
         box.add(dateEnd);
-//        box.add(lbl2);
         box.add(moneyMin);
         box.add(moneyMax);
     }
@@ -228,6 +253,82 @@ public class PhieuXuat extends JPanel implements ActionListener {
 
     public int getRow() {
         return tablePhieuXuat.getSelectedRow();
+    }
+
+    public void Fillter() throws ParseException {
+        if (validateSelectDate()) {
+            int type = search.cbxChoose.getSelectedIndex();
+            int mancc = cbxKhachHang.getSelectedIndex() == 0 ? 0 : khachHangBUS.getByIndex(cbxKhachHang.getSelectedIndex() - 1).getMaKH();
+            int manv = cbxNhanVien.getSelectedIndex() == 0 ? 0 : nvBUS.getByIndex(cbxNhanVien.getSelectedIndex() - 1).getManv();
+            String input = search.txtSearchForm.getText() != null ? search.txtSearchForm.getText() : "";
+            Date time_start = dateStart.getDate() != null ? dateStart.getDate() : new Date(0);
+            Date time_end = dateEnd.getDate() != null ? dateEnd.getDate() : new Date(System.currentTimeMillis());
+            String min_price = moneyMin.getText();
+            String max_price = moneyMax.getText();
+//            this.listPhieuXuat = pxBUS.fillerPhieuNhap(type, input, mancc, manv, time_start, time_end, min_price, max_price);
+            loadDataTalbe(listPhieuXuat);
+        }
+    }
+
+    public void resetForm() {
+        cbxKhachHang.setSelectedIndex(0);
+        cbxNhanVien.setSelectedIndex(0);
+        search.cbxChoose.setSelectedIndex(0);
+        search.txtSearchForm.setText("");
+        moneyMin.setText("");
+        moneyMax.setText("");
+        dateStart.getDateChooser().setCalendar(null);
+        dateEnd.getDateChooser().setCalendar(null);
+        this.listPhieuXuat = pxBUS.getAll();
+        loadDataTalbe(listPhieuXuat);
+    }
+
+    public boolean validateSelectDate() throws ParseException {
+        Date time_start = dateStart.getDate();
+        Date time_end = dateEnd.getDate();
+
+        Date current_date = new Date();
+        if (time_start != null && time_start.after(current_date)) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được lớn hơn ngày hiện tại", "Lỗi !", JOptionPane.ERROR_MESSAGE);
+            dateStart.getDateChooser().setCalendar(null);
+            return false;
+        }
+        if (time_end != null && time_end.after(current_date)) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc không được lớn hơn ngày hiện tại", "Lỗi !", JOptionPane.ERROR_MESSAGE);
+            dateEnd.getDateChooser().setCalendar(null);
+            return false;
+        }
+        if (time_start != null && time_end != null && time_start.after(time_end)) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc phải lớn hơn ngày bắt đầu", "Lỗi !", JOptionPane.ERROR_MESSAGE);
+            dateEnd.getDateChooser().setCalendar(null);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

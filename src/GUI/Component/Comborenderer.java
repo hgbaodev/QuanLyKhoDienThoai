@@ -13,7 +13,7 @@ import javax.swing.ListCellRenderer;
  *
  * @author robot
  */
-public final class Comborenderer implements ListCellRenderer {
+public final class ComboRenderer implements ListCellRenderer {
 
     private JLabel label;
 

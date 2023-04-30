@@ -54,6 +54,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         String[] header = new String[]{"MaNV", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
         tblModel.setColumnIdentifiers(header);
         tableTaiKhoan.setModel(tblModel);
+        tableTaiKhoan.setFocusable(false);
         scrollTableSanPham.setViewportView(tableTaiKhoan);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         tableTaiKhoan.setDefaultRenderer(Object.class, centerRenderer);
@@ -123,7 +124,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+//        main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
         main.add(scrollTableSanPham);

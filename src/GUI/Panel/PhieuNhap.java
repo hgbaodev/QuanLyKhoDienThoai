@@ -3,6 +3,7 @@ package GUI.Panel;
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
 import BUS.PhieuNhapBUS;
+import DTO.NhaCungCapDTO;
 import DTO.NhanVienDTO;
 import DTO.PhieuNhapDTO;
 import GUI.Component.InputDate;
@@ -10,32 +11,45 @@ import GUI.Component.InputForm;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
+import GUI.Component.NumericDocumentFilter;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import GUI.Component.SelectForm;
 import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.text.ParseException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Stream;
+import javax.swing.text.PlainDocument;
 
-public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
+public final class PhieuNhap extends JPanel implements ActionListener, KeyListener, PropertyChangeListener, ItemListener {
 
     PanelBorderRadius main, functionBar, box;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, synthetic;
+    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JTable tablePhieuNhap;
     JScrollPane scrollTablePhieuNhap;
     MainFunction mainFunction;
     IntegratedSearch search;
     DefaultTableModel tblModel;
+    SelectForm cbxNhaCungCap, cbxNhanVien;
     InputDate dateStart, dateEnd;
     InputForm moneyMin, moneyMax;
-    JTextField a;
 
     TaoPhieuNhap nhapKho;
     Main m;
@@ -51,8 +65,8 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
     public PhieuNhap(Main m, NhanVienDTO nv) {
         this.m = m;
         this.nv = nv;
-        this.listPhieu = phieunhapBUS.getAll();
         initComponent();
+        this.listPhieu = phieunhapBUS.getAll();
         loadDataTalbe(this.listPhieu);
     }
 
@@ -99,6 +113,25 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
         tablePhieuNhap.getColumnModel().getColumn(0).setPreferredWidth(10);
         tablePhieuNhap.getColumnModel().getColumn(1).setPreferredWidth(10);
         tablePhieuNhap.getColumnModel().getColumn(2).setPreferredWidth(200);
+
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tblModel);
+        sorter.setComparator(5, (String s1, String s2) -> {
+            String cleanO1 = s1.replaceAll("[^\\d]", "");
+            String cleanO2 = s2.replaceAll("[^\\d]", "");
+            if (cleanO1.isEmpty() && cleanO2.isEmpty()) {
+                return 0;
+            } else if (cleanO1.isEmpty()) {
+                return -1;
+            } else if (cleanO2.isEmpty()) {
+                return 1;
+            }
+            Double n1 = Double.valueOf(cleanO1);
+            Double n2 = Double.valueOf(cleanO2);
+            return Double.compare(n1, n2);
+        });
+
+        tablePhieuNhap.setRowSorter(sorter);
+
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -116,27 +149,21 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        String[] action = {"create", "detail", "delete", "cancel", "import", "export"};
+        String[] action = {"create", "detail", "cancel", "export"};
         mainFunction = new MainFunction(m.user.getManhomquyen(), "nhaphang", action);
-        functionBar.add(mainFunction);
 
         //Add Event MouseListener
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
+        
+        functionBar.add(mainFunction);
 
         String[] objToSearch = {"Tất cả", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập"};
         search = new IntegratedSearch(objToSearch);
-        search.txtSearchForm.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                String txt = search.txtSearchForm.getText();
-                int index = search.cbxChoose.getSelectedIndex();
-                listPhieu = phieunhapBUS.search(txt, index);
-                loadDataTalbe(listPhieu);
-            }
-
-        });
+        search.cbxChoose.addItemListener(this);
+        search.txtSearchForm.addKeyListener(this);
+        search.btnReset.addActionListener(this);
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
@@ -144,42 +171,41 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
         box = new PanelBorderRadius();
         box.setPreferredSize(new Dimension(250, 0));
         box.setLayout(new GridLayout(6, 1, 10, 0));
-//        box.setLayout(new FlowLayout(0, 10, 10));
         box.setBorder(new EmptyBorder(0, 5, 150, 5));
         contentCenter.add(box, BorderLayout.WEST);
 
-        JLabel lbl1 = new JLabel("Lọc theo ngày");
-        lbl1.putClientProperty("FlatLaf.style", "font: 130% $semibold.font");
-        JLabel lbl2 = new JLabel("Lọc theo giá");
-        lbl2.putClientProperty("FlatLaf.style", "font: 130% $semibold.font");
+        // Handel
+        String[] listNcc = nccBUS.getArrTenNhaCungCap();
+        listNcc = Stream.concat(Stream.of("Tất cả"), Arrays.stream(listNcc)).toArray(String[]::new);
+        String[] listNv = nvBUS.getArrTenNhanVien();
+        listNv = Stream.concat(Stream.of("Tất cả"), Arrays.stream(listNv)).toArray(String[]::new);
+
+        // init
+        cbxNhaCungCap = new SelectForm("Nhà cung cấp", listNcc);
+        cbxNhanVien = new SelectForm("Nhân viên nhập", listNv);
         dateStart = new InputDate("Từ ngày");
         dateEnd = new InputDate("Đến ngày");
         moneyMin = new InputForm("Từ số tiền (VND)");
         moneyMax = new InputForm("Đến số tiền (VND)");
+        
+        PlainDocument doc_min = (PlainDocument) moneyMin.getTxtForm().getDocument();
+        doc_min.setDocumentFilter(new NumericDocumentFilter());
 
-        moneyMin.getTxtForm().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                String min = moneyMin.getText();
-                String max = moneyMax.getText();
-                listPhieu = phieunhapBUS.filterByMoney(min, max);
-                loadDataTalbe(listPhieu);
-            }
-        });
-        moneyMax.getTxtForm().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                String min = moneyMin.getText();
-                String max = moneyMax.getText();
-                listPhieu = phieunhapBUS.filterByMoney(min, max);
-                loadDataTalbe(listPhieu);
-            }
-        });
+        PlainDocument doc_max = (PlainDocument) moneyMax.getTxtForm().getDocument();
+        doc_max.setDocumentFilter(new NumericDocumentFilter());
 
-//        box.add(lbl1);
+        // add listener
+        cbxNhaCungCap.getCbb().addItemListener(this);
+        cbxNhanVien.getCbb().addItemListener(this);
+        dateStart.getDateChooser().addPropertyChangeListener(this);
+        dateEnd.getDateChooser().addPropertyChangeListener(this);
+        moneyMin.getTxtForm().addKeyListener(this);
+        moneyMax.getTxtForm().addKeyListener(this);
+
+        box.add(cbxNhaCungCap);
+        box.add(cbxNhanVien);
         box.add(dateStart);
         box.add(dateEnd);
-//        box.add(lbl2);
         box.add(moneyMin);
         box.add(moneyMax);
 
@@ -188,7 +214,6 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
         main.setLayout(boxly);
         main.setBorder(new EmptyBorder(0, 0, 0, 0));
         contentCenter.add(main, BorderLayout.CENTER);
-
         main.add(scrollTablePhieuNhap);
     }
 
@@ -201,7 +226,7 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
                 nccBUS.getTenNhaCungCap(listphieunhap.get(i).getManhacungcap()),
                 nvBUS.getNameById(listphieunhap.get(i).getManguoitao()),
                 Formater.FormatTime(listphieunhap.get(i).getThoigiantao()),
-                Formater.FormatVND(listphieunhap.get(i).getTongTien()), //                listphieunhap.get(i).getTrangthai() == 1 ? "Đã nhập" : "Huỷ"
+                Formater.FormatVND(listphieunhap.get(i).getTongTien())
             });
         }
     }
@@ -214,12 +239,57 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
         return index;
     }
 
-    public void filterByDate(ArrayList<PhieuNhapDTO> listphieunhap) {
-        ArrayList<PhieuNhapDTO> phieunhap = new ArrayList<>();
-
+    public void Fillter() throws ParseException {
+        if (validateSelectDate()) {
+            int type = search.cbxChoose.getSelectedIndex();
+            int mancc = cbxNhaCungCap.getSelectedIndex() == 0 ? 0 : nccBUS.getByIndex(cbxNhaCungCap.getSelectedIndex() - 1).getMancc();
+            int manv = cbxNhanVien.getSelectedIndex() == 0 ? 0 : nvBUS.getByIndex(cbxNhanVien.getSelectedIndex() - 1).getManv();
+            String input = search.txtSearchForm.getText() != null ? search.txtSearchForm.getText() : "";
+            Date time_start = dateStart.getDate() != null ? dateStart.getDate() : new Date(0);
+            Date time_end = dateEnd.getDate() != null ? dateEnd.getDate() : new Date(System.currentTimeMillis());
+            String min_price = moneyMin.getText();
+            String max_price = moneyMax.getText();
+            this.listPhieu = phieunhapBUS.fillerPhieuNhap(type, input, mancc, manv, time_start, time_end, min_price, max_price);
+            loadDataTalbe(listPhieu);
+        }
     }
 
-//    public void FilterByDate
+    public void resetForm() {
+        cbxNhaCungCap.setSelectedIndex(0);
+        cbxNhanVien.setSelectedIndex(0);
+        search.cbxChoose.setSelectedIndex(0);
+        search.txtSearchForm.setText("");
+        moneyMin.setText("");
+        moneyMax.setText("");
+        dateStart.getDateChooser().setCalendar(null);
+        dateEnd.getDateChooser().setCalendar(null);
+        this.listPhieu = phieunhapBUS.getAllList();
+        loadDataTalbe(listPhieu);
+    }
+
+    public boolean validateSelectDate() throws ParseException {
+        Date time_start = dateStart.getDate();
+        Date time_end = dateEnd.getDate();
+
+        Date current_date = new Date();
+        if (time_start != null && time_start.after(current_date)) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được lớn hơn ngày hiện tại", "Lỗi !", JOptionPane.ERROR_MESSAGE);
+            dateStart.getDateChooser().setCalendar(null);
+            return false;
+        }
+        if (time_end != null && time_end.after(current_date)) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc không được lớn hơn ngày hiện tại", "Lỗi !", JOptionPane.ERROR_MESSAGE);
+            dateEnd.getDateChooser().setCalendar(null);
+            return false;
+        }
+        if (time_start != null && time_end != null && time_start.after(time_end)) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc phải lớn hơn ngày bắt đầu", "Lỗi !", JOptionPane.ERROR_MESSAGE);
+            dateEnd.getDateChooser().setCalendar(null);
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
@@ -237,15 +307,29 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
             if (index != -1) {
                 int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn huỷ phiếu ?\nThao tác này không thể hoàn tác nên hãy suy nghĩ kĩ !", "Huỷ phiếu", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    JOptionPane.showMessageDialog(null, "ok");
+                    PhieuNhapDTO pn = listPhieu.get(index);
+                    System.out.println(pn);
+                    if (!phieunhapBUS.checkCancelPn(pn.getMaphieu())) {
+                        JOptionPane.showMessageDialog(null, "Sản phẩm trong phiếu này đã được xuất đi không thể hủy phiếu này!");
+                    } else {
+                        int c = phieunhapBUS.cancelPhieuNhap(pn.getMaphieu());
+                        if (c == 0) {
+                            JOptionPane.showMessageDialog(null, "Hủy phiếu không thành công!");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Hủy phiếu thành công!");
+                            loadDataTalbe(phieunhapBUS.getAll());
+                        }
+                    }
                 }
             }
+        } else if (source == search.btnReset) {
+            resetForm();
         }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -255,7 +339,28 @@ public class PhieuNhap extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        try {
+            Fillter();
+        } catch (ParseException ex) {
+            Logger.getLogger(PhieuNhap.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        try {
+            Fillter();
+        } catch (ParseException ex) {
+            Logger.getLogger(PhieuNhap.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        try {
+            Fillter();
+        } catch (ParseException ex) {
+            Logger.getLogger(PhieuNhap.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

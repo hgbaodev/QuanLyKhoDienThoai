@@ -58,6 +58,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         String[] header = new String[]{"Mã NCC", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"};
         tblModel.setColumnIdentifiers(header);
         tableNhaCungCap.setModel(tblModel);
+        tableNhaCungCap.setFocusable(false);
         scrollTableSanPham.setViewportView(tableNhaCungCap);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -130,7 +131,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+//        main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
         main.add(scrollTableSanPham);
     }
