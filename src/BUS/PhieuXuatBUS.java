@@ -19,8 +19,10 @@ import java.util.ArrayList;
 public class PhieuXuatBUS {
 
     private final PhieuXuatDAO phieuXuatDAO = PhieuXuatDAO.getInstance();
+
     private final ChiTietPhieuXuatDAO chiTietPhieuXuatDAO = ChiTietPhieuXuatDAO.getInstance();
     private final ChiTietSanPhamDAO chiTietSanPhamDAO = ChiTietSanPhamDAO.getInstance();
+
     private ArrayList<PhieuXuatDTO> listPhieuXuat;
 
     public PhieuXuatBUS() {

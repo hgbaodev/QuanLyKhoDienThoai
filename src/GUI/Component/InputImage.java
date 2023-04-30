@@ -95,4 +95,10 @@ public class InputImage extends JPanel implements ActionListener {
         Image scaledImage = x.getImage().getScaledInstance(WIDTH, HEIGHT, Image.SCALE_SMOOTH);
         return scaledImage;
     }
+
+    public static ImageIcon resizeImage(ImageIcon imageIcon, int newWidth) {
+        int newHeight = (int) (imageIcon.getIconHeight() * ((double) newWidth / imageIcon.getIconWidth()));
+        Image scaledImage = imageIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
+    }
 }

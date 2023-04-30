@@ -7,10 +7,8 @@ package GUI.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
-import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 /**
@@ -24,12 +22,9 @@ public final class CustomComboCheck extends JComboBox {
     public CustomComboCheck(Vector v, JTextArea text) {
         super(v);
         this.text = text;
-        setRenderer(new Comborenderer());
-        addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                ourItemSelectedText();
-            }
+        setRenderer(new ComboRenderer());
+        addActionListener((ActionEvent event) -> {
+            ourItemSelectedText();
         });
         if (!v.isEmpty()) {
         firstItem = v.get(0);

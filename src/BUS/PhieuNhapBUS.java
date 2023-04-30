@@ -94,46 +94,7 @@ public class PhieuNhapBUS {
         return result;
     }
 
-    public ArrayList<PhieuNhapDTO> search(String text, int index) {
-        text = text.toLowerCase();
-        ArrayList<PhieuNhapDTO> result = new ArrayList<>();
-        switch (index) {
-            case 0 -> {
-                for (PhieuNhapDTO i : this.listPhieuNhap) {
-                    if (Integer.toString(i.getMaphieu()).contains(text)
-                            || nccBUS.getTenNhaCungCap(i.getManhacungcap()).toLowerCase().contains(text)
-                            || nvBUS.getNameById(i.getManguoitao()).toLowerCase().contains(text)) {
-                        result.add(i);
-                    }
-                }
-            }
-
-            case 1 -> {
-                for (PhieuNhapDTO i : this.listPhieuNhap) {
-                    if (Integer.toString(i.getMaphieu()).contains(text)) {
-                        result.add(i);
-                    }
-                }
-            }
-            case 2 -> {
-                for (PhieuNhapDTO i : this.listPhieuNhap) {
-                    if (nccBUS.getTenNhaCungCap(i.getManhacungcap()).toLowerCase().contains(text)) {
-                        result.add(i);
-                    }
-                }
-            }
-            case 3 -> {
-                for (PhieuNhapDTO i : this.listPhieuNhap) {
-                    if (nvBUS.getNameById(i.getManguoitao()).toLowerCase().contains(text)) {
-                        result.add(i);
-                    }
-                }
-            }
-        }
-        return result;
-    }
-
-    public ArrayList<PhieuNhapDTO> fillerPhieuNhap(int type, String input, Date time_s, Date time_e, String price_minnn, String price_maxxx) {
+    public ArrayList<PhieuNhapDTO> fillerPhieuNhap(int type, String input, int mancc, int manv, Date time_s, Date time_e, String price_minnn, String price_maxxx) {
         Long price_min = !price_minnn.equals("") ? Long.valueOf(price_minnn) : 0L;
         Long price_max = !price_maxxx.equals("") ? Long.valueOf(price_maxxx) : Long.MAX_VALUE;
         Timestamp time_start = new Timestamp(time_s.getTime());
@@ -142,21 +103,32 @@ public class PhieuNhapBUS {
         for (PhieuNhapDTO phieuNhap : getAllList()) {
             boolean match = false;
             switch (type) {
-                case 0 ->
-                    match = true;
+                case 0 -> {
+                    if (Integer.toString(phieuNhap.getMaphieu()).contains(input)
+                            || nccBUS.getTenNhaCungCap(phieuNhap.getManhacungcap()).toLowerCase().contains(input)
+                            || nvBUS.getNameById(phieuNhap.getManguoitao()).toLowerCase().contains(input)) {
+                        match = true;
+                    }
+                }
                 case 1 -> {
-                    if (!input.isEmpty() && String.valueOf(phieuNhap.getMaphieu()).contains(input)) {
+                    if (Integer.toString(phieuNhap.getMaphieu()).contains(input)) {
                         match = true;
                     }
                 }
                 case 2 -> {
-                    if (!input.isEmpty() && String.valueOf(phieuNhap.getManhacungcap()).equals(input)) {
+                    if (nccBUS.getTenNhaCungCap(phieuNhap.getManhacungcap()).toLowerCase().contains(input)) {
+                        match = true;
+                    }
+                }
+                case 3 -> {
+                    if (nvBUS.getNameById(phieuNhap.getManguoitao()).toLowerCase().contains(input)) {
                         match = true;
                     }
                 }
             }
 
             if (match
+                    && (manv == 0 || phieuNhap.getManguoitao()==manv) && (mancc == 0 || phieuNhap.getManhacungcap()==mancc)
                     && (phieuNhap.getThoigiantao().compareTo(time_start) >= 0)
                     && (phieuNhap.getThoigiantao().compareTo(time_end) <= 0)
                     && phieuNhap.getTongTien() >= price_min

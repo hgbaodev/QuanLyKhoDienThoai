@@ -44,7 +44,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
 
     public NhanVienBUS() {
     }
-    
+
     public NhanVienBUS(NhanVien nv) {
         this.nv = nv;
     }
@@ -58,20 +58,35 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         return this.listNv;
     }
     
+    public NhanVienDTO getByIndex(int index) {
+        return this.listNv.get(index);
+    }
+
     public int getIndexById(int manv) {
         int i = 0;
         int vitri = -1;
         int size = this.listNv.size();
-        while(i < size && vitri == -1) {
-            if(this.listNv.get(i).getManv() == manv) {
+        while (i < size && vitri == -1) {
+            if (this.listNv.get(i).getManv() == manv) {
                 vitri = i;
-            } else i++;
+            } else {
+                i++;
+            }
         }
         return vitri;
     }
-    
+
     public String getNameById(int manv) {
         return this.listNv.get(getIndexById(manv)).getHoten();
+    }
+
+    public String[] getArrTenNhanVien() {
+        int size = listNv.size();
+        String[] result = new String[size];
+        for (int i = 0; i < size; i++) {
+            result[i] = listNv.get(i).getHoten();
+        }
+        return result;
     }
 
     @Override
@@ -105,11 +120,11 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                 }
             }
             case "NHẬP EXCEL" -> {
-                
+
             }
             case "XUẤT EXCEL" -> {
-                String[] header = new String[]{"MãNV","Tên nhân viên","Email nhân viên","Số điên thoại","Giới tính","Ngày sinh"};
-                exportExcel(listNv,header);
+                String[] header = new String[]{"MãNV", "Tên nhân viên", "Email nhân viên", "Số điên thoại", "Giới tính", "Ngày sinh"};
+                exportExcel(listNv, header);
             }
 
         }
@@ -118,7 +133,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     @Override
     public void insertUpdate(DocumentEvent e) {
         String text = textField.getText();
-        if(text.length() == 0){
+        if (text.length() == 0) {
             nv.loadDataTalbe(listNv);
         } else {
             ArrayList<NhanVienDTO> listSearch = search(text);
@@ -129,7 +144,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     @Override
     public void removeUpdate(DocumentEvent e) {
         String text = textField.getText();
-        if(text.length() == 0){
+        if (text.length() == 0) {
             nv.loadDataTalbe(listNv);
         } else {
             ArrayList<NhanVienDTO> listSearch = search(text);
@@ -145,8 +160,8 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     public void insertNv(NhanVienDTO nv) {
         listNv.add(nv);
     }
-    
-    public void updateNv(int index, NhanVienDTO nv){
+
+    public void updateNv(int index, NhanVienDTO nv) {
         listNv.set(index, nv);
     }
 
@@ -164,11 +179,11 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     public void loadTable() {
         nv.loadDataTalbe(listNv);
     }
-    
-    public void searchLoadTable(ArrayList<NhanVienDTO> list){
+
+    public void searchLoadTable(ArrayList<NhanVienDTO> list) {
         nv.loadDataTalbe(list);
     }
-    
+
     public void openFile(String file) {
         try {
             File path = new File(file);
@@ -177,56 +192,56 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
             System.out.println(e);
         }
     }
-    
+
     public void exportExcel(ArrayList<NhanVienDTO> list, String[] header) {
         try {
-            if(!list.isEmpty()){
-            JFileChooser jFileChooser = new JFileChooser();
-            jFileChooser.showSaveDialog(nv.owner);
-            File saveFile = jFileChooser.getSelectedFile();
-            if (saveFile != null) {
-                saveFile = new File(saveFile.toString() + ".xlsx");
-                Workbook wb = new XSSFWorkbook();
-                Sheet sheet = wb.createSheet("Nhân viên");
-                
-                writeHeader(header,sheet,0);
-                int rowIndex = 1;
-                for (NhanVienDTO nv : list) {
-                    Row row = sheet.createRow(rowIndex++);
-                    writeNhanVien(nv,row);
+            if (!list.isEmpty()) {
+                JFileChooser jFileChooser = new JFileChooser();
+                jFileChooser.showSaveDialog(nv.owner);
+                File saveFile = jFileChooser.getSelectedFile();
+                if (saveFile != null) {
+                    saveFile = new File(saveFile.toString() + ".xlsx");
+                    Workbook wb = new XSSFWorkbook();
+                    Sheet sheet = wb.createSheet("Nhân viên");
+
+                    writeHeader(header, sheet, 0);
+                    int rowIndex = 1;
+                    for (NhanVienDTO nv : list) {
+                        Row row = sheet.createRow(rowIndex++);
+                        writeNhanVien(nv, row);
+                    }
+                    FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
+                    wb.write(out);
+                    wb.close();
+                    out.close();
+                    openFile(saveFile.toString());
                 }
-                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
-                wb.write(out);
-                wb.close();
-                out.close();
-                openFile(saveFile.toString());
-            }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     private static void writeHeader(String[] list, Sheet sheet, int rowIndex) {
         CellStyle cellStyle = createStyleForHeader(sheet);
         Row row = sheet.createRow(rowIndex);
-        Cell cell ;
-        for(int i = 0;i < list.length;i++){
+        Cell cell;
+        for (int i = 0; i < list.length; i++) {
             cell = row.createCell(i);
             cell.setCellStyle(cellStyle);
             cell.setCellValue(list[i]);
             sheet.autoSizeColumn(i);
         }
     }
-    
+
     private static CellStyle createStyleForHeader(Sheet sheet) {
         // Create font
         Font font = sheet.getWorkbook().createFont();
-        font.setFontName("Times New Roman"); 
+        font.setFontName("Times New Roman");
         font.setBold(true);
         font.setFontHeightInPoints((short) 14); // font size
         font.setColor(IndexedColors.WHITE.getIndex()); // text color
- 
+
         // Create CellStyle
         CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setFont(font);
@@ -235,15 +250,15 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         cellStyle.setBorderBottom(BorderStyle.THIN);
         return cellStyle;
     }
-    
+
     private static void writeNhanVien(NhanVienDTO nv, Row row) {
         CellStyle cellStyleFormatNumber = null;
         if (cellStyleFormatNumber == null) {
             // Format number
-            short format = (short)BuiltinFormats.getBuiltinFormat("#,##0");
+            short format = (short) BuiltinFormats.getBuiltinFormat("#,##0");
             // DataFormat df = workbook.createDataFormat();
             // short format = df.getFormat("#,##0");
-             
+
             //Create CellStyle
             Workbook workbook = row.getSheet().getWorkbook();
             cellStyleFormatNumber = workbook.createCellStyle();
@@ -251,31 +266,31 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         }
         Cell cell = row.createCell(0);
         cell.setCellValue(nv.getManv());
- 
+
         cell = row.createCell(1);
         cell.setCellValue(nv.getHoten());
- 
+
         cell = row.createCell(2);
         cell.setCellValue(nv.getEmail());
- 
+
         cell = row.createCell(3);
         cell.setCellValue(nv.getSdt());
-         
+
         cell = row.createCell(4);
-        cell.setCellValue(nv.getGioitinh()==1?"Nam":"Nữ");
-        
+        cell.setCellValue(nv.getGioitinh() == 1 ? "Nam" : "Nữ");
+
         cell = row.createCell(5);
-        cell.setCellValue(""+nv.getNgaysinh());
+        cell.setCellValue("" + nv.getNgaysinh());
     }
 
     public ArrayList<NhanVienDTO> search(String text) {
         text = text.toLowerCase();
         ArrayList<NhanVienDTO> result = new ArrayList<>();
-        for(NhanVienDTO i : this.listNv) {
-           if(i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
-                   || i.getSdt().toLowerCase().contains(text)){
-               result.add(i);
-           }
+        for (NhanVienDTO i : this.listNv) {
+            if (i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
+                    || i.getSdt().toLowerCase().contains(text)) {
+                result.add(i);
+            }
         }
         return result;
     }
