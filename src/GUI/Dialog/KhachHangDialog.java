@@ -7,12 +7,14 @@ import DAO.KhachHangDAO;
 import DTO.KhachHangDTO;
 import GUI.Panel.KhachHang;
 import BUS.KhachHangBUS;
+import GUI.Component.NumericDocumentFilter;
 import helper.Validation;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.PlainDocument;
 import org.apache.commons.codec.language.bm.Rule;
 
 public class KhachHangDialog extends JDialog implements MouseListener {
@@ -30,6 +32,8 @@ public class KhachHangDialog extends JDialog implements MouseListener {
         this.jpKH = jpKH;
         tenKH = new InputForm("Tên khách hàng");
         sdtKH = new InputForm("Số điện thoại");
+        PlainDocument phonex = (PlainDocument)sdtKH.getTxtForm().getDocument();
+        phonex.setDocumentFilter((new NumericDocumentFilter()));
         diachiKH = new InputForm("Địa chỉ");
         initComponents(title, type);
     }

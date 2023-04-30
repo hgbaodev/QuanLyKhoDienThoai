@@ -5,8 +5,10 @@
 package BUS;
 
 import DAO.ChiTietPhieuNhapDAO;
+import DAO.ChiTietPhieuXuatDAO;
 import DAO.ChiTietSanPhamDAO;
 import DAO.PhieuXuatDAO;
+import DTO.ChiTietPhieuDTO;
 import DTO.PhieuXuatDTO;
 import java.util.ArrayList;
 
@@ -17,6 +19,10 @@ import java.util.ArrayList;
 public class PhieuXuatBUS {
 
     private final PhieuXuatDAO phieuXuatDAO = PhieuXuatDAO.getInstance();
+
+    private final ChiTietPhieuXuatDAO chiTietPhieuXuatDAO = ChiTietPhieuXuatDAO.getInstance();
+    private final ChiTietSanPhamDAO chiTietSanPhamDAO = ChiTietSanPhamDAO.getInstance();
+
     private ArrayList<PhieuXuatDTO> listPhieuXuat;
 
     public PhieuXuatBUS() {
@@ -38,6 +44,50 @@ public class PhieuXuatBUS {
     public void remove(int px){
         listPhieuXuat.remove(px);
     }
-
     
+    public void insert(PhieuXuatDTO px){
+        phieuXuatDAO.insert(px);
+    }
+
+    public ArrayList<PhieuXuatDTO> filterByMoney(String head, String tail) {
+        ArrayList<PhieuXuatDTO> result = new ArrayList<>();
+        if (!head.equals("") && !tail.equals("")) {
+            Long min = Long.parseLong(head);
+            Long max = Long.parseLong(tail);
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                if (i.getTongTien() >= min && i.getTongTien() <= max) {
+                    result.add(i);
+                }
+            }
+        } else if (!head.equals("") && tail.equals("")) {
+            Long min = Long.parseLong(head);
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                if (i.getTongTien() >= min) {
+                    result.add(i);
+                }
+            }
+        } else if (head.equals("") && !tail.equals("")) {
+            Long max = Long.parseLong(tail);
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                if (i.getTongTien() <= max) {
+                    result.add(i);
+                }
+            }
+        } else {
+            for (PhieuXuatDTO i : this.listPhieuXuat) {
+                result.add(i);
+            }
+        }
+        return result;
+
+    }
+    
+    public void insertCtp(ArrayList<ChiTietPhieuDTO> ct){
+        chiTietPhieuXuatDAO.insert(ct);
+    }
+    
+    public ArrayList<ChiTietPhieuDTO> selectCTP(int maphieu){
+        return chiTietPhieuXuatDAO.selectAll(Integer.toString(maphieu));
+    }
+
 }

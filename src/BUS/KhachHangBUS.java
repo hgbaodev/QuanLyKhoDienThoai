@@ -87,4 +87,8 @@ public class KhachHangBUS {
         }
         return result;
     }
+    
+    public KhachHangDTO selectKh(int makh){
+       return khDAO.selectById(makh + "");
+    }
 }

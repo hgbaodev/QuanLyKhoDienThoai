@@ -1,17 +1,17 @@
 package GUI.Panel;
 
+import BUS.ChiTietSanPhamBUS;
 import BUS.PhienBanSanPhamBUS;
 import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
+import BUS.KhachHangBUS;
 import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
+import BUS.PhieuXuatBUS;
 import BUS.SanPhamBUS;
-import DAO.ChiTietPhieuXuatDAO;
 import DAO.ChiTietSanPhamDAO;
-import DAO.KhachHangDAO;
 import DAO.NhanVienDAO;
 import DAO.PhieuXuatDAO;
-import DAO.SanPhamDAO;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.KhachHangDTO;
@@ -76,6 +76,9 @@ public class TaoPhieuXuat extends JPanel {
     ArrayList<ChiTietSanPhamDTO> ctpb;
     SanPhamBUS spBUS = new SanPhamBUS();
     NhaCungCapBUS nccBus = new NhaCungCapBUS();
+    PhieuXuatBUS phieuXuatBUS = new PhieuXuatBUS();
+    ChiTietSanPhamBUS chiTietSanPhamBUS = new ChiTietSanPhamBUS();
+    KhachHangBUS khachHangBUS = new KhachHangBUS();
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
     private JTextArea textAreaImei;
     private JLabel labelImei;
@@ -87,6 +90,7 @@ public class TaoPhieuXuat extends JPanel {
     
     ArrayList<ChiTietPhieuDTO> chitietphieu = new ArrayList<>();
     ArrayList<ChiTietSanPhamDTO> chitietsanpham = new ArrayList<>();
+    
     TaiKhoanDTO tk;
     private int mapb;
     private JLabel lbltongtien;
@@ -107,8 +111,8 @@ public class TaoPhieuXuat extends JPanel {
         this.tk = tk;
         this.type = type;
         initComponent(type);
-        chitietsanpham = ChiTietSanPhamDAO.getInstance().selectAllByMaPhieuXuat(phieuXuatDTO.getMaphieu());
-        chitietphieu = ChiTietPhieuXuatDAO.getInstance().selectAll(phieuXuatDTO.getMaphieu() + "");
+        chitietsanpham = chiTietSanPhamBUS.selectAllByMaPhieuXuat(phieuXuatDTO.getMaphieu());
+        chitietphieu = phieuXuatBUS.selectCTP(phieuXuatDTO.getMaphieu());
         loadDataTalbeSanPham(listSP);
         loadDataTableChiTietPhieu(chitietphieu);
         setKhachHang(phieuXuatDTO.getMakh());
@@ -471,8 +475,7 @@ public class TaoPhieuXuat extends JPanel {
                 }
             }
         });
-        
-        btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
+        btnNhapHang = new ButtonCustom("Xuất hàng", "excel", 14);
         btnQuayLai = new ButtonCustom("Quay lại", "excel", 14);
         right_bottom.add(pn_tongtien);
         if (type.equals("create")) {
@@ -492,11 +495,9 @@ public class TaoPhieuXuat extends JPanel {
                     long now = System.currentTimeMillis();
                     Timestamp currenTime = new Timestamp(now);
                     PhieuXuatDTO phieuXuat = new PhieuXuatDTO(makh, maphieu, tk.getManv(), currenTime, sum, 1);
-                    PhieuXuatDAO.getInstance().insert(phieuXuat);
-                    ChiTietPhieuXuatDAO.getInstance().insert(chitietphieu);
-                    for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
-                        ChiTietSanPhamDAO.getInstance().updateXuat(chiTietSanPhamDTO);
-                    }
+                    phieuXuatBUS.insert(phieuXuat);
+                    phieuXuatBUS.insertCtp(chitietphieu);
+                    chiTietSanPhamBUS.updateXuat(chitietsanpham);
                     Notification notification = new Notification(owner, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Thêm phiếu thành công");
                     notification.showNotification();
                     PhieuXuat phieuXuatPanel = new PhieuXuat(mainChinh, tk);
@@ -649,13 +650,13 @@ public class TaoPhieuXuat extends JPanel {
     
     public void setKhachHang(int index) {
         makh = index;
-        KhachHangDTO khachhang = KhachHangDAO.getInstance().selectById(makh + "");
+        KhachHangDTO khachhang = khachHangBUS.selectKh(makh);
         txtKh.setText(khachhang.getHoten());
     }
     
     public void setPhieuSelected() {
         ChiTietPhieuDTO ctphieu = chitietphieu.get(tablePhieuXuat.getSelectedRow());
-        SanPhamDTO spSel = SanPhamDAO.getInstance().selectByPhienBan(ctphieu.getMaphienbansp() + "");
+        SanPhamDTO spSel = spBUS.getSp(ctphieu.getMaphieu());
         setInfoSanPham(spSel);
         cbxPhienBan.setSelectedItem(ctphieu.getMaphienbansp() + "");
     }
