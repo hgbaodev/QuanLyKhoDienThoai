@@ -85,7 +85,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     ArrayList<String> listmaimei = new ArrayList<>();
     int maphieunhap;
     int rowPhieuSelect = -1;
-    private ButtonCustom scanImei, importImei,pdf;
+    private ButtonCustom scanImei, importImei, pdf;
 
     public TaoPhieuNhap(NhanVienDTO nv, String type, Main m) {
         this.nvDto = nv;
@@ -248,8 +248,8 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         cbxCauhinh = new SelectForm("Cấu hình", arrCauhinh);
         cbxCauhinh.cbb.addItemListener(this);
         txtDongia = new InputForm("Giá nhập");
-        PlainDocument dongia = (PlainDocument)txtDongia.getTxtForm().getDocument();
-        dongia.setDocumentFilter((new NumericDocumentFilter())) ;
+        PlainDocument dongia = (PlainDocument) txtDongia.getTxtForm().getDocument();
+        dongia.setDocumentFilter((new NumericDocumentFilter()));
         String[] arrPtNhap = {"Nhập theo lô", "Nhập từng máy"};
         cbxPtNhap = new SelectForm("Phương thức nhập", arrPtNhap);
         cbxPtNhap.cbb.addItemListener(this);
@@ -270,8 +270,8 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         card_content_one_model.setPreferredSize(new Dimension(100, 90));
         txtMaImeiTheoLo = new InputForm("Mã Imei bắt đầu");
         txtSoLuongImei = new InputForm("Số lượng");
-        PlainDocument soluong = (PlainDocument)txtSoLuongImei.getTxtForm().getDocument();
-        soluong.setDocumentFilter((new NumericDocumentFilter())) ;
+        PlainDocument soluong = (PlainDocument) txtSoLuongImei.getTxtForm().getDocument();
+        soluong.setDocumentFilter((new NumericDocumentFilter()));
         card_content_one_model.add(txtMaImeiTheoLo, BorderLayout.CENTER);
         card_content_one_model.add(txtSoLuongImei, BorderLayout.EAST);
         card_content_one.add(card_content_one_model, BorderLayout.NORTH);
@@ -658,10 +658,9 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             for (String i : listmaimei) {
                 textAreaImei.append(i + "\n");
             }
-        }
-        else if(source==pdf){
+        } else if (source == pdf) {
             writePDF w = new writePDF();
-            w.writePhieuNhap(maphieunhap,nvDto.getManv());
+            w.writePhieuNhap(maphieunhap, nvDto.getManv());
         }
     }
 
@@ -669,17 +668,20 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         if (chitietphieu.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Chưa có sản phẩm nào trong phiếu !", "Cảnh báo !", JOptionPane.ERROR_MESSAGE);
         } else {
-            int mancc = nccBus.getByIndex(cbxNhaCungCap.getSelectedIndex()).getMancc();
-            long now = System.currentTimeMillis();
-            Timestamp currenTime = new Timestamp(now);
-            PhieuNhapDTO pn = new PhieuNhapDTO(mancc, maphieunhap, nvDto.getManv(), currenTime, phieunhapBus.getTongTien(chitietphieu), 1);
-            boolean result = phieunhapBus.add(pn, chitietphieu, chitietsanpham);
-            if (result) {
-                JOptionPane.showMessageDialog(this, "Nhập hàng thành công !");
-                PhieuNhap pnlPhieu = new PhieuNhap(m, nvDto);
-                m.setPanel(pnlPhieu);
-            } else {
-                JOptionPane.showMessageDialog(this, "Nhập hàng không thành công !", "Cảnh báo !", JOptionPane.ERROR_MESSAGE);
+            int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn tạo phiếu nhập !", "Xác nhận tạo phiếu", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            if (input != 0) {
+                int mancc = nccBus.getByIndex(cbxNhaCungCap.getSelectedIndex()).getMancc();
+                long now = System.currentTimeMillis();
+                Timestamp currenTime = new Timestamp(now);
+                PhieuNhapDTO pn = new PhieuNhapDTO(mancc, maphieunhap, nvDto.getManv(), currenTime, phieunhapBus.getTongTien(chitietphieu), 1);
+                boolean result = phieunhapBus.add(pn, chitietphieu, chitietsanpham);
+                if (result) {
+                    JOptionPane.showMessageDialog(this, "Nhập hàng thành công !");
+                    PhieuNhap pnlPhieu = new PhieuNhap(m, nvDto);
+                    m.setPanel(pnlPhieu);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Nhập hàng không thành công !", "Cảnh báo !", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
