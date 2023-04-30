@@ -27,6 +27,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.Formater;
 import helper.Validation;
+import helper.writePDF;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -82,7 +83,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     ArrayList<String> listmaimei = new ArrayList<>();
     int maphieunhap;
     int rowPhieuSelect = -1;
-    private ButtonCustom scanImei, importImei;
+    private ButtonCustom scanImei, importImei,pdf;
 
     public TaoPhieuNhap(NhanVienDTO nv, String type, Main m) {
         this.nvDto = nv;
@@ -358,9 +359,12 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         txtNhanVien.setEditable(false);
         cbxNhaCungCap = new SelectForm("Nhà cung cấp", nccBus.getArrTenNhaCungCap());
         String[] arrTrangThai = {"Đã nhập", "Huỷ"};
+        pdf = new ButtonCustom("File PDF", "warning", 14);
+        pdf.addActionListener(this);
         right_top.add(txtMaphieu);
         right_top.add(txtNhanVien);
         right_top.add(cbxNhaCungCap);
+        right_top.add(pdf);
 //        right_top.add(cbxTrangThai);
 
         right_center = new JPanel();
@@ -648,7 +652,10 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             for (String i : listmaimei) {
                 textAreaImei.append(i + "\n");
             }
-
+        }
+        else if(source==pdf){
+            writePDF w = new writePDF();
+            w.writePhieuNhap(maphieunhap,nvDto.getManv());
         }
     }
 
