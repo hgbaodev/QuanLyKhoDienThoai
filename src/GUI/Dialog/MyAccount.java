@@ -97,7 +97,7 @@ public class MyAccount extends JDialog implements ActionListener {
         panel[0].setPreferredSize(new Dimension(400, 100));
         phone = new InputForm("Số điện thoại");
         PlainDocument phonex = (PlainDocument)phone.getTxtForm().getDocument();
-        phonex.setDocumentFilter((new Numeric));
+//        phonex.setDocumentFilter((new Numeric));
         phone.setText(nv.getSdt());
         panel[0].add(phone);
 
