@@ -53,7 +53,7 @@ public final class SanPham extends JPanel implements ActionListener {
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng tồn", "Kích thước màn", "Thương hiệu", "Hệ điều hành", "Xuất xứ", "Khu vực kho"};
+        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng tồn","Thương hiệu", "Hệ điều hành", "Kích thước màn","Xuất xứ", "Khu vực kho"};
         tblModel.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableSanPham);
@@ -128,7 +128,7 @@ public final class SanPham extends JPanel implements ActionListener {
     public void loadDataTalbe(ArrayList<DTO.SanPhamDTO> result) {
         tblModel.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
-            tblModel.addRow(new Object[]{sp.getMasp(), sp.getTensp(), sp.getSoluongton(), sp.getKichthuocman() + " inch", thuonghieuBus.getTenThuongHieu(sp.getThuonghieu()), sp.getHedieuhanh(),
+            tblModel.addRow(new Object[]{sp.getMasp(), sp.getTensp(), sp.getSoluongton(), thuonghieuBus.getTenThuongHieu(sp.getThuonghieu()), sp.getHedieuhanh(),sp.getKichthuocman() + " inch", 
                 sp.getXuatxu(), kvkhoBus.getTenKhuVuc(sp.getKhuvuckho())
             });
         }
