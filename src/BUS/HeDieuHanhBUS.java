@@ -65,9 +65,8 @@ public class HeDieuHanhBUS {
         return vitri;
     }
 
-    public String getTenMau(int mamau) {
-        int index = this.getIndexByMaMau(mamau);
-        System.out.println(index);
+    public String getTenHdh(int mahdh) {
+        int index = this.getIndexByMaMau(mahdh);
         return this.listHeDieuHanh.get(index).getTenhdh();
     }
 
