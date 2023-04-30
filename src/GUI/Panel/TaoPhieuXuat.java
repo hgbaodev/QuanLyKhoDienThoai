@@ -1,10 +1,12 @@
 package GUI.Panel;
 
+import BUS.ChiTietSanPhamBUS;
 import BUS.PhienBanSanPhamBUS;
 import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
 import BUS.MauSacBUS;
 import BUS.NhaCungCapBUS;
+import BUS.PhieuXuatBUS;
 import BUS.SanPhamBUS;
 import DAO.ChiTietPhieuXuatDAO;
 import DAO.ChiTietSanPhamDAO;
@@ -77,6 +79,8 @@ public class TaoPhieuXuat extends JPanel {
     ArrayList<ChiTietSanPhamDTO> ctpb;
     SanPhamBUS spBUS = new SanPhamBUS();
     NhaCungCapBUS nccBus = new NhaCungCapBUS();
+    PhieuXuatBUS phieuXuatBUS = new PhieuXuatBUS();
+    ChiTietSanPhamBUS chiTietSanPhamBUS = new ChiTietSanPhamBUS();
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
     private JTextArea textAreaImei;
     private JLabel labelImei;
@@ -88,6 +92,7 @@ public class TaoPhieuXuat extends JPanel {
 
     ArrayList<ChiTietPhieuDTO> chitietphieu = new ArrayList<>();
     ArrayList<ChiTietSanPhamDTO> chitietsanpham = new ArrayList<>();
+    
     TaiKhoanDTO tk;
     private int mapb;
     private JLabel lbltongtien;
@@ -476,7 +481,7 @@ public class TaoPhieuXuat extends JPanel {
             }
         });
 
-        btnNhapHang = new ButtonCustom("Nhập hàng", "excel", 14);
+        btnNhapHang = new ButtonCustom("Xuất hàng", "excel", 14);
         btnQuayLai = new ButtonCustom("Quay lại", "excel", 14);
         right_bottom.add(pn_tongtien);
         if(type.equals("create")){
@@ -497,11 +502,9 @@ public class TaoPhieuXuat extends JPanel {
                     long now = System.currentTimeMillis();
                     Timestamp currenTime = new Timestamp(now);
                     PhieuXuatDTO phieuXuat = new PhieuXuatDTO(makh, maphieu, tk.getManv(), currenTime, sum, 1);
-                    PhieuXuatDAO.getInstance().insert(phieuXuat);
-                    ChiTietPhieuXuatDAO.getInstance().insert(chitietphieu);
-                    for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
-                        ChiTietSanPhamDAO.getInstance().updateXuat(chiTietSanPhamDTO);
-                    }
+                    phieuXuatBUS.insert(phieuXuat);
+                    phieuXuatBUS.insertCtp(chitietphieu);
+                    chiTietSanPhamBUS.updateXuat(chitietsanpham);
                     Notification notification = new Notification(owner, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Thêm phiếu thành công");
                     notification.showNotification();
                     PhieuXuat phieuXuatPanel = new PhieuXuat(mainChinh, tk);

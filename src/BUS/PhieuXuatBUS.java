@@ -5,8 +5,10 @@
 package BUS;
 
 import DAO.ChiTietPhieuNhapDAO;
+import DAO.ChiTietPhieuXuatDAO;
 import DAO.ChiTietSanPhamDAO;
 import DAO.PhieuXuatDAO;
+import DTO.ChiTietPhieuDTO;
 import DTO.PhieuXuatDTO;
 import java.util.ArrayList;
 
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 public class PhieuXuatBUS {
 
     private final PhieuXuatDAO phieuXuatDAO = PhieuXuatDAO.getInstance();
-    private final ChiTietPhieuNhapDAO chiTietPhieuNhapDAO = ChiTietPhieuNhapDAO.getInstance();
+    private final ChiTietPhieuXuatDAO chiTietPhieuXuatDAO = ChiTietPhieuXuatDAO.getInstance();
     private final ChiTietSanPhamDAO chiTietSanPhamDAO = ChiTietSanPhamDAO.getInstance();
     private ArrayList<PhieuXuatDTO> listPhieuXuat;
 
@@ -39,6 +41,10 @@ public class PhieuXuatBUS {
     
     public void remove(int px){
         listPhieuXuat.remove(px);
+    }
+    
+    public void insert(PhieuXuatDTO px){
+        phieuXuatDAO.insert(px);
     }
 
     public ArrayList<PhieuXuatDTO> filterByMoney(String head, String tail) {
@@ -70,9 +76,12 @@ public class PhieuXuatBUS {
                 result.add(i);
             }
         }
-
         return result;
 
+    }
+    
+    public void insertCtp(ArrayList<ChiTietPhieuDTO> ct){
+        chiTietPhieuXuatDAO.insert(ct);
     }
 
 }
