@@ -17,6 +17,7 @@ import DAO.PhieuXuatDAO;
 import DAO.SanPhamDAO;
 import DAO.TaiKhoanDAO;
 import DTO.ChiTietPhieuDTO;
+import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.PhieuNhapDTO;
@@ -158,34 +159,31 @@ public class writePDF {
             document.add(para2);
             document.add(Chunk.NEWLINE);//add hang trong de tao khoang cach
 
-            PdfPTable pdfTable = new PdfPTable(4);
-            pdfTable.setWidths(new float[]{20f,25f,25f,18f });
+            PdfPTable pdfTable = new PdfPTable(5);
+            pdfTable.setWidths(new float[]{30f,25f,15f,15f,18f});
             PdfPCell cell;
 
-            pdfTable.addCell(new PdfPCell(new Phrase("Mã Imei", fontHeader)));
             pdfTable.addCell(new PdfPCell(new Phrase("Tên sản phẩm", fontHeader)));
             pdfTable.addCell(new PdfPCell(new Phrase("Cấu hình", fontHeader)));
             pdfTable.addCell(new PdfPCell(new Phrase("Giá nhập", fontHeader)));
-//            pdfTable.addCell(new PdfPCell(new Phrase("Số lượng", fontHeader)));
-//            pdfTable.addCell(new PdfPCell(new Phrase("Tổng tiền", fontHeader)));
+            pdfTable.addCell(new PdfPCell(new Phrase("Số lượng", fontHeader)));
+            pdfTable.addCell(new PdfPCell(new Phrase("Tổng tiền", fontHeader)));
 
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 5; i++) {
                 cell = new PdfPCell(new Phrase(""));
                 pdfTable.addCell(cell);
             }
 
             //Truyen thong tin tung chi tiet vao table
-            for (ChiTietSanPhamDTO ctsp : ChiTietSanPhamDAO.getInstance().selectAllByMaPhieuNhap(mapn)) {
-                pdfTable.addCell(new PdfPCell(new Phrase(ctsp.getImei(), fontData)));
-                SanPhamDTO sp = new SanPhamDAO().selectByPhienBan(ctsp.getMaphienbansp()+"");
+            for (ChiTietPhieuNhapDTO ctp : ChiTietPhieuNhapDAO.getInstance().selectAll(mapn+"")) {
+                SanPhamDTO sp = new SanPhamDAO().selectByPhienBan(ctp.getMaphienbansp()+"");
                 pdfTable.addCell(new PdfPCell(new Phrase(sp.getTensp(), fontData)));
-                int mapb = ctsp.getMaphienbansp();
-                PhienBanSanPhamDTO pbsp = new PhienBanSanPhamDAO().selectById(mapb);
+                PhienBanSanPhamDTO pbsp = new PhienBanSanPhamDAO().selectById(ctp.getMaphienbansp());
                 pdfTable.addCell(new PdfPCell(new Phrase(romBus.getKichThuocById(pbsp.getRom()) + "GB - "
-                    + ramBus.getKichThuocById(pbsp.getRam()) + "GB - " + mausacBus.getTenMau(pbsp.getMausac()))));
-                pdfTable.addCell(new PdfPCell(new Phrase(formatter.format(pbsp.getGianhap()) + "đ", fontData)));
-//                pdfTable.addCell(new PdfPCell(new Phrase(String.valueOf(1), fontData)));
-//                pdfTable.addCell(new PdfPCell(new Phrase(formatter.format(ctpn.getSoLuong() * mt.getGia()) + "đ", fontData)));
+                    + ramBus.getKichThuocById(pbsp.getRam()) + "GB - " + mausacBus.getTenMau(pbsp.getMausac()),fontData)));
+                pdfTable.addCell(new PdfPCell(new Phrase(formatter.format(ctp.getDongia()) + "đ", fontData)));
+                pdfTable.addCell(new PdfPCell(new Phrase(String.valueOf(ctp.getSoluong()), fontData)));
+                pdfTable.addCell(new PdfPCell(new Phrase(formatter.format(ctp.getSoluong()* ctp.getDongia()) + "đ", fontData)));
             }
 
             document.add(pdfTable);
@@ -195,7 +193,7 @@ public class writePDF {
             paraTongThanhToan.setIndentationLeft(300);
             
             document.add(paraTongThanhToan);
-            
+            document.close();
             JOptionPane.showMessageDialog(null, "Ghi file thành công " + url);
             openFile(url);
 

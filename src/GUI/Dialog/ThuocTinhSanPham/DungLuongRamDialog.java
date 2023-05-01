@@ -11,6 +11,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Panel.QuanLyThuocTinhSP;
+import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -117,7 +118,7 @@ public class DungLuongRamDialog extends JDialog implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e) {
        if(e.getSource()==add){
-            if(this.ms.getText().trim()==""){
+            if(Validation.isEmpty(ms.getText())){
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
             }
             else{
@@ -139,10 +140,15 @@ public class DungLuongRamDialog extends JDialog implements MouseListener{
         else if(e.getSource()==update){
             int index = getRowSelected();
             if(index !=-1){
+                if(Validation.isEmpty(ms.getText())){
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
+            }
+            else{
                 String kichthuoc= ms.getText();
                  dlrBUS.update(new DungLuongRamDTO(list.get(index).getMadlram(),Integer.parseInt(kichthuoc)));
                  loadDataTable(list);
                  ms.setText("");
+                }
             }
         }
         else if(e.getSource()==table){
