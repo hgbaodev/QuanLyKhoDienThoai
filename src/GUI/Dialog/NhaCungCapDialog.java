@@ -10,6 +10,7 @@ import GUI.Panel.NhaCungCap;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import GUI.Component.NumericDocumentFilter;
 import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,6 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.PlainDocument;
 
 /**
  *
@@ -63,6 +65,8 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
         diachi = new InputForm("Địa chỉ");
         email = new InputForm("Email");
         sodienthoai = new InputForm("Số điện thoại");
+        PlainDocument phonex = (PlainDocument)sodienthoai.getTxtForm().getDocument();
+        phonex.setDocumentFilter((new NumericDocumentFilter()));
 
         pnmain.add(tenNcc);
         pnmain.add(diachi);

@@ -10,7 +10,9 @@ import DTO.ThuocTinhSanPham.DungLuongRamDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import GUI.Component.NumericDocumentFilter;
 import GUI.Panel.QuanLyThuocTinhSP;
+import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.PlainDocument;
 
 
 public class DungLuongRamDialog extends JDialog implements MouseListener{
@@ -68,6 +71,8 @@ public class DungLuongRamDialog extends JDialog implements MouseListener{
         main.setBackground(Color.WHITE);
         main.setPreferredSize(new Dimension(420,200));
         ms=new InputForm("Dung lượng RAM");
+        PlainDocument m = (PlainDocument)ms.getTxtForm().getDocument();
+        m.setDocumentFilter(new NumericDocumentFilter());
         ms.setPreferredSize(new Dimension(250,70));
         table = new JTable();
         table.setBackground(Color.WHITE);
@@ -117,8 +122,8 @@ public class DungLuongRamDialog extends JDialog implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e) {
        if(e.getSource()==add){
-            if(this.ms.getText().trim()==""){
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
+            if(Validation.isEmpty(ms.getText())){
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập dung lượng Ram mới");
             }
             else{
                 int id = DungLuongRamDAO.getInstance().getAutoIncrement();
@@ -139,10 +144,15 @@ public class DungLuongRamDialog extends JDialog implements MouseListener{
         else if(e.getSource()==update){
             int index = getRowSelected();
             if(index !=-1){
+                if(Validation.isEmpty(ms.getText())){
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập dung lượng Ram");
+            }
+            else{
                 String kichthuoc= ms.getText();
                  dlrBUS.update(new DungLuongRamDTO(list.get(index).getMadlram(),Integer.parseInt(kichthuoc)));
                  loadDataTable(list);
                  ms.setText("");
+                }
             }
         }
         else if(e.getSource()==table){
