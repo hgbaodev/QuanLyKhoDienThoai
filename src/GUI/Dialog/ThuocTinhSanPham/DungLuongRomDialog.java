@@ -10,7 +10,9 @@ import DTO.ThuocTinhSanPham.DungLuongRomDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import GUI.Component.NumericDocumentFilter;
 import GUI.Panel.QuanLyThuocTinhSP;
+import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.PlainDocument;
 
 /**
  *
@@ -47,14 +50,14 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
     ArrayList<DungLuongRomDTO> list = dlrBUS.getAll();
     QuanLyThuocTinhSP qltt;
 
-    public DungLuongRomDialog(JFrame owner,QuanLyThuocTinhSP qltt,String title,boolean modal) {
+    public DungLuongRomDialog(JFrame owner, QuanLyThuocTinhSP qltt, String title, boolean modal) {
         super(owner, title, modal);
         initComponent(qltt);
         loadDataTable(list);
     }
 
     public void initComponent(QuanLyThuocTinhSP qltt) {
-        this.qltt=qltt;
+        this.qltt = qltt;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));
         headTite = new HeaderTitle("Quản lý ROM");
@@ -71,6 +74,8 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
         main.setBackground(Color.WHITE);
         main.setPreferredSize(new Dimension(420, 200));
         ms = new InputForm("Dung lượng ROM");
+        PlainDocument m = (PlainDocument)ms.getTxtForm().getDocument();
+        m.setDocumentFilter(new NumericDocumentFilter());
         ms.setPreferredSize(new Dimension(250, 70));
         table = new JTable();
         table.setBackground(Color.WHITE);
@@ -89,13 +94,13 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
         main.add(ms);
         main.add(scrollTable);
 
-        add = new ButtonCustom("Thêm", "excel",15,100,40);
+        add = new ButtonCustom("Thêm", "excel", 15, 100, 40);
         add.addMouseListener(this);
-        del = new ButtonCustom("Xóa", "danger",15,100,40);
+        del = new ButtonCustom("Xóa", "danger", 15, 100, 40);
         del.addMouseListener(this);
-        update = new ButtonCustom("Sửa", "success",15,100,40);
+        update = new ButtonCustom("Sửa", "success", 15, 100, 40);
         bottom.setBackground(Color.white);
-        bottom.setLayout(new FlowLayout(1,20,20));
+        bottom.setLayout(new FlowLayout(1, 20, 20));
         bottom.add(add);
         bottom.add(del);
         bottom.add(update);
@@ -119,8 +124,8 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == add) {
-            if (this.ms.getText().trim() == "") {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
+            if (Validation.isEmpty(ms.getText())) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập dung lượng Rom mới");
             } else {
                 int id = DungLuongRomDAO.getInstance().getAutoIncrement();
                 String kichthuoc = ms.getText();
@@ -138,10 +143,16 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
         } else if (e.getSource() == update) {
             int index = getRowSelected();
             if (index != -1) {
-                String kichthuoc = ms.getText();
-                dlrBUS.update(new DungLuongRomDTO(list.get(index).getMadungluongrom(), Integer.parseInt(kichthuoc)));
-                loadDataTable(list);
-                ms.setText("");
+                if (e.getSource() == add) {
+                    if (Validation.isEmpty(ms.getText())) {
+                        JOptionPane.showMessageDialog(this, "Vui lòng nhập dung lượng Rom");
+                    } else {
+                        String kichthuoc = ms.getText();
+                        dlrBUS.update(new DungLuongRomDTO(list.get(index).getMadungluongrom(), Integer.parseInt(kichthuoc)));
+                        loadDataTable(list);
+                        ms.setText("");
+                    }
+                }
             }
         } else if (e.getSource() == table) {
             int index = table.getSelectedRow();

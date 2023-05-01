@@ -21,6 +21,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import helper.Formater;
+import helper.writePDF;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -50,7 +51,7 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
     DefaultTableModel tblModel, tblModelImei;
     JTable table, tblImei;
     JScrollPane scrollTable, scrollTableImei;
-    
+
     PhieuNhapDTO phieunhap;
     PhieuXuatDTO phieuxuat;
     PhienBanSanPhamBUS phienbanBus = new PhienBanSanPhamBUS();
@@ -61,8 +62,7 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     MauSacBUS mausacBus = new MauSacBUS();
     SanPhamBUS sanPhamBUS = new SanPhamBUS();
-    
-    
+
     ButtonCustom btnPdf, btnHuyBo;
 
     ArrayList<ChiTietPhieuDTO> chitietphieu;
@@ -103,7 +103,7 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
     public void initPhieuXuat() {
         txtMaPhieu.setText("PX" + Integer.toString(this.phieuxuat.getMaphieu()));
         txtNhaCungCap.setTitle("Khách hàng");
-        txtNhaCungCap.setText(KhachHangDAO.getInstance().selectById(phieuxuat.getMakh()+ "").getHoten());
+        txtNhaCungCap.setText(KhachHangDAO.getInstance().selectById(phieuxuat.getMakh() + "").getHoten());
         txtNhanVien.setText(NhanVienDAO.getInstance().selectById(phieuxuat.getManguoitao() + "").getHoten());
         txtThoiGian.setText(Formater.FormatTime(phieuxuat.getThoigiantao()));
     }
@@ -222,6 +222,15 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
         Object source = e.getSource();
         if (source == btnHuyBo) {
             dispose();
+        }
+        if (source == btnPdf) {
+            writePDF w = new writePDF();
+            if (this.phieuxuat != null) {
+                w.writePhieuXuat(phieuxuat.getMaphieu());
+            }
+            if (this.phieunhap != null) {
+                w.writePhieuNhap(phieunhap.getMaphieu());
+            }
         }
     }
 }

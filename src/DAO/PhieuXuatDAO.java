@@ -117,8 +117,8 @@ public class PhieuXuatDAO implements DAOinterface<PhieuXuatDTO> {
             while(rs.next()){
                 int maphieu = rs.getInt("maphieuxuat");
                 Timestamp thoigiantao = rs.getTimestamp("thoigian");
-                int makh = rs.getInt("manhacungcap");
-                int nguoitao = rs.getInt("nguoitao");
+                int makh = rs.getInt("makh");
+                int nguoitao = rs.getInt("nguoitaophieuxuat");
                 long tongtien = rs.getLong("tongtien");
                 int trangthai = rs.getInt("trangthai");
                 result = new PhieuXuatDTO(makh, maphieu, nguoitao, thoigiantao, tongtien, trangthai);
