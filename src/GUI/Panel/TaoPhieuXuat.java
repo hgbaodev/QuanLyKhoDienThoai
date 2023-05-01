@@ -593,17 +593,6 @@ public final class TaoPhieuXuat extends JPanel {
         cbxImei = new CustomComboCheck(v, textAreaImei);
     }
     
-    public boolean checkImeiArea(String maImei){
-        String[] arrimei = textAreaImei.getText().split("\n");
-        boolean check = false;
-        for (int i=0;i<arrimei.length;i++){
-            if(arrimei[i].equals(maImei)){
-                check = true;
-                return check;
-            }
-        }
-        return check;
-    }
     
     public void actionbtn(String type) {
         boolean val_1 = type.equals("add");
@@ -657,7 +646,6 @@ public final class TaoPhieuXuat extends JPanel {
 
     public void setPhieuSelected() {
         ChiTietPhieuDTO ctphieu = chitietphieu.get(tablePhieuXuat.getSelectedRow());
-        System.out.println(ctphieu);
         SanPhamDTO spSel = spBUS.getSp(ctphieu.getMaphienbansp());
         setInfoSanPham(spSel);
         cbxPhienBan.setSelectedItem(ctphieu.getMaphienbansp() + "");

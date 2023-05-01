@@ -1,5 +1,6 @@
 package GUI.Panel;
 
+import BUS.ChiTietSanPhamBUS;
 import BUS.PhienBanSanPhamBUS;
 import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
@@ -22,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
 import GUI.Dialog.QRCode_Dialog;
+import GUI.Dialog.SelectImei;
 import GUI.Main;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
@@ -36,6 +38,8 @@ import java.awt.event.MouseEvent;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -52,7 +56,7 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
     SelectForm cbxNhaCungCap, cbxTrangThai, cbxCauhinh, cbxPtNhap;
     JTextField txtTimKiem;
     JLabel labelImei, lbltongtien;
-    JTextArea textAreaImei;
+    public JTextArea textAreaImei;
     Main m;
     Color BackgroundColor = new Color(240, 247, 250);
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -64,15 +68,16 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     PhieuNhapBUS phieunhapBus = new PhieuNhapBUS();
     MauSacBUS mausacBus = new MauSacBUS();
+    ChiTietSanPhamBUS chiTietSanPhamBUS = new ChiTietSanPhamBUS();
     NhanVienDTO nvDto;
 
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
     ArrayList<PhienBanSanPhamDTO> ch = new ArrayList<>();
     ArrayList<ChiTietPhieuNhapDTO> chitietphieu;
-    HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham = new HashMap<>();
     int maphieunhap;
     int rowPhieuSelect = -1;
     private ButtonCustom scanImei;
+    private ButtonCustom btnChonImei;
 
     public TaoPhieuKiemKe(NhanVienDTO nv, String type, Main m) {
         this.nvDto = nv;
@@ -216,15 +221,26 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         content_right_top_cbx.setPreferredSize(new Dimension(100, 180));
         cbxCauhinh = new SelectForm("Cấu hình", arrCauhinh);
         cbxCauhinh.cbb.addItemListener(this);
-        txtSoLuongImei = new InputForm("Số lương có hiện tại");
+        txtSoLuongImei = new InputForm("Số lượng hiện tại");
         txtSoLuongImei.setEditable(false);
-        txtSoLuongImei.setPreferredSize(new Dimension(100, 90));
+        txtSoLuongImei.setPreferredSize(new Dimension(50, 80));
+        JPanel jPanelGhiChu = new JPanel(new BorderLayout());
+        jPanelGhiChu.setBackground(Color.WHITE);
+        jPanelGhiChu.setBorder(new EmptyBorder(10,10,10,10));
+        JLabel jLabelGhiChu = new JLabel("Ghi chú");
+        jLabelGhiChu.setBackground(Color.WHITE);
+        jLabelGhiChu.setPreferredSize(new Dimension(0,30));
+        JTextArea jTextAreaGhiChu = new JTextArea();
+        jTextAreaGhiChu.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
+        jPanelGhiChu.add(jLabelGhiChu,BorderLayout.NORTH);
+        jPanelGhiChu.add(jTextAreaGhiChu,BorderLayout.CENTER);
+        jPanelGhiChu.setPreferredSize(new Dimension(0,100));
 
         JPanel jpDonGia = new JPanel();
         jpDonGia.setBackground(Color.WHITE);
         content_right_top_cbx.add(cbxCauhinh, BorderLayout.WEST);
-        content_right_top_cbx.add(jpDonGia, BorderLayout.CENTER);
-        content_right_top_cbx.add(txtSoLuongImei, BorderLayout.SOUTH);
+        content_right_top_cbx.add(txtSoLuongImei, BorderLayout.CENTER);
+        content_right_top_cbx.add(jPanelGhiChu, BorderLayout.SOUTH);
         content_right_top.add(txtMaSp, BorderLayout.WEST);
         content_right_top.add(txtTenSp, BorderLayout.CENTER);
         content_right_top.add(content_right_top_cbx, BorderLayout.SOUTH);
@@ -238,7 +254,7 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         scanImei = new ButtonCustom("Quét imei", "success", 14);
         scanImei.setPreferredSize(new Dimension(110, 0));
         JPanel panelScanCenter = new JPanel(new BorderLayout());
-        ButtonCustom btnChonImei = new ButtonCustom("Chọn Imei", "success", 14);
+        btnChonImei = new ButtonCustom("Chọn Imei", "success", 14);
         btnChonImei.setPreferredSize(new Dimension(100, 0));
         panelScanCenter.setBackground(Color.WHITE);
         panelScanCenter.add(btnChonImei, BorderLayout.LINE_END);
@@ -250,6 +266,7 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         jpanelImei.add(panelScanCenter, BorderLayout.CENTER);
         jpanelImei.add(scanImei, BorderLayout.EAST);
         scanImei.addActionListener(this);
+        btnChonImei.addActionListener(this);
         textAreaImei = new JTextArea(6, 4);
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
         textAreaImei.setEditable(false);
@@ -257,6 +274,26 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         card_content_two_model.setBackground(Color.white);
         card_content_two_model.add(jpanelImei, BorderLayout.NORTH);
         card_content_two_model.add(textAreaImei, BorderLayout.CENTER);
+        
+        textAreaImei.getDocument().addDocumentListener(new DocumentListener() {
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            String[] arrimei = textAreaImei.getText().split("\n");
+            txtSoLuongImei.setText(arrimei.length+"");
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            String[] arrimei = textAreaImei.getText().split("\n");
+            txtSoLuongImei.setText(arrimei.length+"");
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent arg0) {
+
+        }
+    });
 
         content_right_bottom.add(card_content_two_model);
 
@@ -355,6 +392,8 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
 
     public void setSelectSp(SanPhamDTO sp) {
         txtMaSp.setText(sp.getMasp() + "");
+        textAreaImei.setText("");
+        txtSoLuongImei.setText("");
         txtTenSp.setText(sp.getTensp());
         cbxCauhinh.setArr(getCauHinhPhienBan(sp.getMasp()));
         
@@ -371,21 +410,45 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         return arr;
     }
     
-    public String[] getImei(int macauhinh){
-        
-        return null;
-    }
     
     
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object source = e.getSource();
+        if (source == cbxCauhinh.cbb) {
+            int index = cbxCauhinh.cbb.getSelectedIndex();
+            PhienBanSanPhamDTO pb = ch.get(index);
+            if(pb!=null){
+                textAreaImei.setText("");
+                txtSoLuongImei.setText("");
+            }
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object source = e.getSource();
+        if(source == scanImei){
+            if (ch.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm để quét mã");
+            } else {
+                QRCode_Dialog qr = new QRCode_Dialog(owner, "Scan", true, textAreaImei);
+            }
+        }
+        
+        if(source == btnChonImei){
+            if (ch.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm để quét mã");
+            } else {
+                txtSoLuongImei.setText("");
+                int index = cbxCauhinh.cbb.getSelectedIndex();
+                PhienBanSanPhamDTO pb = ch.get(index);
+                int mapb = pb.getMaphienbansp();
+                ArrayList<ChiTietSanPhamDTO> ctsp = chiTietSanPhamBUS.getAllByMaPBSP(mapb);
+                SelectImei sImei = new SelectImei(owner, "Chọn IMEI", true, this, ctsp);
+            }
+        }
     }
 
 }

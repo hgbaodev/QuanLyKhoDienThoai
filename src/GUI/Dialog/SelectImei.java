@@ -7,6 +7,7 @@ package GUI.Dialog;
 import DTO.ChiTietSanPhamDTO;
 import GUI.Component.CheckListItem;
 import GUI.Component.CheckListRenderer;
+import GUI.Panel.TaoPhieuKiemKe;
 import GUI.Panel.TaoPhieuXuat;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -20,6 +21,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
@@ -30,18 +32,27 @@ import javax.swing.ListSelectionModel;
 public class SelectImei extends JDialog{
 
     private DefaultListModel<Object> listMode;
-    private TaoPhieuXuat taoPhieuXuat;
     private ArrayList<ChiTietSanPhamDTO> ct;
     private JTextField findImei;
     private JList list;
+    private JTextArea jTextArea;
     
     public SelectImei(JFrame owner, String title, boolean modal, TaoPhieuXuat taoPhieuXuat, ArrayList<ChiTietSanPhamDTO> ct){
         super(owner, title, modal);
-        this.taoPhieuXuat = taoPhieuXuat;
+        this.jTextArea = taoPhieuXuat.textAreaImei;
         this.ct = ct;
         init();
         setVisible(true);
     }
+    
+    public SelectImei(JFrame owner, String title, boolean modal, TaoPhieuKiemKe taoPhieuKiemKe, ArrayList<ChiTietSanPhamDTO> ct){
+        super(owner, title, modal);
+        this.jTextArea = taoPhieuKiemKe.textAreaImei;
+        this.ct = ct;
+        init();
+        setVisible(true);
+    }
+    
     public void init(){
         setSize(new Dimension(300,500));
         setLayout(new BorderLayout());
@@ -64,7 +75,6 @@ public class SelectImei extends JDialog{
     
     public void loadImei(){
         String search = findImei.getText();
-        System.out.println(search);
         ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
         for (ChiTietSanPhamDTO i : ct) {
             if (i.getImei().toLowerCase().contains(search)) {
@@ -74,7 +84,7 @@ public class SelectImei extends JDialog{
         listMode.setSize(0);
         for (ChiTietSanPhamDTO chiTietSanPhamDTO : result) {
             CheckListItem check = new CheckListItem(chiTietSanPhamDTO.getImei());
-            if(taoPhieuXuat.checkImeiArea(chiTietSanPhamDTO.getImei())){
+            if(checkImeiArea(chiTietSanPhamDTO.getImei())){
                 check.setSelected(true);
             }
             listMode.addElement(check);
@@ -89,15 +99,26 @@ public class SelectImei extends JDialog{
                 int index = list.locationToIndex(event.getPoint());// Get index of item
                 CheckListItem item = (CheckListItem) list.getModel().getElementAt(index);
                 if(!item.isSelected()){
-                    System.out.println(item.toString());
-                    taoPhieuXuat.textAreaImei.append(item.toString() + "\n");
+                    jTextArea.append(item.toString() + "\n");
                 } else {
-                    String txt = taoPhieuXuat.textAreaImei.getText().replaceAll("(" + item.toString() + ")\n", "");
-                    taoPhieuXuat.textAreaImei.setText(txt);
+                    String txt = jTextArea.getText().replaceAll("(" + item.toString() + ")\n", "");
+                    jTextArea.setText(txt);
                 }
                 item.setSelected(!item.isSelected()); // Toggle selected state
                 list.repaint(list.getCellBounds(index, index));// Repaint cell
             }
         });
+    }
+    
+    public boolean checkImeiArea(String maImei){
+        String[] arrimei = jTextArea.getText().split("\n");
+        boolean check = false;
+        for (int i=0;i<arrimei.length;i++){
+            if(arrimei[i].equals(maImei)){
+                check = true;
+                return check;
+            }
+        }
+        return check;
     }
 }
