@@ -9,6 +9,8 @@ import BUS.NhaCungCapBUS;
 import BUS.PhieuNhapBUS;
 import BUS.SanPhamBUS;
 import DAO.NhanVienDAO;
+import DTO.ChiTietKiemKeDTO;
+import DTO.ChiTietKiemKeSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
@@ -73,7 +75,8 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
 
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
     ArrayList<PhienBanSanPhamDTO> ch = new ArrayList<>();
-    ArrayList<ChiTietPhieuNhapDTO> chitietphieu;
+    ArrayList<ChiTietKiemKeDTO> danhSachKiemke = new ArrayList<>();
+    ArrayList<ChiTietKiemKeSanPhamDTO> danhSachKiemKeSanPham = new ArrayList<>();
     int maphieunhap;
     int rowPhieuSelect = -1;
     private ButtonCustom scanImei;
@@ -82,18 +85,9 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
     public TaoPhieuKiemKe(NhanVienDTO nv, String type, Main m) {
         this.nvDto = nv;
         this.m = m;
-        maphieunhap = phieunhapBus.phieunhapDAO.getAutoIncrement();
-        chitietphieu = new ArrayList<>();
         initComponent(type);
     }
 
-    public TaoPhieuKiemKe(NhanVienDTO nv, String type, PhieuNhapDTO phieunhap, Main m) {
-        this.nvDto = NhanVienDAO.getInstance().selectById(Integer.toString(phieunhap.getManguoitao()));
-        this.m = m;
-        maphieunhap = phieunhap.getMaphieu();
-        chitietphieu = phieunhapBus.getChiTietPhieu(maphieunhap);
-        initComponent(type);
-    }
 
     public void initPadding() {
         pnlBorder1 = new JPanel();
@@ -126,14 +120,14 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         tablePhieuKiemKe = new JTable();
         scrollTablePhieuKK = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"STT", "Mã SP", "Tên sản phẩm", "RAM", "ROM", "Màu sắc", "Đơn giá", "Số lượng"};
+        String[] header = new String[]{"STT", "Mã SP", "Tên sản phẩm", "RAM", "ROM", "Màu sắc","Chênh lệch"};
         tblModel.setColumnIdentifiers(header);
         tablePhieuKiemKe.setModel(tblModel);
         scrollTablePhieuKK.setViewportView(tablePhieuKiemKe);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         TableColumnModel columnModel = tablePhieuKiemKe.getColumnModel();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 7; i++) {
             if (i != 2) {
                 columnModel.getColumn(i).setCellRenderer(centerRenderer);
             }
