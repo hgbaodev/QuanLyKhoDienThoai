@@ -3,7 +3,6 @@ package GUI.Panel;
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
 import BUS.PhieuNhapBUS;
-import DTO.NhaCungCapDTO;
 import DTO.NhanVienDTO;
 import DTO.PhieuNhapDTO;
 import GUI.Component.InputDate;
@@ -17,6 +16,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
+import GUI.Dialog.ChiTietPhieuDialog;
 import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -299,8 +299,9 @@ public final class PhieuNhap extends JPanel implements ActionListener, KeyListen
         } else if (source == mainFunction.btn.get("detail")) {
             int index = getRowSelected();
             if (index != -1) {
-                nhapKho = new TaoPhieuNhap(nv, "view", listPhieu.get(index), m);
-                m.setPanel(nhapKho);
+//                nhapKho = new TaoPhieuNhap(nv, "view", listPhieu.get(index), m);
+//                m.setPanel(nhapKho);
+                ChiTietPhieuDialog ctsp = new ChiTietPhieuDialog(m, "Thông tin phiếu nhập", true,listPhieu.get(index));
             }
         } else if (source == mainFunction.btn.get("cancel")) {
             int index = getRowSelected();

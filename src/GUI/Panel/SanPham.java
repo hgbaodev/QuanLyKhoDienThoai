@@ -53,19 +53,19 @@ public final class SanPham extends JPanel implements ActionListener {
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng tồn", "Kích thước màn", "Thương hiệu", "Hệ điều hành", "Xuất xứ", "Khu vực kho"};
+        String[] header = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng tồn","Thương hiệu", "Hệ điều hành", "Kích thước màn","Chip xử lý","Dung lượng pin","Xuất xứ", "Khu vực kho"};
         tblModel.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableSanPham);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         TableColumnModel columnModel = tableSanPham.getColumnModel();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 10; i++) {
             if (i != 1) {
                 columnModel.getColumn(i).setCellRenderer(centerRenderer);
             }
         }
-        tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(300);
+        tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(180);
         tableSanPham.setFocusable(false);
         tableSanPham.setDefaultEditor(Object.class, null);
 
@@ -83,7 +83,7 @@ public final class SanPham extends JPanel implements ActionListener {
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         String[] action = {"create", "update", "delete", "detail", "phone", "import", "export"};
-        mainFunction = new MainFunction(m.user.getManhomquyen(), "nhaphang", action);
+        mainFunction = new MainFunction(m.user.getManhomquyen(), "sanpham", action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
@@ -128,8 +128,8 @@ public final class SanPham extends JPanel implements ActionListener {
     public void loadDataTalbe(ArrayList<DTO.SanPhamDTO> result) {
         tblModel.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
-            tblModel.addRow(new Object[]{sp.getMasp(), sp.getTensp(), sp.getSoluongton(), sp.getKichthuocman() + " inch", thuonghieuBus.getTenThuongHieu(sp.getThuonghieu()), sp.getHedieuhanh(),
-                sp.getXuatxu(), kvkhoBus.getTenKhuVuc(sp.getKhuvuckho())
+            tblModel.addRow(new Object[]{sp.getMasp(), sp.getTensp(), sp.getSoluongton(), thuonghieuBus.getTenThuongHieu(sp.getThuonghieu()), heDieuHanhBUS.getTenHdh(sp.getHedieuhanh()),sp.getKichthuocman() + " inch", 
+                sp.getChipxuly(),sp.getDungluongpin() +"mAh",xuatXuBUS.getTenXuatXu(sp.getXuatxu()), kvkhoBus.getTenKhuVuc(sp.getKhuvuckho())
             });
         }
     }
