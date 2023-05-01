@@ -14,6 +14,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Component.MenuTaskbar;
+import GUI.Component.NumericDocumentFilter;
 import helper.BCrypt;
 import helper.Validation;
 import java.awt.BorderLayout;
@@ -96,8 +97,8 @@ public class MyAccount extends JDialog implements ActionListener {
         panel[0] = new JPanel(new GridLayout(1, 1));
         panel[0].setPreferredSize(new Dimension(400, 100));
         phone = new InputForm("Số điện thoại");
-        PlainDocument phonex = (PlainDocument)phone.getTxtForm().getDocument();
-//        phonex.setDocumentFilter((new Numeric));
+        PlainDocument phonex = (PlainDocument) phone.getTxtForm().getDocument();
+        phonex.setDocumentFilter((new NumericDocumentFilter()));
         phone.setText(nv.getSdt());
         panel[0].add(phone);
 
@@ -153,66 +154,57 @@ public class MyAccount extends JDialog implements ActionListener {
             }
         }
 
-        if (e.getSource() == save) {
-            if (jbr[0].isSelected()) {
-                if (checknull(phone, "Số điện thoại") == true) {
+        if (jbr[0].isSelected()) {
+            if (e.getSource() == save) {
+                if (Validation.isEmpty(phone.getText()) || phone.getText().length() != 10) {
+                    JOptionPane.showMessageDialog(this, "Số điện thoại không được rỗng và phải có 10 ký tự sô", "Chỉnh sửa số điện thoại", JOptionPane.WARNING_MESSAGE);
+                } else {
                     String sdt = phone.getText();
                     NhanVienDTO nvdto = new NhanVienDTO(nv.getManv(), nv.getHoten(), nv.getGioitinh(), nv.getNgaysinh(), sdt, nv.getTrangthai(), nv.getEmail());
                     NhanVienDAO.getInstance().update(nvdto);
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công");
-                    this.dispose();
                 }
             }
-            if (jbr[1].isSelected()) {
-                if (checknull(phone, "Email") == true) {
+        }
+
+        if (jbr[1].isSelected()) {
+            if (e.getSource() == save) {
+                if (Validation.isEmpty(email.getText()) || !Validation.isEmail(email.getText())) {
+                    JOptionPane.showMessageDialog(this, "Email không được rỗng và phải đúng định dạng", "Chỉnh sửa email", JOptionPane.WARNING_MESSAGE);
+                } else {
                     String emailString = email.getText();
                     NhanVienDTO nvdto = new NhanVienDTO(nv.getManv(), nv.getHoten(), nv.getGioitinh(), nv.getNgaysinh(), nv.getSdt(), nv.getTrangthai(), emailString);
                     NhanVienDAO.getInstance().update(nvdto);
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công");
-                    this.dispose();
+
                 }
             }
-            if (jbr[2].isSelected()) {
-                TaiKhoanDTO tkdto = tkbus.getTaiKhoan(tkbus.getTaiKhoanByMaNV(nv.getManv()));
-                if (checknullPass(current_pwd, "mật khẩu hiện tại")) {
+        }
+        if (jbr[2].isSelected()) {
+            if (e.getSource() == save) {
 
-                    if (!BCrypt.checkpw(current_pwd.getPass(), tkdto.getMatkhau())) {
-                        JOptionPane.showMessageDialog(this, "Mật khẩu hiện tại không đúng");
+                TaiKhoanDTO tkdto = tkbus.getTaiKhoan(tkbus.getTaiKhoanByMaNV(nv.getManv()));
+                if (Validation.isEmpty(current_pwd.getPass())) {
+                    JOptionPane.showMessageDialog(this, "Mật khẩu hiện tại không được rỗng", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+                } else if (Validation.isEmpty(new_pwd.getPass())) {
+                    JOptionPane.showMessageDialog(this, "Mật khẩu mới không được rỗng", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+                } else if (Validation.isEmpty(confirm.getPass())) {
+                    JOptionPane.showMessageDialog(this, "Mật khẩu nhập lại không được rỗng", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+                    return;
+                } else if (new_pwd.getPass().equals(confirm.getPass()) == false) {
+                    JOptionPane.showMessageDialog(this, "Mật khẩu nhập lại không khớp với mật khẩu mới", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+                    return;
+                } else {
+                    if (BCrypt.checkpw(current_pwd.getPass(), tkdto.getMatkhau())) {
+                        String pass = BCrypt.hashpw(confirm.getPass(), BCrypt.gensalt(12));
+                        TaiKhoanDAO.getInstance().update(new TaiKhoanDTO(tkdto.getManv(), tkdto.getUsername(), pass, tkdto.getManhomquyen(), tkdto.getTrangthai()));
+                        JOptionPane.showMessageDialog(this, "Cập nhật thành công");
                     } else {
-                        if (checknullPass(new_pwd, "mật khẩu mới")) {
-                            if (checknullPass(confirm, "xác nhận mật khẩu mới")) {
-                                if (new_pwd.getPass().equals(confirm.getPass()) == false) {
-                                    JOptionPane.showMessageDialog(this, "Mật khẩu nhập lại không khớp");
-                                } else {
-                                    String pass = BCrypt.hashpw(confirm.getPass(), BCrypt.gensalt(12));
-                                    TaiKhoanDAO.getInstance().update(new TaiKhoanDTO(tkdto.getManv(), tkdto.getUsername(), pass, tkdto.getManhomquyen(), tkdto.getTrangthai()));
-                                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
-                                    this.dispose();
-                                }
-                            }
-                        }
+                        JOptionPane.showMessageDialog(this, "Mật khẩu hiện tại không đúng", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
                     }
                 }
             }
-            menuTaskbar.resetChange();
         }
-    }
-
-    public boolean checknull(InputForm x, String object) {
-        if (Validation.isEmpty(x.getText())) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập " + object);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public boolean checknullPass(InputForm x, String object) {
-        if (Validation.isEmpty(x.getPass())) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập " + object);
-            return false;
-        } else {
-            return true;
-        }
+        menuTaskbar.resetChange();
     }
 }

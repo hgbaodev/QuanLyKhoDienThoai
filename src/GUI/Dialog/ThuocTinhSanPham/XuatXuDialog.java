@@ -12,6 +12,7 @@ import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Panel.QuanLyThuocTinhSP;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -50,15 +51,15 @@ public class XuatXuDialog extends JDialog implements MouseListener {
     ArrayList<XuatXuDTO> list = msBUS.getAll();
     QuanLyThuocTinhSP qltt;
 
-    public XuatXuDialog(JFrame owner,QuanLyThuocTinhSP qltt,String title,boolean modal) {
+    public XuatXuDialog(JFrame owner, QuanLyThuocTinhSP qltt, String title, boolean modal) {
         super(owner, title, modal);
         initComponent(qltt);
         loadDataTable(list);
     }
 
     public void initComponent(QuanLyThuocTinhSP qltt) {
-        
-        this.qltt=qltt;
+
+        this.qltt = qltt;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));
         headTite = new HeaderTitle("XUẤT XỨ SẢN PHẨM");
@@ -67,7 +68,6 @@ public class XuatXuDialog extends JDialog implements MouseListener {
         main = new JPanel();
         bottom = new JPanel();
 
-        
         top.setLayout(new FlowLayout(0));
         top.setBackground(Color.WHITE);
         top.setPreferredSize(new Dimension(0, 70));
@@ -95,11 +95,11 @@ public class XuatXuDialog extends JDialog implements MouseListener {
         main.add(ms);
         main.add(scrollTable);
 
-        add = new ButtonCustom("Thêm", "excel",15,100,40);
+        add = new ButtonCustom("Thêm", "excel", 15, 100, 40);
         add.addMouseListener(this);
-        del = new ButtonCustom("Xóa", "danger",15,100,40);
+        del = new ButtonCustom("Xóa", "danger", 15, 100, 40);
         del.addMouseListener(this);
-        update = new ButtonCustom("Sửa", "success",15,100,40);
+        update = new ButtonCustom("Sửa", "success", 15, 100, 40);
         update.addMouseListener(this);
         bottom.setBackground(Color.white);
         bottom.setLayout(new FlowLayout(1, 20, 20));
@@ -123,11 +123,10 @@ public class XuatXuDialog extends JDialog implements MouseListener {
         }
     }
 
-
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == add) {
-            if (this.ms.getText().trim() == "") {
+            if (Validation.isEmpty(ms.getText())) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập nơi xuất xứ mới");
             } else {
                 int id = XuatXuDAO.getInstance().getAutoIncrement();
@@ -146,10 +145,14 @@ public class XuatXuDialog extends JDialog implements MouseListener {
         } else if (e.getSource() == update) {
             int index = getRowSelected();
             if (index != -1) {
-                String tenmau = ms.getText();
-                msBUS.update(new XuatXuDTO(list.get(index).getMaxuatxu(), tenmau));
-                loadDataTable(list);
-                ms.setText("");
+                if (Validation.isEmpty(ms.getText())) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập nơi xuất xứ mới");
+                } else {
+                    String tenmau = ms.getText();
+                    msBUS.update(new XuatXuDTO(list.get(index).getMaxuatxu(), tenmau));
+                    loadDataTable(list);
+                    ms.setText("");
+                }
             }
         } else if (e.getSource() == table) {
             int index = table.getSelectedRow();

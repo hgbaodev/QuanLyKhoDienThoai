@@ -31,13 +31,13 @@ public class ChiTietSanPhamBUS {
     }
 
     public ArrayList<ChiTietSanPhamDTO> getCTSPbyMasp(int masp) {
-        listpbsp = pbspbus.getAll(masp);
-        for (PhienBanSanPhamDTO i : listpbsp) {
+        ArrayList<ChiTietSanPhamDTO> list2 = new ArrayList<>();
+        ArrayList<PhienBanSanPhamDTO> list = pbspbus.getAll(masp);
+        for (PhienBanSanPhamDTO i : list) {
             ArrayList<ChiTietSanPhamDTO> ctsptemp = this.getAllByMaPBSP(i.getMaphienbansp());
-            listctsp.addAll(ctsptemp);
-            //Show(listctsp);
+            list2.addAll(ctsptemp);
         }
-        return listctsp;
+        return list2;
     }
 
     public HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> getChiTietSanPhamFromMaPN(int maphieunhap) {

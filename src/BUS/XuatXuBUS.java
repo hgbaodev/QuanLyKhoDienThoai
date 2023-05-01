@@ -52,18 +52,18 @@ public class XuatXuBUS {
         return check;
     }
 
-    public int getIndexByMaMau(int mamau) {
+    public int getIndexByMaXX(int maxx) {
         int i = 0;
         int vitri = -1;
         while (i < this.listXuatXu.size() && vitri == -1) {
-            if (listXuatXu.get(i).getMaxuatxu()== mamau) vitri = i;
+            if (listXuatXu.get(i).getMaxuatxu()== maxx) vitri = i;
             else i++;
         }
         return vitri;
     }
 
-    public String getTenMau(int mamau) {
-        int index = this.getIndexByMaMau(mamau);
+    public String getTenXuatXu(int maxx) {
+        int index = this.getIndexByMaXX(maxx);
         System.out.println(index);
         return this.listXuatXu.get(index).getTenxuatxu();
     }
@@ -71,7 +71,7 @@ public class XuatXuBUS {
     public boolean update(XuatXuDTO xuatxu) {
         boolean check = xuatxuDAO.update(xuatxu) != 0;
         if (check) {
-            this.listXuatXu.set(getIndexByMaMau(xuatxu.getMaxuatxu()), xuatxu);
+            this.listXuatXu.set(getIndexByMaXX(xuatxu.getMaxuatxu()), xuatxu);
         }
         return check;
     }

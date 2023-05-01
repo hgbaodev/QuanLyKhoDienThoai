@@ -11,6 +11,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Panel.QuanLyThuocTinhSP;
+import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -43,14 +44,14 @@ public class MauSacDialog extends JDialog implements MouseListener {
     MauSacBUS msBUS = new MauSacBUS();
     ArrayList<MauSacDTO> list = msBUS.getAll();
 
-    public MauSacDialog(JFrame onwer, QuanLyThuocTinhSP qltt , String title, boolean modal) {
+    public MauSacDialog(JFrame onwer, QuanLyThuocTinhSP qltt, String title, boolean modal) {
         super(onwer, title, modal);
         initComponent(qltt);
         loadDataTable(list);
     }
 
     public void initComponent(QuanLyThuocTinhSP qlttsp) {
-        this.qlttsp  =qlttsp;
+        this.qlttsp = qlttsp;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));
         headTite = new HeaderTitle("MÀU SẮC SẢN PHẨM");
@@ -59,7 +60,6 @@ public class MauSacDialog extends JDialog implements MouseListener {
         main = new JPanel();
         bottom = new JPanel();
 
-        
         top.setLayout(new FlowLayout(0));
         top.setBackground(Color.WHITE);
         top.setPreferredSize(new Dimension(0, 70));
@@ -87,11 +87,11 @@ public class MauSacDialog extends JDialog implements MouseListener {
         main.add(ms);
         main.add(scrollTable);
 
-        add = new ButtonCustom("Thêm", "excel",15,100,40);
+        add = new ButtonCustom("Thêm", "excel", 15, 100, 40);
         add.addMouseListener(this);
-        del = new ButtonCustom("Xóa", "danger",15,100,40);
+        del = new ButtonCustom("Xóa", "danger", 15, 100, 40);
         del.addMouseListener(this);
-        update = new ButtonCustom("Sửa", "success",15,100,40);
+        update = new ButtonCustom("Sửa", "success", 15, 100, 40);
         update.addMouseListener(this);
         bottom.setBackground(Color.white);
         bottom.setLayout(new FlowLayout(1, 20, 20));
@@ -118,7 +118,7 @@ public class MauSacDialog extends JDialog implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == add) {
-            if (this.ms.getText().trim()== "") {
+            if (Validation.isEmpty(ms.getText())) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
             } else {
                 int id = MauSacDAO.getInstance().getAutoIncrement();
@@ -137,10 +137,14 @@ public class MauSacDialog extends JDialog implements MouseListener {
         } else if (e.getSource() == update) {
             int index = getRowSelected();
             if (index != -1) {
-                String tenmau = ms.getText();
-                msBUS.update(new MauSacDTO(list.get(index).getMamau(), tenmau));
-                loadDataTable(list);
-                ms.setText("");
+                if (Validation.isEmpty(ms.getText())) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập tên màu mới");
+                } else {
+                    String tenmau = ms.getText();
+                    msBUS.update(new MauSacDTO(list.get(index).getMamau(), tenmau));
+                    loadDataTable(list);
+                    ms.setText("");
+                }
             }
         } else if (e.getSource() == table) {
             int index = table.getSelectedRow();
