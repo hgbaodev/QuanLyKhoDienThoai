@@ -141,7 +141,7 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         tablePhieuKiemKe.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-              
+
             }
         });
 
@@ -160,7 +160,11 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         tableSanPham.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-               
+                int index = tableSanPham.getSelectedRow();
+                if (index >= 0) {
+                    SanPhamDTO sp = spBUS.getByIndex(index);
+                    setSelectSp(sp);
+                }
             }
         });
         tableSanPham.setFocusable(false);
@@ -216,7 +220,7 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         txtSoLuongImei = new InputForm("Số lương có hiện tại");
         txtSoLuongImei.setEditable(false);
         txtSoLuongImei.setPreferredSize(new Dimension(100, 90));
-        
+
         JPanel jpDonGia = new JPanel();
         jpDonGia.setBackground(Color.WHITE);
         content_right_top_cbx.add(cbxCauhinh, BorderLayout.WEST);
@@ -228,7 +232,6 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
 
         content_right_bottom = new JPanel(new CardLayout());
 
-
         JPanel card_content_two_model = new JPanel(new BorderLayout());
         card_content_two_model.setBorder(new EmptyBorder(10, 10, 10, 10));
         labelImei = new JLabel("Mã Imei");
@@ -237,7 +240,7 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         scanImei.setPreferredSize(new Dimension(110, 0));
         JPanel panelScanCenter = new JPanel(new BorderLayout());
         ButtonCustom btnChonImei = new ButtonCustom("Chọn Imei", "success", 14);
-        btnChonImei.setPreferredSize(new Dimension(100,0));
+        btnChonImei.setPreferredSize(new Dimension(100, 0));
         panelScanCenter.setBackground(Color.WHITE);
         panelScanCenter.add(btnChonImei, BorderLayout.LINE_END);
         JPanel jpanelImei = new JPanel(new BorderLayout());
@@ -325,7 +328,6 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         right_bottom.setBorder(new EmptyBorder(10, 10, 10, 10));
         right_bottom.setOpaque(false);
 
-
         switch (type) {
             case "create" -> {
                 btnXacNhan = new ButtonCustom("Xác nhận", "excel", 14);
@@ -342,19 +344,20 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         contentCenter.add(left, BorderLayout.CENTER);
         contentCenter.add(right, BorderLayout.EAST);
     }
-    
-    
-    public void loadDsSanPham(){
+
+    public void loadDsSanPham() {
         tblModelSP.setRowCount(0);
         for (SanPhamDTO sanPhamDTO : spBUS.getAll()) {
             tblModelSP.addRow(new Object[]{
-                sanPhamDTO.getMasp(),sanPhamDTO.getTensp()
+                sanPhamDTO.getMasp(), sanPhamDTO.getTensp()
             });
         }
     }
-    
-    public void setSelectSp(){
-        
+
+    public void setSelectSp(SanPhamDTO sp) {
+        txtMaSp.setText(sp.getMasp() + "");
+        txtTenSp.setText(sp.getTensp());
+        ch = phienbanBus.getAll(sp.getMasp());
     }
 
     @Override
@@ -368,4 +371,3 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
     }
 
 }
- 
