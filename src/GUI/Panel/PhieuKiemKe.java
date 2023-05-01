@@ -5,23 +5,37 @@ import BUS.NhanVienBUS;
 import DTO.SanPhamDTO;
 import BUS.SanPhamBUS;
 import DTO.NhanVienDTO;
+import GUI.Component.InputDate;
+import GUI.Component.InputForm;
 
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
+import GUI.Component.NumericDocumentFilter;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import GUI.Component.SelectForm;
 import GUI.Main;
 import helper.Formater;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
+import javax.swing.text.PlainDocument;
+import static org.apache.logging.log4j.util.Unbox.box;
 
-public class KiemKe extends JPanel implements ActionListener {
+public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChangeListener ,ItemListener, KeyListener {
 
     PanelBorderRadius box1, box2, main, functionBar, left, right;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -37,17 +51,26 @@ public class KiemKe extends JPanel implements ActionListener {
     Main m;
     NhanVienDTO nv;
 
+    Color BackgroundColor = new Color(240, 247, 250);
+    private PanelBorderRadius box;
+    
+    SelectForm cbxNhaCungCap, cbxNhanVien;
+    InputDate dateStart, dateEnd;
+    InputForm moneyMin, moneyMax;
+    
+    NhaCungCapBUS nccBUS = new NhaCungCapBUS();
+    NhanVienBUS nvBUS = new NhanVienBUS();
 
-    Color BackgroundColor = new Color(239, 235, 233);
-
-    public KiemKe(Main m, NhanVienDTO nv) {
+    public PhieuKiemKe(Main m, NhanVienDTO nv) {
         initComponent();
         this.m =m;
-                this.nv = nv;
+        this.nv = nv;
     }
+    
+    
 
     private void initComponent() {
-
+        
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
@@ -69,16 +92,13 @@ public class KiemKe extends JPanel implements ActionListener {
         tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableSanPham.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tableSanPham.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        this.setBackground(BackgroundColor);
-        this.setLayout(new BorderLayout(0, 0));
-        this.setOpaque(true);
 
         initPadding();
 
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
         contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(20, 20));
+        contentCenter.setLayout(new BorderLayout(10, 10));
         this.add(contentCenter, BorderLayout.CENTER);
 
         functionBar = new PanelBorderRadius();
@@ -101,11 +121,52 @@ public class KiemKe extends JPanel implements ActionListener {
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
+        
+        box = new PanelBorderRadius();
+        box.setPreferredSize(new Dimension(250, 0));
+        box.setLayout(new GridLayout(6, 1, 10, 0));
+        box.setBorder(new EmptyBorder(0, 5, 150, 5));
+        contentCenter.add(box, BorderLayout.WEST);
+
+        // Handel
+        String[] listNcc = nccBUS.getArrTenNhaCungCap();
+        listNcc = Stream.concat(Stream.of("Tất cả"), Arrays.stream(listNcc)).toArray(String[]::new);
+        String[] listNv = nvBUS.getArrTenNhanVien();
+        listNv = Stream.concat(Stream.of("Tất cả"), Arrays.stream(listNv)).toArray(String[]::new);
+
+        // init
+        cbxNhaCungCap = new SelectForm("Nhà cung cấp", listNcc);
+        cbxNhanVien = new SelectForm("Nhân viên nhập", listNv);
+        dateStart = new InputDate("Từ ngày");
+        dateEnd = new InputDate("Đến ngày");
+        moneyMin = new InputForm("Từ số tiền (VND)");
+        moneyMax = new InputForm("Đến số tiền (VND)");
+        
+        PlainDocument doc_min = (PlainDocument) moneyMin.getTxtForm().getDocument();
+        doc_min.setDocumentFilter(new NumericDocumentFilter());
+
+        PlainDocument doc_max = (PlainDocument) moneyMax.getTxtForm().getDocument();
+        doc_max.setDocumentFilter(new NumericDocumentFilter());
+
+        // add listener
+        cbxNhaCungCap.getCbb().addItemListener(this);
+        cbxNhanVien.getCbb().addItemListener(this);
+        dateStart.getDateChooser().addPropertyChangeListener(this);
+        dateEnd.getDateChooser().addPropertyChangeListener(this);
+        moneyMin.getTxtForm().addKeyListener(this);
+        moneyMax.getTxtForm().addKeyListener(this);
+
+        box.add(cbxNhaCungCap);
+        box.add(cbxNhanVien);
+        box.add(dateStart);
+        box.add(dateEnd);
+        box.add(moneyMin);
+        box.add(moneyMax);
 
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+        main.setBorder(new EmptyBorder(0, 0, 0, 0));
         contentCenter.add(main, BorderLayout.CENTER);
 
         scrollTableSanPham.setViewportView(tableSanPham);
@@ -160,6 +221,31 @@ public class KiemKe extends JPanel implements ActionListener {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu kiểm kê");
         }
         return index;
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

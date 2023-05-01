@@ -87,7 +87,6 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         this.m = m;
         maphieunhap = phieunhap.getMaphieu();
         chitietphieu = phieunhapBus.getChiTietPhieu(maphieunhap);
-//        chitietsanpham = phieunhapBus.getChiTietSanPham(maphieunhap);
         initComponent(type);
     }
 
@@ -357,8 +356,27 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
     public void setSelectSp(SanPhamDTO sp) {
         txtMaSp.setText(sp.getMasp() + "");
         txtTenSp.setText(sp.getTensp());
-        ch = phienbanBus.getAll(sp.getMasp());
+        cbxCauhinh.setArr(getCauHinhPhienBan(sp.getMasp()));
+        
     }
+    
+    public String[] getCauHinhPhienBan(int masp) {
+        ch = phienbanBus.getAll(masp);
+        int size = ch.size();
+        String[] arr = new String[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = romBus.getKichThuocById(ch.get(i).getRom()) + "GB - "
+                    + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac());
+        }
+        return arr;
+    }
+    
+    public String[] getImei(int macauhinh){
+        
+        return null;
+    }
+    
+    
 
     @Override
     public void itemStateChanged(ItemEvent e) {
