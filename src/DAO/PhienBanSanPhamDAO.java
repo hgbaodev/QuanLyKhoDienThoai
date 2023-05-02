@@ -185,6 +185,7 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
         PhienBanSanPhamDTO pbsp = this.selectById(maphienban);
         int result = 0;
         int quantity_change = pbsp.getSoluongton() + soluong;
+        System.out.println("Update:"+quantity_change);
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "UPDATE `phienbansanpham` SET `soluongton`=? WHERE maphienbansp = ?";

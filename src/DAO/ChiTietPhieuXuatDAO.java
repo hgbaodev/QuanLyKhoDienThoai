@@ -31,14 +31,14 @@ public class ChiTietPhieuXuatDAO implements ChiTietInterface<ChiTietPhieuDTO> {
                 pst.setInt(1, t.get(i).getMaphieu());
                 pst.setInt(2, t.get(i).getMaphienbansp());
                 pst.setInt(3, t.get(i).getSoluong());
-                PhienBanSanPhamDAO.getInstance().updateSoLuongTon(t.get(i).getMaphienbansp(), -(t.get(i).getSoluong()));
+                int soluong = -(t.get(i).getSoluong());
+                int change = PhienBanSanPhamDAO.getInstance().updateSoLuongTon(t.get(i).getMaphienbansp(), soluong);
                 pst.setInt(4, t.get(i).getDongia());
                 result = pst.executeUpdate();
                 JDBCUtil.closeConnection(con);
             } catch (SQLException ex) {
                 Logger.getLogger(ChiTietPhieuXuatDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
-            PhienBanSanPhamDAO.getInstance().updateSoLuongTon(t.get(i).getMaphienbansp(), t.get(i).getSoluong());
         }
         return result;
     }

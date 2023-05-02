@@ -493,7 +493,7 @@ public final class TaoPhieuXuat extends JPanel {
                     PhieuXuatDTO phieuXuat = new PhieuXuatDTO(makh, maphieu, tk.getManv(), currenTime, sum, 1);
                     phieuXuatBUS.insert(phieuXuat, chitietphieu);
                     chiTietSanPhamBUS.updateXuat(chitietsanpham);
-                    JOptionPane.showMessageDialog(null, "Nhập hàng thành công !");
+                    JOptionPane.showMessageDialog(null, "Xuất hàng thành công !");
                     mainChinh.setPanel(new PhieuXuat(mainChinh, tk));
                 }
             }

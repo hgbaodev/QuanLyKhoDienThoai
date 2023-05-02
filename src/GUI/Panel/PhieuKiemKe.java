@@ -177,22 +177,22 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
 
     public void initPadding() {
         pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 20));
+        pnlBorder1.setPreferredSize(new Dimension(0, 10));
         pnlBorder1.setBackground(BackgroundColor);
         this.add(pnlBorder1, BorderLayout.NORTH);
 
         pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 20));
+        pnlBorder2.setPreferredSize(new Dimension(0, 10));
         pnlBorder2.setBackground(BackgroundColor);
         this.add(pnlBorder2, BorderLayout.SOUTH);
 
         pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(20, 0));
+        pnlBorder3.setPreferredSize(new Dimension(10, 0));
         pnlBorder3.setBackground(BackgroundColor);
         this.add(pnlBorder3, BorderLayout.EAST);
 
         pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(20, 0));
+        pnlBorder4.setPreferredSize(new Dimension(10, 0));
         pnlBorder4.setBackground(BackgroundColor);
         this.add(pnlBorder4, BorderLayout.WEST);
     }

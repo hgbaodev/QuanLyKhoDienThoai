@@ -76,6 +76,7 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
     ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
     ArrayList<PhienBanSanPhamDTO> ch = new ArrayList<>();
     ArrayList<ChiTietKiemKeDTO> danhSachKiemke = new ArrayList<>();
+    ArrayList<ChiTietKiemKeSanPhamDTO> danhSachKiemKeSanPhamCheck = new ArrayList<>();
     ArrayList<ChiTietKiemKeSanPhamDTO> danhSachKiemKeSanPham = new ArrayList<>();
     int maphieunhap;
     int rowPhieuSelect = -1;
@@ -306,6 +307,7 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
         btnEditSP = new ButtonCustom("Sửa sản phẩm", "warning", 14);
         btnDelete = new ButtonCustom("Xoá sản phẩm", "danger", 14);
         btnImport = new ButtonCustom("Nhập Excel", "excel", 14);
+        btnImport.setVisible(false);
         btnAddSp.addActionListener(this);
         btnEditSP.addActionListener(this);
         btnDelete.addActionListener(this);
@@ -441,6 +443,14 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
                 int mapb = pb.getMaphienbansp();
                 ArrayList<ChiTietSanPhamDTO> ctsp = chiTietSanPhamBUS.getAllByMaPBSP(mapb);
                 SelectImei sImei = new SelectImei(owner, "Chọn IMEI", true, this, ctsp);
+            }
+        }
+        
+        if(source == btnAddSp){
+            if(textAreaImei.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm!");
+            } else {
+                
             }
         }
     }
