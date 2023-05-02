@@ -17,7 +17,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
 
     Color FontColor = new Color(96, 125, 139);
     Color DefaultColor = new Color(255, 255, 255);
-    JLabel lblIcon, pnlContent, pnlSoLuong;
+    JLabel lblIcon, pnlContent, pnlSoLuong, pnlContent1;
     JPanel right;
     JLabel img;
     public boolean isSelected;
@@ -67,14 +67,14 @@ public class itemTaskbar extends JPanel implements MouseListener {
         this.setBackground(Color.white);
 
         img = new JLabel("");
-        img.setIcon(InputImage.resizeImage(new ImageIcon("./src/img_product/"+linkImg), 38));
+        img.setIcon(InputImage.resizeImage(new ImageIcon("./src/img_product/" + linkImg), 38));
         this.add(img, BorderLayout.WEST);
 
         right = new JPanel();
-        right.setLayout(new FlowLayout(0,0, 0));
+        right.setLayout(new FlowLayout(0, 0, 0));
         right.setBorder(new EmptyBorder(10, 10, 0, 0));
         right.setOpaque(false);
-        this.add(right,BorderLayout.CENTER);
+        this.add(right, BorderLayout.CENTER);
 
         pnlContent = new JLabel(tenSP);
         pnlContent.putClientProperty("FlatLaf.style", "font: 120% $semibold.font");
@@ -82,11 +82,41 @@ public class itemTaskbar extends JPanel implements MouseListener {
         right.add(pnlContent);
 
         pnlSoLuong = new JLabel("Số lượng: " + soLuong);
-        pnlSoLuong.setPreferredSize(new Dimension(350,20));
+        pnlSoLuong.setPreferredSize(new Dimension(350, 20));
         pnlSoLuong.putClientProperty("FlatLaf.style", "font: 100% $medium.font");
         pnlSoLuong.setForeground(Color.gray);
         right.add(pnlSoLuong);
 
+    }
+
+    public itemTaskbar(String linkIcon, String content, String content2, int num) {
+        this.setLayout(new BorderLayout(0, 0));
+        this.setBackground(DefaultColor);
+        this.addMouseListener(this);
+        lblIcon = new JLabel();
+        lblIcon.setPreferredSize(new Dimension(100, 100));
+        lblIcon.setBorder(new EmptyBorder(0, 20, 0, 0));
+
+        lblIcon.setIcon(new FlatSVGIcon("./icon/" + linkIcon));
+        this.add(lblIcon, BorderLayout.WEST);
+
+        JPanel center = new JPanel();
+        center.setLayout(new FlowLayout(0, 10, 0));
+        center.setBorder(new EmptyBorder(30, 0, 0, 0));
+        center.setOpaque(false);
+        this.add(center);
+
+        pnlContent = new JLabel(content);
+        pnlContent.setPreferredSize(new Dimension(250, 30));
+        pnlContent.putClientProperty("FlatLaf.style", "font: 260% $semibold.font");
+        pnlContent.setForeground(FontColor);
+        center.add(pnlContent);
+
+        pnlContent1 = new JLabel(content2);
+        pnlContent1.setPreferredSize(new Dimension(250, 30));
+        pnlContent1.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
+        pnlContent1.setForeground(FontColor);
+        center.add(pnlContent1);
     }
 
     @Override
@@ -116,6 +146,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent e) {
         if (!isSelected) {
             setBackground(new Color(255, 255, 255));
+
         }
     }
 }

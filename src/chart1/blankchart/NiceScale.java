@@ -1,4 +1,4 @@
-package chart.blankchart;
+package chart1.blankchart;
 
 public class NiceScale {
 

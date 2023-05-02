@@ -1,4 +1,4 @@
-package GUI.Panel;
+    package GUI.Panel;
 
 import BUS.KhachHangBUS;
 import BUS.NhanVienBUS;

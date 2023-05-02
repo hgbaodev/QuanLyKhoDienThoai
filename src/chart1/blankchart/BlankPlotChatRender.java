@@ -1,4 +1,4 @@
-package chart.blankchart;
+package chart1.blankchart;
 
 import java.awt.Graphics2D;
 

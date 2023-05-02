@@ -1,24 +1,25 @@
-package chart;
+package chart2;
 
-public class LegendItem extends javax.swing.JPanel {
+public class LegendItem2 extends javax.swing.JPanel {
 
-    public LegendItem(ModelLegend data) {
+    public LegendItem2(ModelLegend2 data) {
         initComponents();
         setOpaque(false);
         lbColor.setBackground(data.getColor());
+        lbColor.setForeground(data.getColorLight());
         lbName.setText(data.getName());
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        lbColor = new chart.LabelColor();
+        lbColor = new chart2.LabelColor2();
         lbName = new javax.swing.JLabel();
 
         lbColor.setText("labelColor1");
 
-        lbName.setForeground(new java.awt.Color(100, 100, 100));
+        lbName.setForeground(new java.awt.Color(180, 180, 180));
         lbName.setText("Name");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -43,11 +44,11 @@ public class LegendItem extends javax.swing.JPanel {
                     .addComponent(lbColor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private chart.LabelColor lbColor;
+    // Variables declaration - do not modify                     
+    private chart2.LabelColor2 lbColor;
     private javax.swing.JLabel lbName;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }

@@ -1,6 +1,6 @@
-package chart;
+package chart2;
 
-public class ModelChart {
+public class ModelChart2 {
 
     public String getLabel() {
         return label;
@@ -18,12 +18,12 @@ public class ModelChart {
         this.values = values;
     }
 
-    public ModelChart(String label, double[] values) {
+    public ModelChart2(String label, double[] values) {
         this.label = label;
         this.values = values;
     }
 
-    public ModelChart() {
+    public ModelChart2() {
     }
 
     private String label;
