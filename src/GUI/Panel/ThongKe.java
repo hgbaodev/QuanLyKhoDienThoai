@@ -1,10 +1,12 @@
 package GUI.Panel;
 
+import DAO.KhachHangDAO;
+import DAO.SanPhamDAO;
 import GUI.Component.InputDate;
+import GUI.Component.SelectForm;
 import GUI.Component.itemTaskbar;
 import java.awt.Color;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 import chart1.ModelChart;
 import chart1.Chart;
 import chart2.CurveChart;
@@ -13,12 +15,14 @@ import chart3.ChartLine;
 import chart3.ChartPie;
 import chart3.ModelChartLine;
 import chart3.ModelChartPie;
+import com.toedter.calendar.JYearChooser;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollBar;
 import javax.swing.JTabbedPane;
@@ -35,10 +39,12 @@ public class ThongKe extends JPanel {
     Color BackgroundColor = new Color(240, 247, 250);
     itemTaskbar[] listitem;
     InputDate dateStart, dateEnd, dateStart2, dateEnd2;
+    SelectForm cbxMonth;
+    JYearChooser yearChooser;
 
     String[][] getSt = {
-        {"Sản phẩm hiện có trong kho", "productt.svg", "122"},
-        {"Khách từ trước đến nay", "stafff.svg", "20"},
+        {"Sản phẩm hiện có trong kho", "productt.svg", Integer.toString(SanPhamDAO.getInstance().selectAll().size())},
+        {"Khách từ trước đến nay", "stafff.svg", Integer.toString(KhachHangDAO.getInstance().selectAll().size())},
         {"Nhân viên đang hoạt động", "customerr.svg", "50"},};
 
     public ThongKe() {
@@ -104,8 +110,9 @@ public class ThongKe extends JPanel {
 
         dateStart = new InputDate("Từ ngày");
         dateEnd = new InputDate("Đến ngày");
+        cbxMonth = new SelectForm("Tháng", new String[]{"Tất cả", "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"});
 
-        right.add(dateStart);
+        right.add(cbxMonth);
         right.add(dateEnd);
 
         chart = new Chart();
@@ -113,6 +120,14 @@ public class ThongKe extends JPanel {
         chart.addLegend("Doanh thu", new Color(135, 189, 245));
         chart.addLegend("Lợi nhuận", new Color(189, 135, 245));
         chart.addLegend("Lỗ vốn", new Color(139, 229, 222));
+        chart.addData(new ModelChart("January", new double[]{100, 150, 200, 500}));
+        chart.addData(new ModelChart("February", new double[]{600, 750, 300, 150}));
+        chart.addData(new ModelChart("March", new double[]{200, 350, 1000, 900}));
+        chart.addData(new ModelChart("April", new double[]{480, 150, 750, 700}));
+        chart.addData(new ModelChart("January", new double[]{100, 150, 200, 500}));
+        chart.addData(new ModelChart("February", new double[]{600, 750, 300, 150}));
+        chart.addData(new ModelChart("March", new double[]{200, 350, 1000, 900}));
+        chart.addData(new ModelChart("April", new double[]{480, 150, 750, 700}));
         chart.addData(new ModelChart("January", new double[]{100, 150, 200, 500}));
         chart.addData(new ModelChart("February", new double[]{600, 750, 300, 150}));
         chart.addData(new ModelChart("March", new double[]{200, 350, 1000, 900}));
@@ -153,16 +168,16 @@ public class ThongKe extends JPanel {
 
     public void displayChart3() {
         JPanel top = new JPanel();
-        top.setLayout(new FlowLayout(1,0,0));
+        top.setLayout(new FlowLayout(1, 0, 0));
         top.setOpaque(false);
-        top.setPreferredSize(new Dimension(20,20));
+        top.setPreferredSize(new Dimension(20, 20));
         bottom.add(top, BorderLayout.NORTH);
 
         JLabel title = new JLabel("Số khách hàng trong tuần gần đây nhất");
         title.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
 //        title.setPreferredSize(new Dimension(20,19));
         top.add(title);
-        
+
         JPanel center = new JPanel();
         center.setLayout(new GridLayout(1, 2, 20, 0));
         center.setBorder(new EmptyBorder(20, 20, 20, 20));
