@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Dialog.MyAccount;
-import GUI.Panel.KiemKe;
+import GUI.Panel.PhieuKiemKe;
 import GUI.Panel.ThongKe;
 //import GUI.Component.itemTaskbar;
 
@@ -216,7 +216,7 @@ public class MenuTaskbar extends JPanel {
         listitem[4].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                KiemKe kiemKe = new KiemKe(main, nhanVienDTO);
+                PhieuKiemKe kiemKe = new PhieuKiemKe(main, nhanVienDTO);
                 main.setPanel(kiemKe);
             }
         });

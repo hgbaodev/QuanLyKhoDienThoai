@@ -146,7 +146,6 @@ public class Log_In extends JFrame implements KeyListener{
     }
 
     private void pnlLogInMousePressed(java.awt.event.MouseEvent evt) {
-
         checkLogin();
     }
 
