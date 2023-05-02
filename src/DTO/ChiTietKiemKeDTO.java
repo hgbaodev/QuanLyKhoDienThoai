@@ -6,7 +6,7 @@ package DTO;
  */
 public class ChiTietKiemKeDTO {
     private int maphieukiemke;
-    private int maphienba;
+    private int maphienban;
     private int soluong;
     private int chenhlech;
     private String ghichu;
@@ -15,9 +15,9 @@ public class ChiTietKiemKeDTO {
         
     }
 
-    public ChiTietKiemKeDTO(int maphieukiemke, int maphienba, int soluong, int chenhlech, String ghichu) {
+    public ChiTietKiemKeDTO(int maphieukiemke, int maphienban, int soluong, int chenhlech, String ghichu) {
         this.maphieukiemke = maphieukiemke;
-        this.maphienba = maphienba;
+        this.maphienban = maphienban;
         this.soluong = soluong;
         this.chenhlech = chenhlech;
         this.ghichu = ghichu;
@@ -31,12 +31,12 @@ public class ChiTietKiemKeDTO {
         this.maphieukiemke = maphieukiemke;
     }
 
-    public int getMaphienba() {
-        return maphienba;
+    public int getMaphienban() {
+        return maphienban;
     }
 
-    public void setMaphienba(int maphienba) {
-        this.maphienba = maphienba;
+    public void setMaphienban(int maphienban) {
+        this.maphienban = maphienban;
     }
 
     public int getSoluong() {
@@ -65,6 +65,6 @@ public class ChiTietKiemKeDTO {
 
     @Override
     public String toString() {
-        return "ChiTietKiemKeDTO{" + "maphieukiemke=" + maphieukiemke + ", maphienba=" + maphienba + ", soluong=" + soluong + ", chenhlech=" + chenhlech + ", ghichu=" + ghichu + '}';
+        return "ChiTietKiemKeDTO{" + "maphieukiemke=" + maphieukiemke + ", maphienban=" + maphienban + ", soluong=" + soluong + ", chenhlech=" + chenhlech + ", ghichu=" + ghichu + '}';
     }
 }

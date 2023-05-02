@@ -159,6 +159,7 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
         }
         return ch;
     }
+    
 
     public int getAutoIncrement() {
         int result = -1;
