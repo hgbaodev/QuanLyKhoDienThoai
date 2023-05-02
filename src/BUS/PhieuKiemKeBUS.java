@@ -1,7 +1,12 @@
 package BUS;
 
+import DAO.ChiTietKiemKeDAO;
+import DAO.ChiTietKiemKeSanPhamDAO;
 import DAO.PhieuKiemKeDAO;
+import DTO.ChiTietKiemKeDTO;
+import DTO.ChiTietKiemKeSanPhamDTO;
 import DTO.PhieuKiemKeDTO;
+import java.util.ArrayList;
 
 /**
  *
@@ -10,9 +15,13 @@ import DTO.PhieuKiemKeDTO;
 public class PhieuKiemKeBUS {
     
     private PhieuKiemKeDAO phieuKiemKeDAO = PhieuKiemKeDAO.getInstance();
+    private ChiTietKiemKeDAO chiTietKiemKeDAO = ChiTietKiemKeDAO.getInstance();
+    private ChiTietKiemKeSanPhamDAO chiTietKiemKeSanPhamDAO = ChiTietKiemKeSanPhamDAO.getInstance();
     
-    public int insert(PhieuKiemKeDTO phieuKiemKeDTO){
-        return phieuKiemKeDAO.insert(phieuKiemKeDTO);
+    public void insert(PhieuKiemKeDTO phieuKiemKeDTO, ArrayList<ChiTietKiemKeDTO> dsPhieu, ArrayList<ChiTietKiemKeSanPhamDTO> ctPhieu){
+        phieuKiemKeDAO.insert(phieuKiemKeDTO);
+        chiTietKiemKeDAO.insert(dsPhieu);
+        chiTietKiemKeSanPhamDAO.insert(ctPhieu);
     }
     
     public int getAutoIncrement(){

@@ -508,7 +508,10 @@ public final class TaoPhieuKiemKe extends JPanel implements ItemListener, Action
                 JOptionPane.showMessageDialog(null, "Vui lòng không để trống phiếu kiểm kê!");
             } else {
                 PhieuKiemKeDTO phieuKiemKeDTO = new PhieuKiemKeDTO(phieuKiemKeBUS.getAutoIncrement(), nhanVien.getManv());
-                
+                phieuKiemKeBUS.insert(phieuKiemKeDTO, danhSachKiemke, danhSachKiemKeSanPham);
+                JOptionPane.showMessageDialog(null, "Tạo phiếu thành công!");
+                PhieuNhap pnlPhieu = new PhieuNhap(m, nhanVien);
+                m.setPanel(pnlPhieu);
             }
         }
     }
