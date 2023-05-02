@@ -1,11 +1,13 @@
 package DAO;
 
 import DTO.PhieuKiemKeDTO;
+import DTO.PhieuKiemKeDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +51,24 @@ public class PhieuKiemKeDAO implements DAOinterface<PhieuKiemKeDTO>{
 
     @Override
     public ArrayList<PhieuKiemKeDTO> selectAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<PhieuKiemKeDTO> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM phieukiemke ORDER BY maphieu DESC";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                int maphieu = rs.getInt("maphieu");
+                Timestamp thoigiantao = rs.getTimestamp("thoigian");
+                int manguoitao = rs.getInt("nguoitaophieukiemke");
+                PhieuKiemKeDTO phieukiemke = new PhieuKiemKeDTO(maphieu, manguoitao, thoigiantao);
+                result.add(phieukiemke);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            Logger.getLogger(PhieuNhapDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return result;
     }
 
     @Override

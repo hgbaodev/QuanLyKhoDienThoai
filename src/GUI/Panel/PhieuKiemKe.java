@@ -2,9 +2,11 @@ package GUI.Panel;
 
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
+import BUS.PhieuKiemKeBUS;
 import DTO.SanPhamDTO;
 import BUS.SanPhamBUS;
 import DTO.NhanVienDTO;
+import DTO.PhieuKiemKeDTO;
 import GUI.Component.InputDate;
 import GUI.Component.InputForm;
 
@@ -33,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Stream;
 import javax.swing.text.PlainDocument;
-import static org.apache.logging.log4j.util.Unbox.box;
 
 public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChangeListener ,ItemListener, KeyListener {
 
@@ -60,13 +61,14 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
     
     NhaCungCapBUS nccBUS = new NhaCungCapBUS();
     NhanVienBUS nvBUS = new NhanVienBUS();
+    PhieuKiemKeBUS phieuKiemKeBUS = new PhieuKiemKeBUS();
 
     public PhieuKiemKe(Main m, NhanVienDTO nv) {
-        initComponent();
         this.m =m;
         this.nv = nv;
+        initComponent();
+        loadDataTalbe(phieuKiemKeBUS.getDanhSachPhieu());
     }
-    
     
 
     private void initComponent() {
@@ -83,16 +85,17 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
         ));
         tableSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"STT", "Mã phiếu kiểm kê", "Nhân viên kiểm kê", "Thời gian", "Số lượng thực tế", "Chênh lệch"};
+        String[] header = new String[]{"STT", "Mã phiếu kiểm kê", "Nhân viên kiểm kê", "Thời gian"};
         tblModel.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModel);
+        tableSanPham.setFocusable(false);
         scrollTableSanPham.setViewportView(tableSanPham);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableSanPham.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tableSanPham.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-
+        tableSanPham.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         initPadding();
 
         contentCenter = new JPanel();
@@ -106,16 +109,14 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        mainFunction = new MainFunction();
+        String[] action = {"create", "detail", "cancel", "export"};
+        mainFunction = new MainFunction(m.user.getManhomquyen(), "kiemke", action);
         functionBar.add(mainFunction);
 
         //        //Add Event MouseListener
-        mainFunction.btnAdd.addActionListener(this);
-        mainFunction.btnDelete.addActionListener(this);
-        mainFunction.btnDetail.addActionListener(this);
-        mainFunction.btnEdit.addActionListener(this);
-        mainFunction.btnNhapExcel.addActionListener(this);
-        mainFunction.btnXuatExcel.addActionListener(this);
+        for (String ac : action) {
+            mainFunction.btn.get(ac).addActionListener(this);
+        }
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
         functionBar.add(search);
@@ -135,33 +136,19 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
         listNv = Stream.concat(Stream.of("Tất cả"), Arrays.stream(listNv)).toArray(String[]::new);
 
         // init
-        cbxNhaCungCap = new SelectForm("Nhà cung cấp", listNcc);
-        cbxNhanVien = new SelectForm("Nhân viên nhập", listNv);
+        cbxNhanVien = new SelectForm("Nhân viên kiểm kê", listNv);
         dateStart = new InputDate("Từ ngày");
         dateEnd = new InputDate("Đến ngày");
-        moneyMin = new InputForm("Từ số tiền (VND)");
-        moneyMax = new InputForm("Đến số tiền (VND)");
         
-        PlainDocument doc_min = (PlainDocument) moneyMin.getTxtForm().getDocument();
-        doc_min.setDocumentFilter(new NumericDocumentFilter());
-
-        PlainDocument doc_max = (PlainDocument) moneyMax.getTxtForm().getDocument();
-        doc_max.setDocumentFilter(new NumericDocumentFilter());
 
         // add listener
-        cbxNhaCungCap.getCbb().addItemListener(this);
         cbxNhanVien.getCbb().addItemListener(this);
         dateStart.getDateChooser().addPropertyChangeListener(this);
         dateEnd.getDateChooser().addPropertyChangeListener(this);
-        moneyMin.getTxtForm().addKeyListener(this);
-        moneyMax.getTxtForm().addKeyListener(this);
 
-        box.add(cbxNhaCungCap);
         box.add(cbxNhanVien);
         box.add(dateStart);
         box.add(dateEnd);
-        box.add(moneyMin);
-        box.add(moneyMax);
 
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
@@ -200,14 +187,14 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (source == mainFunction.btnAdd) {
+        if (source == mainFunction.btn.get("create")) {
             TaoPhieuKiemKe phieukiemke = new TaoPhieuKiemKe(nv, "create", m);
             m.setPanel(phieukiemke);
-        } else if (source == mainFunction.btnDetail) {
+        } else if (source == mainFunction.btn.get("detail")) {
             int index = getRowSelected();
             if (index != -1) {
             }
-        } else if (source == mainFunction.btnEdit) {
+        } else if (source == mainFunction.btn.get("cancel")) {
             int index = getRowSelected();
             if (index != -1) {
             }
@@ -221,6 +208,19 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu kiểm kê");
         }
         return index;
+    }
+        
+    public void loadDataTalbe(ArrayList<PhieuKiemKeDTO> listphieuxuat) {
+        tblModel.setRowCount(0);
+        int size = listphieuxuat.size();
+        for (int i = 0; i < size; i++) {
+            tblModel.addRow(new Object[]{
+                i + 1,
+                listphieuxuat.get(i).getMaphieukiemke(),
+                nvBUS.getNameById(listphieuxuat.get(i).getNguoitao()),
+                Formater.FormatTime(listphieuxuat.get(i).getThoigiantao()),
+            });
+        }
     }
 
     @Override
