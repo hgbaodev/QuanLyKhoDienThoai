@@ -30,8 +30,10 @@ public class ThongKe extends JPanel {
         this.setLayout(new GridLayout(1, 1));
         this.setBackground(BackgroundColor);
         
-        nhapxuat = new ThongKeTonKho(thongkeBUS);
-    
+        nhapxuat = new ThongKeTonKho();
+        
+        nhacungcap = new ThongKeNhaCungCap();
+        
         tabbedPane = new JTabbedPane();
         tabbedPane.setOpaque(false);
         tabbedPane.addTab("Tổng quan", tongquan);

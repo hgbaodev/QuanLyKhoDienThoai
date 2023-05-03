@@ -45,8 +45,19 @@ public class ChiTietKiemKeSanPhamDAO implements ChiTietInterface<ChiTietKiemKeSa
     }
 
     @Override
-    public int delete(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int delete(String maphieu) {
+        int result = 0;
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "DELETE FROM ctkiemke_sanpham WHERE maphieukiemke = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, maphieu);
+            result = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieuNhapDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
 
     @Override
