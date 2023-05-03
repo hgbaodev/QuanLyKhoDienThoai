@@ -8,7 +8,8 @@ import DAO.ThongKeDAO;
 import DTO.ThongKe.ThongKeKhachHangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import java.util.ArrayList;
-import java.util.Date;
+//import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 
 /**
@@ -26,10 +27,14 @@ public class ThongKeBUS {
     }
     
     public ArrayList<ThongKeKhachHangDTO> getAllKhachHang() {
-        this.tkkh = thongkeDAO.thongkeKH();
+        this.tkkh = thongkeDAO.getThongKeKhachHang(new Date(0), new Date(System.currentTimeMillis()));
         return this.tkkh;
     }
 
+    public ArrayList<ThongKeKhachHangDTO> FilterKhachHang(Date start, Date end) {
+        this.tkkh = thongkeDAO.getThongKeKhachHang(start  , end);
+        return this.tkkh;
+    }
     public HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> getTonKho() {
         return this.listTonKho;
     }

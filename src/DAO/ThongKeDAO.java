@@ -109,8 +109,8 @@ public class ThongKeDAO {
         return new ThongKeDAO();
     }
 
-    public static HashMap<Integer,ArrayList<ThongKeKhachHangDTO>> getThongKeKhachHang(Date timeStart, Date timeEnd) {
-        HashMap<Integer,ArrayList<ThongKeKhachHangDTO>>  result = new HashMap<>();
+    public static ArrayList<ThongKeKhachHangDTO> getThongKeKhachHang(Date timeStart, Date timeEnd) {
+        ArrayList<ThongKeKhachHangDTO>  result = new ArrayList<>();
         try {
             Connection con = JDBCUtil.getConnection();
             String sql = " WITH kh AS (\n"
@@ -134,7 +134,7 @@ public class ThongKeDAO {
                 int soluong = rs.getInt("soluong");
                 long tongtien = rs.getInt("total");
                 ThongKeKhachHangDTO x = new ThongKeKhachHangDTO(makh, tenkh, soluong, tongtien);
-                result.computeIfAbsent(makh, k -> new ArrayList<>()).add(x);
+                result.add(x);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -151,7 +151,7 @@ public class ThongKeDAO {
         System.out.println(a);
         System.out.println(b);
         HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> result = getThongKeTonKho(aDate,bDate);
-        HashMap<Integer, ArrayList<ThongKeKhachHangDTO>> result2 = getThongKeKhachHang(aDate,bDate);
+        ArrayList<ThongKeKhachHangDTO> result2 = getThongKeKhachHang(bDate, bDate);
         System.out.println(result);
         System.out.println(result2);
     }
