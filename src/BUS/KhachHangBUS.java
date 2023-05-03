@@ -91,4 +91,5 @@ public class KhachHangBUS {
     public KhachHangDTO selectKh(int makh){
        return khDAO.selectById(makh + "");
     }
+    
 }

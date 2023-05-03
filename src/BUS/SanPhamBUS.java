@@ -10,6 +10,7 @@ public class SanPhamBUS {
     public final SanPhamDAO spDAO = new SanPhamDAO();
     public PhienBanSanPhamBUS cauhinhBus = new PhienBanSanPhamBUS();
     private ArrayList<SanPhamDTO> listSP = new ArrayList<>();
+
     public SanPhamBUS() {
         listSP = spDAO.selectAll();
     }
@@ -21,14 +22,16 @@ public class SanPhamBUS {
     public SanPhamDTO getByIndex(int index) {
         return this.listSP.get(index);
     }
-    
+
     public SanPhamDTO getByMaSP(int masp) {
         int vitri = -1;
         int i = 0;
-        while(i <= this.listSP.size() && vitri == -1) {
-            if(this.listSP.get(i).getMasp()== masp) {
+        while (i <= this.listSP.size() && vitri == -1) {
+            if (this.listSP.get(i).getMasp() == masp) {
                 vitri = i;
-            } else i++;
+            } else {
+                i++;
+            }
         }
         return this.listSP.get(vitri);
     }
@@ -74,7 +77,7 @@ public class SanPhamBUS {
     public ArrayList<SanPhamDTO> getByMakhuvuc(int makv) {
         ArrayList<SanPhamDTO> result = new ArrayList<>();
         for (SanPhamDTO i : this.listSP) {
-            if (i.getKhuvuckho()== makv) {
+            if (i.getKhuvuckho() == makv) {
                 result.add(i);
             }
         }
@@ -91,8 +94,19 @@ public class SanPhamBUS {
         }
         return result;
     }
-    
-    public SanPhamDTO getSp(int mapb){
+
+    public SanPhamDTO getSp(int mapb) {
         return spDAO.selectByPhienBan(mapb + "");
+    }
+
+    public int getQuantity() {
+        ArrayList<SanPhamDTO> result = new ArrayList<>();
+        int n = 0;
+        for(SanPhamDTO i : this.listSP) {
+            if (i.getSoluongton() != 0) {
+                n += i.getSoluongton();
+            }
+        }
+        return n;
     }
 }
