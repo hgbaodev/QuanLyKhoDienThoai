@@ -50,5 +50,9 @@ public class PhienBanSanPhamBUS {
         boolean check = cauhinhDAO.insert(listch) != 0;
         return check;
     } 
+    
+    public int getSoluong(int maphienban){
+        return cauhinhDAO.selectById(maphienban).getSoluongton();
+    }
 }
 

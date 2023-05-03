@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package GUI.Panel;
 
 import BUS.KhachHangBUS;
@@ -7,37 +11,25 @@ import DTO.KhachHangDTO;
 import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
 import GUI.Component.InputDate;
-import GUI.Component.itemTaskbar;
-import java.awt.Color;
-import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
-import chart1.ModelChart;
-import chart1.Chart;
-import chart2.CurveChart;
-import chart2.ModelChart2;
-import chart3.ChartLine;
-import chart3.ChartPie;
-import chart3.ModelChartLine;
-import chart3.ModelChartPie;
+import GUI.Component.InputForm;
+import GUI.Component.PanelBorderRadius;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JLabel;
-import javax.swing.JScrollBar;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
+/**
+ *
+ * @author Tran Nhat Sinh
+ */
 public class ThongKe extends JPanel {
 
-    JPanel top, contentCenter, bottom, pnlChart, pnlChart2;
     JTabbedPane tabbedPane;
-    Chart chart;
-    CurveChart chart2;
-    ChartLine chartLine;
-    ChartPie chartPie;
+    JPanel tongquan, nhacungcap, khachhang, doanhthu, nhapxuat;
+    PanelBorderRadius nhapxuat_left, nhapxuat_center;
     Color BackgroundColor = new Color(240, 247, 250);
     itemTaskbar[] listitem;
     InputDate dateStart, dateEnd, dateStart2, dateEnd2;
@@ -62,13 +54,11 @@ public class ThongKe extends JPanel {
     };
 
     public ThongKe() {
-        init();
+        initComponent();
     }
 
     private void init() {
         this.setBackground(BackgroundColor);
-        this.setLayout(new BorderLayout(0, 0));
-        this.setOpaque(false);
 
         top = new JPanel();
         top.setBackground(BackgroundColor);
@@ -95,40 +85,50 @@ public class ThongKe extends JPanel {
 
         tabbedPane = new JTabbedPane();
         tabbedPane.setOpaque(false);
-        tabbedPane.addTab("Doanh thu", pnlChart);
-        tabbedPane.addTab("Sản phẩm", pnlChart2);
-        contentCenter.add(tabbedPane);
+        tabbedPane.addTab("Tổng quan", tongquan);
+        tabbedPane.addTab("Tồn kho", nhapxuat);
+        tabbedPane.addTab("Doanh thu", doanhthu);
+        tabbedPane.addTab("Nhà cung cấp", nhacungcap);
+        tabbedPane.addTab("Khách hàng", khachhang);
 
-        bottom = new JPanel();
-        bottom.setBackground(Color.WHITE);
-        bottom.setLayout(new BorderLayout(0, 0));
-//        bottom.setLayout(new GridLayout(1, 2, 20, 0));
-        bottom.setBorder(new EmptyBorder(20, 20, 20, 20));
-//        bottom.setLayout(new FlowLayout(0, 10, 0));
-        bottom.setPreferredSize(new Dimension(0, 250));
-        this.add(bottom, BorderLayout.SOUTH);
-
-        displayChart3();
-
+        this.add(tabbedPane);
     }
 
-    public void displayChart() {
-        pnlChart = new JPanel();
-        pnlChart.setOpaque(false);
-        pnlChart.setLayout(new BorderLayout(0, 0));
+    public void initNhapXuat() {
+        nhapxuat = new JPanel(new BorderLayout(10, 10));
+        nhapxuat.setOpaque(false);
+        nhapxuat.setBorder(new EmptyBorder(10, 10, 10, 10));
+        nhapxuat_left = new PanelBorderRadius();
+        nhapxuat_left.setPreferredSize(new Dimension(300, 100));
+        nhapxuat_left.setLayout(new BorderLayout());
+        nhapxuat_left.setBorder(new EmptyBorder(0,0,0,5));
+        JPanel left_content = new JPanel(new GridLayout(4, 1));
+        left_content.setPreferredSize(new Dimension(300,360));
+        nhapxuat_left.add(left_content,BorderLayout.NORTH);
+        InputForm tensanpham;
+        InputDate start_date, end_date;
+        ButtonCustom export;
 
-        JPanel right = new JPanel();
-        right.setBackground(Color.white);
-        right.setPreferredSize(new Dimension(200, 0));
-        right.setLayout(new GridLayout(2, 1, 10, 10));
-        right.setBorder(new EmptyBorder(0, 5, 180, 0));
-        pnlChart.add(right, BorderLayout.EAST);
+        tensanpham = new InputForm("Tên sản phẩm");
+        tensanpham.getTxtForm().putClientProperty("JTextField.showClearButton", true);
+        start_date = new InputDate("Từ ngày");
+        end_date = new InputDate("Đến ngày");
+        JPanel btn_layout = new JPanel(new BorderLayout());
+        btn_layout.setPreferredSize(new Dimension(30,36));
+        btn_layout.setBorder(new EmptyBorder(20,10,0,10));
+        btn_layout.setBackground(Color.white);
+        export = new ButtonCustom("Xuất Excel", "excel", 14);
+        btn_layout.add(export,BorderLayout.NORTH);
 
-        dateStart = new InputDate("Từ ngày");
-        dateEnd = new InputDate("Đến ngày");
+        left_content.add(tensanpham);
+        left_content.add(start_date);
+        left_content.add(end_date);
+        left_content.add(btn_layout);
 
-        right.add(dateStart);
-        right.add(dateEnd);
+        nhapxuat_center = new PanelBorderRadius();
+
+        nhapxuat.add(nhapxuat_left, BorderLayout.WEST);
+        nhapxuat.add(nhapxuat_center, BorderLayout.CENTER);
 
         chart = new Chart();
         chart.addLegend("Vốn", new Color(245, 189, 135));

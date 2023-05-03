@@ -64,7 +64,6 @@ public class Main extends JFrame {
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
         UIManager.put("Button.iconTextGap", 10);
         UIManager.put("PasswordField.showRevealButton", true);
-//        UIManager.put("Table.gridColor", new Color(0, 0, 0, 0));
         FlatIntelliJLaf.registerCustomDefaultsSource("style");
         FlatIntelliJLaf.setup();
         UIManager.put("Table.selectionBackground", new Color(240, 247, 250));
@@ -72,7 +71,6 @@ public class Main extends JFrame {
 
         UIManager.put("Table.scrollPaneBorder", new EmptyBorder(0, 0, 0, 0));
         UIManager.put("Table.rowHeight", 40);
-//        UIManager.put("Table.alternateRowColor", new Color(240, 247, 250));
 
         UIManager.put("TableHeader.height", 40);
         UIManager.put("TableHeader.font", UIManager.getFont( "h4.font" ));
