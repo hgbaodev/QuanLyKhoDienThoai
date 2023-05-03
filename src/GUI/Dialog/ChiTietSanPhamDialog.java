@@ -110,6 +110,8 @@ public class ChiTietSanPhamDialog extends JDialog implements ActionListener, Ite
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setCellRenderer(centerRenderer);
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
+        columnModel.getColumn(2).setCellRenderer(centerRenderer);
+        columnModel.getColumn(3).setCellRenderer(centerRenderer);
         pnmain_bottom.add(scrollTable);
 
         pnmain.add(pnmain_top, BorderLayout.NORTH);

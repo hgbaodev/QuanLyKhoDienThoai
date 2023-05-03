@@ -28,11 +28,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import javax.swing.text.PlainDocument;
 
@@ -62,12 +66,15 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
     NhaCungCapBUS nccBUS = new NhaCungCapBUS();
     NhanVienBUS nvBUS = new NhanVienBUS();
     PhieuKiemKeBUS phieuKiemKeBUS = new PhieuKiemKeBUS();
+    
+    ArrayList<PhieuKiemKeDTO> listPhieu;
 
     public PhieuKiemKe(Main m, NhanVienDTO nv) {
         this.m =m;
         this.nv = nv;
         initComponent();
-        loadDataTalbe(phieuKiemKeBUS.getDanhSachPhieu());
+        this.listPhieu=phieuKiemKeBUS.getDanhSachPhieu();
+        loadDataTalbe(this.listPhieu);
     }
     
 
@@ -118,7 +125,11 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
             mainFunction.btn.get(ac).addActionListener(this);
         }
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        String[] objToSearch = {"Tất cả", "Mã phiếu kiểm kê", "Nhân viên kiểm kê"};
+        search = new IntegratedSearch(objToSearch);
+        search.cbxChoose.addItemListener(this);
+        search.txtSearchForm.addKeyListener(this);
+        search.btnReset.addActionListener(this);
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
@@ -130,8 +141,6 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
         contentCenter.add(box, BorderLayout.WEST);
 
         // Handel
-        String[] listNcc = nccBUS.getArrTenNhaCungCap();
-        listNcc = Stream.concat(Stream.of("Tất cả"), Arrays.stream(listNcc)).toArray(String[]::new);
         String[] listNv = nvBUS.getArrTenNhanVien();
         listNv = Stream.concat(Stream.of("Tất cả"), Arrays.stream(listNv)).toArray(String[]::new);
 
@@ -193,20 +202,28 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
         } else if (source == mainFunction.btn.get("detail")) {
             int index = getRowSelected();
             if (index != -1) {
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu cần xem!");
             }
         } else if (source == mainFunction.btn.get("cancel")) {
             int index = getRowSelected();
-            if (index != -1) {
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu cần hủy");
+            } else {
+                int check =  JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa phiếu này!","Xóa phiếu",JOptionPane.YES_NO_OPTION);
+                if(check == JOptionPane.YES_OPTION){
+                    phieuKiemKeBUS.cancel(index);
+                    JOptionPane.showMessageDialog(null, "Xóa phiếu thành công!");
+                    loadDataTalbe(phieuKiemKeBUS.selectAll());
+                }
             }
         }
 
     }
     
-        public int getRowSelected() {
+    public int getRowSelected() {
         int index = tableSanPham.getSelectedRow();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu kiểm kê");
-        }
         return index;
     }
         
@@ -222,20 +239,63 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
             });
         }
     }
+    
+    public void Fillter() throws ParseException {
+        if (validateSelectDate()) {
+            int type = search.cbxChoose.getSelectedIndex();
+            int manv = cbxNhanVien.getSelectedIndex() == 0 ? 0 : nvBUS.getByIndex(cbxNhanVien.getSelectedIndex() - 1).getManv();
+            String input = search.txtSearchForm.getText() != null ? search.txtSearchForm.getText() : "";
+            Date time_start = dateStart.getDate() != null ? dateStart.getDate() : new Date(0);
+            Date time_end = dateEnd.getDate() != null ? dateEnd.getDate() : new Date(System.currentTimeMillis());
+            this.listPhieu = phieuKiemKeBUS.fillerPhieuKiemKe(type, input, manv, time_start, time_end);
+            loadDataTalbe(listPhieu);
+        }
+    }
+    
+    public boolean validateSelectDate() throws ParseException {
+        Date time_start = dateStart.getDate();
+        Date time_end = dateEnd.getDate();
+
+        Date current_date = new Date();
+        if (time_start != null && time_start.after(current_date)) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được lớn hơn ngày hiện tại", "Lỗi !", JOptionPane.ERROR_MESSAGE);
+            dateStart.getDateChooser().setCalendar(null);
+            return false;
+        }
+        if (time_end != null && time_end.after(current_date)) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc không được lớn hơn ngày hiện tại", "Lỗi !", JOptionPane.ERROR_MESSAGE);
+            dateEnd.getDateChooser().setCalendar(null);
+            return false;
+        }
+        if (time_start != null && time_end != null && time_start.after(time_end)) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc phải lớn hơn ngày bắt đầu", "Lỗi !", JOptionPane.ERROR_MESSAGE);
+            dateEnd.getDateChooser().setCalendar(null);
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Fillter();
+        } catch (ParseException ex) {
+            Logger.getLogger(PhieuNhap.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Fillter();
+        } catch (ParseException ex) {
+            Logger.getLogger(PhieuKiemKe.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//        throw new UnsupportedOperationEfxception("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -245,7 +305,11 @@ public class PhieuKiemKe extends JPanel implements ActionListener, PropertyChang
 
     @Override
     public void keyReleased(KeyEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Fillter();
+        } catch (ParseException ex) {
+            Logger.getLogger(PhieuKiemKe.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
