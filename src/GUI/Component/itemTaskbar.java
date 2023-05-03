@@ -89,7 +89,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
 
     }
 
-    public itemTaskbar(String linkIcon, String content, String content2, int num) {
+    public itemTaskbar(String linkIcon, String content, String content2, int n) {
         this.setLayout(new BorderLayout(0, 0));
         this.setBackground(DefaultColor);
         this.addMouseListener(this);
@@ -108,7 +108,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
 
         pnlContent = new JLabel(content);
         pnlContent.setPreferredSize(new Dimension(250, 30));
-        pnlContent.putClientProperty("FlatLaf.style", "font: 260% $semibold.font");
+        pnlContent.putClientProperty("FlatLaf.style", "font: 300% $semibold.font");
         pnlContent.setForeground(FontColor);
         center.add(pnlContent);
 
