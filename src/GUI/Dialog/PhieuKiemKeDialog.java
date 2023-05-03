@@ -43,15 +43,18 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -83,6 +86,10 @@ public class PhieuKiemKeDialog extends JDialog {
         JPanel jpanelLeft = new JPanel(new BorderLayout());
         JPanel jpanelCenter = new JPanel(new GridLayout(1,2));
         JPanel jpanelBottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        jpanelBottom.setPreferredSize(new Dimension(0,50));
+        jpanelBottom.setBackground(Color.WHITE);
+        ButtonCustom btnAdd = new ButtonCustom("Thêm", "success", 14);
+        jpanelBottom.add(btnAdd);
         listMode = new DefaultListModel<>();
         findImei = new JTextField("");
         loadImei();
@@ -103,14 +110,30 @@ public class PhieuKiemKeDialog extends JDialog {
         wCamPanel.setFillArea(true);
         wCamPanel.setFPSDisplayed(true);
         panelCam.add(wCamPanel);
+        panelCam.setPreferredSize(new Dimension(0,200));
         JPanel panelB = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelB.setPreferredSize(new Dimension(0,40));
         panelB.setBackground(Color.WHITE);
         btnExit = new ButtonCustom("Thoát", "success", 14);
         panelB.add(btnExit);
+        JPanel jPanelRight = new JPanel(new BorderLayout(5,5));
+        jPanelRight.setBackground(Color.WHITE);
+        jPanelRight.add(panelCam,BorderLayout.NORTH);
+        JPanel panelImei = new JPanel(new BorderLayout());
+        JLabel jLabelSpdu = new JLabel("Sản phẩm dư");
+        jLabelSpdu.setPreferredSize(new Dimension(0,40));
+        JTextArea jTextAreaImei = new JTextArea();
+        jTextAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
+        panelImei.add(jLabelSpdu,BorderLayout.NORTH);
+        panelImei.add(jTextAreaImei,BorderLayout.CENTER);
+        panelImei.setBackground(Color.WHITE);
+        jPanelRight.add(panelImei,BorderLayout.CENTER);
+        jPanelRight.setBackground(Color.WHITE);
+        jPanelRight.setBorder(new EmptyBorder(0,5,0,0));
         jpanelCenter.add(jpanelLeft);
-        jpanelCenter.add(panelCam);
-        
+        jpanelCenter.add(jPanelRight);
+        this.add(jpanelCenter,BorderLayout.CENTER);
+        this.add(jpanelBottom,BorderLayout.SOUTH);
         t = new Thread() {
             @Override
             public void run() {
