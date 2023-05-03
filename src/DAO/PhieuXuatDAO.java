@@ -160,6 +160,30 @@ public class PhieuXuatDAO implements DAOinterface<PhieuXuatDTO> {
         return result;
     }
 
+    public ArrayList<PhieuXuatDTO> selectAllofKH(int makh) {
+        ArrayList<PhieuXuatDTO> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM phieuxuat WHERE makh=? ORDER BY maphieuxuat DESC";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, makh);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                int maphieu = rs.getInt("maphieuxuat");
+                Timestamp thoigiantao = rs.getTimestamp("thoigian");
+                int kh = rs.getInt("makh");
+                int nguoitao = rs.getInt("nguoitaophieuxuat");
+                long tongtien = rs.getLong("tongtien");
+                int trangthai = rs.getInt("trangthai");
+                PhieuXuatDTO phieuxuat = new PhieuXuatDTO(kh, maphieu, nguoitao, thoigiantao, tongtien, trangthai);
+                result.add(phieuxuat);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
     @Override
     public int getAutoIncrement() {
         int result = -1;
