@@ -6,6 +6,7 @@ package DTO.ThongKe;
 import DTO.PhieuXuatDTO;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -57,6 +58,36 @@ public class ThongKeKhachHangDTO {
 
     public void setTongtien(long tongtien) {
         this.tongtien = tongtien;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + this.makh;
+        hash = 29 * hash + Objects.hashCode(this.tenkh);
+        hash = 29 * hash + this.soluongphieu;
+        hash = 29 * hash + (int) (this.tongtien ^ (this.tongtien >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ThongKeKhachHangDTO other = (ThongKeKhachHangDTO) obj;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ThongKeKhachHangDTO{" + "makh=" + makh + ", tenkh=" + tenkh + ", soluongphieu=" + soluongphieu + ", tongtien=" + tongtien + '}';
     }
 
     

@@ -106,29 +106,48 @@ public class ThongKeDAO {
         }
         return result;
     }
-    public static void main(String[] args) {
-        Date aDate = new Date(2023,5,3);
-        Date ab = new Date(2023,5,8);
-        HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> result = getThongKeTonKho(aDate,ab);
-        System.out.println(result);
-    }
+
     public static ThongKeDAO getInstance(){
         return new ThongKeDAO();
     }
 
-    public ArrayList<ThongKeKhachHangDTO> thongkeKH() {
-        ArrayList<KhachHangDTO> listKh = KhachHangDAO.getInstance().selectAll();
-        ArrayList<ThongKeKhachHangDTO> tkkh = new ArrayList<>();
-        for (KhachHangDTO kh : listKh) {
-            ArrayList<PhieuXuatDTO> px = PhieuXuatDAO.getInstance().selectAllofKH(kh.getMaKH());
-            int count = 0, total = 0;
-            for (PhieuXuatDTO i : px) {
-                total += i.getTongTien();
-                count++;
+    public static HashMap<Integer, ArrayList<ThongKeKhachHangDTO>> getThongKeKhachHang(Date timeStart, Date timeEnd) {
+        HashMap<Integer, ArrayList<ThongKeKhachHangDTO>> result = new HashMap<>();
+        try{
+            Connection con = JDBCUtil.getConnection();
+            String sql= "WITH kh AS( \n"
+                    + "SELECT khachhang.makh, khachhang.tenkhachhang , COUNT(phieuxuat.maphieuxuat ) AS tongsophieu, SUM(phieuxuat.tongtien) AS tongsotien\n" 
+                    +"FROM khachhang\n"
+                    +"JOIN phieuxuat ON khachhang.makh = phieuxuat.makh\n"
+                    +"WHERE phieuxuat.thoigian BETWEEN ? AND ? \n"
+                    +"GROUP BY khachhang.makh, khachhang.tenkhachhang) \n"
+                    + "SELECT makh,tenkhachhang,COALESCE(kh.tongsophieu, 0) AS soluong ,COALESCE(kh.tongsotien, 0) AS total \n"
+                    + "FROM kh;";
+            
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setTimestamp(1, new Timestamp(timeStart.getTime()));
+            pst.setTimestamp(2, new Timestamp(timeEnd.getTime()));
+            
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int makh = rs.getInt("makh");
+                String tenkh = rs.getString("tenkhachhang");
+                int soluong = rs.getInt("soluong");
+                long tongtien = rs.getInt("total");
+                
+                ThongKeKhachHangDTO x = new ThongKeKhachHangDTO(makh,tenkh,soluong,tongtien);
+                System.out.println(timeStart);
+                result.computeIfAbsent(makh, k -> new ArrayList<>()).add(x);
             }
-            tkkh.add(new ThongKeKhachHangDTO(kh.getMaKH(),kh.getHoten(),count,total));
         }
-        return tkkh;
+        catch(SQLException e){
+        }
+        return result;
     }
-
+        public static void main(String[] args) {
+        Date aDate = new Date(2023,4,29);
+        Date bDate = new Date(2023,5,4);
+        HashMap<Integer, ArrayList<ThongKeKhachHangDTO>> result = getThongKeKhachHang(aDate,bDate);
+        System.out.println(result);
+    }
 }

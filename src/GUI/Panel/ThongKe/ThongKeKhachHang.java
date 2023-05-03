@@ -2,16 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package BUS;
+package GUI.Panel.ThongKe;
 
-import DAO.ThongKeDAO;
-import DTO.ThongKe.ThongKeKhachHangDTO;
-import java.util.ArrayList;
+import javax.swing.JPanel;
 
 /**
  *
- * @author Tran Nhat Sinh
+ * @author andin
  */
-public class ThongKeBUS {
-
+public class ThongKeKhachHang extends JPanel{
+    
 }
