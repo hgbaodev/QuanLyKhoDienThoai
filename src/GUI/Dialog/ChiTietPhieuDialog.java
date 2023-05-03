@@ -12,7 +12,6 @@ import DAO.KhachHangDAO;
 import DAO.NhaCungCapDAO;
 import DAO.NhanVienDAO;
 import DTO.ChiTietPhieuDTO;
-import DTO.ChiTietPhieuNhapDTO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.PhieuNhapDTO;

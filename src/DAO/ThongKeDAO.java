@@ -56,17 +56,13 @@ public class ThongKeDAO {
                     + "),\n"
                     + "dau_ky AS (\n"
                     + "  SELECT\n"
-                    + "    COALESCE(nhap_dau.maphienbansp, xuat_dau.maphienbansp) as maphienbansp,\n"
-                    + "    (COALESCE(nhap_dau.sl_nhap_dau, 0) - COALESCE(xuat_dau.sl_xuat_dau, 0)) AS soluongdauky\n"
-                    + "  FROM nhap_dau\n"
-                    + "  LEFT JOIN xuat_dau ON nhap_dau.maphienbansp = xuat_dau.maphienbansp\n"
-                    + "  UNION\n"
-                    + "  SELECT\n"
-                    + "    COALESCE(nhap_dau.maphienbansp, xuat_dau.maphienbansp) as maphienbansp,\n"
-                    + "    (COALESCE(nhap_dau.sl_nhap_dau, 0) - COALESCE(xuat_dau.sl_xuat_dau, 0)) AS soluongdauky\n"
-                    + "  FROM nhap_dau\n"
-                    + "  RIGHT JOIN xuat_dau ON nhap_dau.maphienbansp = xuat_dau.maphienbansp\n"
-                    + ")\n"
+                    + "    phienbansanpham.maphienbansp,\n"
+                    + "    COALESCE(nhap_dau.sl_nhap_dau, 0) - COALESCE(xuat_dau.sl_xuat_dau, 0) AS soluongdauky\n"
+                    + "  FROM phienbansanpham\n"
+                    + "  LEFT JOIN nhap_dau ON phienbansanpham.maphienbansp = nhap_dau.maphienbansp\n"
+                    + "  LEFT JOIN xuat_dau ON phienbansanpham.maphienbansp = xuat_dau.maphienbansp\n"
+                    + "),\n"
+                    + "temp_table AS (\n"
                     + "SELECT sanpham.masp, phienbansanpham.maphienbansp, sanpham.tensp, dau_ky.soluongdauky, COALESCE(nhap.sl_nhap, 0) AS soluongnhap, COALESCE(xuat.sl_xuat, 0)  AS soluongxuat, (dau_ky.soluongdauky + COALESCE(nhap.sl_nhap, 0) - COALESCE(xuat.sl_xuat, 0)) AS soluongcuoiky, kichthuocram, kichthuocrom, tenmau\n"
                     + "FROM dau_ky\n"
                     + "LEFT JOIN nhap ON dau_ky.maphienbansp = nhap.maphienbansp\n"
@@ -75,7 +71,11 @@ public class ThongKeDAO {
                     + "JOIN sanpham ON phienbansanpham.masp = sanpham.masp\n"
                     + "JOIN dungluongram ON phienbansanpham.ram = dungluongram.madlram\n"
                     + "JOIN dungluongrom ON phienbansanpham.rom = dungluongrom.madlrom\n"
-                    + "JOIN mausac ON phienbansanpham.mausac = mausac.mamau";
+                    + "JOIN mausac ON phienbansanpham.mausac = mausac.mamau\n"
+                    + ")\n"
+                    + "SELECT * FROM temp_table\n"
+                    + "WHERE soluongdauky <> 0 OR soluongnhap <> 0 OR soluongxuat <> 0 OR soluongcuoiky <> 0\n"
+                    + "ORDER BY masp;";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setTimestamp(1, new Timestamp(timeStart.getTime()));
             pst.setTimestamp(2, new Timestamp(timeEnd.getTime()));

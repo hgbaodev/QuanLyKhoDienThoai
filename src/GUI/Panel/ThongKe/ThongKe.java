@@ -4,6 +4,7 @@
  */
 package GUI.Panel.ThongKe;
 
+import BUS.ThongKeBUS;
 import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
@@ -19,6 +20,7 @@ public class ThongKe extends JPanel {
     JPanel tongquan, nhacungcap, khachhang, doanhthu;
     ThongKeTonKho nhapxuat;
     Color BackgroundColor = new Color(240, 247, 250);
+    ThongKeBUS thongkeBUS = new ThongKeBUS();
 
     public ThongKe() {
         initComponent();

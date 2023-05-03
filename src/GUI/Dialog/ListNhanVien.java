@@ -93,6 +93,7 @@ public class ListNhanVien extends JDialog implements MouseListener {
         panelSearch.setBorder(new EmptyBorder(20, 20, 20, 20));
         jPanelTable.setLayout(new GridLayout(1,1));
         tableNhanVien = new JTable();
+        tableNhanVien.setFocusable(false);
         scrollTableSanPham = new JScrollPane();
         tableNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tableNhanVien = new JTable();
