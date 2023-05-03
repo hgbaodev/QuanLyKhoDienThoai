@@ -4,17 +4,10 @@
  */
 package GUI.Panel.ThongKe;
 
-import GUI.Component.ButtonCustom;
-import GUI.Component.InputDate;
-import GUI.Component.InputForm;
-import GUI.Component.PanelBorderRadius;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -36,7 +29,7 @@ public class ThongKe extends JPanel {
         this.setBackground(BackgroundColor);
         
         nhapxuat = new ThongKeTonKho();
-
+    
         tabbedPane = new JTabbedPane();
         tabbedPane.setOpaque(false);
         tabbedPane.addTab("Tổng quan", tongquan);

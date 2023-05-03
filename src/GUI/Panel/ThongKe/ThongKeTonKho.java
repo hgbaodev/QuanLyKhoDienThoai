@@ -20,22 +20,25 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author Tran Nhat Sinh
  */
-public class ThongKeTonKho extends JPanel{
+public class ThongKeTonKho extends JPanel {
+
     PanelBorderRadius nhapxuat_left, nhapxuat_center;
     JTable tblTonKho;
     JScrollPane scrollTblTonKho;
     DefaultTableModel tblModel;
-    
+    InputForm tensanpham;
+    InputDate start_date, end_date;
+    ButtonCustom export;
+
     public ThongKeTonKho() {
         initComponent();
     }
-    
+
     public void initComponent() {
         this.setLayout(new BorderLayout(10, 10));
         this.setOpaque(false);
@@ -43,24 +46,21 @@ public class ThongKeTonKho extends JPanel{
         nhapxuat_left = new PanelBorderRadius();
         nhapxuat_left.setPreferredSize(new Dimension(300, 100));
         nhapxuat_left.setLayout(new BorderLayout());
-        nhapxuat_left.setBorder(new EmptyBorder(0,0,0,5));
+        nhapxuat_left.setBorder(new EmptyBorder(0, 0, 0, 5));
         JPanel left_content = new JPanel(new GridLayout(4, 1));
-        left_content.setPreferredSize(new Dimension(300,360));
-        nhapxuat_left.add(left_content,BorderLayout.NORTH);
-        InputForm tensanpham;
-        InputDate start_date, end_date;
-        ButtonCustom export;
+        left_content.setPreferredSize(new Dimension(300, 360));
+        nhapxuat_left.add(left_content, BorderLayout.NORTH);
 
-        tensanpham = new InputForm("Tên sản phẩm");
+        tensanpham = new InputForm("Tìm kiếm sản phẩm");
         tensanpham.getTxtForm().putClientProperty("JTextField.showClearButton", true);
         start_date = new InputDate("Từ ngày");
         end_date = new InputDate("Đến ngày");
         JPanel btn_layout = new JPanel(new BorderLayout());
-        btn_layout.setPreferredSize(new Dimension(30,36));
-        btn_layout.setBorder(new EmptyBorder(20,10,0,10));
+        btn_layout.setPreferredSize(new Dimension(30, 36));
+        btn_layout.setBorder(new EmptyBorder(20, 10, 0, 10));
         btn_layout.setBackground(Color.white);
         export = new ButtonCustom("Xuất Excel", "excel", 14);
-        btn_layout.add(export,BorderLayout.NORTH);
+        btn_layout.add(export, BorderLayout.NORTH);
 
         left_content.add(tensanpham);
         left_content.add(start_date);
@@ -70,7 +70,7 @@ public class ThongKeTonKho extends JPanel{
         nhapxuat_center = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(nhapxuat_center, BoxLayout.Y_AXIS);
         nhapxuat_center.setLayout(boxly);
-        
+
         tblTonKho = new JTable();
         scrollTblTonKho = new JScrollPane();
         tblModel = new DefaultTableModel();
@@ -88,7 +88,7 @@ public class ThongKeTonKho extends JPanel{
         tblTonKho.getColumnModel().getColumn(1).setPreferredWidth(10);
         tblTonKho.getColumnModel().getColumn(2).setPreferredWidth(200);
         nhapxuat_center.add(scrollTblTonKho);
-        
+
         this.add(nhapxuat_left, BorderLayout.WEST);
         this.add(nhapxuat_center, BorderLayout.CENTER);
     }
