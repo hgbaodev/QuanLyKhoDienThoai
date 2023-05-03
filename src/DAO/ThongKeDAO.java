@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package DAO;
-
 import DTO.KhachHangDTO;
 import DTO.PhieuXuatDTO;
 import DTO.ThongKe.ThongKeKhachHangDTO;
@@ -15,9 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-    import java.util.Date;
 import java.util.HashMap;
-
+import java.sql.Date;
 /**
  *
  * @author Tran Nhat Sinh
@@ -102,52 +100,59 @@ public class ThongKeDAO {
                 result.computeIfAbsent(masp, k -> new ArrayList<>()).add(p);
             }
         } catch (SQLException e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         return result;
     }
 
-    public static ThongKeDAO getInstance(){
+    public static ThongKeDAO getInstance() {
         return new ThongKeDAO();
     }
 
-    public static HashMap<Integer, ArrayList<ThongKeKhachHangDTO>> getThongKeKhachHang(Date timeStart, Date timeEnd) {
-        HashMap<Integer, ArrayList<ThongKeKhachHangDTO>> result = new HashMap<>();
-        try{
+    public static HashMap<Integer,ArrayList<ThongKeKhachHangDTO>> getThongKeKhachHang(Date timeStart, Date timeEnd) {
+        HashMap<Integer,ArrayList<ThongKeKhachHangDTO>>  result = new HashMap<>();
+        try {
             Connection con = JDBCUtil.getConnection();
-            String sql= "WITH kh AS( \n"
-                    + "SELECT khachhang.makh, khachhang.tenkhachhang , COUNT(phieuxuat.maphieuxuat ) AS tongsophieu, SUM(phieuxuat.tongtien) AS tongsotien\n" 
-                    +"FROM khachhang\n"
-                    +"JOIN phieuxuat ON khachhang.makh = phieuxuat.makh\n"
-                    +"WHERE phieuxuat.thoigian BETWEEN ? AND ? \n"
-                    +"GROUP BY khachhang.makh, khachhang.tenkhachhang) \n"
+            String sql = " WITH kh AS (\n"
+                    + "SELECT khachhang.makh, khachhang.tenkhachhang , COUNT(phieuxuat.maphieuxuat ) AS tongsophieu, SUM(phieuxuat.tongtien) AS tongsotien\n"
+                    + "FROM khachhang\n"
+                    + "JOIN phieuxuat ON khachhang.makh = phieuxuat.makh\n"
+                    + "WHERE phieuxuat.thoigian BETWEEN ? AND ? \n"
+                    + "GROUP BY khachhang.makh, khachhang.tenkhachhang"
+                    + ")\n"
                     + "SELECT makh,tenkhachhang,COALESCE(kh.tongsophieu, 0) AS soluong ,COALESCE(kh.tongsotien, 0) AS total \n"
                     + "FROM kh;";
-            
+
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setTimestamp(1, new Timestamp(timeStart.getTime()));
             pst.setTimestamp(2, new Timestamp(timeEnd.getTime()));
-            
+
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 int makh = rs.getInt("makh");
                 String tenkh = rs.getString("tenkhachhang");
                 int soluong = rs.getInt("soluong");
                 long tongtien = rs.getInt("total");
-                
-                ThongKeKhachHangDTO x = new ThongKeKhachHangDTO(makh,tenkh,soluong,tongtien);
-                System.out.println(timeStart);
+                ThongKeKhachHangDTO x = new ThongKeKhachHangDTO(makh, tenkh, soluong, tongtien);
                 result.computeIfAbsent(makh, k -> new ArrayList<>()).add(x);
             }
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return result;
     }
-        public static void main(String[] args) {
-        Date aDate = new Date(2023,4,29);
-        Date bDate = new Date(2023,5,4);
-        HashMap<Integer, ArrayList<ThongKeKhachHangDTO>> result = getThongKeKhachHang(aDate,bDate);
+
+    public static void main(String[] args) {
+        Date aDate = new Date(123, 4, 1);
+        Date bDate = new Date(123, 4, 4);
+        System.out.println(aDate);
+        Timestamp a =new Timestamp(aDate.getTime());
+        Timestamp b =new Timestamp(bDate.getTime());
+        System.out.println(a);
+        System.out.println(b);
+        HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> result = getThongKeTonKho(aDate,bDate);
+        HashMap<Integer, ArrayList<ThongKeKhachHangDTO>> result2 = getThongKeKhachHang(aDate,bDate);
         System.out.println(result);
+        System.out.println(result2);
     }
 }

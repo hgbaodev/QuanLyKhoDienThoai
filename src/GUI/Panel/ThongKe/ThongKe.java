@@ -29,7 +29,7 @@ public class ThongKe extends JPanel {
         this.setBackground(BackgroundColor);
         
         nhapxuat = new ThongKeTonKho();
-    
+        khachhang = new ThongKeKhachHang();
         tabbedPane = new JTabbedPane();
         tabbedPane.setOpaque(false);
         tabbedPane.addTab("Tổng quan", tongquan);
