@@ -59,6 +59,10 @@ public class PhieuKiemKeBUS {
         danhSachPhieu.remove(index);
     }
     
+    public ArrayList<ChiTietKiemKeDTO> getChitietTiemKe(int maphieu){
+        return chiTietKiemKeDAO.selectAll(maphieu+"");
+    }
+    
     public ArrayList<PhieuKiemKeDTO> fillerPhieuKiemKe(int type, String input, int manv, Date time_s, Date time_e) {
         Timestamp time_start = new Timestamp(time_s.getTime());
         Timestamp time_end = new Timestamp(time_e.getTime());

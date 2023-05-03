@@ -12,7 +12,6 @@ import GUI.Component.InputForm;
 
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
-import GUI.Component.NumericDocumentFilter;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
