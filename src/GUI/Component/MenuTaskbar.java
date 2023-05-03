@@ -30,7 +30,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Dialog.MyAccount;
 import GUI.Panel.PhieuKiemKe;
-import GUI.Panel.ThongKe;
+import GUI.Panel.ThongKe.ThongKe;
 //import GUI.Component.itemTaskbar;
 public class MenuTaskbar extends JPanel {
 

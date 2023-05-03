@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package GUI.Panel;
+package GUI.Panel.ThongKe;
 
 import GUI.Component.ButtonCustom;
 import GUI.Component.InputDate;
@@ -23,8 +23,8 @@ import javax.swing.border.EmptyBorder;
 public class ThongKe extends JPanel {
 
     JTabbedPane tabbedPane;
-    tabThongKe tongquan, nhacungcap, khachhang, doanhthu, nhapxuat;
-    PanelBorderRadius nhapxuat_left, nhapxuat_center;
+    JPanel tongquan, nhacungcap, khachhang, doanhthu;
+    ThongKeTonKho nhapxuat;
     Color BackgroundColor = new Color(240, 247, 250);
 
     public ThongKe() {
@@ -34,11 +34,8 @@ public class ThongKe extends JPanel {
     public void initComponent() {
         this.setLayout(new GridLayout(1, 1));
         this.setBackground(BackgroundColor);
-
-        nhapxuat = new tabThongKe("Tồn kho", "khachhang");
-        doanhthu = new tabThongKe("Doanh thu", "khachhang");
-        nhacungcap = new tabThongKe("Nhà cung cấp", "khachhang");
-        khachhang = new tabThongKe("Khách hàng", "khachhang");
+        
+        nhapxuat = new ThongKeTonKho();
 
         tabbedPane = new JTabbedPane();
         tabbedPane.setOpaque(false);
@@ -50,4 +47,6 @@ public class ThongKe extends JPanel {
 
         this.add(tabbedPane);
     }
+
+
 }
