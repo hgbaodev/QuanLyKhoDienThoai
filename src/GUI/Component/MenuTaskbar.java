@@ -33,7 +33,6 @@ import GUI.Dialog.MyAccount;
 import GUI.Panel.PhieuKiemKe;
 import GUI.Panel.ThongKe;
 //import GUI.Component.itemTaskbar;
-
 public class MenuTaskbar extends JPanel {
 
     TrangChu trangChu;
