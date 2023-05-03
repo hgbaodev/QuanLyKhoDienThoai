@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BUS;
 
-import DAO.ChiTietPhieuNhapDAO;
 import DAO.ChiTietPhieuXuatDAO;
 import DAO.ChiTietSanPhamDAO;
 import DAO.PhieuXuatDAO;
 import DTO.ChiTietPhieuDTO;
-import DTO.PhieuNhapDTO;
 import DTO.PhieuXuatDTO;
 import java.sql.Timestamp;
 import java.util.ArrayList;

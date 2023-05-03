@@ -20,7 +20,7 @@ import java.util.Date;
  */
 public class PhieuNhapDAO implements DAOinterface<PhieuNhapDTO> {
 
-        public static PhieuNhapDAO getInstance() {
+    public static PhieuNhapDAO getInstance() {
         return new PhieuNhapDAO();
     }
     
