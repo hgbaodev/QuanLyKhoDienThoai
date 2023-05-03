@@ -26,7 +26,7 @@ public class ThongKeBUS {
     }
     
     public ArrayList<ThongKeKhachHangDTO> getAllKhachHang() {
-        this.tkkh = thongkeDAO.thongkeKH();
+//        this.tkkh = thongkeDAO.thongkeKH();
         return this.tkkh;
     }
 

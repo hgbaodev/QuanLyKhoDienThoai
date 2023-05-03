@@ -124,7 +124,6 @@ public final class ThongKeTonKho extends JPanel  implements ActionListener, KeyL
             Date time_start = start_date.getDate() != null ? start_date.getDate() : new Date(0);
             Date time_end = end_date.getDate() != null ? end_date.getDate() : new Date(System.currentTimeMillis());
             this.listSp = thongkeBUS.filterTonKho(time_start, time_end);
-            System.out.println(this.listSp);
             loadDataTalbe(this.listSp);
         }
     }
