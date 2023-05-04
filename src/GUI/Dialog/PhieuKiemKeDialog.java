@@ -26,6 +26,7 @@ import java.util.concurrent.ThreadFactory;
 import GUI.Component.ButtonCustom;
 import GUI.Component.CheckListItem;
 import GUI.Component.CheckListRenderer;
+import GUI.Component.InputForm;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -83,28 +84,45 @@ public class PhieuKiemKeDialog extends JDialog {
 
     public void init() {
         this.setLayout(new BorderLayout());
+        this.setBackground(Color.WHITE);
         JPanel jpanelLeft = new JPanel(new BorderLayout());
+        jpanelLeft.setBackground(Color.WHITE);
         JPanel jpanelCenter = new JPanel(new GridLayout(1,2));
-        JPanel jpanelBottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        jpanelBottom.setPreferredSize(new Dimension(0,50));
+        JPanel jpanelBottom = new JPanel(new GridLayout(2,1));
+        JPanel jpanelBottomTop = new JPanel(new BorderLayout());
+        jpanelBottomTop.setBorder(new EmptyBorder(5,5,5,5));
+        JLabel jLabelGhiChu = new JLabel("Ghi chú");
+        jLabelGhiChu.setPreferredSize(new Dimension(70,0));
+        JTextArea jTextAreaGhiChu = new JTextArea();
+        jTextAreaGhiChu.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
+        jpanelBottomTop.add(jLabelGhiChu,BorderLayout.WEST);
+        jpanelBottomTop.add(jTextAreaGhiChu,BorderLayout.CENTER);
+        JPanel jpanelBottomBottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        jpanelBottom.setPreferredSize(new Dimension(0,100));
         jpanelBottom.setBackground(Color.WHITE);
         ButtonCustom btnAdd = new ButtonCustom("Thêm", "success", 14);
-        jpanelBottom.add(btnAdd);
+        jpanelBottomBottom.add(btnAdd);
+        jpanelBottomTop.setBackground(Color.WHITE);
+        jpanelBottomBottom.setBackground(Color.WHITE);
+        jpanelBottom.add(jpanelBottomTop);
+        jpanelBottom.add(jpanelBottomBottom);
         listMode = new DefaultListModel<>();
         findImei = new JTextField("");
         loadImei();
         findImei.setPreferredSize(new Dimension(0,40));
         findImei.putClientProperty("JTextField.placeholderText", "Tìm kiếm mã IMEI ...");
         findImei.putClientProperty("JTextField.showClearButton", true);
+        findImei.setBackground(Color.WHITE);
         findImei.addKeyListener(new KeyAdapter(){
         @Override
             public void keyReleased(KeyEvent e) {
                 loadImei();
             }
         });
+        list.setBackground(Color.WHITE);
         jpanelLeft.add(findImei,BorderLayout.NORTH);
         jpanelLeft.add(new JScrollPane(list),BorderLayout.CENTER);
-        setSize(700, 500);
+        setSize(800, 600);
         panelCam = new JPanel(new GridLayout(1, 1));
         wCam.setViewSize(cs);
         wCamPanel.setFillArea(true);
@@ -130,8 +148,20 @@ public class PhieuKiemKeDialog extends JDialog {
         jPanelRight.add(panelImei,BorderLayout.CENTER);
         jPanelRight.setBackground(Color.WHITE);
         jPanelRight.setBorder(new EmptyBorder(0,5,0,0));
+        jpanelCenter.setBorder(new EmptyBorder(5,5,5,5));
         jpanelCenter.add(jpanelLeft);
         jpanelCenter.add(jPanelRight);
+        JPanel jpanelTop = new JPanel(new GridLayout(1, 4));
+        jpanelTop.setPreferredSize(new Dimension(0,80));
+        InputForm tensp = new InputForm("Tên SP");
+        InputForm tencauhinh = new InputForm("Cấu hình");
+        InputForm slTonKho = new InputForm("Tồn kho");
+        InputForm slHienTai = new InputForm("Số lượng hiện tại");
+        jpanelTop.add(tensp);
+        jpanelTop.add(tencauhinh);
+        jpanelTop.add(slTonKho);
+        jpanelTop.add(slHienTai);
+        this.add(jpanelTop,BorderLayout.NORTH);
         this.add(jpanelCenter,BorderLayout.CENTER);
         this.add(jpanelBottom,BorderLayout.SOUTH);
         t = new Thread() {
@@ -159,7 +189,7 @@ public class PhieuKiemKeDialog extends JDialog {
                     try {
                         result = new MultiFormatReader().decode(bitmap);
                     } catch (NotFoundException ex) {
-                        Logger.getLogger(PhieuKiemKeDialog.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(PhieuKiemKeDialog.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     if (result != null) {
@@ -180,6 +210,7 @@ public class PhieuKiemKeDialog extends JDialog {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                wCam.close();
                 wCamPanel.stop();
                 t.stop();
                 dispose();
