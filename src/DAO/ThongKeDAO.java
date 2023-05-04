@@ -5,6 +5,7 @@
 package DAO;
 
 import DTO.ThongKe.ThongKeKhachHangDTO;
+import DTO.ThongKe.ThongKeTheoThangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
@@ -21,6 +22,10 @@ import java.util.Date;
  * @author Tran Nhat Sinh
  */
 public class ThongKeDAO {
+    
+    public static ThongKeDAO getInstance() {
+        return new ThongKeDAO();
+    }
 
     public static HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> getThongKeTonKho(String text, Date timeStart, Date timeEnd) {
         HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> result = new HashMap<>();
@@ -108,11 +113,6 @@ public class ThongKeDAO {
         return result;
     }
     
-
-    public static ThongKeDAO getInstance() {
-        return new ThongKeDAO();
-    }
-
     public static ArrayList<ThongKeKhachHangDTO> getThongKeKhachHang(String text, Date timeStart, Date timeEnd) {
         ArrayList<ThongKeKhachHangDTO> result = new ArrayList<>();
         try {
@@ -146,4 +146,11 @@ public class ThongKeDAO {
         }
         return result;
     }
+    
+    public ArrayList<ThongKeTheoThangDTO> getThongKeTheoThang(){
+        ArrayList<ThongKeTheoThangDTO> result = new ArrayList<>();
+        
+        return result;
+    }
+    
 }

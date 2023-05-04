@@ -29,7 +29,6 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
 
     PanelBorderRadius pnlChart;
     JPanel pnl_top;
-    HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> listSp;
     ThongKeBUS thongkeBUS;
     JYearChooser yearchooser;
     Chart chart;
@@ -39,9 +38,7 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
 
     public ThongKeDoanhThuTungThang(ThongKeBUS thongkeBUS) {
         this.thongkeBUS = thongkeBUS;
-        listSp = thongkeBUS.getTonKho();
         initComponent();
-
     }
 
     public void initComponent() {
