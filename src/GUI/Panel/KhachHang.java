@@ -20,12 +20,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.table.DefaultTableCellRenderer;
-import java.io.IOException;
-import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.table.DefaultTableCellRenderer;
 
 public class KhachHang extends JPanel implements ActionListener {
 

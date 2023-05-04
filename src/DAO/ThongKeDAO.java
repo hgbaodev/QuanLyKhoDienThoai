@@ -245,14 +245,14 @@ public class ThongKeDAO {
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTungNgayTrongThang(int thang, int nam) {
         ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
         try {
-            String ngayString = nam+"-"+thang+"-"+"01";
+            String ngayString = nam + "-" + thang + "-" + "01";
             Connection con = JDBCUtil.getConnection();
             String sql = "SELECT \n"
                     + "  dates.date AS ngay, \n"
                     + "  COALESCE(SUM(ctphieunhap.dongia), 0) AS chiphi, \n"
                     + "  COALESCE(SUM(ctphieuxuat.dongia), 0) AS doanhthu\n"
                     + "FROM (\n"
-                    + "  SELECT DATE('"+ngayString+"') + INTERVAL c.number DAY AS date\n"
+                    + "  SELECT DATE('" + ngayString + "') + INTERVAL c.number DAY AS date\n"
                     + "  FROM (\n"
                     + "    SELECT 0 AS number\n"
                     + "    UNION ALL SELECT 1\n"
@@ -286,7 +286,7 @@ public class ThongKeDAO {
                     + "    UNION ALL SELECT 29\n"
                     + "    UNION ALL SELECT 30\n"
                     + "  ) AS c\n"
-                    + "  WHERE DATE('"+ngayString+"') + INTERVAL c.number DAY <= LAST_DAY('"+ngayString+"')\n"
+                    + "  WHERE DATE('" + ngayString + "') + INTERVAL c.number DAY <= LAST_DAY('" + ngayString + "')\n"
                     + ") AS dates\n"
                     + "LEFT JOIN phieuxuat ON DATE(phieuxuat.thoigian) = dates.date\n"
                     + "LEFT JOIN ctphieuxuat ON phieuxuat.maphieuxuat = ctphieuxuat.maphieuxuat\n"
@@ -310,4 +310,42 @@ public class ThongKeDAO {
         return result;
     }
 
+    public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKe7NgayGanNhat() {
+        ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = """
+                         WITH RECURSIVE dates(date) AS (
+                           SELECT DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                           UNION ALL
+                           SELECT DATE_ADD(date, INTERVAL 1 DAY)
+                           FROM dates
+                           WHERE date < CURDATE()
+                         )
+                         SELECT 
+                           dates.date AS ngay,
+                           COALESCE(SUM(ctphieuxuat.dongia), 0) AS doanhthu,
+                           COALESCE(SUM(ctphieunhap.dongia), 0) AS chiphi
+                         FROM dates
+                         LEFT JOIN phieuxuat ON DATE(phieuxuat.thoigian) = dates.date
+                         LEFT JOIN ctphieuxuat ON phieuxuat.maphieuxuat = ctphieuxuat.maphieuxuat
+                         LEFT JOIN ctsanpham ON ctsanpham.maphieuxuat = ctphieuxuat.maphieuxuat AND ctsanpham.maphienbansp = ctphieuxuat.maphienbansp
+                         LEFT JOIN ctphieunhap ON ctsanpham.maphieunhap = ctphieunhap.maphieunhap AND ctsanpham.maphienbansp = ctphieunhap.maphienbansp
+                         GROUP BY dates.date
+                         ORDER BY dates.date;""";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Date ngay = rs.getDate("ngay");
+                int chiphi = rs.getInt("chiphi");
+                int doanhthu = rs.getInt("doanhthu");
+                int loinhuan = doanhthu - chiphi;
+                ThongKeTungNgayTrongThangDTO tn = new ThongKeTungNgayTrongThangDTO(ngay, chiphi, doanhthu, loinhuan);
+                result.add(tn);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
