@@ -312,6 +312,45 @@ public class ThongKeDAO {
         }
         return result;
     }
+    
+    public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKe7NgayGanNhat() {
+        ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = """
+                         WITH RECURSIVE dates(date) AS (
+                           SELECT DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                           UNION ALL
+                           SELECT DATE_ADD(date, INTERVAL 1 DAY)
+                           FROM dates
+                           WHERE date < CURDATE()
+                         )
+                         SELECT 
+                           dates.date AS ngay,
+                           COALESCE(SUM(ctphieuxuat.dongia), 0) AS doanhthu,
+                           COALESCE(SUM(ctphieunhap.dongia), 0) AS chiphi
+                         FROM dates
+                         LEFT JOIN phieuxuat ON DATE(phieuxuat.thoigian) = dates.date
+                         LEFT JOIN ctphieuxuat ON phieuxuat.maphieuxuat = ctphieuxuat.maphieuxuat
+                         LEFT JOIN ctsanpham ON ctsanpham.maphieuxuat = ctphieuxuat.maphieuxuat AND ctsanpham.maphienbansp = ctphieuxuat.maphienbansp
+                         LEFT JOIN ctphieunhap ON ctsanpham.maphieunhap = ctphieunhap.maphieunhap AND ctsanpham.maphienbansp = ctphieunhap.maphienbansp
+                         GROUP BY dates.date
+                         ORDER BY dates.date;""";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Date ngay = rs.getDate("ngay");
+                int chiphi = rs.getInt("chiphi");
+                int doanhthu = rs.getInt("doanhthu");
+                int loinhuan = doanhthu - chiphi;
+                ThongKeTungNgayTrongThangDTO tn = new ThongKeTungNgayTrongThangDTO(ngay, chiphi, doanhthu, loinhuan);
+                result.add(tn);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTuNgayDenNgay(String star, String end) {
         ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
@@ -403,5 +442,6 @@ public class ThongKeDAO {
         }
         return result;
     }
+
 
 }

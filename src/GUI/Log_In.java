@@ -7,6 +7,7 @@ import GUI.Component.InputForm;
 import GUI.Dialog.QuenMatKhau;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import helper.BCrypt;
 import java.awt.*;
@@ -31,10 +32,10 @@ public class Log_In extends JFrame implements KeyListener{
     }
 
     private void initComponent() {
-        this.setSize(new Dimension(1000, 740));
+        this.setSize(new Dimension(1000, 500));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(0, 0));
-        this.setResizable(false);
+//        this.setResizable(false);
         this.setTitle("Đăng nhập");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JFrame jf = this;
@@ -43,27 +44,26 @@ public class Log_In extends JFrame implements KeyListener{
 
         pnlMain = new JPanel();
         pnlMain.setBackground(Color.white);
-        pnlMain.setBorder(new EmptyBorder(50, 0, 0, 0));
+        pnlMain.setBorder(new EmptyBorder(20, 0, 0, 0));
 
         pnlMain.setPreferredSize(new Dimension(500, 740));
         pnlMain.setLayout(new FlowLayout(1, 0, 10));
 
-        lbl1 = new JLabel("HỆ THỐNG QUẢN LÝ");
-        lbl1.setFont(new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 27));
-        pnlMain.add(lbl1);
+//        lbl1 = new JLabel("HỆ THỐNG QUẢN LÝ");
+//        lbl1.setFont(new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 27));
+//        pnlMain.add(lbl1);
+//
+//        lbl2 = new JLabel("KHO ĐIỆN THOẠI THÔNG MINH");
+//        lbl2.setFont(new Font(FlatRobotoFont.FAMILY_SEMIBOLD, Font.BOLD, 31));
+//        pnlMain.add(lbl2);
 
-        lbl2 = new JLabel("KHO ĐIỆN THOẠI THÔNG MINH");
-        lbl2.setFont(new Font(FlatRobotoFont.FAMILY_SEMIBOLD, Font.BOLD, 31));
-        pnlMain.add(lbl2);
-
-        lbl3 = new JLabel("Đăng nhập để tiếp tục");
-        lbl3.setPreferredSize(new Dimension(380, 80));
-        lbl3.setFont(new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 20));
+        lbl3 = new JLabel("ĐĂNG NHẬP VÀO HỆ THỐNG");
+        lbl3.setFont(new Font(FlatRobotoFont.FAMILY_SEMIBOLD, Font.BOLD, 20));
         pnlMain.add(lbl3);
 
         JPanel paneldn = new JPanel();
         paneldn.setBackground(Color.BLACK);
-        paneldn.setPreferredSize(new Dimension(400, 220));
+        paneldn.setPreferredSize(new Dimension(400, 200));
         paneldn.setLayout(new GridLayout(2, 1));
 
         txtUsername = new InputForm("Tên đăng nhập");
@@ -180,7 +180,8 @@ public class Log_In extends JFrame implements KeyListener{
         this.add(bo, BorderLayout.WEST);
 
         lblImage = new JLabel();
-        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/phone2.jpg")));
+//        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/phone2.jpg")));
+        lblImage.setIcon(new FlatSVGIcon("./img/login-image.svg"));
         bo.add(lblImage);
     }
 

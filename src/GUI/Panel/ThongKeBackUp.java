@@ -156,8 +156,6 @@ public class ThongKeBackUp extends JPanel {
         chart2 = new CurveChart();
         chart2.addLegend("Sản phẩm nhập", new Color(12, 84, 175), new Color(0, 108, 247));
         chart2.addLegend("Khách hàng xuất", new Color(54, 4, 143), new Color(104, 49, 200));
-//        chart2.addLegend("Profit", new Color(5, 125, 0), new Color(95, 209, 69));
-//        chart2.addLegend("Cost", new Color(186, 37, 37), new Color(241, 100, 120));
         chart2.addData(new ModelChart2("January", new double[]{500, 200}));
         chart2.addData(new ModelChart2("February", new double[]{1000, 750}));
         chart2.addData(new ModelChart2("March", new double[]{200, 350}));
