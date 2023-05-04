@@ -10,6 +10,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.InputDate;
 import GUI.Component.InputForm;
 import GUI.Component.PanelBorderRadius;
+import GUI.Component.TableSorter;
 import GUI.Dialog.ThongKePBSPTonKho;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -123,6 +124,9 @@ public final class ThongKeTonKho extends JPanel implements ActionListener, KeyLi
         tblTonKho.getColumnModel().getColumn(0).setPreferredWidth(10);
         tblTonKho.getColumnModel().getColumn(1).setPreferredWidth(10);
         tblTonKho.getColumnModel().getColumn(2).setPreferredWidth(200);
+        
+        TableSorter.configureTableColumnSorter(tblTonKho, 6,TableSorter.INTEGER_COMPARATOR);
+        
         nhapxuat_center.add(scrollTblTonKho);
 
         tblTonKho.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -71,7 +71,7 @@ public class Main extends JFrame {
 
         UIManager.put("Table.scrollPaneBorder", new EmptyBorder(0, 0, 0, 0));
         UIManager.put("Table.rowHeight", 40);
-
+        UIManager.put( "TabbedPane.selectedBackground", Color.white );
         UIManager.put("TableHeader.height", 40);
         UIManager.put("TableHeader.font", UIManager.getFont( "h4.font" ));
         UIManager.put("TableHeader.background", new Color(242, 242, 242));

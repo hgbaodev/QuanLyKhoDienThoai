@@ -8,11 +8,18 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import GUI.Component.TableSorter;
 import GUI.Dialog.KhachHangDialog;
 import GUI.Main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -58,6 +65,9 @@ public class KhachHang extends JPanel implements ActionListener {
         tableKhachHang.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 
+        tableKhachHang.setAutoCreateRowSorter(true);
+        TableSorter.configureTableColumnSorter(tableKhachHang, 0, TableSorter.INTEGER_COMPARATOR);
+        
         // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
         pnlBorder1 = new JPanel();
         pnlBorder1.setPreferredSize(new Dimension(0, 10));

@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import DTO.ThongKe.ThongKeDoanhThuDTO;
 import DTO.ThongKe.ThongKeKhachHangDTO;
 import DTO.ThongKe.ThongKeTheoThangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
@@ -23,6 +24,10 @@ import java.util.Date;
  */
 public class ThongKeDAO {
     
+    public static ThongKeDAO getInstance() {
+        return new ThongKeDAO();
+    }
+
     public static ThongKeDAO getInstance() {
         return new ThongKeDAO();
     }
@@ -112,20 +117,69 @@ public class ThongKeDAO {
         }
         return result;
     }
-    
+
+    public ArrayList<ThongKeDoanhThuDTO> getDoanhThuTheoTungNam(int year_start, int year_end) {
+        ArrayList<ThongKeDoanhThuDTO> result = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sqlSetStartYear = "SET @start_year = ?;";
+            String sqlSetEndYear = "SET @end_year = ?;";
+            String sqlSelect = """
+                     WITH RECURSIVE years(year) AS (
+                       SELECT @start_year
+                       UNION ALL
+                       SELECT year + 1
+                       FROM years
+                       WHERE year < @end_year
+                     )
+                     SELECT 
+                       years.year AS nam,
+                       COALESCE(SUM(ctphieunhap.dongia), 0) AS chiphi, 
+                       COALESCE(SUM(ctphieuxuat.dongia), 0) AS doanhthu
+                     FROM years
+                     LEFT JOIN phieuxuat ON YEAR(phieuxuat.thoigian) = years.year
+                     LEFT JOIN ctphieuxuat ON phieuxuat.maphieuxuat = ctphieuxuat.maphieuxuat
+                     LEFT JOIN ctsanpham ON ctsanpham.maphieuxuat = ctphieuxuat.maphieuxuat AND ctsanpham.maphienbansp = ctphieuxuat.maphienbansp
+                     LEFT JOIN ctphieunhap ON ctsanpham.maphieunhap = ctphieunhap.maphieunhap AND ctsanpham.maphienbansp = ctphieunhap.maphienbansp
+                     GROUP BY years.year
+                     ORDER BY years.year;""";
+            PreparedStatement pstStartYear = con.prepareStatement(sqlSetStartYear);
+            PreparedStatement pstEndYear = con.prepareStatement(sqlSetEndYear);
+            PreparedStatement pstSelect = con.prepareStatement(sqlSelect);
+
+            pstStartYear.setInt(1, year_start);
+            pstEndYear.setInt(1, year_end);
+
+            pstStartYear.execute();
+            pstEndYear.execute();
+
+            ResultSet rs = pstSelect.executeQuery();
+            while (rs.next()) {
+                int thoigian = rs.getInt("nam");
+                Long chiphi = rs.getLong("chiphi");
+                Long doanhthu = rs.getLong("doanhthu");
+                ThongKeDoanhThuDTO x = new ThongKeDoanhThuDTO(thoigian, chiphi, doanhthu, doanhthu - chiphi);
+                result.add(x);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public static ArrayList<ThongKeKhachHangDTO> getThongKeKhachHang(String text, Date timeStart, Date timeEnd) {
         ArrayList<ThongKeKhachHangDTO> result = new ArrayList<>();
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = " WITH kh AS (\n"
-                    + "SELECT khachhang.makh, khachhang.tenkhachhang , COUNT(phieuxuat.maphieuxuat ) AS tongsophieu, SUM(phieuxuat.tongtien) AS tongsotien\n"
-                    + "FROM khachhang\n"
-                    + "JOIN phieuxuat ON khachhang.makh = phieuxuat.makh\n"
-                    + "WHERE phieuxuat.thoigian BETWEEN ? AND ? \n"
-                    + "GROUP BY khachhang.makh, khachhang.tenkhachhang"
-                    + ")\n"
-                    + "SELECT makh,tenkhachhang,COALESCE(kh.tongsophieu, 0) AS soluong ,COALESCE(kh.tongsotien, 0) AS total \n"
-                    + "FROM kh WHERE tenkhachhang LIKE ? OR makh LIKE ?";
+            String sql = """
+                          WITH kh AS (
+                         SELECT khachhang.makh, khachhang.tenkhachhang , COUNT(phieuxuat.maphieuxuat ) AS tongsophieu, SUM(phieuxuat.tongtien) AS tongsotien
+                         FROM khachhang
+                         JOIN phieuxuat ON khachhang.makh = phieuxuat.makh
+                         WHERE phieuxuat.thoigian BETWEEN ? AND ? 
+                         GROUP BY khachhang.makh, khachhang.tenkhachhang)
+                         SELECT makh,tenkhachhang,COALESCE(kh.tongsophieu, 0) AS soluong ,COALESCE(kh.tongsotien, 0) AS total 
+                         FROM kh WHERE tenkhachhang LIKE ? OR makh LIKE ?""";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setTimestamp(1, new Timestamp(timeStart.getTime()));
             pst.setTimestamp(2, new Timestamp(timeEnd.getTime()));
