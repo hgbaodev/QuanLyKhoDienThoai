@@ -10,6 +10,7 @@ import DTO.ThongKe.ThongKeTheoThangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
 import config.JDBCUtil;
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +19,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -245,14 +248,14 @@ public class ThongKeDAO {
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTungNgayTrongThang(int thang, int nam) {
         ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
         try {
-            String ngayString = nam+"-"+thang+"-"+"01";
+            String ngayString = nam + "-" + thang + "-" + "01";
             Connection con = JDBCUtil.getConnection();
             String sql = "SELECT \n"
                     + "  dates.date AS ngay, \n"
                     + "  COALESCE(SUM(ctphieunhap.dongia), 0) AS chiphi, \n"
                     + "  COALESCE(SUM(ctphieuxuat.dongia), 0) AS doanhthu\n"
                     + "FROM (\n"
-                    + "  SELECT DATE('"+ngayString+"') + INTERVAL c.number DAY AS date\n"
+                    + "  SELECT DATE('" + ngayString + "') + INTERVAL c.number DAY AS date\n"
                     + "  FROM (\n"
                     + "    SELECT 0 AS number\n"
                     + "    UNION ALL SELECT 1\n"
@@ -286,7 +289,7 @@ public class ThongKeDAO {
                     + "    UNION ALL SELECT 29\n"
                     + "    UNION ALL SELECT 30\n"
                     + "  ) AS c\n"
-                    + "  WHERE DATE('"+ngayString+"') + INTERVAL c.number DAY <= LAST_DAY('"+ngayString+"')\n"
+                    + "  WHERE DATE('" + ngayString + "') + INTERVAL c.number DAY <= LAST_DAY('" + ngayString + "')\n"
                     + ") AS dates\n"
                     + "LEFT JOIN phieuxuat ON DATE(phieuxuat.thoigian) = dates.date\n"
                     + "LEFT JOIN ctphieuxuat ON phieuxuat.maphieuxuat = ctphieuxuat.maphieuxuat\n"
@@ -296,6 +299,97 @@ public class ThongKeDAO {
                     + "ORDER BY dates.date;";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Date ngay = rs.getDate("ngay");
+                int chiphi = rs.getInt("chiphi");
+                int doanhthu = rs.getInt("doanhthu");
+                int loinhuan = doanhthu - chiphi;
+                ThongKeTungNgayTrongThangDTO tn = new ThongKeTungNgayTrongThangDTO(ngay, chiphi, doanhthu, loinhuan);
+                result.add(tn);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTuNgayDenNgay(String star, String end) {
+        ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String setStar = "SET @start_date = '" + star + "'";
+            String setEnd = "SET @end_date = '" + end + "'  ;";
+            String sqlSelect = "SELECT \n"
+                    + "  dates.date AS ngay, \n"
+                    + "  COALESCE(SUM(ctphieunhap.dongia), 0) AS chiphi, \n"
+                    + "  COALESCE(SUM(ctphieuxuat.dongia), 0) AS doanhthu\n"
+                    + "FROM (\n"
+                    + "  SELECT DATE_ADD(@start_date, INTERVAL c.number DAY) AS date\n"
+                    + "  FROM (\n"
+                    + "    SELECT a.number + b.number * 31 AS number\n"
+                    + "    FROM (\n"
+                    + "      SELECT 0 AS number\n"
+                    + "      UNION ALL SELECT 1\n"
+                    + "      UNION ALL SELECT 2\n"
+                    + "      UNION ALL SELECT 3\n"
+                    + "      UNION ALL SELECT 4\n"
+                    + "      UNION ALL SELECT 5\n"
+                    + "      UNION ALL SELECT 6\n"
+                    + "      UNION ALL SELECT 7\n"
+                    + "      UNION ALL SELECT 8\n"
+                    + "      UNION ALL SELECT 9\n"
+                    + "      UNION ALL SELECT 10\n"
+                    + "      UNION ALL SELECT 11\n"
+                    + "      UNION ALL SELECT 12\n"
+                    + "      UNION ALL SELECT 13\n"
+                    + "      UNION ALL SELECT 14\n"
+                    + "      UNION ALL SELECT 15\n"
+                    + "      UNION ALL SELECT 16\n"
+                    + "      UNION ALL SELECT 17\n"
+                    + "      UNION ALL SELECT 18\n"
+                    + "      UNION ALL SELECT 19\n"
+                    + "      UNION ALL SELECT 20\n"
+                    + "      UNION ALL SELECT 21\n"
+                    + "      UNION ALL SELECT 22\n"
+                    + "      UNION ALL SELECT 23\n"
+                    + "      UNION ALL SELECT 24\n"
+                    + "      UNION ALL SELECT 25\n"
+                    + "      UNION ALL SELECT 26\n"
+                    + "      UNION ALL SELECT 27\n"
+                    + "      UNION ALL SELECT 28\n"
+                    + "      UNION ALL SELECT 29\n"
+                    + "      UNION ALL SELECT 30\n"
+                    + "    ) AS a\n"
+                    + "    CROSS JOIN (\n"
+                    + "      SELECT 0 AS number\n"
+                    + "      UNION ALL SELECT 1\n"
+                    + "      UNION ALL SELECT 2\n"
+                    + "      UNION ALL SELECT 3\n"
+                    + "      UNION ALL SELECT 4\n"
+                    + "      UNION ALL SELECT 5\n"
+                    + "      UNION ALL SELECT 6\n"
+                    + "      UNION ALL SELECT 7\n"
+                    + "      UNION ALL SELECT 8\n"
+                    + "      UNION ALL SELECT 9\n"
+                    + "      UNION ALL SELECT 10\n"
+                    + "    ) AS b\n"
+                    + "  ) AS c\n"
+                    + "  WHERE DATE_ADD(@start_date, INTERVAL c.number DAY) <= @end_date\n"
+                    + ") AS dates\n"
+                    + "LEFT JOIN phieuxuat ON DATE(phieuxuat.thoigian) = dates.date\n"
+                    + "LEFT JOIN ctphieuxuat ON phieuxuat.maphieuxuat = ctphieuxuat.maphieuxuat\n"
+                    + "LEFT JOIN ctsanpham ON ctsanpham.maphieuxuat = ctphieuxuat.maphieuxuat AND ctsanpham.maphienbansp = ctphieuxuat.maphienbansp\n"
+                    + "LEFT JOIN ctphieunhap ON ctsanpham.maphieunhap = ctphieunhap.maphieunhap AND ctsanpham.maphienbansp = ctphieunhap.maphienbansp\n"
+                    + "GROUP BY dates.date\n"
+                    + "ORDER BY dates.date;";
+
+            PreparedStatement pstStart = con.prepareStatement(setStar);
+            PreparedStatement pstEnd = con.prepareStatement(setEnd);
+            PreparedStatement pstSelect = con.prepareStatement(sqlSelect);
+            
+            pstStart.execute();
+            pstEnd.execute();
+            ResultSet rs = pstSelect.executeQuery();
             while (rs.next()) {
                 Date ngay = rs.getDate("ngay");
                 int chiphi = rs.getInt("chiphi");

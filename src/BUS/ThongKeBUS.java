@@ -69,4 +69,8 @@ public class ThongKeBUS {
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTungNgayTrongThang(int thang, int nam){
         return thongkeDAO.getThongKeTungNgayTrongThang(thang, nam);
     }
+    
+    public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTuNgayDenNgay(String start, String end){
+        return thongkeDAO.getThongKeTuNgayDenNgay(start, end);
+    }
 }
