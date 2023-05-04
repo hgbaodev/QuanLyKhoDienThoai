@@ -33,7 +33,7 @@ public class ThongKe extends JPanel {
         nhapxuat = new ThongKeTonKho(thongkeBUS);
         khachhang = new ThongKeKhachHang();
         nhacungcap = new ThongKeNhaCungCap();
-        doanhthu = new ThongKeDoanhThu(thongkeBUS);
+        doanhthu = new ThongKeDoanhThuTungThang(thongkeBUS);
         
         tabbedPane = new JTabbedPane();
         tabbedPane.setOpaque(false);
