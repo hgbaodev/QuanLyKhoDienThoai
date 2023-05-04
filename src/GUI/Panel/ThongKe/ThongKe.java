@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI.Panel.ThongKe;
 
 import BUS.ThongKeBUS;
@@ -29,12 +25,12 @@ public class ThongKe extends JPanel {
     public void initComponent() {
         this.setLayout(new GridLayout(1, 1));
         this.setBackground(BackgroundColor);
-        
+
         nhapxuat = new ThongKeTonKho(thongkeBUS);
         khachhang = new ThongKeKhachHang();
         nhacungcap = new ThongKeNhaCungCap();
-        doanhthu = new ThongKeDoanhThuTungThang(thongkeBUS);
-        
+        doanhthu = new ThongKeDoanhThu(thongkeBUS);
+
         tabbedPane = new JTabbedPane();
         tabbedPane.setOpaque(false);
         tabbedPane.addTab("Tổng quan", tongquan);
@@ -45,6 +41,4 @@ public class ThongKe extends JPanel {
 
         this.add(tabbedPane);
     }
-
-
 }
