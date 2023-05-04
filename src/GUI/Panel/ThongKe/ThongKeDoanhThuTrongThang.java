@@ -54,7 +54,7 @@ public final class ThongKeDoanhThuTrongThang extends JPanel {
         this.thongkeBUS = thongkeBUS;
         listSp = thongkeBUS.getTonKho();
         initComponent();
-        int thang = monthchooser.getMonth();
+        int thang = monthchooser.getMonth()+1;
         int nam = yearchooser.getYear();
         loadThongKeTungNgayTrongThang(thang, nam);
     }
@@ -79,7 +79,7 @@ public final class ThongKeDoanhThuTrongThang extends JPanel {
         btnThongKe.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int thang = monthchooser.getMonth();
+                int thang = monthchooser.getMonth()+1;
                 int nam = yearchooser.getYear();
                 loadThongKeTungNgayTrongThang(thang, nam);
             }
