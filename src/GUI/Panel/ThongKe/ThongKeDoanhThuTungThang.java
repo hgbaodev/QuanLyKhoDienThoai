@@ -2,7 +2,6 @@ package GUI.Panel.ThongKe;
 
 import BUS.ThongKeBUS;
 import DTO.ThongKe.ThongKeTheoThangDTO;
-import DTO.ThongKe.ThongKeTonKhoDTO;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.TableSorter;
 import chart1.Chart;

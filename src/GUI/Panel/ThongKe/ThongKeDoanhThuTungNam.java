@@ -8,6 +8,7 @@ import GUI.Component.TableSorter;
 import chart1.Chart;
 import chart1.ModelChart;
 import helper.Formater;
+import helper.JTableExporter;
 import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,8 +16,11 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -179,7 +183,11 @@ public final class ThongKeDoanhThuTungNam extends JPanel implements ActionListen
             loadDataChart(dataset);
             loadDataTalbe(dataset);
         } else if (source == btnexport) {
-            JOptionPane.showMessageDialog(null, "Chức năng chưa khả dụng");
+            try {
+                JTableExporter.exportJTableToExcel(tableThongKe);
+            } catch (IOException ex) {
+                Logger.getLogger(ThongKeDoanhThuTungNam.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

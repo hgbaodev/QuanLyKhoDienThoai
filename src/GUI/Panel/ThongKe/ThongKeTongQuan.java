@@ -4,21 +4,26 @@ import BUS.ThongKeBUS;
 import DAO.KhachHangDAO;
 import DAO.NhanVienDAO;
 import DAO.SanPhamDAO;
+import DTO.ThongKe.ThongKeDoanhThuDTO;
 import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
+import GUI.Component.TableSorter;
 import GUI.Component.itemTaskbar;
 import chart2.CurveChart;
 import chart2.ModelChart2;
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import helper.Formater;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,6 +35,9 @@ public class ThongKeTongQuan extends JPanel {
     JPanel jp_top, jp_center, pnlChart;
     itemTaskbar[] listitem;
     CurveChart chart;
+    private JTable tableThongKe;
+    private JScrollPane scrollTableThongKe;
+    private DefaultTableModel tblModel;
     ArrayList<ThongKeTungNgayTrongThangDTO> dataset;
     String[][] getSt = {
         {"Sản phẩm hiện có trong kho", "productt.svg", Integer.toString(SanPhamDAO.getInstance().selectAll().size())},
@@ -40,11 +48,21 @@ public class ThongKeTongQuan extends JPanel {
         this.thongkebus = thongkebus;
         this.dataset = thongkebus.getThongKe7NgayGanNhat();
         initComponent();
+        loadDataTalbe(this.dataset);
     }
 
     public void loadDataChart() {
         for (ThongKeTungNgayTrongThangDTO i : dataset) {
-            chart.addData(new ModelChart2(i.getNgay()+"", new double[]{i.getChiphi(), i.getDoanhthu(), i.getLoinhuan()}));
+            chart.addData(new ModelChart2(i.getNgay() + "", new double[]{i.getChiphi(), i.getDoanhthu(), i.getLoinhuan()}));
+        }
+    }
+
+    public void loadDataTalbe(ArrayList<ThongKeTungNgayTrongThangDTO> list) {
+        tblModel.setRowCount(0);
+        for (ThongKeTungNgayTrongThangDTO i : dataset) {
+            tblModel.addRow(new Object[]{
+                i.getNgay(), Formater.FormatVND(i.getChiphi()), Formater.FormatVND(i.getDoanhthu()), Formater.FormatVND(i.getLoinhuan())
+            });
         }
     }
 
@@ -90,8 +108,28 @@ public class ThongKeTongQuan extends JPanel {
         jp_center.add(jp_center_top, BorderLayout.NORTH);
         jp_center.add(pnlChart, BorderLayout.CENTER);
 
+        tableThongKe = new JTable();
+        scrollTableThongKe = new JScrollPane();
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"Ngày", "Vốn", "Doanh thu", "Lợi nhuận"};
+        tblModel.setColumnIdentifiers(header);
+        tableThongKe.setModel(tblModel);
+        tableThongKe.setAutoCreateRowSorter(true);
+        tableThongKe.setDefaultEditor(Object.class, null);
+        scrollTableThongKe.setViewportView(tableThongKe);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tableThongKe.setDefaultRenderer(Object.class, centerRenderer);
+        tableThongKe.setFocusable(false);
+        scrollTableThongKe.setPreferredSize(new Dimension(0, 250));
+
+        TableSorter.configureTableColumnSorter(tableThongKe, 0, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tableThongKe, 1, TableSorter.VND_CURRENCY_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tableThongKe, 2, TableSorter.VND_CURRENCY_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tableThongKe, 3, TableSorter.VND_CURRENCY_COMPARATOR);
+
         this.add(jp_top, BorderLayout.NORTH);
         this.add(jp_center, BorderLayout.CENTER);
-
+        this.add(scrollTableThongKe, BorderLayout.SOUTH);
     }
 }
