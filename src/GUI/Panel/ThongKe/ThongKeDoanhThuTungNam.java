@@ -2,21 +2,25 @@ package GUI.Panel.ThongKe;
 
 import BUS.ThongKeBUS;
 import DTO.ThongKe.ThongKeDoanhThuDTO;
-import DTO.ThongKe.ThongKeTonKhoDTO;
+import GUI.Component.NumericDocumentFilter;
 import GUI.Component.PanelBorderRadius;
+import GUI.Component.TableSorter;
 import chart1.Chart;
 import chart1.ModelChart;
 import helper.Formater;
+import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,29 +28,31 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.PlainDocument;
 
 /**
  *
  * @author Tran Nhat Sinh
  */
-public final class ThongKeDoanhThuTungNam extends JPanel {
+public final class ThongKeDoanhThuTungNam extends JPanel implements ActionListener {
 
     PanelBorderRadius pnlChart;
     JPanel pnl_top;
     ThongKeBUS thongkeBUS;
     JTextField yearchooser_start, yearchooser_end;
     Chart chart;
-    JButton btnreset;
+    JButton btnreset, btnthongke, btnexport;
 
     private JTable tableThongKe;
     private JScrollPane scrollTableThongKe;
     private DefaultTableModel tblModel;
     private ArrayList<ThongKeDoanhThuDTO> dataset;
+    private int current_year;
 
     public ThongKeDoanhThuTungNam(ThongKeBUS thongkeBUS) {
         this.thongkeBUS = thongkeBUS;
-        int year = LocalDate.now().getYear();
-        this.dataset = this.thongkeBUS.getDoanhThuTheoTungNam(year - 5, year);
+        this.current_year = LocalDate.now().getYear();
+        this.dataset = this.thongkeBUS.getDoanhThuTheoTungNam(current_year - 5, current_year);
         initComponent();
         loadDataTalbe(dataset);
     }
@@ -61,9 +67,19 @@ public final class ThongKeDoanhThuTungNam extends JPanel {
     }
 
     public void loadDataChart(ArrayList<ThongKeDoanhThuDTO> list) {
+        pnlChart.removeAll();
+        chart = new Chart();
+        chart.addLegend("Vốn", new Color(245, 189, 135));
+        chart.addLegend("Doanh thu", new Color(135, 189, 245));
+        chart.addLegend("Lợi nhuận", new Color(189, 135, 245));
         for (ThongKeDoanhThuDTO i : dataset) {
             chart.addData(new ModelChart("Năm " + i.getThoigian(), new double[]{i.getVon(), i.getDoanhthu(), i.getLoinhuan()}));
         }
+        chart.repaint();
+        chart.validate();
+        pnlChart.add(chart);
+        pnlChart.repaint();
+        pnlChart.validate();
     }
 
     public void initComponent() {
@@ -76,28 +92,34 @@ public final class ThongKeDoanhThuTungNam extends JPanel {
         lblChonNamBatDau = new JLabel("Từ năm");
         lblChonNamKetThuc = new JLabel("Đến năm");
 
-        yearchooser_start = new JTextField();
-        yearchooser_end = new JTextField();
+        yearchooser_start = new JTextField("");
+        yearchooser_end = new JTextField("");
 
+        PlainDocument doc_start = (PlainDocument) yearchooser_start.getDocument();
+        doc_start.setDocumentFilter(new NumericDocumentFilter());
+        PlainDocument doc_end = (PlainDocument) yearchooser_end.getDocument();
+        doc_end.setDocumentFilter(new NumericDocumentFilter());
+
+        btnthongke = new JButton("Thống kê");
         btnreset = new JButton("Làm mới");
+        btnexport = new JButton("Xuất excel");
+        btnthongke.addActionListener(this);
+        btnreset.addActionListener(this);
+        btnexport.addActionListener(this);
 
         pnl_top.add(lblChonNamBatDau);
         pnl_top.add(yearchooser_start);
         pnl_top.add(lblChonNamKetThuc);
         pnl_top.add(yearchooser_end);
+        pnl_top.add(btnthongke);
         pnl_top.add(btnreset);
+        pnl_top.add(btnexport);
 
         pnlChart = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(pnlChart, BoxLayout.Y_AXIS);
         pnlChart.setLayout(boxly);
 
-        chart = new Chart();
-        chart.addLegend("Vốn", new Color(245, 189, 135));
-        chart.addLegend("Doanh thu", new Color(135, 189, 245));
-        chart.addLegend("Lợi nhuận", new Color(189, 135, 245));
-
         loadDataChart(dataset);
-        pnlChart.add(chart);
 
         tableThongKe = new JTable();
         scrollTableThongKe = new JScrollPane();
@@ -113,11 +135,51 @@ public final class ThongKeDoanhThuTungNam extends JPanel {
         tableThongKe.setDefaultRenderer(Object.class, centerRenderer);
         tableThongKe.setFocusable(false);
         scrollTableThongKe.setPreferredSize(new Dimension(0, 300));
+
+        TableSorter.configureTableColumnSorter(tableThongKe, 0, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tableThongKe, 1, TableSorter.VND_CURRENCY_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tableThongKe, 2, TableSorter.VND_CURRENCY_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tableThongKe, 3, TableSorter.VND_CURRENCY_COMPARATOR);
+
         this.add(pnl_top, BorderLayout.NORTH);
         this.add(pnlChart, BorderLayout.CENTER);
         this.add(scrollTableThongKe, BorderLayout.SOUTH);
 
         this.add(pnl_top, BorderLayout.NORTH);
         this.add(pnlChart, BorderLayout.CENTER);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if (source == btnthongke) {
+            System.out.println(yearchooser_start.getText());
+            if (!Validation.isEmpty(yearchooser_start.getText()) || !Validation.isEmpty(yearchooser_end.getText())) {
+                int nambd = Integer.parseInt(yearchooser_start.getText());
+                int namkt = Integer.parseInt(yearchooser_end.getText());
+                if (nambd > current_year || namkt > current_year) {
+                    JOptionPane.showMessageDialog(this, "Năm không được lớn hơn năm hiện tại");
+                } else {
+                    if (namkt < nambd || namkt <= 2015 || nambd <= 2015) {
+                        JOptionPane.showMessageDialog(this, "Năm kết thúc không được bé hơn năm bắt đầu và phải lớn hơn 2015");
+                    } else {
+                        this.dataset = this.thongkeBUS.getDoanhThuTheoTungNam(nambd, namkt);
+                        loadDataChart(dataset);
+                        loadDataTalbe(dataset);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ !");
+            }
+
+        } else if (source == btnreset) {
+            yearchooser_start.setText("");
+            yearchooser_end.setText("");
+            this.dataset = this.thongkeBUS.getDoanhThuTheoTungNam(current_year - 5, current_year);
+            loadDataChart(dataset);
+            loadDataTalbe(dataset);
+        } else if (source == btnexport) {
+            JOptionPane.showMessageDialog(null, "Chức năng chưa khả dụng");
+        }
     }
 }
