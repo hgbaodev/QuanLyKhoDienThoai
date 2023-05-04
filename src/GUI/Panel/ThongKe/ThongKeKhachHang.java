@@ -49,10 +49,12 @@ public class ThongKeKhachHang extends JPanel implements ActionListener, KeyListe
     InputForm tenkhachhang;
     InputDate start_date, end_date;
     ButtonCustom export, reset;
-    ThongKeBUS thongkebus = new ThongKeBUS();
-    ArrayList<ThongKeKhachHangDTO> list = thongkebus.getAllKhachHang();
+    ThongKeBUS thongkebus;
+    ArrayList<ThongKeKhachHangDTO> list;
 
-    public ThongKeKhachHang() {
+    public ThongKeKhachHang(ThongKeBUS thongkebus) {
+        this.thongkebus = thongkebus;
+        list = thongkebus.getAllKhachHang();
         initComponent();
         loadDataTable(list);
     }

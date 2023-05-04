@@ -10,7 +10,7 @@ import javax.swing.JTabbedPane;
  *
  * @author Tran Nhat Sinh
  */
-public class ThongKe extends JPanel {
+public final class ThongKe extends JPanel {
 
     JTabbedPane tabbedPane;
     JPanel tongquan, nhacungcap, khachhang, doanhthu;
@@ -26,8 +26,9 @@ public class ThongKe extends JPanel {
         this.setLayout(new GridLayout(1, 1));
         this.setBackground(BackgroundColor);
 
+        tongquan = new ThongKeTongQuan(thongkeBUS);
         nhapxuat = new ThongKeTonKho(thongkeBUS);
-        khachhang = new ThongKeKhachHang();
+        khachhang = new ThongKeKhachHang(thongkeBUS);
         nhacungcap = new ThongKeNhaCungCap();
         doanhthu = new ThongKeDoanhThu(thongkeBUS);
 

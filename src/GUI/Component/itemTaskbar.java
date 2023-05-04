@@ -102,7 +102,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
 
         JPanel center = new JPanel();
         center.setLayout(new FlowLayout(0, 10, 0));
-        center.setBorder(new EmptyBorder(30, 0, 0, 0));
+        center.setBorder(new EmptyBorder(20, 0, 0, 0));
         center.setOpaque(false);
         this.add(center);
 
