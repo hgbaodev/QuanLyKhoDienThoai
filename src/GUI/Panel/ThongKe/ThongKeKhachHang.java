@@ -21,12 +21,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,7 +32,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Date;
 import java.text.ParseException;
-import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -51,7 +48,7 @@ public class ThongKeKhachHang extends JPanel implements ActionListener, KeyListe
     DefaultTableModel tblModel;
     InputForm tenkhachhang;
     InputDate start_date, end_date;
-    ButtonCustom export;
+    ButtonCustom export, reset;
     ThongKeBUS thongkebus = new ThongKeBUS();
     ArrayList<ThongKeKhachHangDTO> list = thongkebus.getAllKhachHang();
 
@@ -74,17 +71,26 @@ public class ThongKeKhachHang extends JPanel implements ActionListener, KeyListe
 
         tenkhachhang = new InputForm("Tìm kiếm khách hàng");
         tenkhachhang.getTxtForm().putClientProperty("JTextField.showClearButton", true);
-        tenkhachhang.addKeyListener(this);
+        tenkhachhang.getTxtForm().addKeyListener(this);
         start_date = new InputDate("Từ ngày");
         end_date = new InputDate("Đến ngày");
         start_date.getDateChooser().addPropertyChangeListener(this);
         end_date.getDateChooser().addPropertyChangeListener(this);
         JPanel btn_layout = new JPanel(new BorderLayout());
+        JPanel btninner = new JPanel(new GridLayout(1, 2));
+        btninner.setOpaque(false);
         btn_layout.setPreferredSize(new Dimension(30, 36));
         btn_layout.setBorder(new EmptyBorder(20, 10, 0, 10));
         btn_layout.setBackground(Color.white);
         export = new ButtonCustom("Xuất Excel", "excel", 14);
-        btn_layout.add(export, BorderLayout.NORTH);
+        reset = new ButtonCustom("Làm mới", "danger", 14);
+
+        export.addActionListener(this);
+        reset.addActionListener(this);
+
+        btninner.add(export);
+        btninner.add(reset);
+        btn_layout.add(btninner, BorderLayout.NORTH);
 
         left_content.add(tenkhachhang);
         left_content.add(start_date);
@@ -120,8 +126,6 @@ public class ThongKeKhachHang extends JPanel implements ActionListener, KeyListe
     public boolean validateSelectDate() throws ParseException {
         java.util.Date time_start = start_date.getDate();
         java.util.Date time_end = end_date.getDate();
-        System.out.println(time_start);
-        System.out.println(time_end);
 
         java.util.Date current_date = new java.util.Date();
         if (time_start != null && time_start.after(current_date)) {
@@ -147,8 +151,7 @@ public class ThongKeKhachHang extends JPanel implements ActionListener, KeyListe
             String input = tenkhachhang.getText() != null ? tenkhachhang.getText() : "";
             java.util.Date time_start = start_date.getDate() != null ? start_date.getDate() : new java.util.Date(0);
             java.util.Date time_end = end_date.getDate() != null ? end_date.getDate() : new java.util.Date(System.currentTimeMillis());
-            this.list = thongkebus.FilterKhachHang(new Date(time_start.getTime()), new Date(time_end.getTime()));
-            System.out.println(list);
+            this.list = thongkebus.FilterKhachHang(input, new Date(time_start.getTime()), new Date(time_end.getTime()));
             loadDataTable(list);
         }
     }
@@ -164,9 +167,25 @@ public class ThongKeKhachHang extends JPanel implements ActionListener, KeyListe
         }
     }
 
+    public void resetForm() throws ParseException {
+        tenkhachhang.setText("");
+        start_date.getDateChooser().setCalendar(null);
+        end_date.getDateChooser().setCalendar(null);
+        Fillter();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object source = e.getSource();
+        if (source == export) {
+
+        } else if (source == reset) {
+            try {
+                resetForm();
+            } catch (ParseException ex) {
+                Logger.getLogger(ThongKeKhachHang.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @Override

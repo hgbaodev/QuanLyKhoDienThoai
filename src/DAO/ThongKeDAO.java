@@ -22,7 +22,7 @@ import java.util.Date;
  */
 public class ThongKeDAO {
 
-    public static HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> getThongKeTonKho(Date timeStart, Date timeEnd) {
+    public static HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> getThongKeTonKho(String text, Date timeStart, Date timeEnd) {
         HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> result = new HashMap<>();
         try {
             Connection con = JDBCUtil.getConnection();
@@ -75,7 +75,7 @@ public class ThongKeDAO {
                          JOIN mausac ON phienbansanpham.mausac = mausac.mamau
                          )
                          SELECT * FROM temp_table
-                         WHERE soluongdauky <> 0 OR soluongnhap <> 0 OR soluongxuat <> 0 OR soluongcuoiky <> 0
+                         WHERE tensp LIKE ? OR masp LIKE ?
                          ORDER BY masp;""";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setTimestamp(1, new Timestamp(timeStart.getTime()));
@@ -84,6 +84,8 @@ public class ThongKeDAO {
             pst.setTimestamp(4, new Timestamp(timeEnd.getTime()));
             pst.setTimestamp(5, new Timestamp(timeStart.getTime()));
             pst.setTimestamp(6, new Timestamp(timeStart.getTime()));
+            pst.setString(7, "%" + text + "%");
+            pst.setString(8, "%" + text + "%");
 
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -105,13 +107,14 @@ public class ThongKeDAO {
         }
         return result;
     }
+    
 
     public static ThongKeDAO getInstance() {
         return new ThongKeDAO();
     }
 
-    public static ArrayList<ThongKeKhachHangDTO> getThongKeKhachHang(Date timeStart, Date timeEnd) {
-        ArrayList<ThongKeKhachHangDTO>  result = new ArrayList<>();
+    public static ArrayList<ThongKeKhachHangDTO> getThongKeKhachHang(String text, Date timeStart, Date timeEnd) {
+        ArrayList<ThongKeKhachHangDTO> result = new ArrayList<>();
         try {
             Connection con = JDBCUtil.getConnection();
             String sql = " WITH kh AS (\n"
@@ -122,11 +125,12 @@ public class ThongKeDAO {
                     + "GROUP BY khachhang.makh, khachhang.tenkhachhang"
                     + ")\n"
                     + "SELECT makh,tenkhachhang,COALESCE(kh.tongsophieu, 0) AS soluong ,COALESCE(kh.tongsotien, 0) AS total \n"
-                    + "FROM kh;";
-
+                    + "FROM kh WHERE tenkhachhang LIKE ? OR makh LIKE ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setTimestamp(1, new Timestamp(timeStart.getTime()));
             pst.setTimestamp(2, new Timestamp(timeEnd.getTime()));
+            pst.setString(3, "%" + text + "%");
+            pst.setString(4, "%" + text + "%");
 
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -141,19 +145,5 @@ public class ThongKeDAO {
             e.printStackTrace();
         }
         return result;
-    }
-
-    public static void main(String[] args) {
-        Date aDate = new Date(0);
-        Date bDate = new Date(System.currentTimeMillis());
-        System.out.println(aDate);
-        Timestamp a =new Timestamp(aDate.getTime());
-        Timestamp b =new Timestamp(bDate.getTime());
-        System.out.println(a);
-        System.out.println(b);
-        HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> result = getThongKeTonKho(aDate,bDate);
-        ArrayList<ThongKeKhachHangDTO> result2 = getThongKeKhachHang(bDate, bDate);
-        System.out.println(result);
-        System.out.println(result2);
     }
 }

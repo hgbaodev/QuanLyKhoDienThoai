@@ -10,6 +10,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.InputDate;
 import GUI.Component.InputForm;
 import GUI.Component.PanelBorderRadius;
+import GUI.Dialog.ThongKePBSPTonKho;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -40,7 +42,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Tran Nhat Sinh
  */
-public final class ThongKeTonKho extends JPanel  implements ActionListener, KeyListener, PropertyChangeListener{
+public final class ThongKeTonKho extends JPanel implements ActionListener, KeyListener, PropertyChangeListener {
 
     PanelBorderRadius nhapxuat_left, nhapxuat_center;
     JTable tblTonKho;
@@ -48,14 +50,13 @@ public final class ThongKeTonKho extends JPanel  implements ActionListener, KeyL
     DefaultTableModel tblModel;
     InputForm tensanpham;
     InputDate start_date, end_date;
-    ButtonCustom export;
+    ButtonCustom export, reset;
     HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> listSp;
     ThongKeBUS thongkeBUS;
 
     public ThongKeTonKho(ThongKeBUS thongkeBUS) {
         this.thongkeBUS = thongkeBUS;
         listSp = thongkeBUS.getTonKho();
-        System.out.println(listSp);
         initComponent();
         loadDataTalbe(listSp);
     }
@@ -76,16 +77,26 @@ public final class ThongKeTonKho extends JPanel  implements ActionListener, KeyL
         tensanpham.getTxtForm().putClientProperty("JTextField.showClearButton", true);
         start_date = new InputDate("Từ ngày");
         end_date = new InputDate("Đến ngày");
-        
+
+        tensanpham.getTxtForm().addKeyListener(this);
         start_date.getDateChooser().addPropertyChangeListener(this);
         end_date.getDateChooser().addPropertyChangeListener(this);
-        
+
         JPanel btn_layout = new JPanel(new BorderLayout());
+        JPanel btninner = new JPanel(new GridLayout(1, 2));
+        btninner.setOpaque(false);
         btn_layout.setPreferredSize(new Dimension(30, 36));
         btn_layout.setBorder(new EmptyBorder(20, 10, 0, 10));
         btn_layout.setBackground(Color.white);
         export = new ButtonCustom("Xuất Excel", "excel", 14);
-        btn_layout.add(export, BorderLayout.NORTH);
+        reset = new ButtonCustom("Làm mới", "danger", 14);
+
+        export.addActionListener(this);
+        reset.addActionListener(this);
+
+        btninner.add(export);
+        btninner.add(reset);
+        btn_layout.add(btninner, BorderLayout.NORTH);
 
         left_content.add(tensanpham);
         left_content.add(start_date);
@@ -114,26 +125,50 @@ public final class ThongKeTonKho extends JPanel  implements ActionListener, KeyL
         tblTonKho.getColumnModel().getColumn(2).setPreferredWidth(200);
         nhapxuat_center.add(scrollTblTonKho);
 
+        tblTonKho.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTonKhoClicked(evt);
+            }
+        });
+        
+        
         this.add(nhapxuat_left, BorderLayout.WEST);
         this.add(nhapxuat_center, BorderLayout.CENTER);
     }
+    
+    private void tblTonKhoClicked(java.awt.event.MouseEvent evt) {                                        
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            if (tblTonKho.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm");
+            } else {
+                int masp = (int) tblTonKho.getModel().getValueAt(tblTonKho.getSelectedRow(), 1);
+                ThongKePBSPTonKho sppp = new ThongKePBSPTonKho((JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), "Chi tiết tồn kho từng cấu hình", true, listSp.get(masp));
+            }
+        }
+    }     
 
     public void Fillter() throws ParseException {
         if (validateSelectDate()) {
             String input = tensanpham.getText() != null ? tensanpham.getText() : "";
             Date time_start = start_date.getDate() != null ? start_date.getDate() : new Date(0);
             Date time_end = end_date.getDate() != null ? end_date.getDate() : new Date(System.currentTimeMillis());
-//            this.listSp = thongkeBUS.filterTonKho(time_start, time_end);
-            System.out.println(this.listSp);
+            this.listSp = thongkeBUS.filterTonKho(input, time_start, time_end);
             loadDataTalbe(this.listSp);
         }
+    }
+
+    public void resetForm() throws ParseException {
+        tensanpham.setText("");
+        start_date.getDateChooser().setCalendar(null);
+        end_date.getDateChooser().setCalendar(null);
+        Fillter();
     }
 
     public boolean validateSelectDate() throws ParseException {
         Date time_start = start_date.getDate();
         Date time_end = end_date.getDate();
-        System.out.println(time_start);
-        System.out.println(time_end);
 
         Date current_date = new Date();
         if (time_start != null && time_start.after(current_date)) {
@@ -161,7 +196,7 @@ public final class ThongKeTonKho extends JPanel  implements ActionListener, KeyL
         for (int i : list.keySet()) {
             int[] soluong = thongkeBUS.getSoluong(list.get(i));
             tblModel.addRow(new Object[]{
-                index + 1,i,list.get(i).get(0).getTensanpham(),soluong[0],soluong[1],soluong[2],soluong[3]
+                index + 1, i, list.get(i).get(0).getTensanpham(), soluong[0], soluong[1], soluong[2], soluong[3]
             });
             index++;
         }
@@ -169,7 +204,16 @@ public final class ThongKeTonKho extends JPanel  implements ActionListener, KeyL
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object source = e.getSource();
+        if (source == export) {
+
+        } else if (source == reset) {
+            try {
+                resetForm();
+            } catch (ParseException ex) {
+                Logger.getLogger(ThongKeTonKho.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @Override
@@ -184,7 +228,11 @@ public final class ThongKeTonKho extends JPanel  implements ActionListener, KeyL
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Fillter();
+        } catch (ParseException ex) {
+            Logger.getLogger(ThongKeTonKho.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

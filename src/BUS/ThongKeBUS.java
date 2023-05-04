@@ -8,8 +8,7 @@ import DAO.ThongKeDAO;
 import DTO.ThongKe.ThongKeKhachHangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import java.util.ArrayList;
-//import java.util.Date;
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -23,24 +22,25 @@ public class ThongKeBUS {
     HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> listTonKho;
 
     public ThongKeBUS() {
-        listTonKho = ThongKeDAO.getThongKeTonKho(new Date(0), new Date(System.currentTimeMillis()));
+        listTonKho = ThongKeDAO.getThongKeTonKho("",new Date(0), new Date(System.currentTimeMillis()));
     }
-    
+
     public ArrayList<ThongKeKhachHangDTO> getAllKhachHang() {
-        this.tkkh = thongkeDAO.getThongKeKhachHang(new Date(0), new Date(System.currentTimeMillis()));
+        this.tkkh = thongkeDAO.getThongKeKhachHang("",new Date(0), new Date(System.currentTimeMillis()));
         return this.tkkh;
     }
 
-    public ArrayList<ThongKeKhachHangDTO> FilterKhachHang(Date start, Date end) {
-        this.tkkh = thongkeDAO.getThongKeKhachHang(start  , end);
+    public ArrayList<ThongKeKhachHangDTO> FilterKhachHang(String text,Date start, Date end) {
+        this.tkkh = thongkeDAO.getThongKeKhachHang(text,start, end);
         return this.tkkh;
     }
+
     public HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> getTonKho() {
         return this.listTonKho;
     }
 
-    public HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> filterTonKho(Date time_start, Date time_end) {
-        HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> result = ThongKeDAO.getThongKeTonKho(time_start, time_end);
+    public HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> filterTonKho(String text, Date time_start, Date time_end) {
+        HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> result = ThongKeDAO.getThongKeTonKho(text, time_start, time_end);
         return result;
     }
 
