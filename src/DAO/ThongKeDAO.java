@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import DTO.ThongKe.ThongKeDoanhThuDTO;
 import DTO.ThongKe.ThongKeKhachHangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import config.JDBCUtil;
@@ -21,6 +22,10 @@ import java.util.Date;
  * @author Tran Nhat Sinh
  */
 public class ThongKeDAO {
+
+    public static ThongKeDAO getInstance() {
+        return new ThongKeDAO();
+    }
 
     public static HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> getThongKeTonKho(String text, Date timeStart, Date timeEnd) {
         HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> result = new HashMap<>();
@@ -107,10 +112,54 @@ public class ThongKeDAO {
         }
         return result;
     }
-    
 
-    public static ThongKeDAO getInstance() {
-        return new ThongKeDAO();
+    public ArrayList<ThongKeDoanhThuDTO> getDoanhThuTheoTungNam(int year_start, int year_end) {
+        ArrayList<ThongKeDoanhThuDTO> result = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sqlSetStartYear = "SET @start_year = ?;";
+            String sqlSetEndYear = "SET @end_year = ?;";
+            String sqlSelect = """
+                     WITH RECURSIVE years(year) AS (
+                       SELECT @start_year
+                       UNION ALL
+                       SELECT year + 1
+                       FROM years
+                       WHERE year < @end_year
+                     )
+                     SELECT 
+                       years.year AS nam,
+                       COALESCE(SUM(ctphieunhap.dongia), 0) AS chiphi, 
+                       COALESCE(SUM(ctphieuxuat.dongia), 0) AS doanhthu
+                     FROM years
+                     LEFT JOIN phieuxuat ON YEAR(phieuxuat.thoigian) = years.year
+                     LEFT JOIN ctphieuxuat ON phieuxuat.maphieuxuat = ctphieuxuat.maphieuxuat
+                     LEFT JOIN ctsanpham ON ctsanpham.maphieuxuat = ctphieuxuat.maphieuxuat AND ctsanpham.maphienbansp = ctphieuxuat.maphienbansp
+                     LEFT JOIN ctphieunhap ON ctsanpham.maphieunhap = ctphieunhap.maphieunhap AND ctsanpham.maphienbansp = ctphieunhap.maphienbansp
+                     GROUP BY years.year
+                     ORDER BY years.year;""";
+            PreparedStatement pstStartYear = con.prepareStatement(sqlSetStartYear);
+            PreparedStatement pstEndYear = con.prepareStatement(sqlSetEndYear);
+            PreparedStatement pstSelect = con.prepareStatement(sqlSelect);
+
+            pstStartYear.setInt(1, year_start);
+            pstEndYear.setInt(1, year_end);
+
+            pstStartYear.execute();
+            pstEndYear.execute();
+
+            ResultSet rs = pstSelect.executeQuery();
+            while (rs.next()) {
+                int thoigian = rs.getInt("nam");
+                Long chiphi = rs.getLong("chiphi");
+                Long doanhthu = rs.getLong("doanhthu");
+                ThongKeDoanhThuDTO x = new ThongKeDoanhThuDTO(thoigian, chiphi, doanhthu, doanhthu - chiphi);
+                result.add(x);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public static ArrayList<ThongKeKhachHangDTO> getThongKeKhachHang(String text, Date timeStart, Date timeEnd) {

@@ -76,6 +76,8 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         chart.addData(new ModelChart("Tháng 11", new double[]{200, 350, 1000}));
         chart.addData(new ModelChart("Tháng 12", new double[]{480, 150, 750}));
         pnlChart.add(chart);
+        
+        
         tableThongKe = new JTable();
         scrollTableThongKe = new JScrollPane();
         tblModel = new DefaultTableModel();
@@ -89,7 +91,7 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableThongKe.setDefaultRenderer(Object.class, centerRenderer);
         tableThongKe.setFocusable(false);
-        scrollTableThongKe.setPreferredSize(new Dimension(0,400));
+        scrollTableThongKe.setPreferredSize(new Dimension(0,300));
         this.add(pnl_top, BorderLayout.NORTH);
         this.add(pnlChart, BorderLayout.CENTER);
         this.add(scrollTableThongKe,BorderLayout.SOUTH);

@@ -17,6 +17,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
+import GUI.Component.TableSorter;
 import GUI.Dialog.ChiTietPhieuDialog;
 import helper.Formater;
 import java.awt.event.ActionEvent;
@@ -128,21 +129,9 @@ public final class PhieuXuat extends JPanel implements ActionListener, KeyListen
         tablePhieuXuat.setDefaultRenderer(Object.class, centerRenderer);
         scrollTablePhieuXuat.setViewportView(tablePhieuXuat);
         tablePhieuXuat.setFocusable(false);
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tblModel);
-        sorter.setComparator(5, (String s1, String s2) -> {
-            String cleanO1 = s1.replaceAll("[^\\d]", "");
-            String cleanO2 = s2.replaceAll("[^\\d]", "");
-            if (cleanO1.isEmpty() && cleanO2.isEmpty()) {
-                return 0;
-            } else if (cleanO1.isEmpty()) {
-                return -1;
-            } else if (cleanO2.isEmpty()) {
-                return 1;
-            }
-            Double n1 = Double.valueOf(cleanO1);
-            Double n2 = Double.valueOf(cleanO2);
-            return Double.compare(n1, n2);
-        });
+        TableSorter.configureTableColumnSorter(tablePhieuXuat, 0, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tablePhieuXuat, 1, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tablePhieuXuat, 5, TableSorter.VND_CURRENCY_COMPARATOR);
 
         main.add(scrollTablePhieuXuat);
 

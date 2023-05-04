@@ -16,6 +16,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
+import GUI.Component.TableSorter;
 import GUI.Dialog.ChiTietPhieuDialog;
 import helper.Formater;
 import java.awt.event.ActionEvent;
@@ -103,7 +104,6 @@ public final class PhieuNhap extends JPanel implements ActionListener, KeyListen
         String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Thời gian", "Tổng tiền"};
         tblModel.setColumnIdentifiers(header);
         tablePhieuNhap.setModel(tblModel);
-        tablePhieuNhap.setAutoCreateRowSorter(true);
         tablePhieuNhap.setDefaultEditor(Object.class, null);
         scrollTablePhieuNhap.setViewportView(tablePhieuNhap);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -114,23 +114,10 @@ public final class PhieuNhap extends JPanel implements ActionListener, KeyListen
         tablePhieuNhap.getColumnModel().getColumn(1).setPreferredWidth(10);
         tablePhieuNhap.getColumnModel().getColumn(2).setPreferredWidth(200);
 
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tblModel);
-        sorter.setComparator(5, (String s1, String s2) -> {
-            String cleanO1 = s1.replaceAll("[^\\d]", "");
-            String cleanO2 = s2.replaceAll("[^\\d]", "");
-            if (cleanO1.isEmpty() && cleanO2.isEmpty()) {
-                return 0;
-            } else if (cleanO1.isEmpty()) {
-                return -1;
-            } else if (cleanO2.isEmpty()) {
-                return 1;
-            }
-            Double n1 = Double.valueOf(cleanO1);
-            Double n2 = Double.valueOf(cleanO2);
-            return Double.compare(n1, n2);
-        });
-
-        tablePhieuNhap.setRowSorter(sorter);
+        tablePhieuNhap.setAutoCreateRowSorter(true);
+        TableSorter.configureTableColumnSorter(tablePhieuNhap, 0, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tablePhieuNhap, 1, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tablePhieuNhap, 5, TableSorter.VND_CURRENCY_COMPARATOR);
 
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
@@ -156,7 +143,7 @@ public final class PhieuNhap extends JPanel implements ActionListener, KeyListen
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
-        
+
         functionBar.add(mainFunction);
 
         String[] objToSearch = {"Tất cả", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập"};
@@ -187,7 +174,7 @@ public final class PhieuNhap extends JPanel implements ActionListener, KeyListen
         dateEnd = new InputDate("Đến ngày");
         moneyMin = new InputForm("Từ số tiền (VND)");
         moneyMax = new InputForm("Đến số tiền (VND)");
-        
+
         PlainDocument doc_min = (PlainDocument) moneyMin.getTxtForm().getDocument();
         doc_min.setDocumentFilter(new NumericDocumentFilter());
 
@@ -222,7 +209,7 @@ public final class PhieuNhap extends JPanel implements ActionListener, KeyListen
         int size = listphieunhap.size();
         for (int i = 0; i < size; i++) {
             tblModel.addRow(new Object[]{
-                i + 1, listphieunhap.get(i).getMaphieu(),
+                i + 1, (int) listphieunhap.get(i).getMaphieu(),
                 nccBUS.getTenNhaCungCap(listphieunhap.get(i).getManhacungcap()),
                 nvBUS.getNameById(listphieunhap.get(i).getManguoitao()),
                 Formater.FormatTime(listphieunhap.get(i).getThoigiantao()),
@@ -301,7 +288,7 @@ public final class PhieuNhap extends JPanel implements ActionListener, KeyListen
             if (index != -1) {
 //                nhapKho = new TaoPhieuNhap(nv, "view", listPhieu.get(index), m);
 //                m.setPanel(nhapKho);
-                ChiTietPhieuDialog ctsp = new ChiTietPhieuDialog(m, "Thông tin phiếu nhập", true,listPhieu.get(index));
+                ChiTietPhieuDialog ctsp = new ChiTietPhieuDialog(m, "Thông tin phiếu nhập", true, listPhieu.get(index));
             }
         } else if (source == mainFunction.btn.get("cancel")) {
             int index = getRowSelected();
