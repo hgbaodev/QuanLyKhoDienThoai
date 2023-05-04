@@ -9,6 +9,7 @@ import DTO.ThongKe.ThongKeDoanhThuDTO;
 import DTO.ThongKe.ThongKeKhachHangDTO;
 import DTO.ThongKe.ThongKeTheoThangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
+import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -63,5 +64,9 @@ public class ThongKeBUS {
     
     public ArrayList<ThongKeTheoThangDTO> getThongKeTheoThang(int nam){
         return thongkeDAO.getThongKeTheoThang(nam);
+    }
+    
+    public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTungNgayTrongThang(int thang, int nam){
+        return thongkeDAO.getThongKeTungNgayTrongThang(thang, nam);
     }
 }

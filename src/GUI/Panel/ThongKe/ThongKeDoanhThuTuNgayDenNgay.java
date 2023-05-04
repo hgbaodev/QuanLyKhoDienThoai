@@ -5,13 +5,16 @@ import DTO.ThongKe.ThongKeTonKhoDTO;
 import GUI.Component.PanelBorderRadius;
 import chart1.Chart;
 import chart1.ModelChart;
+import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -26,8 +29,11 @@ public final class ThongKeDoanhThuTuNgayDenNgay extends JPanel {
     JPanel pnl_top;
     HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> listSp;
     ThongKeBUS thongkeBUS;
-    JYearChooser yearchooser;
+    
     Chart chart;
+    private JDateChooser dateFrom;
+    private JDateChooser dataTo;
+    private JButton btnReset;
 
     public ThongKeDoanhThuTuNgayDenNgay(ThongKeBUS thongkeBUS) {
         this.thongkeBUS = thongkeBUS;
@@ -42,10 +48,20 @@ public final class ThongKeDoanhThuTuNgayDenNgay extends JPanel {
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         pnl_top = new JPanel(new FlowLayout());
-        JLabel lblChonNam = new JLabel("Chọn năm thống kê");
-        yearchooser = new JYearChooser();
-        pnl_top.add(lblChonNam);
-        pnl_top.add(yearchooser);
+        JLabel lblFrom = new JLabel("Từ ngày");
+        dateFrom = new JDateChooser();
+        dateFrom.setDateFormatString("dd/MM/yyyy");
+        JLabel lblTo = new JLabel("Đến ngày");
+        dataTo = new JDateChooser();
+        dataTo.setDateFormatString("dd/MM/yyyy");
+        btnReset = new JButton("Làm mới");
+        
+        pnl_top.add(lblFrom);
+        pnl_top.add(dateFrom);
+        pnl_top.add(lblTo);
+        pnl_top.add(dataTo);
+        pnl_top.add(btnReset);
+        
 
         pnlChart = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(pnlChart, BoxLayout.Y_AXIS);

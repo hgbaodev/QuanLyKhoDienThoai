@@ -76,7 +76,7 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         tableThongKe = new JTable();
         scrollTableThongKe = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"STT", "Chi phí", "Doanh thu","Lợi nhuận"};
+        String[] header = new String[]{"Tháng", "Chi phí", "Doanh thu","Lợi nhuận"};
         tblModel.setColumnIdentifiers(header);
         tableThongKe.setModel(tblModel);
         tableThongKe.setAutoCreateRowSorter(true);
