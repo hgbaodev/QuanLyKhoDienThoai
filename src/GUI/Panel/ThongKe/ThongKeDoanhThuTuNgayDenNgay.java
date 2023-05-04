@@ -86,9 +86,6 @@ public final class ThongKeDoanhThuTuNgayDenNgay extends JPanel {
         pnl_top.add(btnReset);
         
         
-        
-        
-        
         dateFrom.addPropertyChangeListener("date", e -> {
             Date date = (Date) e.getNewValue();
             try {

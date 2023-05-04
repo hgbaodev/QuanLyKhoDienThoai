@@ -4,6 +4,7 @@ import BUS.ThongKeBUS;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
 import GUI.Component.PanelBorderRadius;
+import GUI.Component.TableSorter;
 import chart1.Chart;
 import chart1.ModelChart;
 import com.toedter.calendar.JMonthChooser;
@@ -121,6 +122,9 @@ public final class ThongKeDoanhThuTrongThang extends JPanel {
         tableThongKe.setDefaultRenderer(Object.class, centerRenderer);
         tableThongKe.setFocusable(false);
         scrollTableThongKe.setPreferredSize(new Dimension(0, 300));
+        TableSorter.configureTableColumnSorter(tableThongKe, 1, TableSorter.VND_CURRENCY_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tableThongKe, 2, TableSorter.VND_CURRENCY_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tableThongKe, 3, TableSorter.VND_CURRENCY_COMPARATOR);
         this.add(pnl_top, BorderLayout.NORTH);
         this.add(pnlChart, BorderLayout.CENTER);
         this.add(scrollTableThongKe, BorderLayout.SOUTH);
