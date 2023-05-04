@@ -117,15 +117,15 @@ public class ThongKeDAO {
         ArrayList<ThongKeKhachHangDTO> result = new ArrayList<>();
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = " WITH kh AS (\n"
-                    + "SELECT khachhang.makh, khachhang.tenkhachhang , COUNT(phieuxuat.maphieuxuat ) AS tongsophieu, SUM(phieuxuat.tongtien) AS tongsotien\n"
-                    + "FROM khachhang\n"
-                    + "JOIN phieuxuat ON khachhang.makh = phieuxuat.makh\n"
-                    + "WHERE phieuxuat.thoigian BETWEEN ? AND ? \n"
-                    + "GROUP BY khachhang.makh, khachhang.tenkhachhang"
-                    + ")\n"
-                    + "SELECT makh,tenkhachhang,COALESCE(kh.tongsophieu, 0) AS soluong ,COALESCE(kh.tongsotien, 0) AS total \n"
-                    + "FROM kh WHERE tenkhachhang LIKE ? OR makh LIKE ?";
+            String sql = """
+                          WITH kh AS (
+                         SELECT khachhang.makh, khachhang.tenkhachhang , COUNT(phieuxuat.maphieuxuat ) AS tongsophieu, SUM(phieuxuat.tongtien) AS tongsotien
+                         FROM khachhang
+                         JOIN phieuxuat ON khachhang.makh = phieuxuat.makh
+                         WHERE phieuxuat.thoigian BETWEEN ? AND ? 
+                         GROUP BY khachhang.makh, khachhang.tenkhachhang)
+                         SELECT makh,tenkhachhang,COALESCE(kh.tongsophieu, 0) AS soluong ,COALESCE(kh.tongsotien, 0) AS total 
+                         FROM kh WHERE tenkhachhang LIKE ? OR makh LIKE ?""";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setTimestamp(1, new Timestamp(timeStart.getTime()));
             pst.setTimestamp(2, new Timestamp(timeEnd.getTime()));
