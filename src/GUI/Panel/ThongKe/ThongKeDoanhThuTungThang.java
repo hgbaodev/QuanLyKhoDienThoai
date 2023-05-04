@@ -10,6 +10,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.BoxLayout;
@@ -49,6 +53,12 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         pnl_top = new JPanel(new FlowLayout());
         JLabel lblChonNam = new JLabel("Chọn năm thống kê");
         yearchooser = new JYearChooser();
+        yearchooser.addPropertyChangeListener("year", new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent e) {
+                int year = (Integer) e.getNewValue();
+                
+            }
+        });
         pnl_top.add(lblChonNam);
         pnl_top.add(yearchooser);
 
@@ -73,8 +83,7 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         chart.addData(new ModelChart("Tháng 11", new double[]{200, 350, 1000}));
         chart.addData(new ModelChart("Tháng 12", new double[]{480, 150, 750}));
         pnlChart.add(chart);
-        
-        
+
         tableThongKe = new JTable();
         scrollTableThongKe = new JScrollPane();
         tblModel = new DefaultTableModel();
@@ -88,9 +97,9 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableThongKe.setDefaultRenderer(Object.class, centerRenderer);
         tableThongKe.setFocusable(false);
-        scrollTableThongKe.setPreferredSize(new Dimension(0,300));
+        scrollTableThongKe.setPreferredSize(new Dimension(0, 300));
         this.add(pnl_top, BorderLayout.NORTH);
         this.add(pnlChart, BorderLayout.CENTER);
-        this.add(scrollTableThongKe,BorderLayout.SOUTH);
+        this.add(scrollTableThongKe, BorderLayout.SOUTH);
     }
 }

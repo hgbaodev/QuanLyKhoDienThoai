@@ -28,10 +28,6 @@ public class ThongKeDAO {
         return new ThongKeDAO();
     }
 
-    public static ThongKeDAO getInstance() {
-        return new ThongKeDAO();
-    }
-
     public static HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> getThongKeTonKho(String text, Date timeStart, Date timeEnd) {
         HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> result = new HashMap<>();
         try {
