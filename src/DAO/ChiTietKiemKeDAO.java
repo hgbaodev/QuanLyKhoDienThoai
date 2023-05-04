@@ -1,9 +1,11 @@
 package DAO;
 
 import DTO.ChiTietKiemKeDTO;
+import DTO.ChiTietKiemKeDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -64,7 +66,27 @@ public class ChiTietKiemKeDAO implements ChiTietInterface<ChiTietKiemKeDTO>{
 
     @Override
     public ArrayList<ChiTietKiemKeDTO> selectAll(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<ChiTietKiemKeDTO> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM ctkiemke WHERE maphieukiemke = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, t);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                int maphieukiemke = rs.getInt("maphieukiemke");
+                int maphienban = rs.getInt("maphienban");
+                int soluong = rs.getInt("soluong");
+                int chenhlech = rs.getInt("chenhlech");
+                String ghichu = rs.getString("ghichu");
+                ChiTietKiemKeDTO ctphieu = new ChiTietKiemKeDTO(maphieukiemke, maphienban, soluong, chenhlech, ghichu);
+                result.add(ctphieu);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
     }
     
 }
