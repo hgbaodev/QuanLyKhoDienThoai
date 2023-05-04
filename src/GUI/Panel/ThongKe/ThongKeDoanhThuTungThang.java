@@ -8,13 +8,18 @@ import chart1.ModelChart;
 import com.toedter.calendar.JYearChooser;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,6 +33,9 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
     ThongKeBUS thongkeBUS;
     JYearChooser yearchooser;
     Chart chart;
+    private JTable tableThongKe;
+    private JScrollPane scrollTableThongKe;
+    private DefaultTableModel tblModel;
 
     public ThongKeDoanhThuTungThang(ThongKeBUS thongkeBUS) {
         this.thongkeBUS = thongkeBUS;
@@ -68,8 +76,22 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         chart.addData(new ModelChart("Tháng 11", new double[]{200, 350, 1000}));
         chart.addData(new ModelChart("Tháng 12", new double[]{480, 150, 750}));
         pnlChart.add(chart);
-
+        tableThongKe = new JTable();
+        scrollTableThongKe = new JScrollPane();
+        tblModel = new DefaultTableModel();
+        String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp"};
+        tblModel.setColumnIdentifiers(header);
+        tableThongKe.setModel(tblModel);
+        tableThongKe.setAutoCreateRowSorter(true);
+        tableThongKe.setDefaultEditor(Object.class, null);
+        scrollTableThongKe.setViewportView(tableThongKe);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tableThongKe.setDefaultRenderer(Object.class, centerRenderer);
+        tableThongKe.setFocusable(false);
+        scrollTableThongKe.setPreferredSize(new Dimension(0,400));
         this.add(pnl_top, BorderLayout.NORTH);
         this.add(pnlChart, BorderLayout.CENTER);
+        this.add(scrollTableThongKe,BorderLayout.SOUTH);
     }
 }
