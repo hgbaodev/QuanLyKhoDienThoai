@@ -70,6 +70,10 @@ public class ThongKeBUS {
         return thongkeDAO.getThongKeTungNgayTrongThang(thang, nam);
     }
     
+    public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTuNgayDenNgay(String start, String end){
+        return thongkeDAO.getThongKeTuNgayDenNgay(start, end);
+    }
+        
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKe7NgayGanNhat(){
         return thongkeDAO.getThongKe7NgayGanNhat();
     }
