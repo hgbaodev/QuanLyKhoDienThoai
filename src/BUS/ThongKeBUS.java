@@ -7,6 +7,7 @@ package BUS;
 import DAO.ThongKeDAO;
 import DTO.ThongKe.ThongKeDoanhThuDTO;
 import DTO.ThongKe.ThongKeKhachHangDTO;
+import DTO.ThongKe.ThongKeTheoThangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,5 +59,9 @@ public class ThongKeBUS {
     
     public ArrayList<ThongKeDoanhThuDTO> getDoanhThuTheoTungNam(int year_start, int year_end) {
         return this.thongkeDAO.getDoanhThuTheoTungNam(year_start, year_end);
+    }
+    
+    public ArrayList<ThongKeTheoThangDTO> getThongKeTheoThang(int nam){
+        return thongkeDAO.getThongKeTheoThang(nam);
     }
 }

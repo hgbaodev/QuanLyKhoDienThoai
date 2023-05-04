@@ -6,6 +6,7 @@ package DAO;
 
 import DTO.ThongKe.ThongKeDoanhThuDTO;
 import DTO.ThongKe.ThongKeKhachHangDTO;
+import DTO.ThongKe.ThongKeTheoThangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
@@ -195,4 +196,49 @@ public class ThongKeDAO {
         }
         return result;
     }
+
+    public ArrayList<ThongKeTheoThangDTO> getThongKeTheoThang(int nam) {
+        ArrayList<ThongKeTheoThangDTO> result = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT months.month AS thang, \n"
+                    + "       COALESCE(SUM(ctphieunhap.dongia), 0) AS chiphi,\n"
+                    + "       COALESCE(SUM(ctphieuxuat.dongia), 0) AS doanhthu\n"
+                    + "FROM (\n"
+                    + "       SELECT 1 AS month\n"
+                    + "       UNION ALL SELECT 2\n"
+                    + "       UNION ALL SELECT 3\n"
+                    + "       UNION ALL SELECT 4\n"
+                    + "       UNION ALL SELECT 5\n"
+                    + "       UNION ALL SELECT 6\n"
+                    + "       UNION ALL SELECT 7\n"
+                    + "       UNION ALL SELECT 8\n"
+                    + "       UNION ALL SELECT 9\n"
+                    + "       UNION ALL SELECT 10\n"
+                    + "       UNION ALL SELECT 11\n"
+                    + "       UNION ALL SELECT 12\n"
+                    + "     ) AS months\n"
+                    + "LEFT JOIN phieuxuat ON MONTH(phieuxuat.thoigian) = months.month AND YEAR(phieuxuat.thoigian) = ? \n"
+                    + "LEFT JOIN ctphieuxuat ON phieuxuat.maphieuxuat = ctphieuxuat.maphieuxuat\n"
+                    + "LEFT JOIN ctsanpham ON ctsanpham.maphieuxuat = ctphieuxuat.maphieuxuat AND ctsanpham.maphienbansp = ctphieuxuat.maphienbansp\n"
+                    + "LEFT JOIN ctphieunhap ON ctsanpham.maphieunhap = ctphieunhap.maphieunhap AND ctsanpham.maphienbansp = ctphieunhap.maphienbansp\n"
+                    + "GROUP BY months.month\n"
+                    + "ORDER BY months.month;";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, nam);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int thang = rs.getInt("thang");
+                int chiphi = rs.getInt("chiphi");
+                int doanhthu = rs.getInt("doanhthu");
+                int loinhuan = doanhthu-chiphi;
+                ThongKeTheoThangDTO thongke = new ThongKeTheoThangDTO(thang, chiphi, doanhthu, loinhuan);
+                result.add(thongke);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

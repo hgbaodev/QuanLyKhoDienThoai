@@ -1,15 +1,21 @@
 package GUI.Panel.ThongKe;
 
 import BUS.ThongKeBUS;
+import DTO.ThongKe.ThongKeTheoThangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import GUI.Component.PanelBorderRadius;
 import chart1.Chart;
 import chart1.ModelChart;
 import com.toedter.calendar.JYearChooser;
+import helper.Formater;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.BoxLayout;
@@ -29,7 +35,6 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
 
     PanelBorderRadius pnlChart;
     JPanel pnl_top;
-    HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> listSp;
     ThongKeBUS thongkeBUS;
     JYearChooser yearchooser;
     Chart chart;
@@ -39,9 +44,8 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
 
     public ThongKeDoanhThuTungThang(ThongKeBUS thongkeBUS) {
         this.thongkeBUS = thongkeBUS;
-        listSp = thongkeBUS.getTonKho();
         initComponent();
-
+        loadThongKeThang(yearchooser.getYear());
     }
 
     public void initComponent() {
@@ -52,36 +56,27 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         pnl_top = new JPanel(new FlowLayout());
         JLabel lblChonNam = new JLabel("Chọn năm thống kê");
         yearchooser = new JYearChooser();
+        yearchooser.addPropertyChangeListener("year", new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent e) {
+                int year = (Integer) e.getNewValue();
+                loadThongKeThang(year);
+            }
+        });
         pnl_top.add(lblChonNam);
         pnl_top.add(yearchooser);
 
         pnlChart = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(pnlChart, BoxLayout.Y_AXIS);
         pnlChart.setLayout(boxly);
-
         chart = new Chart();
         chart.addLegend("Vốn", new Color(245, 189, 135));
         chart.addLegend("Doanh thu", new Color(135, 189, 245));
         chart.addLegend("Lợi nhuận", new Color(189, 135, 245));
-        chart.addData(new ModelChart("Tháng 1", new double[]{100, 150, 200}));
-        chart.addData(new ModelChart("Tháng 2", new double[]{600, 750, 300}));
-        chart.addData(new ModelChart("Tháng 3", new double[]{200, 350, 1000}));
-        chart.addData(new ModelChart("Tháng 4", new double[]{480, 150, 750}));
-        chart.addData(new ModelChart("Tháng 5", new double[]{100, 150, 200}));
-        chart.addData(new ModelChart("Tháng 6", new double[]{600, 750, 300}));
-        chart.addData(new ModelChart("Tháng 7", new double[]{200, 350, 1000}));
-        chart.addData(new ModelChart("Tháng 8", new double[]{480, 150, 750}));
-        chart.addData(new ModelChart("Tháng 9", new double[]{100, 150, 200}));
-        chart.addData(new ModelChart("Tháng 10", new double[]{600, 750, 300}));
-        chart.addData(new ModelChart("Tháng 11", new double[]{200, 350, 1000}));
-        chart.addData(new ModelChart("Tháng 12", new double[]{480, 150, 750}));
         pnlChart.add(chart);
-        
-        
         tableThongKe = new JTable();
         scrollTableThongKe = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"STT", "Mã phiếu nhập", "Nhà cung cấp"};
+        String[] header = new String[]{"STT", "Chi phí", "Doanh thu","Lợi nhuận"};
         tblModel.setColumnIdentifiers(header);
         tableThongKe.setModel(tblModel);
         tableThongKe.setAutoCreateRowSorter(true);
@@ -91,9 +86,33 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableThongKe.setDefaultRenderer(Object.class, centerRenderer);
         tableThongKe.setFocusable(false);
-        scrollTableThongKe.setPreferredSize(new Dimension(0,300));
+        scrollTableThongKe.setPreferredSize(new Dimension(0, 300));
         this.add(pnl_top, BorderLayout.NORTH);
         this.add(pnlChart, BorderLayout.CENTER);
-        this.add(scrollTableThongKe,BorderLayout.SOUTH);
+        this.add(scrollTableThongKe, BorderLayout.SOUTH);
+    }
+
+    public void loadThongKeThang(int nam) {
+        ArrayList<ThongKeTheoThangDTO> list = thongkeBUS.getThongKeTheoThang(nam);
+        pnlChart.remove(chart);
+        chart = new Chart();
+        chart.addLegend("Vốn", new Color(245, 189, 135));
+        chart.addLegend("Doanh thu", new Color(135, 189, 245));
+        chart.addLegend("Lợi nhuận", new Color(189, 135, 245));
+        for (int i = 0; i < list.size(); i++) {
+            chart.addData(new ModelChart("Tháng " + (i + 1), new double[]{list.get(i).getChiphi(), list.get(i).getDoanhthu(), list.get(i).getLoinhuan()}));
+        }
+        chart.repaint();
+        chart.validate();
+        pnlChart.add(chart);
+        pnlChart.repaint();
+        pnlChart.validate();
+        tblModel.setRowCount(0);
+        for (int i = 0; i < list.size(); i++) {
+            tblModel.addRow(new Object[]{
+                "Tháng "+(i+1),Formater.FormatVND(list.get(i).getChiphi()),Formater.FormatVND(list.get(i).getDoanhthu()),Formater.FormatVND(list.get(i).getLoinhuan())
+            });
+        }
+
     }
 }
