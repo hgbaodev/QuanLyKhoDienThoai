@@ -4,6 +4,7 @@ import BUS.ThongKeBUS;
 import DTO.ThongKe.ThongKeTheoThangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import GUI.Component.PanelBorderRadius;
+import GUI.Component.TableSorter;
 import chart1.Chart;
 import chart1.ModelChart;
 import com.toedter.calendar.JYearChooser;
@@ -12,8 +13,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -87,6 +86,12 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         tableThongKe.setDefaultRenderer(Object.class, centerRenderer);
         tableThongKe.setFocusable(false);
         scrollTableThongKe.setPreferredSize(new Dimension(0, 300));
+        
+        TableSorter.configureTableColumnSorter(tableThongKe, 0, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tableThongKe, 1, TableSorter.VND_CURRENCY_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tableThongKe, 2, TableSorter.VND_CURRENCY_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tableThongKe, 3, TableSorter.VND_CURRENCY_COMPARATOR);
+        
         this.add(pnl_top, BorderLayout.NORTH);
         this.add(pnlChart, BorderLayout.CENTER);
         this.add(scrollTableThongKe, BorderLayout.SOUTH);
