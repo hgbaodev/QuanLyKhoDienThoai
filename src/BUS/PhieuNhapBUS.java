@@ -9,6 +9,7 @@ import DTO.ChiTietSanPhamDTO;
 import DTO.PhieuNhapDTO;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -50,11 +51,11 @@ public class PhieuNhapBUS {
     public ArrayList<ChiTietPhieuNhapDTO> getChiTietPhieu(int maphieunhap) {
         return ctPhieuNhapDAO.selectAll(Integer.toString(maphieunhap));
     }
-    
+
     public ArrayList<ChiTietPhieuDTO> getChiTietPhieu_Type(int maphieunhap) {
         ArrayList<ChiTietPhieuNhapDTO> arr = ctPhieuNhapDAO.selectAll(Integer.toString(maphieunhap));
         ArrayList<ChiTietPhieuDTO> result = new ArrayList<>();
-        for(ChiTietPhieuDTO i : arr) {
+        for (ChiTietPhieuDTO i : arr) {
             result.add(i);
         }
         return result;
@@ -94,7 +95,16 @@ public class PhieuNhapBUS {
         Long price_min = !price_minnn.equals("") ? Long.valueOf(price_minnn) : 0L;
         Long price_max = !price_maxxx.equals("") ? Long.valueOf(price_maxxx) : Long.MAX_VALUE;
         Timestamp time_start = new Timestamp(time_s.getTime());
-        Timestamp time_end = new Timestamp(time_e.getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time_e.getTime());
+
+        // Đặt giá trị cho giờ, phút, giây và mili giây của Calendar
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        
+        Timestamp time_end = new Timestamp(calendar.getTimeInMillis());
         ArrayList<PhieuNhapDTO> result = new ArrayList<>();
         for (PhieuNhapDTO phieuNhap : getAllList()) {
             boolean match = false;
@@ -124,7 +134,7 @@ public class PhieuNhapBUS {
             }
 
             if (match
-                    && (manv == 0 || phieuNhap.getManguoitao()==manv) && (mancc == 0 || phieuNhap.getManhacungcap()==mancc)
+                    && (manv == 0 || phieuNhap.getManguoitao() == manv) && (mancc == 0 || phieuNhap.getManhacungcap() == mancc)
                     && (phieuNhap.getThoigiantao().compareTo(time_start) >= 0)
                     && (phieuNhap.getThoigiantao().compareTo(time_end) <= 0)
                     && phieuNhap.getTongTien() >= price_min
@@ -135,13 +145,12 @@ public class PhieuNhapBUS {
 
         return result;
     }
-    
-    
-    public boolean checkCancelPn(int maphieu){
+
+    public boolean checkCancelPn(int maphieu) {
         return phieunhapDAO.checkCancelPn(maphieu);
     }
-    
-    public int cancelPhieuNhap(int maphieu){
+
+    public int cancelPhieuNhap(int maphieu) {
         return phieunhapDAO.cancelPhieuNhap(maphieu);
     }
 

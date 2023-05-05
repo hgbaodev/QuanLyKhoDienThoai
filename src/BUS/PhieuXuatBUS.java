@@ -7,6 +7,7 @@ import DTO.ChiTietPhieuDTO;
 import DTO.PhieuXuatDTO;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -20,7 +21,7 @@ public class PhieuXuatBUS {
     private final ChiTietPhieuXuatDAO chiTietPhieuXuatDAO = ChiTietPhieuXuatDAO.getInstance();
     private final ChiTietSanPhamDAO chiTietSanPhamDAO = ChiTietSanPhamDAO.getInstance();
     private final ArrayList<PhieuXuatDTO> listPhieuXuat;
-    
+
     NhanVienBUS nvBUS = new NhanVienBUS();
     KhachHangBUS khBUS = new KhachHangBUS();
 
@@ -57,7 +58,18 @@ public class PhieuXuatBUS {
         Long price_min = !price_minnn.equals("") ? Long.valueOf(price_minnn) : 0L;
         Long price_max = !price_maxxx.equals("") ? Long.valueOf(price_maxxx) : Long.MAX_VALUE;
         Timestamp time_start = new Timestamp(time_s.getTime());
-        Timestamp time_end = new Timestamp(time_e.getTime());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time_e.getTime());
+
+        // Đặt giá trị cho giờ, phút, giây và mili giây của Calendar
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        Timestamp time_end = new Timestamp(calendar.getTimeInMillis());
+
         ArrayList<PhieuXuatDTO> result = new ArrayList<>();
         for (PhieuXuatDTO phieuXuat : getAll()) {
             boolean match = false;
@@ -87,7 +99,7 @@ public class PhieuXuatBUS {
             }
 
             if (match
-                    && (manv == 0 || phieuXuat.getManguoitao() == manv) && (makh == 0 || phieuXuat.getMakh()== makh)
+                    && (manv == 0 || phieuXuat.getManguoitao() == manv) && (makh == 0 || phieuXuat.getMakh() == makh)
                     && (phieuXuat.getThoigiantao().compareTo(time_start) >= 0)
                     && (phieuXuat.getThoigiantao().compareTo(time_end) <= 0)
                     && phieuXuat.getTongTien() >= price_min
