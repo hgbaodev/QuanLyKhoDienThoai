@@ -166,15 +166,6 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         }
     }
 
-    public void openFile(String file) {
-        try {
-            File path = new File(file);
-            Desktop.getDesktop().open(path);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-
     public void importExcel() {
         File excelFile;
         FileInputStream excelFIS = null;
@@ -213,7 +204,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
 
     public void ListCustomersInDePot(ArrayList<SanPhamDTO> result) {
         right.removeAll();
-        JLabel tit = new JLabel("Danh sách sản phẩm trong kho");
+        JLabel tit = new JLabel("Danh sách sản phẩm đang có ở khu vực");
         tit.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 1, 16));
         right.add(tit);
         itemTaskbar listItem[] = new itemTaskbar[result.size()];
