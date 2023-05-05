@@ -7,11 +7,11 @@ public class ThongKeNhaCungCapDTO {
     int mancc;
     String tenncc;
     int soluong;
-    double tongtien;
+    long tongtien;
     
     public ThongKeNhaCungCapDTO(){}
 
-    public ThongKeNhaCungCapDTO(int mancc, String tenncc, int soluong, double tongtien) {
+    public ThongKeNhaCungCapDTO(int mancc, String tenncc, int soluong, long tongtien) {
         this.mancc = mancc;
         this.tenncc = tenncc;
         this.soluong = soluong;
@@ -42,23 +42,26 @@ public class ThongKeNhaCungCapDTO {
         this.soluong = soluong;
     }
 
-    public double getTongtien() {
+    public long getTongtien() {
         return tongtien;
     }
 
-    public void setTongtien(double tongtien) {
+    public void setTongtien(long tongtien) {
         this.tongtien = tongtien;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + this.mancc;
-        hash = 97 * hash + Objects.hashCode(this.tenncc);
-        hash = 97 * hash + this.soluong;
-        hash = 97 * hash + (int) (Double.doubleToLongBits(this.tongtien) ^ (Double.doubleToLongBits(this.tongtien) >>> 32));
+        hash = 59 * hash + this.mancc;
+        hash = 59 * hash + Objects.hashCode(this.tenncc);
+        hash = 59 * hash + this.soluong;
+        hash = 59 * hash + (int) (this.tongtien ^ (this.tongtien >>> 32));
         return hash;
     }
+
+
+    
 
     @Override
     public boolean equals(Object obj) {
