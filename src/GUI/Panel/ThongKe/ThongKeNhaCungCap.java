@@ -12,6 +12,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.InputDate;
 import GUI.Component.InputForm;
 import GUI.Component.PanelBorderRadius;
+import GUI.Component.TableSorter;
 import helper.Formater;
 import helper.JTableExporter;
 import java.awt.BorderLayout;
@@ -123,6 +124,12 @@ public class ThongKeNhaCungCap extends JPanel implements ActionListener, KeyList
         tblKH.getColumnModel().getColumn(0).setPreferredWidth(10);
         tblKH.getColumnModel().getColumn(1).setPreferredWidth(50);
         tblKH.getColumnModel().getColumn(2).setPreferredWidth(200);
+        
+        TableSorter.configureTableColumnSorter(tblKH, 0, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tblKH, 1, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tblKH, 3, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tblKH, 4, TableSorter.VND_CURRENCY_COMPARATOR);
+
         nhapxuat_center.add(scrollTblTonKho);
 
         this.add(nhapxuat_left, BorderLayout.WEST);

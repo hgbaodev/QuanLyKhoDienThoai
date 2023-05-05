@@ -481,7 +481,7 @@ public final class TaoPhieuXuat extends JPanel {
 
         tableSanPham.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 int index = tableSanPham.getSelectedRow();
                 if (index != -1) {
                     setInfoSanPham(listSP.get(index));
