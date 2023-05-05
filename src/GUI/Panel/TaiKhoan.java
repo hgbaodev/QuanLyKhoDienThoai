@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Dialog.ListNhanVien;
 import GUI.Dialog.TaiKhoanDialog;
+import helper.JTableExporter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -21,6 +22,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -150,12 +153,6 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                 taiKhoanDTO.getManv(), taiKhoanDTO.getUsername(), taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getManhomquyen() - 1).getTennhomquyen(), trangthaiString
             });
         }
-//        tblModel.setRowCount(0);
-//        for (DTO.ThuongHieuDTO lh : result) {
-//            tblModel.addRow(new Object[]{
-//                lh.getMathuonghieu(), lh.getTenthuonghieu()
-//            });
-//        }
     }
 
     public void openFile(String file) {
@@ -202,6 +199,12 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
             int index = getRowSelected();
             if (index != -1) {
                 TaiKhoanDialog add = new TaiKhoanDialog(this, owner, "Thêm tài khoản", true, "view", listTk.get(index));
+            }
+        } else if (e.getSource() == mainFunction.btn.get("export")) {
+            try {
+                JTableExporter.exportJTableToExcel(tableTaiKhoan);
+            } catch (IOException ex) {
+                Logger.getLogger(TaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

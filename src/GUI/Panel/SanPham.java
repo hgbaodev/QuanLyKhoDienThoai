@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Dialog.ChiTietSanPhamDialog;
 import GUI.Dialog.SanPhamDialog;
+import helper.JTableExporter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -21,6 +22,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -134,15 +137,6 @@ public final class SanPham extends JPanel implements ActionListener {
         }
     }
 
-    public void openFile(String file) {
-        try {
-            File path = new File(file);
-            Desktop.getDesktop().open(path);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btn.get("create")) {
@@ -173,6 +167,14 @@ public final class SanPham extends JPanel implements ActionListener {
                 System.out.println(listSP.get(index));
                 ChiTietSanPhamDialog ct = new ChiTietSanPhamDialog(owner, "Tất cả sản phẩm", true, listSP.get(index));
             }
+        } else if (e.getSource() == mainFunction.btn.get("export")) {
+            try {
+                JTableExporter.exportJTableToExcel(tableSanPham);
+            } catch (IOException ex) {
+                Logger.getLogger(SanPham.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if(e.getSource() == mainFunction.btn.get("import")) {
+            JOptionPane.showMessageDialog(null, "Chức năng không khả dụng");
         }
     }
 

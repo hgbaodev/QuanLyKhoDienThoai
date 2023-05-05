@@ -11,9 +11,30 @@ import GUI.Component.PanelBorderRadius;
 import GUI.Component.TableSorter;
 import GUI.Dialog.KhachHangDialog;
 import GUI.Main;
+import helper.JTableExporter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -147,15 +168,6 @@ public class KhachHang extends JPanel implements ActionListener {
         }
     }
 
-    public void openFile(String file) {
-        try {
-            File path = new File(file);
-            Desktop.getDesktop().open(path);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-
     public int getRowSelected() {
         int index = tableKhachHang.getSelectedRow();
         if (index == -1) {
@@ -190,6 +202,12 @@ public class KhachHang extends JPanel implements ActionListener {
             int index = getRowSelected();
             if (index != -1) {
                 KhachHangDialog khDialog = new KhachHangDialog(this, owner, "Xem khách hàng", true, "view", listkh.get(index));
+            }
+        } else if (e.getSource() == mainFunction.btn.get("export")) {
+            try {
+                JTableExporter.exportJTableToExcel(tableKhachHang);
+            } catch (IOException ex) {
+                Logger.getLogger(KhachHang.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

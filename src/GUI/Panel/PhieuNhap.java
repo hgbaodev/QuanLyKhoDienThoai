@@ -19,6 +19,7 @@ import GUI.Component.SelectForm;
 import GUI.Component.TableSorter;
 import GUI.Dialog.ChiTietPhieuDialog;
 import helper.Formater;
+import helper.JTableExporter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -27,6 +28,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -312,6 +314,12 @@ public final class PhieuNhap extends JPanel implements ActionListener, KeyListen
             }
         } else if (source == search.btnReset) {
             resetForm();
+        } else if (source == mainFunction.btn.get("export")) {
+            try {
+                JTableExporter.exportJTableToExcel(tablePhieuNhap);
+            } catch (IOException ex) {
+                Logger.getLogger(PhieuNhap.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

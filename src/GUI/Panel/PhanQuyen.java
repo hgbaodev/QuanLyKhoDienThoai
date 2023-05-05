@@ -10,9 +10,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Main;
+import helper.JTableExporter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -147,6 +151,12 @@ public class PhanQuyen extends JPanel implements ActionListener {
                     nhomquyenBUS.delete(listnhomquyen.get(index));
                     loadDataTalbe(listnhomquyen);
                 }
+            }
+        } else if (e.getSource() == mainFunction.btn.get("export")) {
+            try {
+                JTableExporter.exportJTableToExcel(tblNhomQuyen);
+            } catch (IOException ex) {
+                Logger.getLogger(PhanQuyen.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

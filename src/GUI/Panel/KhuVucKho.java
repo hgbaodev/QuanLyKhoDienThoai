@@ -5,9 +5,11 @@ import BUS.SanPhamBUS;
 import DAO.KhuVucKhoDAO;
 import DTO.KhuVucKhoDTO;
 import DTO.SanPhamDTO;
-;
 import java.awt.*;
 import javax.swing.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import helper.JTableExporter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import GUI.Main;
@@ -31,24 +33,18 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-
-
 public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
 
     PanelBorderRadius main, functionBar;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, right;
+    JPanel contentCenter, right;
     JTable tableKhuvuc;
     JScrollPane scrollPane;
     JScrollPane scrollTableSanPham;
@@ -93,35 +89,16 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         });
 
         this.setBackground(BackgroundColor);
-        this.setLayout(new BorderLayout(0, 0));
+        this.setLayout(new GridLayout(1, 1));
+        this.setBorder(new EmptyBorder(10, 10, 10, 10));
         this.setOpaque(true);
 
         // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
-        pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 10));
-        pnlBorder1.setBackground(BackgroundColor);
-        this.add(pnlBorder1, BorderLayout.NORTH);
-
-        pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 10));
-        pnlBorder2.setBackground(BackgroundColor);
-        this.add(pnlBorder2, BorderLayout.SOUTH);
-
-        pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(10, 0));
-        pnlBorder3.setBackground(BackgroundColor);
-        this.add(pnlBorder3, BorderLayout.EAST);
-
-        pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(10, 0));
-        pnlBorder4.setBackground(BackgroundColor);
-        this.add(pnlBorder4, BorderLayout.WEST);
-
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
         contentCenter.setBackground(BackgroundColor);
         contentCenter.setLayout(new BorderLayout(10, 10));
-        this.add(contentCenter, BorderLayout.CENTER);
+        this.add(contentCenter);
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new PanelBorderRadius();
@@ -198,43 +175,6 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         }
     }
 
-    public void exportExcel() {
-        try {
-            JFileChooser jFileChooser = new JFileChooser();
-            jFileChooser.showSaveDialog(this);
-            File saveFile = jFileChooser.getSelectedFile();
-            if (saveFile != null) {
-                saveFile = new File(saveFile.toString() + ".xlsx");
-                Workbook wb = new XSSFWorkbook();
-                Sheet sheet = wb.createSheet("KHU VỰC KHO");
-                Row rowCol = sheet.createRow(0);
-                for (int i = 0; i < tableKhuvuc.getColumnCount(); i++) {
-                    Cell cell = rowCol.createCell(i);
-                    cell.setCellValue(tableKhuvuc.getColumnName(i));
-                }
-
-                for (int j = 0; j < tableKhuvuc.getRowCount(); j++) {
-                    Row row = sheet.createRow(j + 1);
-                    for (int k = 0; k < tableKhuvuc.getColumnCount(); k++) {
-                        Cell cell = row.createCell(k);
-                        if (tableKhuvuc.getValueAt(j, k) != null) {
-                            cell.setCellValue(tableKhuvuc.getValueAt(j, k).toString());
-                        }
-                    }
-                }
-                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
-                wb.write(out);
-                wb.close();
-                out.close();
-                openFile(saveFile.toString());
-                JOptionPane.showMessageDialog(this, "Xuất file excel thành công");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Lỗi khi xuất file");
-        }
-    }
-
     public void importExcel() {
         File excelFile;
         FileInputStream excelFIS = null;
@@ -300,22 +240,26 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         right.validate();
     }
 
+    public int getRowSelected() {
+        int index = tableKhuvuc.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn khu vực kho");
+        }
+        return index;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btn.get("create")) {
             KhuVucKhoDialog kvkDialog = new KhuVucKhoDialog(this, owner, "Thêm khu vực kho", true, "create");
         } else if (e.getSource() == mainFunction.btn.get("update")) {
-            int index = tableKhuvuc.getSelectedRow();
-            if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn khu vực cần sửa");
-            } else {
+            int index = getRowSelected();
+            if (index != -1) {
                 KhuVucKhoDialog kvkDialog = new KhuVucKhoDialog(this, owner, "Chỉnh sửa khu vực kho", true, "update", listKVK.get(index));
             }
         } else if (e.getSource() == mainFunction.btn.get("delete")) {
-            int index = tableKhuvuc.getSelectedRow();
-            if (index == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn khu vực cần xóa");
-            } else {
+            int index = getRowSelected();
+            if (index != -1) {
                 int input = JOptionPane.showConfirmDialog(null,
                         "Bạn có chắc chắn muốn xóa khu vực!", "Xóa khu vực kho",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -328,10 +272,14 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
             search.txtSearchForm.setText("");
             listKVK = kvkBUS.getAll();
             loadDataTable(listKVK);
-        } else if (e.getSource() == mainFunction.btnNhapExcel) {
+        } else if (e.getSource() == mainFunction.btn.get("import")) {
             importExcel();
-        } else if (e.getSource() == mainFunction.btnXuatExcel) {
-            exportExcel();
+        } else if (e.getSource() == mainFunction.btn.get("export")) {
+            try {
+                JTableExporter.exportJTableToExcel(tableKhuvuc);
+            } catch (IOException ex) {
+                Logger.getLogger(KhuVucKho.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

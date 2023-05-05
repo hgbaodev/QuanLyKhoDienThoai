@@ -11,6 +11,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.InputDate;
 import GUI.Component.InputForm;
 import GUI.Component.PanelBorderRadius;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,6 +22,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -180,7 +182,11 @@ public class ThongKeKhachHang extends JPanel implements ActionListener, KeyListe
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == export) {
-
+            try {
+                JTableExporter.exportJTableToExcel(tblKH);
+            } catch (IOException ex) {
+                Logger.getLogger(ThongKeKhachHang.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (source == reset) {
             try {
                 resetForm();
