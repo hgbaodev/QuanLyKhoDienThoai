@@ -1,5 +1,6 @@
 package DAO;
 
+import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
 import config.JDBCUtil;
 import java.sql.Connection;
@@ -184,6 +185,25 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
         } catch (SQLException e) {
         }
         return ch;
+    }
+    
+    public boolean checkImeiExists(ArrayList<ChiTietSanPhamDTO> arr){
+        for (ChiTietSanPhamDTO chiTietSanPhamDTO : arr) {
+            try {
+                Connection con = (Connection) JDBCUtil.getConnection();
+                String sql = "SELECT * FROM ctsanpham WHERE maimei = ?";
+                PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+                pst.setString(1, chiTietSanPhamDTO.getImei());
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    return false;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PhienBanSanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        Connection con = (Connection) JDBCUtil.getConnection();
+        return true;
     }
     
 

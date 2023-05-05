@@ -1,6 +1,7 @@
 package BUS;
 
 import DAO.PhienBanSanPhamDAO;
+import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
 import java.util.ArrayList;
 
@@ -52,6 +53,10 @@ public class PhienBanSanPhamBUS {
     
     public int getSoluong(int maphienban){
         return cauhinhDAO.selectById(maphienban).getSoluongton();
+    }
+    
+    public boolean checkImeiExists(ArrayList<ChiTietSanPhamDTO> arr){
+        return cauhinhDAO.checkImeiExists(arr);
     }
 }
 
