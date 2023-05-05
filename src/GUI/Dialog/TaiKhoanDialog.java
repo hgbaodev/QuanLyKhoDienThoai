@@ -59,7 +59,7 @@ public class TaiKhoanDialog extends JDialog{
         this.taiKhoan = taiKhoan;
         username.setText(tk.getUsername());
         password.setPass(tk.getMatkhau());
-        maNhomQuyen.setSelectedIndex(tk.getManhomquyen()-1);
+        maNhomQuyen.setSelectedItem(NhomQuyenDAO.getInstance().selectById(tk.getManhomquyen()+"").getTennhomquyen());
         trangthai.setSelectedIndex(tk.getTrangthai());
         setLocationRelativeTo(null);
         setVisible(true);
@@ -124,17 +124,20 @@ public class TaiKhoanDialog extends JDialog{
         switch (type) {
             case "create" -> pnbottom.add(btnThem);
             case "update" -> {
+                pnmain.remove(password);
                 pnbottom.add(btnCapNhat);
                 password.setDisablePass();
             }
             case "view" -> {
+                pnmain.remove(password);
                 username.setDisable();
                 password.setDisablePass();
-                
+                maNhomQuyen.setDisable();
+                trangthai.setDisable();
+                this.setSize(new Dimension(500, 550));
             }
             default -> throw new AssertionError();
         }
-        
         pnbottom.add(btnHuyBo);
         this.add(titlePage, BorderLayout.NORTH);
         this.add(pnmain, BorderLayout.CENTER);

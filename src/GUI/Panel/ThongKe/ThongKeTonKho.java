@@ -12,6 +12,7 @@ import GUI.Component.InputForm;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.TableSorter;
 import GUI.Dialog.ThongKePBSPTonKho;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,6 +23,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -210,7 +212,11 @@ public final class ThongKeTonKho extends JPanel implements ActionListener, KeyLi
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == export) {
-
+            try {
+                JTableExporter.exportJTableToExcel(tblTonKho);
+            } catch (IOException ex) {
+                Logger.getLogger(ThongKeTonKho.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (source == reset) {
             try {
                 resetForm();

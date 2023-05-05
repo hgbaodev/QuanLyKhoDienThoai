@@ -1,7 +1,6 @@
 package GUI.Panel.ThongKe;
 
 import BUS.ThongKeBUS;
-import DTO.ThongKe.ThongKeTonKhoDTO;
 import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.TableSorter;
@@ -10,18 +9,16 @@ import chart1.ModelChart;
 import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JYearChooser;
 import helper.Formater;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -36,11 +33,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Tran Nhat Sinh
  */
-public final class ThongKeDoanhThuTrongThang extends JPanel {
+public final class ThongKeDoanhThuTrongThang extends JPanel{
 
     PanelBorderRadius pnlChart;
     JPanel pnl_top;
-    HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> listSp;
     ThongKeBUS thongkeBUS;
     JMonthChooser monthchooser;
     Chart chart;
@@ -48,14 +44,12 @@ public final class ThongKeDoanhThuTrongThang extends JPanel {
     private JScrollPane scrollTableThongKe;
     private DefaultTableModel tblModel;
     private JYearChooser yearchooser;
-    private JButton btnThongKe;
-    private JButton btnReset;
+    private JButton btnThongKe, btnReset, btnExport;
 
     public ThongKeDoanhThuTrongThang(ThongKeBUS thongkeBUS) {
         this.thongkeBUS = thongkeBUS;
-        listSp = thongkeBUS.getTonKho();
         initComponent();
-        int thang = monthchooser.getMonth()+1;
+        int thang = monthchooser.getMonth() + 1;
         int nam = yearchooser.getYear();
         loadThongKeTungNgayTrongThang(thang, nam);
     }
@@ -76,14 +70,21 @@ public final class ThongKeDoanhThuTrongThang extends JPanel {
         pnl_top.add(yearchooser);
         btnThongKe = new JButton("Thống kê");
         pnl_top.add(btnThongKe);
+        btnExport = new JButton("Xuất Excel");
+        pnl_top.add(btnExport);
 
-        btnThongKe.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int thang = monthchooser.getMonth()+1;
-                int nam = yearchooser.getYear();
-                loadThongKeTungNgayTrongThang(thang, nam);
+        btnExport.addActionListener((ActionEvent e) -> {
+            try {
+                JTableExporter.exportJTableToExcel(tableThongKe);
+            } catch (IOException ex) {
+                Logger.getLogger(ThongKeDoanhThuTrongThang.class.getName()).log(Level.SEVERE, null, ex);
             }
+        });
+        
+        btnThongKe.addActionListener((ActionEvent e) -> {
+            int thang = monthchooser.getMonth() + 1;
+            int nam = yearchooser.getYear();
+            loadThongKeTungNgayTrongThang(thang, nam);
         });
 
         pnlChart = new PanelBorderRadius();

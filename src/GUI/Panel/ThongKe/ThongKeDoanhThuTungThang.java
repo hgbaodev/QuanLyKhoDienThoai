@@ -8,15 +8,21 @@ import chart1.Chart;
 import chart1.ModelChart;
 import com.toedter.calendar.JYearChooser;
 import helper.Formater;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,13 +35,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Tran Nhat Sinh
  */
-public final class ThongKeDoanhThuTungThang extends JPanel {
+public final class ThongKeDoanhThuTungThang extends JPanel implements ActionListener{
 
     PanelBorderRadius pnlChart;
     JPanel pnl_top;
     ThongKeBUS thongkeBUS;
     JYearChooser yearchooser;
     Chart chart;
+    JButton export;
     private JTable tableThongKe;
     private JScrollPane scrollTableThongKe;
     private DefaultTableModel tblModel;
@@ -54,14 +61,16 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         pnl_top = new JPanel(new FlowLayout());
         JLabel lblChonNam = new JLabel("Chọn năm thống kê");
         yearchooser = new JYearChooser();
-        yearchooser.addPropertyChangeListener("year", new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent e) {
-                int year = (Integer) e.getNewValue();
-                loadThongKeThang(year);
-            }
+        yearchooser.addPropertyChangeListener("year", (PropertyChangeEvent e) -> {
+            int year = (Integer) e.getNewValue();
+            loadThongKeThang(year);
         });
+
+        export = new JButton("Xuất Excel");
+        export.addActionListener(this);
         pnl_top.add(lblChonNam);
         pnl_top.add(yearchooser);
+        pnl_top.add(export);
 
         pnlChart = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(pnlChart, BoxLayout.Y_AXIS);
@@ -74,7 +83,7 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         tableThongKe = new JTable();
         scrollTableThongKe = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Tháng", "Chi phí", "Doanh thu","Lợi nhuận"};
+        String[] header = new String[]{"Tháng", "Chi phí", "Doanh thu", "Lợi nhuận"};
         tblModel.setColumnIdentifiers(header);
         tableThongKe.setModel(tblModel);
         tableThongKe.setAutoCreateRowSorter(true);
@@ -85,12 +94,12 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         tableThongKe.setDefaultRenderer(Object.class, centerRenderer);
         tableThongKe.setFocusable(false);
         scrollTableThongKe.setPreferredSize(new Dimension(0, 300));
-        
+
         TableSorter.configureTableColumnSorter(tableThongKe, 0, TableSorter.STRING_COMPARATOR);
         TableSorter.configureTableColumnSorter(tableThongKe, 1, TableSorter.VND_CURRENCY_COMPARATOR);
         TableSorter.configureTableColumnSorter(tableThongKe, 2, TableSorter.VND_CURRENCY_COMPARATOR);
         TableSorter.configureTableColumnSorter(tableThongKe, 3, TableSorter.VND_CURRENCY_COMPARATOR);
-        
+
         this.add(pnl_top, BorderLayout.NORTH);
         this.add(pnlChart, BorderLayout.CENTER);
         this.add(scrollTableThongKe, BorderLayout.SOUTH);
@@ -114,9 +123,20 @@ public final class ThongKeDoanhThuTungThang extends JPanel {
         tblModel.setRowCount(0);
         for (int i = 0; i < list.size(); i++) {
             tblModel.addRow(new Object[]{
-                "Tháng "+(i+1),Formater.FormatVND(list.get(i).getChiphi()),Formater.FormatVND(list.get(i).getDoanhthu()),Formater.FormatVND(list.get(i).getLoinhuan())
+                "Tháng " + (i + 1), Formater.FormatVND(list.get(i).getChiphi()), Formater.FormatVND(list.get(i).getDoanhthu()), Formater.FormatVND(list.get(i).getLoinhuan())
             });
         }
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == export) {
+            try {
+                JTableExporter.exportJTableToExcel(tableThongKe);
+            } catch (IOException ex) {
+                Logger.getLogger(ThongKeDoanhThuTungThang.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

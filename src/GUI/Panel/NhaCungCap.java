@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Main;
+import helper.JTableExporter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -25,6 +26,8 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import org.apache.poi.ss.usermodel.Cell;
@@ -161,44 +164,6 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         }
     }
 
-    public void exportExcel() {
-        try {
-            JFileChooser jFileChooser = new JFileChooser();
-            jFileChooser.showSaveDialog(this);
-            File saveFile = jFileChooser.getSelectedFile();
-            if (saveFile != null) {
-                saveFile = new File(saveFile.toString() + ".xlsx");
-                Workbook wb = new XSSFWorkbook();
-                Sheet sheet = wb.createSheet("NHÀ CUNG CẤP");
-                Row rowCol = sheet.createRow(0);
-                for (int i = 0; i < tableNhaCungCap.getColumnCount(); i++) {
-                    Cell cell = rowCol.createCell(i);
-                    cell.setCellValue(tableNhaCungCap.getColumnName(i));
-                }
-
-                for (int j = 0; j < tableNhaCungCap.getRowCount(); j++) {
-                    Row row = sheet.createRow(j + 1);
-                    for (int k = 0; k < tableNhaCungCap.getColumnCount(); k++) {
-                        Cell cell = row.createCell(k);
-                        if (tableNhaCungCap.getValueAt(j, k) != null) {
-                            cell.setCellValue(tableNhaCungCap.getValueAt(j, k).toString());
-                        }
-
-                    }
-                }
-                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
-                wb.write(out);
-                wb.close();
-                out.close();
-                openFile(saveFile.toString());
-                JOptionPane.showMessageDialog(this, "Xuất file excel thành công");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Lỗi khi xuất file");
-        }
-    }
-
     public void importExcel() {
         File excelFile;
         FileInputStream excelFIS = null;
@@ -276,10 +241,14 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
             search.txtSearchForm.setText("");
             listncc = nccBUS.getAll();
             loadDataTable(listncc);
-        } else if (e.getSource() == mainFunction.btnNhapExcel) {
+        } else if (e.getSource() == mainFunction.btn.get("import")) {
             importExcel();
-        } else if (e.getSource() == mainFunction.btnXuatExcel) {
-            exportExcel();
+        } else if (e.getSource() == mainFunction.btn.get("export")) {
+            try {
+                JTableExporter.exportJTableToExcel(tableNhaCungCap);
+            } catch (IOException ex) {
+                Logger.getLogger(NhaCungCap.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

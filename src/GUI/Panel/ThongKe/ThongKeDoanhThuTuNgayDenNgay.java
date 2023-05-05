@@ -5,26 +5,23 @@ import DTO.ThongKe.ThongKeTonKhoDTO;
 import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
 import GUI.Component.PanelBorderRadius;
 import chart1.Chart;
-import chart1.ModelChart;
 import com.toedter.calendar.JDateChooser;
-import com.toedter.calendar.JYearChooser;
 import helper.Formater;
+import helper.JTableExporter;
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,7 +31,6 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import static org.apache.poi.hssf.usermodel.HeaderFooter.date;
 
 /**
  *
@@ -46,15 +42,14 @@ public final class ThongKeDoanhThuTuNgayDenNgay extends JPanel {
     JPanel pnl_top;
     HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> listSp;
     ThongKeBUS thongkeBUS;
-    
+
     Chart chart;
     private JDateChooser dateFrom;
     private JDateChooser dateTo;
-    private JButton btnReset;
+    private JButton btnThongKe, btnReset, btnExport;
     private JTable tableThongKe;
     private JScrollPane scrollTableThongKe;
     private DefaultTableModel tblModel;
-    private JButton btnThongKe;
 
     public ThongKeDoanhThuTuNgayDenNgay(ThongKeBUS thongkeBUS) {
         this.thongkeBUS = thongkeBUS;
@@ -77,40 +72,47 @@ public final class ThongKeDoanhThuTuNgayDenNgay extends JPanel {
         dateTo.setDateFormatString("dd/MM/yyyy");
         btnThongKe = new JButton("Thống kê");
         btnReset = new JButton("Làm mới");
-        
+        btnExport = new JButton("Xuất Excel");
         pnl_top.add(lblFrom);
         pnl_top.add(dateFrom);
         pnl_top.add(lblTo);
         pnl_top.add(dateTo);
         pnl_top.add(btnThongKe);
+        pnl_top.add(btnExport);
         pnl_top.add(btnReset);
-        
-        
-        dateFrom.addPropertyChangeListener("date", e -> {
-            Date date = (Date) e.getNewValue();
+
+        btnExport.addActionListener((ActionEvent e) -> {
             try {
-                if(validateSelectDate()){
-                }
-            } catch (ParseException ex) {
+                JTableExporter.exportJTableToExcel(tableThongKe);
+            } catch (IOException ex) {
                 Logger.getLogger(ThongKeDoanhThuTuNgayDenNgay.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
-        dateTo.addPropertyChangeListener("date", e -> {
+
+        dateFrom.addPropertyChangeListener("date", e -> {
             Date date = (Date) e.getNewValue();
             try {
-                if(validateSelectDate()){
+                if (validateSelectDate()) {
                 }
             } catch (ParseException ex) {
                 Logger.getLogger(ThongKeDoanhThuTuNgayDenNgay.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
+        dateTo.addPropertyChangeListener("date", e -> {
+            Date date = (Date) e.getNewValue();
+            try {
+                if (validateSelectDate()) {
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(ThongKeDoanhThuTuNgayDenNgay.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
         tableThongKe = new JTable();
         scrollTableThongKe = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Ngày", "Chi phí", "Doanh thu","Lợi nhuận"};
+        String[] header = new String[]{"Ngày", "Chi phí", "Doanh thu", "Lợi nhuận"};
         tblModel.setColumnIdentifiers(header);
         tableThongKe.setModel(tblModel);
         tableThongKe.setAutoCreateRowSorter(true);
@@ -123,17 +125,17 @@ public final class ThongKeDoanhThuTuNgayDenNgay extends JPanel {
         scrollTableThongKe.setPreferredSize(new Dimension(0, 350));
         this.add(pnl_top, BorderLayout.NORTH);
         this.add(scrollTableThongKe, BorderLayout.CENTER);
-        
-        btnThongKe.addActionListener(new ActionListener(){
+
+        btnThongKe.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if(validateSelectDate()){
-                        if(dateFrom.getDate()!=null&&dateTo.getDate()!=null){
+                    if (validateSelectDate()) {
+                        if (dateFrom.getDate() != null && dateTo.getDate() != null) {
                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                             String start = formatter.format(dateFrom.getDate());
                             String end = formatter.format(dateTo.getDate());
-                            loadThongKeTungNgayTrongThang(start,end);
+                            loadThongKeTungNgayTrongThang(start, end);
                         } else {
                             JOptionPane.showMessageDialog(null, "Vui lòng chọn đầy đủ thông tin");
                         }
@@ -142,21 +144,20 @@ public final class ThongKeDoanhThuTuNgayDenNgay extends JPanel {
                     Logger.getLogger(ThongKeDoanhThuTuNgayDenNgay.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
         });
-        
-        
-        btnReset.addActionListener(new ActionListener(){
+
+        btnReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dateFrom.setDate(null);
                 dateTo.setDate(null);
                 tblModel.setRowCount(0);
             }
-            
+
         });
     }
-    
+
     public boolean validateSelectDate() throws ParseException {
         Date time_start = dateFrom.getDate();
         Date time_end = dateTo.getDate();
@@ -179,13 +180,13 @@ public final class ThongKeDoanhThuTuNgayDenNgay extends JPanel {
         }
         return true;
     }
-    
-    public void loadThongKeTungNgayTrongThang(String start, String end){
+
+    public void loadThongKeTungNgayTrongThang(String start, String end) {
         ArrayList<ThongKeTungNgayTrongThangDTO> list = thongkeBUS.getThongKeTuNgayDenNgay(start, end);
         tblModel.setRowCount(0);
         for (int i = 0; i < list.size(); i++) {
             tblModel.addRow(new Object[]{
-                list.get(i).getNgay(),Formater.FormatVND(list.get(i).getChiphi()),Formater.FormatVND(list.get(i).getDoanhthu()),Formater.FormatVND(list.get(i).getLoinhuan())
+                list.get(i).getNgay(), Formater.FormatVND(list.get(i).getChiphi()), Formater.FormatVND(list.get(i).getDoanhthu()), Formater.FormatVND(list.get(i).getLoinhuan())
             });
         }
     }

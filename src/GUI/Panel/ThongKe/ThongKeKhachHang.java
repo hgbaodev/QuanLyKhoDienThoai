@@ -11,6 +11,11 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.InputDate;
 import GUI.Component.InputForm;
 import GUI.Component.PanelBorderRadius;
+<<<<<<< HEAD
+import helper.Formater;
+=======
+import helper.JTableExporter;
+>>>>>>> 499c387dc7b8691afacfae84ac454b4c30645e98
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,6 +26,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -163,7 +169,7 @@ public class ThongKeKhachHang extends JPanel implements ActionListener, KeyListe
         int k = 1;
         for (ThongKeKhachHangDTO i : result) {
             tblModel.addRow(new Object[]{
-                k, i.getMakh(), i.getTenkh(), i.getSoluongphieu(), i.getTongtien()
+                k, i.getMakh(), i.getTenkh(), i.getSoluongphieu(), Formater.FormatVND(i.getTongtien())
             });
             k++;
         }
@@ -180,7 +186,11 @@ public class ThongKeKhachHang extends JPanel implements ActionListener, KeyListe
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == export) {
-
+            try {
+                JTableExporter.exportJTableToExcel(tblKH);
+            } catch (IOException ex) {
+                Logger.getLogger(ThongKeKhachHang.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (source == reset) {
             try {
                 resetForm();
