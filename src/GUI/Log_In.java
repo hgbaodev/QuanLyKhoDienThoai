@@ -1,4 +1,3 @@
-
 package GUI;
 
 import DAO.TaiKhoanDAO;
@@ -18,7 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.border.EmptyBorder;
 
-public class Log_In extends JFrame implements KeyListener{
+public class Log_In extends JFrame implements KeyListener {
 
     JPanel pnlMain, pnlLogIn;
     JLabel lblImage, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7;
@@ -37,6 +36,7 @@ public class Log_In extends JFrame implements KeyListener{
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(0, 0));
         this.setTitle("Đăng nhập");
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JFrame jf = this;
 
@@ -62,13 +62,11 @@ public class Log_In extends JFrame implements KeyListener{
         paneldn.add(txtUsername);
         txtPassword = new InputForm("Mật khẩu", "password");
         paneldn.add(txtPassword);
-        
+
         txtUsername.getTxtForm().addKeyListener(this);
         txtPassword.getTxtPass().addKeyListener(this);
-        
 
         pnlMain.add(paneldn);
-        
 
         lbl6 = new JLabel("ĐĂNG NHẬP");
         lbl6.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 16));
@@ -184,7 +182,7 @@ public class Log_In extends JFrame implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode()==KeyEvent.VK_ENTER){
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             checkLogin();
         }
     }

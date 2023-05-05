@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Date;
 import java.util.logging.Level;
@@ -35,6 +36,13 @@ public class ThongKeDAO {
 
     public static HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> getThongKeTonKho(String text, Date timeStart, Date timeEnd) {
         HashMap<Integer, ArrayList<ThongKeTonKhoDTO>> result = new HashMap<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeEnd.getTime());
+        // Đặt giá trị cho giờ, phút, giây và mili giây của Calendar
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         try {
             Connection con = JDBCUtil.getConnection();
             String sql = """
@@ -90,9 +98,9 @@ public class ThongKeDAO {
                          ORDER BY masp;""";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setTimestamp(1, new Timestamp(timeStart.getTime()));
-            pst.setTimestamp(2, new Timestamp(timeEnd.getTime()));
+            pst.setTimestamp(2, new Timestamp(calendar.getTimeInMillis()));
             pst.setTimestamp(3, new Timestamp(timeStart.getTime()));
-            pst.setTimestamp(4, new Timestamp(timeEnd.getTime()));
+            pst.setTimestamp(4, new Timestamp(calendar.getTimeInMillis()));
             pst.setTimestamp(5, new Timestamp(timeStart.getTime()));
             pst.setTimestamp(6, new Timestamp(timeStart.getTime()));
             pst.setString(7, "%" + text + "%");
@@ -170,6 +178,13 @@ public class ThongKeDAO {
 
     public static ArrayList<ThongKeKhachHangDTO> getThongKeKhachHang(String text, Date timeStart, Date timeEnd) {
         ArrayList<ThongKeKhachHangDTO> result = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeEnd.getTime());
+        // Đặt giá trị cho giờ, phút, giây và mili giây của Calendar
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         try {
             Connection con = JDBCUtil.getConnection();
             String sql = """
@@ -183,7 +198,7 @@ public class ThongKeDAO {
                          FROM kh WHERE tenkhachhang LIKE ? OR makh LIKE ?""";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setTimestamp(1, new Timestamp(timeStart.getTime()));
-            pst.setTimestamp(2, new Timestamp(timeEnd.getTime()));
+            pst.setTimestamp(2, new Timestamp(calendar.getTimeInMillis()));
             pst.setString(3, "%" + text + "%");
             pst.setString(4, "%" + text + "%");
 
@@ -204,6 +219,13 @@ public class ThongKeDAO {
 
     public static ArrayList<ThongKeNhaCungCapDTO> getThongKeNCC(String text, Date timeStart, Date timeEnd) {
         ArrayList<ThongKeNhaCungCapDTO> result = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeEnd.getTime());
+        // Đặt giá trị cho giờ, phút, giây và mili giây của Calendar
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         try {
             Connection con = JDBCUtil.getConnection();
             String sql = """
@@ -217,7 +239,7 @@ public class ThongKeDAO {
                          FROM ncc WHERE tennhacungcap LIKE ? OR manhacungcap LIKE ?""";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setTimestamp(1, new Timestamp(timeStart.getTime()));
-            pst.setTimestamp(2, new Timestamp(timeEnd.getTime()));
+            pst.setTimestamp(2, new Timestamp(calendar.getTimeInMillis()));
             pst.setString(3, "%" + text + "%");
             pst.setString(4, "%" + text + "%");
 
@@ -235,6 +257,7 @@ public class ThongKeDAO {
         }
         return result;
     }
+
     public ArrayList<ThongKeTheoThangDTO> getThongKeTheoThang(int nam) {
         ArrayList<ThongKeTheoThangDTO> result = new ArrayList<>();
         try {
@@ -346,7 +369,7 @@ public class ThongKeDAO {
         }
         return result;
     }
-    
+
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKe7NgayGanNhat() {
         ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
         try {
@@ -459,7 +482,7 @@ public class ThongKeDAO {
             PreparedStatement pstStart = con.prepareStatement(setStar);
             PreparedStatement pstEnd = con.prepareStatement(setEnd);
             PreparedStatement pstSelect = con.prepareStatement(sqlSelect);
-            
+
             pstStart.execute();
             pstEnd.execute();
             ResultSet rs = pstSelect.executeQuery();
@@ -476,6 +499,5 @@ public class ThongKeDAO {
         }
         return result;
     }
-
 
 }

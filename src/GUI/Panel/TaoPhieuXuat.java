@@ -98,7 +98,7 @@ public final class TaoPhieuXuat extends JPanel {
     private ButtonCustom btnQuayLai;
     private ButtonCustom chonImei;
     private InputForm txtGiaXuat;
-    
+
     public TaoPhieuXuat(Main mainChinh, TaiKhoanDTO tk, String type) {
         this.mainChinh = mainChinh;
         this.tk = tk;
@@ -158,12 +158,14 @@ public final class TaoPhieuXuat extends JPanel {
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModelSP = new DefaultTableModel();
-        String[] headerSP = new String[]{"Mã SP", "Tên sản phẩm"};
+        String[] headerSP = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng tồn"};
         tblModelSP.setColumnIdentifiers(headerSP);
         tableSanPham.setModel(tblModelSP);
         scrollTableSanPham.setViewportView(tableSanPham);
         tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(300);
+        tableSanPham.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+
         tableSanPham.setFocusable(false);
         scrollTableSanPham.setViewportView(tableSanPham);
 
@@ -251,18 +253,18 @@ public final class TaoPhieuXuat extends JPanel {
         jpanelImei.setBorder(new EmptyBorder(0, 0, 10, 0));
         jpanelImei.add(labelImei, BorderLayout.WEST);
         chonImei = new ButtonCustom("Chọn Imei", "success", 14);
-        
-        chonImei.addActionListener(new ActionListener(){
+
+        chonImei.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(ctpb == null){
+                if (ctpb == null) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn phiên bản!");
                 } else {
-                    SelectImei selectImei = new SelectImei(owner, "Chọn IMEI", true,TaoPhieuXuat.this,ctpb);
+                    SelectImei selectImei = new SelectImei(owner, "Chọn IMEI", true, TaoPhieuXuat.this, ctpb);
                 }
             }
         });
-        JPanel jPanelChonImei = new JPanel(new GridLayout(1,2));
+        JPanel jPanelChonImei = new JPanel(new GridLayout(1, 2));
         jPanelChonImei.setPreferredSize(new Dimension(200, 0));
         jPanelChonImei.add(chonImei);
         jPanelChonImei.add(scanImei);
@@ -288,8 +290,7 @@ public final class TaoPhieuXuat extends JPanel {
         content_right_bottom_bottom = new JPanel(new BorderLayout());
         content_right_bottom_bottom.setSize(new Dimension(0, 50));
         content_right_bottom_bottom.setBorder(new EmptyBorder(20, 0, 0, 0));
-        
-        
+
         content_right_bottom.add(content_right_bottom_top, BorderLayout.CENTER);
 
         content_right.add(content_right_top, BorderLayout.NORTH);
@@ -520,7 +521,7 @@ public final class TaoPhieuXuat extends JPanel {
     public void loadDataTalbeSanPham(ArrayList<DTO.SanPhamDTO> result) {
         tblModelSP.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
-            tblModelSP.addRow(new Object[]{sp.getMasp(), sp.getTensp()});
+            tblModelSP.addRow(new Object[]{sp.getMasp(), sp.getTensp(), sp.getSoluongton()});
         }
     }
 
@@ -533,7 +534,7 @@ public final class TaoPhieuXuat extends JPanel {
         String[] arr = new String[size];
         for (int i = 0; i < size; i++) {
             arr[i] = romBus.getKichThuocById(ch.get(i).getRom()) + "GB - "
-                    + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac()) + " - " + Formater.FormatVND(ch.get(i).getGiaxuat());
+                    + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac());
         }
         this.cbxPhienBan.setArr(arr);
         mapb = ch.get(0).getMaphienbansp();
@@ -573,8 +574,6 @@ public final class TaoPhieuXuat extends JPanel {
         return arrimei.length;
     }
 
-    
-    
     public void actionbtn(String type) {
         boolean val_1 = type.equals("add");
         boolean val_2 = type.equals("update");
@@ -596,10 +595,10 @@ public final class TaoPhieuXuat extends JPanel {
         }
         return check;
     }
-    
+
     public void setImeiByPb(int mapb) {
         ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb);
-        txtGiaXuat.setText(phienBanBus.getByMaPhienBan(mapb).getGiaxuat()+"");
+        txtGiaXuat.setText(phienBanBus.getByMaPhienBan(mapb).getGiaxuat() + "");
         textAreaImei.setText("");
         for (int i = 0; i < ctpb.size(); i++) {
             for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
