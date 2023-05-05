@@ -60,7 +60,7 @@ public class SelectImei extends JDialog{
     }
     
     public void init(){
-        setSize(new Dimension(300,600));
+        setSize(new Dimension(300,500));
         setLayout(new BorderLayout());
         listMode = new DefaultListModel<>();
         findImei = new JTextField("");
