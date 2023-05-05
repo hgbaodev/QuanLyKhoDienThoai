@@ -264,9 +264,6 @@ public class NhanVienDialog extends JDialog {
         } else if(!male.isSelected() && !male.isSelected()){
             JOptionPane.showMessageDialog(this, "Vui lòng chọn giới tính!");
             return false;
-        } else if(!(NhanVienDAO.getInstance().selectByEmail(email.getText())==null)){
-            JOptionPane.showMessageDialog(this, "Tài khoản email này đã được sử dụng trong hệ thống!");
-            return false;
         }
         
         return true;
