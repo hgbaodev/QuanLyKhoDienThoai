@@ -104,6 +104,7 @@ public class ListKhachHang extends JDialog implements MouseListener {
         scrollTableSanPham = new JScrollPane();
         tableKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14));
         tableKhachHang = new JTable();
+        tableKhachHang.setFocusable(false);
         tableKhachHang.setDefaultEditor(Object.class, null);
         tableKhachHang.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},

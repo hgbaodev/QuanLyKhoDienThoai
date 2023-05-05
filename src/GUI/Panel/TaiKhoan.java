@@ -150,7 +150,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                 }
             }
             tblModel.addRow(new Object[]{
-                taiKhoanDTO.getManv(), taiKhoanDTO.getUsername(), taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getManhomquyen() - 1).getTennhomquyen(), trangthaiString
+                taiKhoanDTO.getManv(), taiKhoanDTO.getUsername(), taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getManhomquyen()).getTennhomquyen(), trangthaiString
             });
         }
     }

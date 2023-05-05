@@ -11,6 +11,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.InputDate;
 import GUI.Component.InputForm;
 import GUI.Component.PanelBorderRadius;
+import helper.Formater;
 import helper.JTableExporter;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -165,7 +166,7 @@ public class ThongKeKhachHang extends JPanel implements ActionListener, KeyListe
         int k = 1;
         for (ThongKeKhachHangDTO i : result) {
             tblModel.addRow(new Object[]{
-                k, i.getMakh(), i.getTenkh(), i.getSoluongphieu(), i.getTongtien()
+                k, i.getMakh(), i.getTenkh(), i.getSoluongphieu(), Formater.FormatVND(i.getTongtien())
             });
             k++;
         }

@@ -72,5 +72,8 @@ public class SelectForm extends JPanel{
         this.cbb = cbb;
     }
     
+    public void setDisable(){
+        cbb.setEnabled(false);
+    }
     
 }
