@@ -14,11 +14,11 @@ public class ChiTietSanPhamBUS {
     public ArrayList<ChiTietSanPhamDTO> listctsp = new ArrayList<>();
 
     public ChiTietSanPhamBUS() {
-        
+
     }
 
     public ArrayList<ChiTietSanPhamDTO> getAllByMaPBSP(int pbsp) {
-        listctsp = ctspDAO.selectAllbyPb(pbsp);
+        listctsp = ctspDAO.selectbyPb(pbsp);
         return listctsp;
     }
 
@@ -30,7 +30,7 @@ public class ChiTietSanPhamBUS {
         return this.listctsp.get(index);
     }
 
-    public ArrayList<ChiTietSanPhamDTO> getCTSPbyMasp(int masp) {
+    public ArrayList<ChiTietSanPhamDTO> getAllCTSPbyMasp(int masp) {
         ArrayList<ChiTietSanPhamDTO> list2 = new ArrayList<>();
         ArrayList<PhienBanSanPhamDTO> list = pbspbus.getAll(masp);
         for (PhienBanSanPhamDTO i : list) {
@@ -53,7 +53,7 @@ public class ChiTietSanPhamBUS {
         }
         return result;
     }
-    
+
     public HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> getChiTietSanPhamFromMaPX(int maphieuxuat) {
         ArrayList<ChiTietSanPhamDTO> chitietsp = ctspDAO.selectAllByMaPhieuXuat(maphieuxuat);
         HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> result = new HashMap<>();
@@ -82,5 +82,24 @@ public class ChiTietSanPhamBUS {
 
     public ArrayList<ChiTietSanPhamDTO> selectAllByMaPhieuXuat(int maphieu) {
         return ctspDAO.selectAllByMaPhieuXuat(maphieu);
+    }
+
+    public ArrayList<ChiTietSanPhamDTO> FilterPBvaTT(int masp, int phienban, int tinhtrang) {
+        ArrayList<ChiTietSanPhamDTO> list = this.getAllCTSPbyMasp(masp);
+        ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
+        for (ChiTietSanPhamDTO i : list) {
+            if(i.getMaphienbansp() == phienban && i.getTinhtrang() == tinhtrang)
+                result.add(i);
+        }
+        return result;
+    }
+    public ArrayList<ChiTietSanPhamDTO> FilterPBvaAll(int masp, int phienban) {
+        ArrayList<ChiTietSanPhamDTO> list = this.getAllCTSPbyMasp(masp);
+        ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
+        for (ChiTietSanPhamDTO i : list) {
+            if(i.getMaphienbansp() == phienban)
+                result.add(i);
+        }
+        return result;
     }
 }

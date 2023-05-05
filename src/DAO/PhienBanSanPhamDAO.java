@@ -134,6 +134,32 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
         }
         return result;
     }
+    
+     public ArrayList<PhienBanSanPhamDTO> selectAllpb(String t) {
+        ArrayList<PhienBanSanPhamDTO> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM phienbansanpham WHERE masp = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, t);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                int maphienbansp = rs.getInt("maphienbansp");
+                int masp = rs.getInt("masp");
+                int ram = rs.getInt("ram");
+                int mausac = rs.getInt("mausac");
+                int rom = rs.getInt("rom");
+                int gianhap = rs.getInt("gianhap");
+                int giaxuat = rs.getInt("giaxuat");
+                int soluongton = rs.getInt("soluongton");
+                PhienBanSanPhamDTO ch = new PhienBanSanPhamDTO(maphienbansp, masp, ram, rom, mausac, gianhap, giaxuat, soluongton);
+                result.add(ch);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+        }
+        return result;
+    }
 
     public PhienBanSanPhamDTO selectById(int mapb) {
         PhienBanSanPhamDTO ch = null;

@@ -29,7 +29,7 @@ public final class ThongKe extends JPanel {
         tongquan = new ThongKeTongQuan(thongkeBUS);
         nhapxuat = new ThongKeTonKho(thongkeBUS);
         khachhang = new ThongKeKhachHang(thongkeBUS);
-        nhacungcap = new ThongKeNhaCungCap();
+        nhacungcap = new ThongKeNhaCungCap(thongkeBUS);
         doanhthu = new ThongKeDoanhThu(thongkeBUS);
 
         tabbedPane = new JTabbedPane();

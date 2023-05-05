@@ -6,6 +6,7 @@ package DAO;
 
 import DTO.ThongKe.ThongKeDoanhThuDTO;
 import DTO.ThongKe.ThongKeKhachHangDTO;
+import DTO.ThongKe.ThongKeNhaCungCapDTO;
 import DTO.ThongKe.ThongKeTheoThangDTO;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
@@ -201,6 +202,39 @@ public class ThongKeDAO {
         return result;
     }
 
+    public static ArrayList<ThongKeNhaCungCapDTO> getThongKeNCC(String text, Date timeStart, Date timeEnd) {
+        ArrayList<ThongKeNhaCungCapDTO> result = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = """
+                          WITH ncc AS (
+                         SELECT nhacungcap.manhacungcap, nhacungcap.tennhacungcap , COUNT(phieunhap.maphieunhap ) AS tongsophieu, SUM(phieunhap.tongtien) AS tongsotien
+                         FROM nhacungcap
+                         JOIN phieunhap ON nhacungcap.manhacungcap = phieunhap.manhacungcap
+                         WHERE phieunhap.thoigian BETWEEN ? AND ? 
+                         GROUP BY nhacungcap.manhacungcap, nhacungcap.tennhacungcap)
+                         SELECT manhacungcap,tennhacungcap,COALESCE(ncc.tongsophieu, 0) AS soluong ,COALESCE(ncc.tongsotien, 0) AS total 
+                         FROM ncc WHERE tennhacungcap LIKE ? OR manhacungcap LIKE ?""";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setTimestamp(1, new Timestamp(timeStart.getTime()));
+            pst.setTimestamp(2, new Timestamp(timeEnd.getTime()));
+            pst.setString(3, "%" + text + "%");
+            pst.setString(4, "%" + text + "%");
+
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int mancc = rs.getInt("manhacungcap");
+                String tenncc = rs.getString("tennhacungcap");
+                int soluong = rs.getInt("soluong");
+                long tongtien = rs.getInt("total");
+                ThongKeNhaCungCapDTO x = new ThongKeNhaCungCapDTO(mancc, tenncc, soluong, tongtien);
+                result.add(x);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
     public ArrayList<ThongKeTheoThangDTO> getThongKeTheoThang(int nam) {
         ArrayList<ThongKeTheoThangDTO> result = new ArrayList<>();
         try {

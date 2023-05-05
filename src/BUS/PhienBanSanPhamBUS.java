@@ -15,13 +15,12 @@ public class PhienBanSanPhamBUS {
     }
     
     public ArrayList<PhienBanSanPhamDTO> getAll(int masp) {
-        return cauhinhDAO.selectAll(Integer.toString(masp));
+        return cauhinhDAO.selectAllpb(Integer.toString(masp));
     }
     
     public PhienBanSanPhamDTO getByMaPhienBan(int mapb) {
         return cauhinhDAO.selectById(mapb);
     }
-    
     public int getIndexByMaPhienBan(ArrayList<PhienBanSanPhamDTO> list, int mapb) {
         int i = 0;
         int vitri = -1;

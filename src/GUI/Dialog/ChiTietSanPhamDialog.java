@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -81,8 +82,9 @@ public class ChiTietSanPhamDialog extends JDialog implements ActionListener, Ite
         cbxPhienBan.setArr(getCauHinhPhienBan(spdto.getMasp()));
         
         
-        String[] arrTinhTrang = {"Tất cả", "Tồn kho", "Đã bán"};
+        String[] arrTinhTrang = {"Tất cả", "Đã bán", "Tồn kho"};
         cbxTinhTrang = new SelectForm("Tình trạng", arrTinhTrang);
+        cbxTinhTrang.cbb.addItemListener(this);
         pnmain_top_left.add(cbxPhienBan);
         pnmain_top_left.add(cbxTinhTrang);
 
@@ -101,8 +103,7 @@ public class ChiTietSanPhamDialog extends JDialog implements ActionListener, Ite
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Imei", "Mã phiếu nhập", "Mã phiếu xuất", "Tình trạng"};
         tblModel.setColumnIdentifiers(header);
-        listctsp = ctspbus.getCTSPbyMasp(spdto.getMasp());
-
+        listctsp = ctspbus.FilterPBvaAll(spdto.getMasp(),ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp());
         table.setModel(tblModel);
         scrollTable.setViewportView(table);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -126,7 +127,7 @@ public class ChiTietSanPhamDialog extends JDialog implements ActionListener, Ite
         tblModel.setRowCount(0);
         for (ChiTietSanPhamDTO ctsp : result) {
             tblModel.addRow(new Object[]{
-                ctsp.getImei(), ctsp.getMaphieunhap(), ctsp.getMaphieuxuat(), ctsp.getTinhtrang()
+                ctsp.getImei(), ctsp.getMaphieunhap(), ctsp.getMaphieuxuat()==0?"Chưa xuất kho":ctsp.getMaphieuxuat(), ctsp.getTinhtrang()==1?"Tồn kho":"Đã bán"
             });
         }
     }
@@ -146,13 +147,30 @@ public class ChiTietSanPhamDialog extends JDialog implements ActionListener, Ite
     public void actionPerformed(ActionEvent e) {
         int mapb = ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp();
         
+        
     }
 
     @Override
     public void itemStateChanged(ItemEvent e) {
         Object source = e.getSource();
+        ArrayList<ChiTietSanPhamDTO> list = new ArrayList<>();
+        int mapb = ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp();
+        int tt = cbxTinhTrang.getSelectedIndex();
         if (source == cbxPhienBan.cbb) {
-            int index = cbxPhienBan.cbb.getSelectedIndex();
+           if (tt!=0){
+               list = ctspbus.FilterPBvaTT(spdto.getMasp(),ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp(),tt-1);
+           }
+           else 
+               list = ctspbus.FilterPBvaAll(spdto.getMasp(),ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp());
+           
         }
+        else if(source == cbxTinhTrang.cbb){
+            if (tt!=0){
+               list = ctspbus.FilterPBvaTT(spdto.getMasp(),ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp(),tt-1);
+           }
+           else 
+               list = ctspbus.FilterPBvaAll(spdto.getMasp(),ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp());
+        }
+        loadDataTable(list);
     }
 }
