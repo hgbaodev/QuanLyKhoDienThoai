@@ -5,12 +5,17 @@
 package GUI.Dialog;
 
 import DTO.ChiTietSanPhamDTO;
+import GUI.Component.ButtonCustom;
 import GUI.Component.CheckListItem;
 import GUI.Component.CheckListRenderer;
 import GUI.Panel.TaoPhieuKiemKe;
 import GUI.Panel.TaoPhieuXuat;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -20,6 +25,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -54,7 +60,7 @@ public class SelectImei extends JDialog{
     }
     
     public void init(){
-        setSize(new Dimension(300,500));
+        setSize(new Dimension(300,600));
         setLayout(new BorderLayout());
         listMode = new DefaultListModel<>();
         findImei = new JTextField("");
@@ -68,9 +74,22 @@ public class SelectImei extends JDialog{
             loadImei();
             }
         });
+        JPanel panelBottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelBottom.setPreferredSize(new Dimension(0,50));
+        panelBottom.setBackground(Color.WHITE);
+        ButtonCustom btnXacNhan = new ButtonCustom("Xác nhận", "success", 14);
+        panelBottom.add(btnXacNhan);
         this.add(findImei,BorderLayout.NORTH);
-        this.getContentPane().add(new JScrollPane(list));
+        this.getContentPane().add(new JScrollPane(list),BorderLayout.CENTER);
+        this.add(panelBottom,BorderLayout.SOUTH);
         setLocationRelativeTo(null);
+        
+        btnXacNhan.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
     
     public void loadImei(){

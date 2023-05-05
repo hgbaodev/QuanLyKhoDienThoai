@@ -221,7 +221,7 @@ public final class TaoPhieuXuat extends JPanel {
         content_right_top.add(panlePXGX, BorderLayout.SOUTH);
         cbxPhienBan.getCbb().addItemListener((ItemEvent e) -> {
             int pb = ch.get(cbxPhienBan.getSelectedIndex()).getMaphienbansp();
-            setImeiByPb(pb);
+            setImeiByPb(mapb);
             if (checkTonTai()) {
                 actionbtn("update");
             } else {
@@ -243,9 +243,25 @@ public final class TaoPhieuXuat extends JPanel {
         jpanelImei.setBackground(Color.WHITE);
         jpanelImei.setBorder(new EmptyBorder(0, 0, 10, 0));
         jpanelImei.add(labelImei, BorderLayout.WEST);
+        chonImei = new ButtonCustom("Chọn Imei", "success", 14);
+        
+        chonImei.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(ctpb == null){
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiên bản!");
+                } else {
+                    SelectImei selectImei = new SelectImei(owner, "Chọn IMEI", true,TaoPhieuXuat.this,ctpb);
+                }
+            }
+        });
+        JPanel jPanelChonImei = new JPanel(new GridLayout(1,2));
+        jPanelChonImei.setPreferredSize(new Dimension(200, 0));
+        jPanelChonImei.add(chonImei);
+        jPanelChonImei.add(scanImei);
 
         jpanelImei.add(panelScanCenter, BorderLayout.CENTER);
-        jpanelImei.add(scanImei, BorderLayout.EAST);
+        jpanelImei.add(jPanelChonImei, BorderLayout.EAST);
 
         scanImei.addActionListener((ActionEvent e) -> {
             if (ch.isEmpty()) {
@@ -265,28 +281,9 @@ public final class TaoPhieuXuat extends JPanel {
         content_right_bottom_bottom = new JPanel(new BorderLayout());
         content_right_bottom_bottom.setSize(new Dimension(0, 50));
         content_right_bottom_bottom.setBorder(new EmptyBorder(20, 0, 0, 0));
-        chonImei = new ButtonCustom("Chọn Imei", "success", 14);
-        chonImei.setPreferredSize(new Dimension(120, 0));
-        chonImei.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(ctpb == null){
-                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiên bản!");
-                } else {
-                    SelectImei selectImei = new SelectImei(owner, "Chọn IMEI", true,TaoPhieuXuat.this,ctpb);
-                }
-            }
-        });
         
-        v = new Vector();
-        v.add("Chọn sản phẩm");
-        cbxImei = new CustomComboCheck(v, textAreaImei);
-        AutoCompleteDecorator.decorate(cbxImei);
-        content_right_bottom_bottom.setBackground(Color.white);
-        content_right_bottom_bottom.add(chonImei, BorderLayout.WEST);
-        content_right_bottom_bottom.add(cbxImei, BorderLayout.CENTER);
+        
         content_right_bottom.add(content_right_bottom_top, BorderLayout.CENTER);
-        content_right_bottom.add(content_right_bottom_bottom, BorderLayout.SOUTH);
 
         content_right.add(content_right_top, BorderLayout.NORTH);
         content_right.add(content_right_bottom, BorderLayout.CENTER);
@@ -532,7 +529,6 @@ public final class TaoPhieuXuat extends JPanel {
                     + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac()) + " - " + Formater.FormatVND(ch.get(i).getGiaxuat());
         }
         this.cbxPhienBan.setArr(arr);
-
         mapb = ch.get(0).getMaphienbansp();
         setImeiByPb(mapb);
     }
@@ -570,39 +566,11 @@ public final class TaoPhieuXuat extends JPanel {
         return arrimei.length;
     }
 
-    public void setImeiByPb(int mapb) {
-        if (type.equals("create")) {
-            ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb);
-        } else if (type.equals("detail")) {
-            ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPbAll(mapb);
-        }
-        txtGiaXuat.setText(phienBanBus.getByMaPhienBan(mapb).getGiaxuat()+"");
-        textAreaImei.setText("");
-        v.clear();
-        v.add("Chọn sản phẩm");
-        for (int i = 0; i < ctpb.size(); i++) {
-            boolean check = false;
-            for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
-                if (chiTietSanPhamDTO.getImei().equals(ctpb.get(i).getImei())) {
-                    check = true;
-                    textAreaImei.append(chiTietSanPhamDTO.getImei() + "\n");
-                }
-            }
-            v.add(new JCheckBox(ctpb.get(i).getImei(), check));
-        }
-        cbxImei = new CustomComboCheck(v, textAreaImei);
-    }
     
     
     public void actionbtn(String type) {
         boolean val_1 = type.equals("add");
         boolean val_2 = type.equals("update");
-        if (val_1) {
-            cbxImei.setEnabled(true);
-        }
-        if (val_2) {
-            cbxImei.setEnabled(false);
-        }
         btnAddSp.setEnabled(val_1);
         btnImport.setEnabled(val_1);
         btnEditSP.setEnabled(val_2);
@@ -620,6 +588,19 @@ public final class TaoPhieuXuat extends JPanel {
             }
         }
         return check;
+    }
+    
+    public void setImeiByPb(int mapb) {
+        ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb);
+        txtGiaXuat.setText(phienBanBus.getByMaPhienBan(mapb).getGiaxuat()+"");
+        textAreaImei.setText("");
+        for (int i = 0; i < ctpb.size(); i++) {
+            for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
+                if (chiTietSanPhamDTO.getImei().equals(ctpb.get(i).getImei())) {
+                    textAreaImei.append(chiTietSanPhamDTO.getImei() + "\n");
+                }
+            }
+        }
     }
 
     public void loadDataTableChiTietPhieu(ArrayList<ChiTietPhieuDTO> ctPhieu) {
