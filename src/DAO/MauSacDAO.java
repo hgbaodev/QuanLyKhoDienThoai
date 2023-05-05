@@ -89,6 +89,25 @@ public class MauSacDAO implements DAOinterface<MauSacDTO> {
         }
         return result;
     }
+    
+    public ArrayList<MauSacDTO> getAll() {
+        ArrayList<MauSacDTO> result = new ArrayList<>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM mausac";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while (rs.next()) {
+                int mamau = rs.getInt("mamau");
+                String tenmau = rs.getString("tenmau");
+                MauSacDTO ms = new MauSacDTO(mamau, tenmau);
+                result.add(ms);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+        }
+        return result;
+    }
 
     @Override
     public MauSacDTO selectById(String t) {

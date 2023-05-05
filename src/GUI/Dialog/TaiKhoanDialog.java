@@ -170,7 +170,6 @@ public class TaiKhoanDialog extends JDialog{
             JOptionPane.showMessageDialog(this, "Mật khẩu ít nhất 6 ký tự");
             return false;
         }
-        
         return true;
     }
 
