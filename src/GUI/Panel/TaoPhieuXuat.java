@@ -220,7 +220,7 @@ public final class TaoPhieuXuat extends JPanel {
         content_right_top.add(txtTenSp, BorderLayout.CENTER);
         content_right_top.add(panlePXGX, BorderLayout.SOUTH);
         cbxPhienBan.getCbb().addItemListener((ItemEvent e) -> {
-            int pb = ch.get(cbxPhienBan.getSelectedIndex()).getMaphienbansp();
+            mapb = ch.get(cbxPhienBan.getSelectedIndex()).getMaphienbansp();
             setImeiByPb(mapb);
             if (checkTonTai()) {
                 actionbtn("update");

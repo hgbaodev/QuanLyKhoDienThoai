@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -72,7 +73,9 @@ public class MauSacDialog extends JDialog implements MouseListener {
         table = new JTable();
         table.setBackground(Color.WHITE);
         table.addMouseListener(this);
-        scrollTable = new JScrollPane();
+        table.setFillsViewportHeight(true);
+        scrollTable = new JScrollPane(table);
+        scrollTable.setVisible(true);
         scrollTable.setBackground(Color.WHITE);
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã màu", "Tên màu"};

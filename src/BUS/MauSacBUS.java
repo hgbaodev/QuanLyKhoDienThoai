@@ -18,7 +18,7 @@ public class MauSacBUS {
     private ArrayList<MauSacDTO> listMauSac = new ArrayList<>();
 
     public MauSacBUS() {
-        this.listMauSac = mausacDAO.getAll();
+        this.listMauSac = mausacDAO.selectAll();
     }
 
     public ArrayList<MauSacDTO> getAll() {
