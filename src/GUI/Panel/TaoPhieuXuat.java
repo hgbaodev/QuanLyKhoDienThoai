@@ -44,6 +44,8 @@ import java.awt.event.MouseEvent;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Vector;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -280,6 +282,34 @@ public final class TaoPhieuXuat extends JPanel {
             }
         });
         textAreaImei = new JTextArea();
+        textAreaImei.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String[] arrimei = textAreaImei.getText().split("\n");
+                for (int i=0;i<arrimei.length;i++){
+                    boolean check = false;
+                    for (ChiTietSanPhamDTO chiTietSanPhamDTO : ctpb) {
+                        if(arrimei[i].equals(chiTietSanPhamDTO.getImei())){
+                            check = true;
+                        }
+                    }
+                    if(!check){
+                        String txt = textAreaImei.getText().replaceAll("(" + arrimei[i] + ")\n", "");
+                        textAreaImei.setText(txt);
+                    }
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                // Xử lý sự kiện khi có nội dung bị xóa đi
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Xử lý sự kiện khi có thay đổi khác
+            }
+        });
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204)));
         this.textAreaImei.setEditable(false);
         content_right_bottom_top = new JPanel(new BorderLayout());
