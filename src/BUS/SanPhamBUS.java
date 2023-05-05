@@ -16,6 +16,7 @@ public class SanPhamBUS {
     }
 
     public ArrayList<SanPhamDTO> getAll() {
+        
         return this.listSP;
     }
 

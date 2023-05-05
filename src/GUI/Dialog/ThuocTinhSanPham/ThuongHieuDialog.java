@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -43,7 +44,6 @@ public class ThuongHieuDialog extends JDialog implements MouseListener {
     InputForm ms;
     DefaultTableModel tblModel;
     JTable table;
-    JScrollPane scrollTable;
     ButtonCustom add, del, update;
     ThuongHieuBUS thBUS = new ThuongHieuBUS();
     ArrayList<ThuongHieuDTO> list = thBUS.getAll();
@@ -77,18 +77,19 @@ public class ThuongHieuDialog extends JDialog implements MouseListener {
         table = new JTable();
         table.setBackground(Color.WHITE);
         table.addMouseListener(this);
-        scrollTable = new JScrollPane();
-        scrollTable.setBackground(Color.WHITE);
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã thương hiệu", "Tên thương hiệu"};
         tblModel.setColumnIdentifiers(header);
         table.setModel(tblModel);
-        scrollTable.setViewportView(table);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setCellRenderer(centerRenderer);
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
+         JScrollPane scrollTable = new JScrollPane(table);
+        scrollTable.setBorder(new EmptyBorder(0, 0, 0, 0));
+        scrollTable.setViewportView(table);
+        scrollTable.setPreferredSize(new Dimension(420,250));
         main.add(ms);
         main.add(scrollTable);
 

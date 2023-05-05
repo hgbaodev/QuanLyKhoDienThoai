@@ -199,6 +199,9 @@ public class MyAccount extends JDialog implements ActionListener {
                         String pass = BCrypt.hashpw(confirm.getPass(), BCrypt.gensalt(12));
                         TaiKhoanDAO.getInstance().update(new TaiKhoanDTO(tkdto.getManv(), tkdto.getUsername(), pass, tkdto.getManhomquyen(), tkdto.getTrangthai()));
                         JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+                        current_pwd.setText("");
+                        new_pwd.setText("");
+                        confirm.setText("");
                     } else {
                         JOptionPane.showMessageDialog(this, "Mật khẩu hiện tại không đúng", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
                     }
