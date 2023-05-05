@@ -63,7 +63,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         tableKhuvuc = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã kho", "Tên kho hàng", "Ghi chú"};
+        String[] header = new String[]{"Mã kho", "Tên khu vực", "Ghi chú"};
         tblModel.setColumnIdentifiers(header);
         tableKhuvuc.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableKhuvuc);
