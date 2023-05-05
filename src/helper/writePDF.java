@@ -118,9 +118,9 @@ public class writePDF {
         Point leftCorner = new Point();
         leftCorner.setLocation(x, y);
         fd.setLocation(leftCorner);
-        fd.setFile(name + ".pdf");
+        fd.setFile(name );
         fd.setVisible(true);
-        String url = fd.getDirectory() + fd.getFile();
+        String url = fd.getDirectory()+fd.getFile();
         if (url.equals("null")) {
             return null;
         }
@@ -128,14 +128,16 @@ public class writePDF {
     }
 
     public void writePhieuNhap(int mapn) {
-        String url = "";
+        String url = null;
         try {
             fd.setTitle("In phiếu nhập");
             fd.setLocationRelativeTo(null);
             url = getFile(mapn+"");
-            if (url == null) {
+            if (url.equals("nullnull")) {
                 return;
             }
+            else{
+            url=url+".pdf";
             file = new FileOutputStream(url);
             document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, file);
@@ -199,6 +201,7 @@ public class writePDF {
             document.close();
             JOptionPane.showMessageDialog(null, "Ghi file thành công " + url);
             openFile(url);
+            }
 
         } catch (DocumentException | FileNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Lỗi khi ghi file " + url);
@@ -211,9 +214,10 @@ public class writePDF {
             fd.setTitle("In phiếu xuất");
             fd.setLocationRelativeTo(null);
             url = getFile(mapx+"");
-            if (url == null) {
+            if (url.equals("nullnull")) {
                 return;
             }
+            url=url+".pdf";
             file = new FileOutputStream(url);
             document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, file);

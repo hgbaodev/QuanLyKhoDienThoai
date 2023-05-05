@@ -19,7 +19,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,7 +40,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author Tran Nhat Sinh
  */
-public class ChiTietSanPhamDialog extends JDialog implements ActionListener, ItemListener {
+public class ChiTietSanPhamDialog extends JDialog implements KeyListener, ItemListener {
 
     HeaderTitle titlePage;
     JPanel pnmain, pnmain_top, pnmain_bottom, pnmain_top_left, pnmain_top_right;
@@ -79,8 +84,7 @@ public class ChiTietSanPhamDialog extends JDialog implements ActionListener, Ite
         cbxPhienBan = new SelectForm("Phiên bản", arrPb);
         cbxPhienBan.cbb.addItemListener(this);
         cbxPhienBan.setArr(getCauHinhPhienBan(spdto.getMasp()));
-        
-        
+
         String[] arrTinhTrang = {"Tất cả", "Đã bán", "Tồn kho"};
         cbxTinhTrang = new SelectForm("Tình trạng", arrTinhTrang);
         cbxTinhTrang.cbb.addItemListener(this);
@@ -89,6 +93,7 @@ public class ChiTietSanPhamDialog extends JDialog implements ActionListener, Ite
 
         pnmain_top_right = new JPanel(new GridLayout(1, 1));
         txtSearch = new InputForm("Nội dung tìm kiếm...");
+        txtSearch.getTxtForm().addKeyListener(this);
         pnmain_top_right.add(txtSearch);
 
         pnmain_top.add(pnmain_top_left, BorderLayout.WEST);
@@ -102,7 +107,7 @@ public class ChiTietSanPhamDialog extends JDialog implements ActionListener, Ite
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Imei", "Mã phiếu nhập", "Mã phiếu xuất", "Tình trạng"};
         tblModel.setColumnIdentifiers(header);
-        listctsp = ctspbus.FilterPBvaAll(spdto.getMasp(),ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp());
+        listctsp = ctspbus.FilterPBvaAll(txtSearch.getText(), spdto.getMasp(), ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp());
         table.setModel(tblModel);
         scrollTable.setViewportView(table);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -126,7 +131,7 @@ public class ChiTietSanPhamDialog extends JDialog implements ActionListener, Ite
         tblModel.setRowCount(0);
         for (ChiTietSanPhamDTO ctsp : result) {
             tblModel.addRow(new Object[]{
-                ctsp.getImei(), ctsp.getMaphieunhap(), ctsp.getMaphieuxuat()==0?"Chưa xuất kho":ctsp.getMaphieuxuat(), ctsp.getTinhtrang()==1?"Tồn kho":"Đã bán"
+                ctsp.getImei(), ctsp.getMaphieunhap(), ctsp.getMaphieuxuat() == 0 ? "Chưa xuất kho" : ctsp.getMaphieuxuat(), ctsp.getTinhtrang() == 1 ? "Tồn kho" : "Đã bán"
             });
         }
     }
@@ -142,34 +147,46 @@ public class ChiTietSanPhamDialog extends JDialog implements ActionListener, Ite
         return arr;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        int mapb = ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp();
-        
-        
+
+
+    public void Filter() throws ParseException{
+        ArrayList<ChiTietSanPhamDTO> list = new ArrayList<>();
+        String text = txtSearch.getText() != null ? txtSearch.getText() : "";;
+        int tt = cbxTinhTrang.getSelectedIndex();
+        if (tt != 0) {
+            list = ctspbus.FilterPBvaTT(text, spdto.getMasp(), ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp(), tt - 1);
+        } else {
+            list = ctspbus.FilterPBvaAll(text, spdto.getMasp(), ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp());
+        }
+        loadDataTable(list);
     }
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-        Object source = e.getSource();
-        ArrayList<ChiTietSanPhamDTO> list = new ArrayList<>();
-        int mapb = ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp();
-        int tt = cbxTinhTrang.getSelectedIndex();
-        if (source == cbxPhienBan.cbb) {
-           if (tt!=0){
-               list = ctspbus.FilterPBvaTT(spdto.getMasp(),ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp(),tt-1);
-           }
-           else 
-               list = ctspbus.FilterPBvaAll(spdto.getMasp(),ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp());
-           
+        try {
+            Filter();
+        } catch (ParseException ex) {
+            Logger.getLogger(ChiTietSanPhamDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
-        else if(source == cbxTinhTrang.cbb){
-            if (tt!=0){
-               list = ctspbus.FilterPBvaTT(spdto.getMasp(),ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp(),tt-1);
-           }
-           else 
-               list = ctspbus.FilterPBvaAll(spdto.getMasp(),ch.get(cbxPhienBan.cbb.getSelectedIndex()).getMaphienbansp());
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        try {
+            Filter();
+        } catch (ParseException ex) {
+            Logger.getLogger(ChiTietSanPhamDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
-        loadDataTable(list);
     }
 }
