@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class TaiKhoanBUS {
     private ArrayList<TaiKhoanDTO> listTaiKhoan;
     private ArrayList<NhomQuyenDTO> listNhomQuyen;
+    private NhomQuyenDAO nhomQuyenDAO = NhomQuyenDAO.getInstance();
     
     public TaiKhoanBUS(){
         this.listTaiKhoan  = TaiKhoanDAO.getInstance().selectAll();
@@ -40,9 +41,8 @@ public class TaiKhoanBUS {
         return vitri;
     }
     
-    public NhomQuyenDTO getNhomQuyenDTO(int index){
-        System.out.println("Size:"+listNhomQuyen.size());
-        return listNhomQuyen.get(index);
+    public NhomQuyenDTO getNhomQuyenDTO(int manhom){
+        return nhomQuyenDAO.selectById(manhom+"");
     }
     
     public void addAcc(TaiKhoanDTO tk){

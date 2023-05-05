@@ -95,7 +95,7 @@ public class NhanVienDialog extends JDialog {
         main.setBackground(Color.white);
         name = new InputForm("Họ và tên");
         sdt = new InputForm("Số điện thoại");
-        PlainDocument phonex = (PlainDocument)sdt.getTxtForm().getDocument();
+        PlainDocument phonex = (PlainDocument) sdt.getTxtForm().getDocument();
         phonex.setDocumentFilter((new NumericDocumentFilter()));
         email = new InputForm("Email");
         male = new JRadioButton("Nam");
@@ -148,32 +148,33 @@ public class NhanVienDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-//                    System.out.println("Name: "+ name.getText() );
-//                    System.out.println("Phone: " + sdt.getText());
-//                    try {
-//                        System.out.println("Birthday: " + jcBd.getDate());
-//                    } catch (ParseException ex) {
-//                        Logger.getLogger(NhanVienDialog.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-                    int txt_gender = -1;
-                    if (male.isSelected()) {
-                        System.out.println("Nam");
-                        txt_gender = 1;
-                    } else if (female.isSelected()) {
-                        System.out.println("Nữ");
-                        txt_gender = 0;
+                    if (ValidationInput()) {
+                        if(checkEmail(email.getText())){
+                        try {
+                            int txt_gender = -1;
+                            if (male.isSelected()) {
+                                System.out.println("Nam");
+                                txt_gender = 1;
+                            } else if (female.isSelected()) {
+                                System.out.println("Nữ");
+                                txt_gender = 0;
+                            }
+                            int manv = NhanVienDAO.getInstance().getAutoIncrement();
+                            String txtName = name.getText();
+                            String txtSdt = sdt.getText();
+                            String txtEmail = email.getText();
+                            Date birthDay = jcBd.getDate();
+                            java.sql.Date sqlDate = new java.sql.Date(birthDay.getTime());
+                            NhanVienDTO nV = new NhanVienDTO(manv, txtName, txt_gender, sqlDate, txtSdt, 1, txtEmail);
+                            NhanVienDAO.getInstance().insert(nV);
+                            nv.insertNv(nV);
+                            nv.loadTable();
+                            dispose();
+                        } catch (ParseException ex) {
+                            Logger.getLogger(NhanVienDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
-                    int manv = NhanVienDAO.getInstance().getAutoIncrement();
-                    String txtName = name.getText();
-                    String txtSdt = sdt.getText();
-                    String txtEmail = email.getText();
-                    Date birthDay = jcBd.getDate();
-                    java.sql.Date sqlDate = new java.sql.Date(birthDay.getTime());
-                    NhanVienDTO nV = new NhanVienDTO(manv, txtName, txt_gender, sqlDate, txtSdt, 1, txtEmail);
-                    NhanVienDAO.getInstance().insert(nV);
-                    nv.insertNv(nV);
-                    nv.loadTable();
-                    dispose();
+                    }
                 } catch (ParseException ex) {
                     Logger.getLogger(NhanVienDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -184,30 +185,35 @@ public class NhanVienDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int txt_gender = -1;
-                    if (male.isSelected()) {
-                        System.out.println("Nam");
-                        txt_gender = 1;
-                    } else if (female.isSelected()) {
-                        System.out.println("Nữ");
-                        txt_gender = 0;
+                    if (ValidationInput()) {
+                        try {
+                            int txt_gender = -1;
+                            if (male.isSelected()) {
+                                System.out.println("Nam");
+                                txt_gender = 1;
+                            } else if (female.isSelected()) {
+                                System.out.println("Nữ");
+                                txt_gender = 0;
+                            }
+                            int manv = NhanVienDAO.getInstance().getAutoIncrement();
+                            String txtName = name.getText();
+                            String txtSdt = sdt.getText();
+                            String txtEmail = email.getText();
+                            Date birthDay = jcBd.getDate();
+                            java.sql.Date sqlDate = new java.sql.Date(birthDay.getTime());
+                            NhanVienDTO nV = new NhanVienDTO(nhanVien.getManv(), txtName, txt_gender, sqlDate, txtSdt, 1, txtEmail);
+                            NhanVienDAO.getInstance().update(nV);
+                            System.out.println("Index:" + nv.getIndex());
+                            nv.listNv.set(nv.getIndex(), nV);
+                            nv.loadTable();
+                            dispose();
+                        } catch (ParseException ex) {
+                            Logger.getLogger(NhanVienDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
-                    int manv = NhanVienDAO.getInstance().getAutoIncrement();
-                    String txtName = name.getText();
-                    String txtSdt = sdt.getText();
-                    String txtEmail = email.getText();
-                    Date birthDay = jcBd.getDate();
-                    java.sql.Date sqlDate = new java.sql.Date(birthDay.getTime());
-                    NhanVienDTO nV = new NhanVienDTO(nhanVien.getManv(), txtName, txt_gender, sqlDate, txtSdt, 1, txtEmail);
-                    NhanVienDAO.getInstance().update(nV);
-                    System.out.println("Index:" + nv.getIndex());
-                    nv.listNv.set(nv.getIndex(), nV);
-                    nv.loadTable();
-                    dispose();
                 } catch (ParseException ex) {
                     Logger.getLogger(NhanVienDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             }
         });
 
@@ -237,19 +243,40 @@ public class NhanVienDialog extends JDialog {
         this.add(bottom, BorderLayout.SOUTH);
 
     }
-        boolean ValidationInput(){
-         if (Validation.isEmpty(name.getText())) {
+
+    boolean ValidationInput() throws ParseException {
+        if (Validation.isEmpty(name.getText())) {
             JOptionPane.showMessageDialog(this, "Tên nhân viên không được rỗng", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
             return false;
-         }
-         else  if (Validation.isEmpty(sdt.getText())&&!Validation.isNumber(sdt.getText())&&sdt.getText().length()!=10) {
-            JOptionPane.showMessageDialog(this, "Số điện thoại không được rỗng và phải là 10 ký tự số", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+        } else if(name.getText().length()<6){
+            JOptionPane.showMessageDialog(this, "Tên nhân viên ít nhất 6 kí tự!");
             return false;
-         }
-         else if (Validation.isEmpty(email.getText()) || !Validation.isEmail(email.getText())) {
+        }else if (Validation.isEmpty(email.getText()) || !Validation.isEmail(email.getText())) {
             JOptionPane.showMessageDialog(this, "Email không được rỗng và phải đúng cú pháp", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
             return false;
-         }
-         return true;
+        }
+        else if (Validation.isEmpty(sdt.getText()) && !Validation.isNumber(sdt.getText()) && sdt.getText().length() != 10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại không được rỗng và phải là 10 ký tự số", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else if(jcBd.getDate()==null){
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày sinh!");
+            return false;
+        } else if(!male.isSelected() && !male.isSelected()){
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn giới tính!");
+            return false;
+        } else if(!(NhanVienDAO.getInstance().selectByEmail(email.getText())==null)){
+            JOptionPane.showMessageDialog(this, "Tài khoản email này đã được sử dụng trong hệ thống!");
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public boolean checkEmail(String email){
+        if(!(NhanVienDAO.getInstance().selectByEmail(email)==null)){
+          JOptionPane.showMessageDialog(this, "Tài khoản email này đã được sử dụng trong hệ thống!");
+          return false;
+        }
+        return true;
     }
 }

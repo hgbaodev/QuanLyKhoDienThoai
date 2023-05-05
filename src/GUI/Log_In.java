@@ -36,7 +36,6 @@ public class Log_In extends JFrame implements KeyListener{
         this.setSize(new Dimension(1000, 500));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(0, 0));
-//        this.setResizable(false);
         this.setTitle("Đăng nhập");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JFrame jf = this;
@@ -49,14 +48,6 @@ public class Log_In extends JFrame implements KeyListener{
 
         pnlMain.setPreferredSize(new Dimension(500, 740));
         pnlMain.setLayout(new FlowLayout(1, 0, 10));
-
-//        lbl1 = new JLabel("HỆ THỐNG QUẢN LÝ");
-//        lbl1.setFont(new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 27));
-//        pnlMain.add(lbl1);
-//
-//        lbl2 = new JLabel("KHO ĐIỆN THOẠI THÔNG MINH");
-//        lbl2.setFont(new Font(FlatRobotoFont.FAMILY_SEMIBOLD, Font.BOLD, 31));
-//        pnlMain.add(lbl2);
 
         lbl3 = new JLabel("ĐĂNG NHẬP VÀO HỆ THỐNG");
         lbl3.setFont(new Font(FlatRobotoFont.FAMILY_SEMIBOLD, Font.BOLD, 20));
