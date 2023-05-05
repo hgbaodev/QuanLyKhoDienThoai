@@ -11,11 +11,8 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.InputDate;
 import GUI.Component.InputForm;
 import GUI.Component.PanelBorderRadius;
-<<<<<<< HEAD
 import helper.Formater;
-=======
 import helper.JTableExporter;
->>>>>>> 499c387dc7b8691afacfae84ac454b4c30645e98
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
