@@ -84,20 +84,20 @@ public class ChiTietSanPhamBUS {
         return ctspDAO.selectAllByMaPhieuXuat(maphieu);
     }
 
-    public ArrayList<ChiTietSanPhamDTO> FilterPBvaTT(int masp, int phienban, int tinhtrang) {
+    public ArrayList<ChiTietSanPhamDTO> FilterPBvaTT(String text,int masp, int phienban, int tinhtrang) {
         ArrayList<ChiTietSanPhamDTO> list = this.getAllCTSPbyMasp(masp);
         ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
         for (ChiTietSanPhamDTO i : list) {
-            if(i.getMaphienbansp() == phienban && i.getTinhtrang() == tinhtrang)
+            if(i.getMaphienbansp() == phienban && i.getTinhtrang() == tinhtrang && i.getImei().contains(text))
                 result.add(i);
         }
         return result;
     }
-    public ArrayList<ChiTietSanPhamDTO> FilterPBvaAll(int masp, int phienban) {
+    public ArrayList<ChiTietSanPhamDTO> FilterPBvaAll(String text,int masp, int phienban) {
         ArrayList<ChiTietSanPhamDTO> list = this.getAllCTSPbyMasp(masp);
         ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
         for (ChiTietSanPhamDTO i : list) {
-            if(i.getMaphienbansp() == phienban)
+            if(i.getMaphienbansp() == phienban && i.getImei().contains(text))
                 result.add(i);
         }
         return result;

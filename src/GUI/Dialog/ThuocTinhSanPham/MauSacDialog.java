@@ -73,15 +73,14 @@ public class MauSacDialog extends JDialog implements MouseListener {
         table = new JTable();
         table.setBackground(Color.WHITE);
         table.addMouseListener(this);
-        table.setFillsViewportHeight(true);
         scrollTable = new JScrollPane(table);
-        scrollTable.setVisible(true);
         scrollTable.setBackground(Color.WHITE);
         tblModel = new DefaultTableModel();
         String[] header = new String[]{"Mã màu", "Tên màu"};
         tblModel.setColumnIdentifiers(header);
         table.setModel(tblModel);
         scrollTable.setViewportView(table);
+        scrollTable.setPreferredSize(new Dimension(420,250));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         TableColumnModel columnModel = table.getColumnModel();

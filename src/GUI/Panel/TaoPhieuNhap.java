@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -448,6 +449,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     }
 
     public ChiTietPhieuNhapDTO getInfoChiTietPhieu() {
+        
         int masp = Integer.parseInt(txtMaSp.getText());
         int maphienbansp = ch.get(cbxCauhinh.cbb.getSelectedIndex()).getMaphienbansp();
         int gianhap = Integer.parseInt(txtDongia.getText());
@@ -457,6 +459,27 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         chitietsanpham.put(maphienbansp, getChiTietSanPham());
         ChiTietPhieuNhapDTO ctphieu = new ChiTietPhieuNhapDTO(phuongthucnhap, maphieunhap, maphienbansp, soluong, gianhap);
         return ctphieu;
+    }
+    
+    public boolean checkImeiExists(){
+        ArrayList<ChiTietSanPhamDTO> ctSP = getChiTietSanPham();
+        ArrayList<ChiTietSanPhamDTO> dsCheck = new ArrayList<>();
+        for (ArrayList<ChiTietSanPhamDTO> ctsp : chitietsanpham.values()) {
+            dsCheck.addAll(ctsp);
+        }
+        for (ChiTietSanPhamDTO chiTietSanPhamDTO : ctSP) {
+            for (ChiTietSanPhamDTO chiTietSanPhamDTO1 : dsCheck) {
+                if(chiTietSanPhamDTO.getImei().equals(chiTietSanPhamDTO1.getImei())){
+                    JOptionPane.showMessageDialog(this, "Có sự nhầm lẫn nào đó IMEI đã tồn tại trong phiếu");
+                    return false;
+                }
+            }
+        }
+        if(!phienbanBus.checkImeiExists(ctSP)){
+                JOptionPane.showMessageDialog(this, "Có IMEI trùng với imei trong kho có sự sai sót nào đó!");
+                return false;
+        }
+        return true;
     }
 
     public ArrayList<ChiTietSanPhamDTO> getChiTietSanPham() {
@@ -627,7 +650,10 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == btnAddSp && validateNhap()) {
-            addCtPhieu();
+            if(checkImeiExists()){
+                addCtPhieu();
+            } 
+            
         } else if (source == btnDelete) {
             int index = tablePhieuNhap.getSelectedRow();
             chitietphieu.remove(index);
