@@ -64,7 +64,6 @@ public class XuatXuBUS {
 
     public String getTenXuatXu(int maxx) {
         int index = this.getIndexByMaXX(maxx);
-        System.out.println(index);
         return this.listXuatXu.get(index).getTenxuatxu();
     }
 

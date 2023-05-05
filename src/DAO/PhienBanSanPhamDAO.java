@@ -35,7 +35,7 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
                 pst.setInt(5, t.get(i).getMausac());
                 pst.setInt(6, t.get(i).getGianhap());
                 pst.setInt(7, t.get(i).getGiaxuat());
-                pst.setInt(7, t.get(i).getSoluongton());
+                pst.setInt(8, t.get(i).getSoluongton());
                 result = pst.executeUpdate();
                 JDBCUtil.closeConnection(con);
             } catch (SQLException ex) {
@@ -139,7 +139,7 @@ public class PhienBanSanPhamDAO implements ChiTietInterface<PhienBanSanPhamDTO> 
         ArrayList<PhienBanSanPhamDTO> result = new ArrayList<>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM phienbansanpham WHERE masp = ?";
+            String sql = "SELECT * FROM phienbansanpham WHERE masp = ? and trangthai = 1";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();

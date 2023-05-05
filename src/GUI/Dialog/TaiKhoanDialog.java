@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 /**
@@ -88,7 +89,7 @@ public class TaiKhoanDialog extends JDialog{
         btnThem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-              
+                if(validateInput()){
                 String tendangnhap = username.getText();
                 String pass = BCrypt.hashpw(password.getPass(), BCrypt.gensalt(12));
                 int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getManhomquyen();
@@ -98,11 +99,13 @@ public class TaiKhoanDialog extends JDialog{
                 taiKhoan.taiKhoanBus.addAcc(tk);
                 taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());
                 dispose();
+                }
             }
         });
         btnCapNhat.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(validateInput()){
                 String tendangnhap = username.getText();
                 String pass = BCrypt.hashpw(password.getPass(), BCrypt.gensalt(12));
                 int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getManhomquyen();
@@ -112,6 +115,7 @@ public class TaiKhoanDialog extends JDialog{
                 taiKhoan.taiKhoanBus.updateAcc(taiKhoan.getRowSelected(), tk);
                 taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());
                 dispose();
+                }
             }
         });
         btnHuyBo.addActionListener(new ActionListener(){
@@ -150,6 +154,23 @@ public class TaiKhoanDialog extends JDialog{
             listNhomQuyen[i] = listNq.get(i).getTennhomquyen();
         }
         return listNhomQuyen;
+    }
+    
+    public boolean validateInput(){
+        if(username.getText().length()==0){
+            JOptionPane.showMessageDialog(this, "Vui lòng không để trống tên đăng nhập");
+            return false;
+        } else if(username.getText().length()<6){
+            JOptionPane.showMessageDialog(this, "Tên đăng nhập ít nhất 6 kí tự");
+            return false;
+        } else if (password.getPass().length()==0){
+            JOptionPane.showMessageDialog(this, "Vui lòng không để trống mật khẩu");
+            return false;
+        } else if(password.getPass().length()<6){
+            JOptionPane.showMessageDialog(this, "Mật khẩu ít nhất 6 ký tự");
+            return false;
+        }
+        return true;
     }
 
 }
