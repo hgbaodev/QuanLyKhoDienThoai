@@ -105,7 +105,7 @@ public class TaiKhoanDialog extends JDialog{
         btnCapNhat.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(validateInput()){
+                if(!(username.getText().length()==0)){
                 String tendangnhap = username.getText();
                 String pass = BCrypt.hashpw(password.getPass(), BCrypt.gensalt(12));
                 int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getManhomquyen();
@@ -115,6 +115,8 @@ public class TaiKhoanDialog extends JDialog{
                 taiKhoan.taiKhoanBus.updateAcc(taiKhoan.getRowSelected(), tk);
                 taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());
                 dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Vui lòng không để trống tên");
                 }
             }
         });
