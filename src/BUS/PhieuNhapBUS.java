@@ -97,7 +97,6 @@ public class PhieuNhapBUS {
         Timestamp time_start = new Timestamp(time_s.getTime());
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time_e.getTime());
-
         // Đặt giá trị cho giờ, phút, giây và mili giây của Calendar
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);

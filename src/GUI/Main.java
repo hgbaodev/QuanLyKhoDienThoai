@@ -68,7 +68,6 @@ public class Main extends JFrame {
         FlatIntelliJLaf.setup();
         UIManager.put("Table.selectionBackground", new Color(240, 247, 250));
         UIManager.put("Table.selectionForeground", new Color(0,0,0));
-
         UIManager.put("Table.scrollPaneBorder", new EmptyBorder(0, 0, 0, 0));
         UIManager.put("Table.rowHeight", 40);
         UIManager.put( "TabbedPane.selectedBackground", Color.white );
@@ -77,7 +76,7 @@ public class Main extends JFrame {
         UIManager.put("TableHeader.background", new Color(242, 242, 242));
         UIManager.put("TableHeader.separatorColor", new Color(242, 242, 242));
         UIManager.put("TableHeader.bottomSeparatorColor", new Color(242, 242, 242));
-
+        System.setProperty("flatlaf.useWindowDecorations", "true");
     }
 
     public void setPanel(JPanel pn) {

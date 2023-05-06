@@ -126,9 +126,15 @@ public final class ThongKeTonKho extends JPanel implements ActionListener, KeyLi
         tblTonKho.getColumnModel().getColumn(0).setPreferredWidth(10);
         tblTonKho.getColumnModel().getColumn(1).setPreferredWidth(10);
         tblTonKho.getColumnModel().getColumn(2).setPreferredWidth(200);
-        
-        TableSorter.configureTableColumnSorter(tblTonKho, 6,TableSorter.INTEGER_COMPARATOR);
-        
+
+        TableSorter.configureTableColumnSorter(tblTonKho, 0, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tblTonKho, 1, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tblTonKho, 3, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tblTonKho, 4, TableSorter.INTEGER_COMPARATOR);
+        TableSorter.configureTableColumnSorter(tblTonKho, 5, TableSorter.INTEGER_COMPARATOR);
+
+        TableSorter.configureTableColumnSorter(tblTonKho, 6, TableSorter.INTEGER_COMPARATOR);
+
         nhapxuat_center.add(scrollTblTonKho);
 
         tblTonKho.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -137,13 +143,12 @@ public final class ThongKeTonKho extends JPanel implements ActionListener, KeyLi
                 tblTonKhoClicked(evt);
             }
         });
-        
-        
+
         this.add(nhapxuat_left, BorderLayout.WEST);
         this.add(nhapxuat_center, BorderLayout.CENTER);
     }
-    
-    private void tblTonKhoClicked(java.awt.event.MouseEvent evt) {                                        
+
+    private void tblTonKhoClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
             if (tblTonKho.getSelectedRow() == -1) {
@@ -153,7 +158,7 @@ public final class ThongKeTonKho extends JPanel implements ActionListener, KeyLi
                 ThongKePBSPTonKho sppp = new ThongKePBSPTonKho((JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), "Chi tiết tồn kho từng cấu hình", true, listSp.get(masp));
             }
         }
-    }     
+    }
 
     public void Fillter() throws ParseException {
         if (validateSelectDate()) {

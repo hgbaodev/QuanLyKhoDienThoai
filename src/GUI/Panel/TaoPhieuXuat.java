@@ -160,12 +160,14 @@ public final class TaoPhieuXuat extends JPanel {
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModelSP = new DefaultTableModel();
-        String[] headerSP = new String[]{"Mã SP", "Tên sản phẩm"};
+        String[] headerSP = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng tồn"};
         tblModelSP.setColumnIdentifiers(headerSP);
         tableSanPham.setModel(tblModelSP);
         scrollTableSanPham.setViewportView(tableSanPham);
         tableSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(300);
+        tableSanPham.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+
         tableSanPham.setFocusable(false);
         scrollTableSanPham.setViewportView(tableSanPham);
 
@@ -549,7 +551,7 @@ public final class TaoPhieuXuat extends JPanel {
     public void loadDataTalbeSanPham(ArrayList<DTO.SanPhamDTO> result) {
         tblModelSP.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
-            tblModelSP.addRow(new Object[]{sp.getMasp(), sp.getTensp()});
+            tblModelSP.addRow(new Object[]{sp.getMasp(), sp.getTensp(), sp.getSoluongton()});
         }
     }
 
@@ -562,7 +564,7 @@ public final class TaoPhieuXuat extends JPanel {
         String[] arr = new String[size];
         for (int i = 0; i < size; i++) {
             arr[i] = romBus.getKichThuocById(ch.get(i).getRom()) + "GB - "
-                    + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac()) + " - " + Formater.FormatVND(ch.get(i).getGiaxuat());
+                    + ramBus.getKichThuocById(ch.get(i).getRam()) + "GB - " + mausacBus.getTenMau(ch.get(i).getMausac());
         }
         this.cbxPhienBan.setArr(arr);
         mapb = ch.get(0).getMaphienbansp();
