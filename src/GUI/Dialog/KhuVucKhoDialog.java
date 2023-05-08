@@ -124,7 +124,7 @@ public final class KhuVucKhoDialog extends JDialog implements ActionListener {
         } else if (e.getSource() == btnCapNhat && Validation()) {
             String tenkhuvuc = this.tenkhuvuc.getText();
             String ghichu = this.ghichu.getText();
-            jpkvk.kvkBUS.update(new KhuVucKhoDTO(kvk.getMakhuvuckho(), tenkhuvuc, ghichu));
+            jpkvk.kvkBUS.update(new KhuVucKhoDTO(kvk.getMakhuvuc(), tenkhuvuc, ghichu));
             jpkvk.loadDataTable(jpkvk.listKVK);
             dispose();
         }

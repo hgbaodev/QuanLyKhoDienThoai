@@ -33,7 +33,7 @@ public class KhuVucKhoBUS {
         int i = 0;
         int vitri = -1;
         while (i < this.listKVK.size() && vitri == -1) {
-            if (listKVK.get(i).getMakhuvuckho() == makhuvuc) {
+            if (listKVK.get(i).getMakhuvuc() == makhuvuc) {
                 vitri = i;
             } else {
                 i++;
@@ -51,7 +51,7 @@ public class KhuVucKhoBUS {
     }
 
     public boolean delete(KhuVucKhoDTO kvk, int index) {
-        boolean check = kvkDAO.delete(Integer.toString(kvk.getMakhuvuckho())) != 0;
+        boolean check = kvkDAO.delete(Integer.toString(kvk.getMakhuvuc())) != 0;
         if (check) {
             this.listKVK.remove(index);
         }
@@ -61,7 +61,7 @@ public class KhuVucKhoBUS {
     public boolean update(KhuVucKhoDTO kvk) {
         boolean check = kvkDAO.update(kvk) != 0;
         if (check) {
-            this.listKVK.set(getIndexByMaKVK(kvk.getMakhuvuckho()), kvk);
+            this.listKVK.set(getIndexByMaKVK(kvk.getMakhuvuc()), kvk);
         }
         return check;
     }
@@ -70,7 +70,7 @@ public class KhuVucKhoBUS {
         int i = 0;
         int vitri = -1;
         while (i < this.listKVK.size() && vitri == -1) {
-            if (listKVK.get(i).getMakhuvuckho() == makvk) {
+            if (listKVK.get(i).getMakhuvuc() == makvk) {
                 vitri = i;
                 break;
             } else {
@@ -86,14 +86,14 @@ public class KhuVucKhoBUS {
         switch (type) {
             case "Tất cả" -> {
                 for (KhuVucKhoDTO i : listKVK) {
-                    if (Integer.toString(i.getMakhuvuckho()).contains(txt) || i.getTenkhuvuc().toLowerCase().contains(txt)){
+                    if (Integer.toString(i.getMakhuvuc()).contains(txt) || i.getTenkhuvuc().toLowerCase().contains(txt)){
                         result.add(i);
                     }
                 }
             }
             case "Mã khu vực kho" -> {
                 for (KhuVucKhoDTO i : listKVK) {
-                    if (Integer.toString(i.getMakhuvuckho()).contains(txt)) {
+                    if (Integer.toString(i.getMakhuvuc()).contains(txt)) {
                         result.add(i);
                     }
                 }

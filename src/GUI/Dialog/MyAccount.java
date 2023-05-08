@@ -186,8 +186,8 @@ public class MyAccount extends JDialog implements ActionListener {
                 TaiKhoanDTO tkdto = tkbus.getTaiKhoan(tkbus.getTaiKhoanByMaNV(nv.getManv()));
                 if (Validation.isEmpty(current_pwd.getPass())) {
                     JOptionPane.showMessageDialog(this, "Mật khẩu hiện tại không được rỗng", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
-                } else if (Validation.isEmpty(new_pwd.getPass())) {
-                    JOptionPane.showMessageDialog(this, "Mật khẩu mới không được rỗng", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+                } else if (Validation.isEmpty(new_pwd.getPass())||new_pwd.getPass().length()<6) {
+                    JOptionPane.showMessageDialog(this, "Mật khẩu mới không được rỗng và có ít nhất 6 ký tự", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
                 } else if (Validation.isEmpty(confirm.getPass())) {
                     JOptionPane.showMessageDialog(this, "Mật khẩu nhập lại không được rỗng", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
                     return;
@@ -197,11 +197,11 @@ public class MyAccount extends JDialog implements ActionListener {
                 } else {
                     if (BCrypt.checkpw(current_pwd.getPass(), tkdto.getMatkhau())) {
                         String pass = BCrypt.hashpw(confirm.getPass(), BCrypt.gensalt(12));
-                        TaiKhoanDAO.getInstance().update(new TaiKhoanDTO(tkdto.getManv(), tkdto.getUsername(), pass, tkdto.getManhomquyen(), tkdto.getTrangthai()));
+                        TaiKhoanDAO.getInstance().updatePass(nv.getEmail(), pass);
                         JOptionPane.showMessageDialog(this, "Cập nhật thành công");
-                        current_pwd.setText("");
-                        new_pwd.setText("");
-                        confirm.setText("");
+                        current_pwd.setPass("");
+                        new_pwd.setPass("");
+                        confirm.setPass("");
                     } else {
                         JOptionPane.showMessageDialog(this, "Mật khẩu hiện tại không đúng", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
                     }
