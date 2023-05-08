@@ -277,7 +277,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
                 if (input == 0) {
                     int check = 0;
                     for (SanPhamDTO i : listSP) {
-                        if (listKVK.get(index).getMakhuvuckho() == i.getKhuvuckho()) {
+                        if (listKVK.get(index).getMakhuvuc() == i.getKhuvuckho()) {
                             check++;
                             break;
                         }
