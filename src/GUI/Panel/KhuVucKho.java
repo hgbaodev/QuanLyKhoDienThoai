@@ -59,6 +59,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
     public SanPhamBUS spBUS = new SanPhamBUS();
 
     public ArrayList<KhuVucKhoDTO> listKVK = kvkBUS.getAll();
+    public ArrayList<SanPhamDTO> listSP = spBUS.getAll();
 
     private void initComponent() {
         tableKhuvuc = new JTable();
@@ -273,8 +274,20 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
                         "Bạn có chắc chắn muốn xóa khu vực!", "Xóa khu vực kho",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    kvkBUS.delete(listKVK.get(index), index);
-                    loadDataTable(listKVK);
+                    int check = 0;
+                    for (SanPhamDTO i : listSP) {
+                        if (listKVK.get(index).getMakhuvuc() == i.getKhuvuckho()) {
+                            check++;
+                            break;
+                        }
+                    }
+                    if (check == 0) {
+                        kvkBUS.delete(listKVK.get(index), index);
+                        loadDataTable(listKVK);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(this, "Không thể xóa kho vì vẫn còn sản phẩm trong kho.");
+                    }
                 }
             }
         } else if (e.getSource() == search.btnReset) {

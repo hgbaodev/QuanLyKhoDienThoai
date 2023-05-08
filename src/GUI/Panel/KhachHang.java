@@ -35,7 +35,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class KhachHang extends JPanel implements ActionListener {
+public class KhachHang extends JPanel implements ActionListener, ItemListener {
 
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -115,12 +115,14 @@ public class KhachHang extends JPanel implements ActionListener {
         }
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại"});
+        search.cbxChoose.addItemListener(this);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
+                String type = (String) search.cbxChoose.getSelectedItem();
                 String txt = search.txtSearchForm.getText();
-                listkh = khachhangBUS.search(txt);
+                listkh = khachhangBUS.search(txt, type);
                 loadDataTable(listkh);
             }
         });
@@ -268,5 +270,9 @@ public class KhachHang extends JPanel implements ActionListener {
                 Logger.getLogger(KhachHang.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
     }
 }

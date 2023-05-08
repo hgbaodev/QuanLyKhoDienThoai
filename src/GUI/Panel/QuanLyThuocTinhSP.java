@@ -38,7 +38,7 @@ public class QuanLyThuocTinhSP extends JPanel {
     MauSacDialog mausac;
     public itemTaskbar[] listitem;
 
-    String iconst[] = { "brand_100px.svg","factory_100px.svg","os_100px.svg","rom_100px.svg","ram_100px.svg","color_100px.svg"};
+    String iconst[] = {"brand_100px.svg", "factory_100px.svg", "os_100px.svg", "rom_100px.svg", "ram_100px.svg", "color_100px.svg"};
 
     String header[] = {"Thương hiệu", "Xuất xứ", "Hệ điều hành", "Ram", "Rom", "Màu sắc"};
     Color BackgroundColor = new Color(240, 247, 250);
@@ -53,14 +53,14 @@ public class QuanLyThuocTinhSP extends JPanel {
         this.setOpaque(true);
 
         initPadding();
-            
+
         contentCenter = new JPanel();
         contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new GridLayout(4, 4, 20, 20));
+        contentCenter.setLayout(new GridLayout(3, 2, 20, 20));
 
-        scrPane = new JScrollPane(contentCenter);
-        scrPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-        this.add(scrPane, BorderLayout.CENTER);
+//        scrPane = new JScrollPane(contentCenter);
+//        scrPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+        this.add(contentCenter, BorderLayout.CENTER);
 
         box = new JPanel[n];
         lbl = new JLabel[n];
@@ -127,8 +127,9 @@ public class QuanLyThuocTinhSP extends JPanel {
     public QuanLyThuocTinhSP() {
         initComponent();
     }
+
     public void initPadding() {
-        
+
         pnlBorder1 = new JPanel();
         pnlBorder1.setPreferredSize(new Dimension(0, 40));
         pnlBorder1.setBackground(BackgroundColor);
