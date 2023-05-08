@@ -14,6 +14,8 @@ import GUI.Main;
 import helper.JTableExporter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,8 +43,86 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 
-public class KhachHang extends JPanel implements ActionListener {
+public class KhachHang extends JPanel implements ActionListener, ItemListener {
 
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -123,12 +203,14 @@ public class KhachHang extends JPanel implements ActionListener {
         }
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại"});
+        search.cbxChoose.addItemListener(this);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
+                String type = (String) search.cbxChoose.getSelectedItem();
                 String txt = search.txtSearchForm.getText();
-                listkh = khachhangBUS.search(txt);
+                listkh = khachhangBUS.search(txt, type);
                 loadDataTable(listkh);
             }
         });
@@ -210,5 +292,9 @@ public class KhachHang extends JPanel implements ActionListener {
                 Logger.getLogger(KhachHang.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
     }
 }

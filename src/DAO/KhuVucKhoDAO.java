@@ -61,8 +61,9 @@ public class KhuVucKhoDAO implements DAOinterface<KhuVucKhoDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `khuvuckho` SET `trangthai` = 0 WHERE  makhuvuc = ?";
+            String sql = "UPDATE khuvuckho SET trangthai = 0 WHERE  makhuvuc = ? ";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, t);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
