@@ -1,6 +1,8 @@
 package GUI.Panel;
 
 import BUS.NhanVienBUS;
+import DAO.NhanVienDAO;
+import DTO.NhanVienDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -8,13 +10,24 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Main;
+import helper.Validation;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public final class NhanVien extends JPanel {
 
-   public JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
+    public JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     NhanVienBUS nvBus = new NhanVienBUS(this);
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -73,12 +86,12 @@ public final class NhanVien extends JPanel {
             mainFunction.btn.get(ac).addActionListener(nvBus);
         }
         functionBar.add(mainFunction);
-        search = new IntegratedSearch(new String[]{"Tất cả","Họ tên","Email"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Họ tên", "Email"});
         functionBar.add(search);
         search.btnReset.addActionListener(nvBus);
         search.cbxChoose.addActionListener(nvBus);
-        search.txtSearchForm.getDocument().addDocumentListener(new NhanVienBUS(search.txtSearchForm,this));
-        
+        search.txtSearchForm.getDocument().addDocumentListener(new NhanVienBUS(search.txtSearchForm, this));
+
         // main là phần ở dưới để thống kê bảng biểu
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
@@ -90,8 +103,8 @@ public final class NhanVien extends JPanel {
         scrollTableSanPham = new JScrollPane();
         tableNhanVien = new JTable();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MNV","Họ tên","Giới tính","Ngày Sinh","SDT","Email"};
-        
+        String[] header = new String[]{"MNV", "Họ tên", "Giới tính", "Ngày Sinh", "SDT", "Email"};
+
         tblModel.setColumnIdentifiers(header);
         tableNhanVien.setModel(tblModel);
         tableNhanVien.setFocusable(false);
@@ -107,7 +120,7 @@ public final class NhanVien extends JPanel {
         scrollTableSanPham.setViewportView(tableNhanVien);
         main.add(scrollTableSanPham);
     }
-    
+
     
 
     public NhanVien(Main m) {
@@ -116,21 +129,21 @@ public final class NhanVien extends JPanel {
         tableNhanVien.setDefaultEditor(Object.class, null);
         loadDataTalbe(listnv);
     }
-    
-    public int getRow(){
+
+    public int getRow() {
         return tableNhanVien.getSelectedRow();
     }
-    
-    public DTO.NhanVienDTO getNhanVien(){
+
+    public DTO.NhanVienDTO getNhanVien() {
         return listnv.get(tableNhanVien.getSelectedRow());
     }
-    
+
     public void loadDataTalbe(ArrayList<DTO.NhanVienDTO> list) {
         listnv = list;
         tblModel.setRowCount(0);
         for (DTO.NhanVienDTO nhanVien : listnv) {
             tblModel.addRow(new Object[]{
-                nhanVien.getManv(),nhanVien.getHoten(),nhanVien.getGioitinh()==1?"Nam":"Nữ",nhanVien.getNgaysinh(),nhanVien.getSdt(),nhanVien.getEmail()
+                nhanVien.getManv(), nhanVien.getHoten(), nhanVien.getGioitinh() == 1 ? "Nam" : "Nữ", nhanVien.getNgaysinh(), nhanVien.getSdt(), nhanVien.getEmail()
             });
         }
     }

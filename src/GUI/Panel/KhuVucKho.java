@@ -21,7 +21,6 @@ import GUI.Component.itemTaskbar;
 import GUI.Dialog.KhuVucKhoDialog;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-import helper.ExcelImport;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -194,6 +193,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
                     tblModel.setRowCount(0);
                     loadDataTable(listKVK);
                 }
+                JOptionPane.showMessageDialog(this, "Nhập thành công");
             } catch (FileNotFoundException ex) {
                 System.out.println("Lỗi đọc file");
             } catch (IOException ex) {
@@ -204,22 +204,22 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         loadDataTable(listKVK);
     }
 
-    void Import() throws IOException, SQLException, Exception{
-        File excelFile;
-        FileInputStream excelFIS = null;
-        BufferedInputStream excelBIS = null;
-        XSSFWorkbook excelJTableImport = null;
-        ArrayList<KhuVucKhoDTO> listExcel = new ArrayList<KhuVucKhoDTO>();
-        JFileChooser jf = new JFileChooser();
-        int result = jf.showOpenDialog(null);
-        jf.setDialogTitle("Open file");
-        Workbook workbook = null;
-        if (result == JFileChooser.APPROVE_OPTION) {
-            excelFile = jf.getSelectedFile();
-            
-            ExcelImport.importExcel(excelFile, new KhuVucKhoDTO(), "khuvuckho", listKVK);
-        }
-    }
+//    void Import() throws IOException, SQLException, Exception{
+//        File excelFile;
+//        FileInputStream excelFIS = null;
+//        BufferedInputStream excelBIS = null;
+//        XSSFWorkbook excelJTableImport = null;
+//        ArrayList<KhuVucKhoDTO> listExcel = new ArrayList<KhuVucKhoDTO>();
+//        JFileChooser jf = new JFileChooser();
+//        int result = jf.showOpenDialog(null);
+//        jf.setDialogTitle("Open file");
+//        Workbook workbook = null;
+//        if (result == JFileChooser.APPROVE_OPTION) {
+//            excelFile = jf.getSelectedFile();
+//            ArrayList<KhuVucKhoDTO> excel = ExcelImport.readDataFromExcel(excelFile, KhuVucKhoDTO.class);
+//            System.out.println(excel.size());
+//        }
+//    }
     public void ListCustomersInDePot(ArrayList<SanPhamDTO> result) {
         right.removeAll();
         JLabel tit = new JLabel("Danh sách sản phẩm đang có ở khu vực");
@@ -256,7 +256,6 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         }
         return index;
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -283,18 +282,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
             listKVK = kvkBUS.getAll();
             loadDataTable(listKVK);
         } else if (e.getSource() == mainFunction.btn.get("import")) {
-            try {
-                //            importExcel();
-                Import();
-                loadDataTable(listKVK);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                Logger.getLogger(KhuVucKho.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(KhuVucKho.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(KhuVucKho.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            importExcel();
         } else if (e.getSource() == mainFunction.btn.get("export")) {
             try {
                 JTableExporter.exportJTableToExcel(tableKhuvuc);
