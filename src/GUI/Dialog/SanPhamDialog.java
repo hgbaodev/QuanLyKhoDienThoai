@@ -475,7 +475,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         int tgbh = Integer.parseInt(thoigianbaohanh.getText());
         int pb = Integer.parseInt(phienbanhdh.getText());
         int vthuonghieu = jpSP.thuonghieuBus.getAll().get(this.thuonghieu.getSelectedIndex()).getMathuonghieu();
-        int khuvuckho = jpSP.kvkhoBus.getAll().get(this.khuvuc.getSelectedIndex()).getMakhuvuckho();
+        int khuvuckho = jpSP.kvkhoBus.getAll().get(this.khuvuc.getSelectedIndex()).getMakhuvuc();
         SanPhamDTO result = new SanPhamDTO(masp, vtensp, hinhanh, vxuatxu, vchipxuly, vdungluongpin, ktman, hdh, pb, camsau, camtruoc, tgbh, vthuonghieu, khuvuckho, 0);
         return result;
     }
