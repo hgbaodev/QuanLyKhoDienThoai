@@ -47,19 +47,19 @@ public class MenuTaskbar extends JPanel {
     PhanQuyen phanQuyen;
     ThongKe thongKe;
     String[][] getSt = {
-        {"Trang chủ", "home_32px.svg", "trangchu"},
-        {"Sản phẩm", "product_32px.svg", "sanpham"},
-        {"Thuộc tính", "brand_32px.svg", "thuoctinh"},
-        {"Khu vực kho", "area_32px.svg", "khuvuckho"},
-        {"Phiếu nhập", "import_32px.svg", "nhaphang"},
-        {"Phiếu xuất", "export_32px.svg", "xuathang"},
-        {"Khách hàng", "customer_32px.svg", "khachhang"},
-        {"Nhà cung cấp", "supplier_32px.svg", "nhacungcap"},
-        {"Nhân viên", "staff_32px.svg", "nhanvien"},
-        {"Tài khoản", "account_32px.svg", "taikhoan"},
-        {"Thống kê", "inventory_32px.svg", "thongke"},
-        {"Phân quyền", "permission_32px.svg", "nhomquyen"},
-        {"Đăng xuất", "log_out_32px.svg", "dangxuat"},
+        {"Trang chủ", "home.svg", "trangchu"},
+        {"Sản phẩm", "product.svg", "sanpham"},
+        {"Thuộc tính", "brand.svg", "thuoctinh"},
+        {"Khu vực kho", "area.svg", "khuvuckho"},
+        {"Phiếu nhập", "import.svg", "nhaphang"},
+        {"Phiếu xuất", "export.svg", "xuathang"},
+        {"Khách hàng", "customer.svg", "khachhang"},
+        {"Nhà cung cấp", "supplier.svg", "nhacungcap"},
+        {"Nhân viên", "staff.svg", "nhanvien"},
+        {"Tài khoản", "account.svg", "taikhoan"},
+        {"Thống kê", "statistical.svg", "thongke"},
+        {"Phân quyền", "permission.svg", "nhomquyen"},
+        {"Đăng xuất", "log_out.svg", "dangxuat"},
     };
 
     Main main;
@@ -127,9 +127,10 @@ public class MenuTaskbar extends JPanel {
         pnlTop.add(bar2, BorderLayout.SOUTH);
 
         pnlCenter = new JPanel();
-        pnlCenter.setPreferredSize(new Dimension(250, 600));
+        pnlCenter.setPreferredSize(new Dimension(230, 600));
         pnlCenter.setBackground(DefaultColor);
-        pnlCenter.setLayout(new FlowLayout(0, 0, 0));
+//        pnlCenter.setBorder(new EmptyBorder(0,15,0,35));
+        pnlCenter.setLayout(new FlowLayout(0, 0, 5));
 
         bar3 = new JPanel();
         bar3.setBackground(new Color(204, 214, 219));
@@ -137,7 +138,7 @@ public class MenuTaskbar extends JPanel {
         this.add(bar3, BorderLayout.EAST);
 
         scrollPane = new JScrollPane(pnlCenter, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+        scrollPane.setBorder(new EmptyBorder(5, 10, 0, 10));
         this.add(scrollPane, BorderLayout.CENTER);
 
         pnlBottom = new JPanel();

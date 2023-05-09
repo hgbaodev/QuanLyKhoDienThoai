@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Dialog.ChiTietSanPhamDialog;
 import GUI.Dialog.SanPhamDialog;
+import com.formdev.flatlaf.FlatClientProperties;
 import helper.JTableExporter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -71,7 +72,6 @@ public final class SanPham extends JPanel implements ActionListener {
         tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(180);
         tableSanPham.setFocusable(false);
         tableSanPham.setDefaultEditor(Object.class, null);
-
         initPadding();
 
         contentCenter = new JPanel();
@@ -118,7 +118,6 @@ public final class SanPham extends JPanel implements ActionListener {
         main.setLayout(boxly);
         main.setBorder(new EmptyBorder(0, 0, 0, 0));
         contentCenter.add(main, BorderLayout.CENTER);
-
         main.add(scrollTableSanPham);
     }
 

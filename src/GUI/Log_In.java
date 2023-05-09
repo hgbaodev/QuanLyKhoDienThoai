@@ -4,6 +4,7 @@ import DAO.TaiKhoanDAO;
 import DTO.TaiKhoanDTO;
 import GUI.Component.InputForm;
 import GUI.Dialog.QuenMatKhau;
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -15,6 +16,8 @@ import java.awt.event.KeyListener;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.border.EmptyBorder;
 
 public class Log_In extends JFrame implements KeyListener {
@@ -73,6 +76,7 @@ public class Log_In extends JFrame implements KeyListener {
         lbl6.setForeground(Color.white);
 
         pnlLogIn = new JPanel();
+        pnlLogIn.putClientProperty( FlatClientProperties.STYLE, "arc: 99" );
         pnlLogIn.setBackground(Color.BLACK);
         pnlLogIn.setPreferredSize(new Dimension(380, 45));
         pnlLogIn.setLayout(new FlowLayout(1, 0, 15));
@@ -85,7 +89,11 @@ public class Log_In extends JFrame implements KeyListener {
 
             @Override
             public void mousePressed(MouseEvent evt) {
-                pnlLogInMousePressed(evt);
+                try {
+                    pnlLogInMousePressed(evt);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(Log_In.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             @Override
@@ -113,7 +121,7 @@ public class Log_In extends JFrame implements KeyListener {
 
     }
 
-    public void checkLogin() {
+    public void checkLogin() throws UnsupportedLookAndFeelException {
         String usernameCheck = txtUsername.getText();
         String passwordCheck = txtPassword.getPass();
         if (usernameCheck.equals("") || passwordCheck.equals("")) {
@@ -141,7 +149,7 @@ public class Log_In extends JFrame implements KeyListener {
         }
     }
 
-    private void pnlLogInMousePressed(java.awt.event.MouseEvent evt) {
+    private void pnlLogInMousePressed(java.awt.event.MouseEvent evt) throws UnsupportedLookAndFeelException {
         checkLogin();
     }
 
@@ -189,7 +197,11 @@ public class Log_In extends JFrame implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            checkLogin();
+            try {
+                checkLogin();
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(Log_In.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
