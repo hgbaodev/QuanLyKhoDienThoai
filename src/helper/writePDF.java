@@ -74,9 +74,12 @@ public class writePDF {
 
     public writePDF() {
         try {
-            fontData = new Font(BaseFont.createFont("lib/Roboto/Roboto-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 10, Font.NORMAL);
-            fontTitle = new Font(BaseFont.createFont("lib/Roboto/Roboto-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 25, Font.NORMAL);
-            fontHeader = new Font(BaseFont.createFont("lib/Roboto/Roboto-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 14, Font.NORMAL);
+//            fontData = new Font(BaseFont.createFont("lib/Roboto/Roboto-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 10, Font.NORMAL);
+//            fontTitle = new Font(BaseFont.createFont("lib/Roboto/Roboto-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 25, Font.NORMAL);
+//            fontHeader = new Font(BaseFont.createFont("lib/Roboto/Roboto-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 14, Font.NORMAL);
+              fontData = new Font(BaseFont.createFont("lib/TimesNewRoman/SVN-Times New Roman.ttf",BaseFont.IDENTITY_H,BaseFont.EMBEDDED),12,Font.NORMAL);
+              fontTitle = new Font(BaseFont.createFont("lib/TimesNewRoman/SVN-Times New Roman Bold.ttf",BaseFont.IDENTITY_H,BaseFont.EMBEDDED),25,Font.NORMAL);
+              fontHeader = new Font(BaseFont.createFont("lib/TimesNewRoman/SVN-Times New Roman Bold Italic.ttf",BaseFont.IDENTITY_H,BaseFont.EMBEDDED),15,Font.NORMAL);
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException ex) {
@@ -204,7 +207,7 @@ public class writePDF {
 
             table.addCell(new PdfPCell(new Phrase("Tên sản phẩm", fontHeader)));
             table.addCell(new PdfPCell(new Phrase("Phiên bản", fontHeader)));
-            table.addCell(new PdfPCell(new Phrase("Giá xuất", fontHeader)));
+            table.addCell(new PdfPCell(new Phrase("Giá", fontHeader)));
             table.addCell(new PdfPCell(new Phrase("Số lượng", fontHeader)));
             table.addCell(new PdfPCell(new Phrase("Tổng tiền", fontHeader)));
             for (int i = 0; i < 5; i++) {
@@ -245,9 +248,9 @@ public class writePDF {
             Paragraph sign = new Paragraph();
             sign.setIndentationLeft(23);
             sign.add(new Chunk("(Ký và ghi rõ họ tên)", fontData));
-            sign.add(new Chunk(createWhiteSpace(33)));
+            sign.add(new Chunk(createWhiteSpace(30)));
             sign.add(new Chunk("(Ký và ghi rõ họ tên)", fontData));
-            sign.add(new Chunk(createWhiteSpace(31)));
+            sign.add(new Chunk(createWhiteSpace(28)));
             sign.add(new Chunk("(Ký và ghi rõ họ tên)", fontData));
             document.add(paragraph);
             document.add(sign);
@@ -320,7 +323,7 @@ public class writePDF {
 
             table.addCell(new PdfPCell(new Phrase("Tên sản phẩm", fontHeader)));
             table.addCell(new PdfPCell(new Phrase("Phiên bản", fontHeader)));
-            table.addCell(new PdfPCell(new Phrase("Giá xuất", fontHeader)));
+            table.addCell(new PdfPCell(new Phrase("Giá", fontHeader)));
             table.addCell(new PdfPCell(new Phrase("Số lượng", fontHeader)));
             table.addCell(new PdfPCell(new Phrase("Tổng tiền", fontHeader)));
             for (int i = 0; i < 5; i++) {
@@ -360,9 +363,9 @@ public class writePDF {
             Paragraph sign = new Paragraph();
             sign.setIndentationLeft(20);
             sign.add(new Chunk("(Ký và ghi rõ họ tên)", fontData));
-            sign.add(new Chunk(createWhiteSpace(30)));
-            sign.add(new Chunk("(Ký và ghi rõ họ tên)", fontData));
             sign.add(new Chunk(createWhiteSpace(25)));
+            sign.add(new Chunk("(Ký và ghi rõ họ tên)", fontData));
+            sign.add(new Chunk(createWhiteSpace(23)));
             sign.add(new Chunk("(Ký và ghi rõ họ tên)", fontData));
             document.add(paragraph);
             document.add(sign);
