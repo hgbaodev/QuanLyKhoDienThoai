@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -16,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 public class itemTaskbar extends JPanel implements MouseListener {
 
     Color FontColor = new Color(96, 125, 139);
+    Color ColorBlack = new Color(26, 26, 26);
     Color DefaultColor = new Color(255, 255, 255);
     JLabel lblIcon, pnlContent, pnlSoLuong, pnlContent1;
     JPanel right;
@@ -24,18 +26,20 @@ public class itemTaskbar extends JPanel implements MouseListener {
 
     public itemTaskbar(String linkIcon, String content) {
         this.setLayout(new FlowLayout(1, 10, 7));
-        this.setPreferredSize(new Dimension(250, 45));
+        this.setPreferredSize(new Dimension(220, 45));
         this.setBackground(DefaultColor);
+        this.putClientProperty( FlatClientProperties.STYLE, "arc: 20" );
         this.addMouseListener(this);
         lblIcon = new JLabel();
-        lblIcon.setPreferredSize(new Dimension(30, 30));
+        lblIcon.setBorder(new EmptyBorder(0, 10, 0, 0));
+        lblIcon.setPreferredSize(new Dimension(45, 30));
         lblIcon.setIcon(new FlatSVGIcon("./icon/" + linkIcon));
         this.add(lblIcon);
 
         pnlContent = new JLabel(content);
-        pnlContent.setPreferredSize(new Dimension(170, 30));
-        pnlContent.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
-        pnlContent.setForeground(FontColor);
+        pnlContent.setPreferredSize(new Dimension(155, 30));
+        pnlContent.putClientProperty("FlatLaf.style", "font: 145% $medium.font");
+        pnlContent.setForeground(ColorBlack);
         this.add(pnlContent);
     }
 
@@ -43,6 +47,7 @@ public class itemTaskbar extends JPanel implements MouseListener {
         this.setLayout(new FlowLayout(0, 20, 50));
 //        this.setPreferredSize(new Dimension(250, 45));
         this.setBackground(DefaultColor);
+        this.putClientProperty( FlatClientProperties.STYLE, "arc: 15" );
         this.addMouseListener(this);
 
         lblIcon = new JLabel();

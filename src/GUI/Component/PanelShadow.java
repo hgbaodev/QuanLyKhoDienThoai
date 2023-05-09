@@ -47,8 +47,8 @@ public class PanelShadow extends JPanel {
         this.add(lblTitle);
 
         lblContent = new JLabel(content);
-        lblContent.setForeground(FontColor);
-        lblContent.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
+        lblContent.setForeground(Color.gray);
+        lblContent.putClientProperty("FlatLaf.style", "font: 135% $medium.font");
         this.add(lblContent);
         
     }
