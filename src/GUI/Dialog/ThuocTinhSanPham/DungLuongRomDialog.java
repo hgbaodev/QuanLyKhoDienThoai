@@ -1,6 +1,7 @@
 package GUI.Dialog.ThuocTinhSanPham;
 
 import BUS.DungLuongRomBUS;
+import BUS.NhomQuyenBUS;
 import DAO.DungLuongRomDAO;
 import DTO.ThuocTinhSanPham.DungLuongRomDTO;
 import GUI.Component.ButtonCustom;
@@ -46,11 +47,25 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
     DungLuongRomBUS dlrBUS = new DungLuongRomBUS();
     ArrayList<DungLuongRomDTO> list = dlrBUS.getAll();
     QuanLyThuocTinhSP qltt;
+    private final NhomQuyenBUS nhomquyenBus = new NhomQuyenBUS();
 
-    public DungLuongRomDialog(JFrame owner, QuanLyThuocTinhSP qltt, String title, boolean modal) {
+    public DungLuongRomDialog(JFrame owner, QuanLyThuocTinhSP qltt, String title, boolean modal, int nhomquyen) {
         super(owner, title, modal);
         initComponent(qltt);
+        loadQuyen(nhomquyen);
         loadDataTable(list);
+    }
+    
+    public void loadQuyen(int nhomquyen){
+        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "create")){
+            add.setVisible(false);
+        }
+        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "delete")){
+            del.setVisible(false);
+        }
+        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "update")){
+            update.setVisible(false);
+        }
     }
 
     public void initComponent(QuanLyThuocTinhSP qltt) {

@@ -13,6 +13,7 @@ import GUI.Dialog.ThuocTinhSanPham.HeDieuHanhDialog;
 import GUI.Dialog.ThuocTinhSanPham.MauSacDialog;
 import GUI.Dialog.ThuocTinhSanPham.ThuongHieuDialog;
 import GUI.Dialog.ThuocTinhSanPham.XuatXuDialog;
+import GUI.Main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -36,6 +37,7 @@ public class QuanLyThuocTinhSP extends JPanel {
     DungLuongRamDialog dlram;
     DungLuongRomDialog dlrom;
     MauSacDialog mausac;
+    Main m;
     public itemTaskbar[] listitem;
 
     String iconst[] = {"brand_100px.svg", "factory_100px.svg", "os_100px.svg", "rom_100px.svg", "ram_100px.svg", "color_100px.svg"};
@@ -44,6 +46,11 @@ public class QuanLyThuocTinhSP extends JPanel {
     Color BackgroundColor = new Color(240, 247, 250);
     Color FontColor = new Color(96, 125, 139);
     Color DefaultColor = new Color(255, 255, 255);
+    
+    public QuanLyThuocTinhSP(Main m) {
+        this.m = m;
+        initComponent();
+    }
 
     private void initComponent() {
         listitem = new itemTaskbar[header.length];
@@ -73,21 +80,21 @@ public class QuanLyThuocTinhSP extends JPanel {
         listitem[0].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                th = new ThuongHieuDialog(owner, QuanLyThuocTinhSP.this, "Quản lý thương hiệu", true);
+                th = new ThuongHieuDialog(owner, QuanLyThuocTinhSP.this, "Quản lý thương hiệu", true,m.user.getManhomquyen());
                 th.setVisible(true);
             }
         });
         listitem[1].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                xs = new XuatXuDialog(owner, QuanLyThuocTinhSP.this, "Quản lý xuất xứ sản phẩm", true);
+                xs = new XuatXuDialog(owner, QuanLyThuocTinhSP.this, "Quản lý xuất xứ sản phẩm", true,m.user.getManhomquyen());
                 xs.setVisible(true);
             }
         });
         listitem[2].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                hdh = new HeDieuHanhDialog(owner, QuanLyThuocTinhSP.this, "Quản lý hệ điều hành", true);
+                hdh = new HeDieuHanhDialog(owner, QuanLyThuocTinhSP.this, "Quản lý hệ điều hành", true,m.user.getManhomquyen());
                 hdh.setVisible(true);
             }
         });
@@ -95,7 +102,7 @@ public class QuanLyThuocTinhSP extends JPanel {
         listitem[3].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                dlram = new DungLuongRamDialog(owner, QuanLyThuocTinhSP.this, "Quản lý dung lượng RAM", true);
+                dlram = new DungLuongRamDialog(owner, QuanLyThuocTinhSP.this, "Quản lý dung lượng RAM", true,m.user.getManhomquyen());
                 dlram.setVisible(true);
             }
         });
@@ -103,14 +110,14 @@ public class QuanLyThuocTinhSP extends JPanel {
         listitem[4].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                dlrom = new DungLuongRomDialog(owner, QuanLyThuocTinhSP.this, "Quản lý dung lượng ROM", true);
+                dlrom = new DungLuongRomDialog(owner, QuanLyThuocTinhSP.this, "Quản lý dung lượng ROM", true,m.user.getManhomquyen());
                 dlrom.setVisible(true);
             }
         });
         listitem[5].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                mausac = new MauSacDialog(owner, QuanLyThuocTinhSP.this, "Quản lý màu sắc", true);
+                mausac = new MauSacDialog(owner, QuanLyThuocTinhSP.this, "Quản lý màu sắc", true,m.user.getManhomquyen());
                 mausac.setVisible(true);
             }
         });
@@ -124,9 +131,7 @@ public class QuanLyThuocTinhSP extends JPanel {
         }
     }
 
-    public QuanLyThuocTinhSP() {
-        initComponent();
-    }
+    
 
     public void initPadding() {
 
