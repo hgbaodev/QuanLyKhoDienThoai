@@ -42,7 +42,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="chart1.LabelColor" name="lbColor">
+    <Component class="GUI.Component.Chart.BarChart.LabelColor" name="lbColor">
       <Properties>
         <Property name="text" type="java.lang.String" value="labelColor1"/>
       </Properties>

@@ -1,4 +1,4 @@
-package chart2;
+package GUI.Component.Chart.CurveChart;
 
 import java.awt.Color;
 

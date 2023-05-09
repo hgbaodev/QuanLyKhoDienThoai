@@ -5,12 +5,11 @@
         <group>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/BUS/ThongKeBUS.java</file>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/BUS/SanPhamBUS.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/ThongKe/ThongKeTongQuan.java</file>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/KhuVucKho.java</file>
             <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/ThongKe/ThongKeKhachHang.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/BUS/PhieuNhapBUS.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/DAO/PhieuNhapDAO.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/BUS/PhieuXuatBUS.java</file>
+            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/SanPham.java</file>
+            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Component/itemTaskbar.java</file>
+            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Component/MenuTaskbar.java</file>
         </group>
     </open-files>
 </project-private>

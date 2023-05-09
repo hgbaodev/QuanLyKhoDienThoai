@@ -1,4 +1,4 @@
-package chart2.blankchart;
+package GUI.Component.Chart.CurveChart.BlankChart;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;

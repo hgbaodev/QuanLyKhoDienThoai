@@ -85,7 +85,7 @@ public final class SanPham extends JPanel implements ActionListener {
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        String[] action = {"create", "update", "delete", "detail", "phone", "import", "export"};
+        String[] action = {"create", "update", "delete", "detail", "phone", "export"};
         mainFunction = new MainFunction(m.user.getManhomquyen(), "sanpham", action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);

@@ -74,6 +74,7 @@ public class MyAccount extends JDialog implements ActionListener {
         top_center.setBorder(new EmptyBorder(20, 0, 0, 0));
         top_center.setBackground(Color.WHITE);
         main_center = new JPanel();
+        main_center.setBorder(new EmptyBorder(0,20,0,20));
         main_center.setBackground(Color.WHITE);
 
         ButtonGroup bg = new ButtonGroup();

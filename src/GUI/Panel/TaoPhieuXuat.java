@@ -49,7 +49,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public final class TaoPhieuXuat extends JPanel {
 
@@ -269,6 +268,7 @@ public final class TaoPhieuXuat extends JPanel {
         });
         JPanel jPanelChonImei = new JPanel(new GridLayout(1, 2));
         jPanelChonImei.setPreferredSize(new Dimension(200, 0));
+        jPanelChonImei.setOpaque(true);
         jPanelChonImei.add(chonImei);
         jPanelChonImei.add(scanImei);
 

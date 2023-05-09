@@ -146,7 +146,6 @@ public class itemTaskbar extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent e) {
         if (!isSelected) {
             setBackground(new Color(255, 255, 255));
-
         }
     }
 }

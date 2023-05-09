@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BUS;
 
 import DAO.ThongKeDAO;
@@ -31,21 +27,21 @@ public class ThongKeBUS {
     }
 
     public ArrayList<ThongKeKhachHangDTO> getAllKhachHang() {
-        this.tkkh = thongkeDAO.getThongKeKhachHang("",new Date(0), new Date(System.currentTimeMillis()));
+        this.tkkh = ThongKeDAO.getThongKeKhachHang("",new Date(0), new Date(System.currentTimeMillis()));
         return this.tkkh;
     }
 
     public ArrayList<ThongKeKhachHangDTO> FilterKhachHang(String text,Date start, Date end) {
-        this.tkkh = thongkeDAO.getThongKeKhachHang(text,start, end);
+        this.tkkh = ThongKeDAO.getThongKeKhachHang(text,start, end);
         return this.tkkh;
     }
         public ArrayList<ThongKeNhaCungCapDTO> getAllNCC() {
-        this.tkncc=thongkeDAO.getThongKeNCC("",new Date(0), new Date(System.currentTimeMillis()));
+        this.tkncc=ThongKeDAO.getThongKeNCC("",new Date(0), new Date(System.currentTimeMillis()));
         return this.tkncc;
     }
 
     public ArrayList<ThongKeNhaCungCapDTO> FilterNCC(String text,Date start, Date end) {
-        this.tkncc = thongkeDAO.getThongKeNCC(text,start, end);
+        this.tkncc = ThongKeDAO.getThongKeNCC(text,start, end);
         return this.tkncc;
     }
 

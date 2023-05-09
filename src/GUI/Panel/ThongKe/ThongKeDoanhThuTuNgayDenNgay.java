@@ -4,7 +4,7 @@ import BUS.ThongKeBUS;
 import DTO.ThongKe.ThongKeTonKhoDTO;
 import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
 import GUI.Component.PanelBorderRadius;
-import chart1.Chart;
+import GUI.Component.Chart.BarChart.Chart;
 import com.toedter.calendar.JDateChooser;
 import helper.Formater;
 import helper.JTableExporter;

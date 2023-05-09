@@ -1,4 +1,4 @@
-package chart2.blankchart;
+package GUI.Component.Chart.BarChart.BlankChart;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -6,13 +6,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.border.EmptyBorder;
 
@@ -68,19 +63,13 @@ public class BlankPlotChart extends JComponent {
     public BlankPlotChart() {
         setBackground(Color.WHITE);
         setOpaque(false);
-        setForeground(new Color(180, 180, 180));
-        setBorder(new EmptyBorder(35, 10, 10, 10));
+        setForeground(new Color(100, 100, 100));
+        setBorder(new EmptyBorder(20, 10, 10, 10));
         init();
     }
 
     private void init() {
         initValues(0, 10);
-        addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent me) {
-                mouseMove((Graphics2D) getGraphics(), me);
-            }
-        });
     }
 
     public void initValues(double minValues, double maxValues) {
@@ -96,7 +85,6 @@ public class BlankPlotChart extends JComponent {
         if (niceScale != null) {
             Graphics2D g2 = (Graphics2D) grphcs;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
             createLine(g2);
             createValues(g2);
             createLabelText(g2);
@@ -105,7 +93,7 @@ public class BlankPlotChart extends JComponent {
     }
 
     private void createLine(Graphics2D g2) {
-        g2.setColor(new Color(150, 150, 150, 20));
+        g2.setColor(new Color(220, 220, 220));
         Insets insets = getInsets();
         double textHeight = getLabelTextHeight(g2);
         double height = getHeight() - (insets.top + insets.bottom) - textHeight;
@@ -149,7 +137,7 @@ public class BlankPlotChart extends JComponent {
             double width = getWidth() - insets.left - insets.right - textWidth - spaceText;
             double space = width / labelCount;
             double locationX = insets.left + textWidth + spaceText;
-            double locationText = getHeight() - insets.bottom + 5;
+            double locationText = getHeight() - insets.bottom;
             FontMetrics ft = g2.getFontMetrics();
             for (int i = 0; i < labelCount; i++) {
                 double centerX = ((locationX + space / 2));
@@ -175,38 +163,6 @@ public class BlankPlotChart extends JComponent {
             double locationX = insets.left + textWidth + spaceText;
             for (int i = 0; i < labelCount; i++) {
                 blankPlotChatRender.renderSeries(this, g2, getRectangle(i, height, space, locationX, insets.top), i);
-            }
-            List<Path2D.Double> gra = initGra(blankPlotChatRender.getMaxLegend());
-            for (int i = 0; i < labelCount; i++) {
-                blankPlotChatRender.renderSeries(this, g2, getRectangle(i, height, space, locationX, insets.top), i, gra);
-            }
-            blankPlotChatRender.renderGraphics(g2, gra);
-        }
-    }
-
-    private List initGra(int size) {
-        List<Path2D.Double> list = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            list.add(new Path2D.Double());
-        }
-        return list;
-    }
-
-    private void mouseMove(Graphics2D g2, MouseEvent evt) {
-        if (blankPlotChatRender != null) {
-            Insets insets = getInsets();
-            double textWidth = getMaxValuesTextWidth(g2);
-            double textHeight = getLabelTextHeight(g2);
-            double spaceText = 5;
-            double width = getWidth() - insets.left - insets.right - textWidth - spaceText;
-            double height = getHeight() - insets.top - insets.bottom - textHeight;
-            double space = width / labelCount;
-            double locationX = insets.left + textWidth + spaceText;
-            for (int i = 0; i < labelCount; i++) {
-                boolean stop = blankPlotChatRender.mouseMoving(this, evt, g2, getRectangle(i, height, space, locationX, insets.top), i);
-                if (stop) {
-                    break;
-                }
             }
         }
     }
@@ -242,7 +198,7 @@ public class BlankPlotChart extends JComponent {
 
     public SeriesSize getRectangle(int index, double height, double space, double startX, double startY) {
         double x = startX + space * index;
-        SeriesSize size = new SeriesSize(x, startY + 1, space, height);
+        SeriesSize size = new SeriesSize(x, startY+1, space, height);
         return size;
     }
 
@@ -250,13 +206,5 @@ public class BlankPlotChart extends JComponent {
         double max = niceScale.getTickSpacing() * niceScale.getMaxTicks();
         double percentValues = values * 100d / max;
         return height * percentValues / 100d;
-    }
-
-    public NiceScale getNiceScale() {
-        return niceScale;
-    }
-
-    public void setNiceScale(NiceScale niceScale) {
-        this.niceScale = niceScale;
     }
 }

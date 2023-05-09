@@ -1,4 +1,4 @@
-package chart1.blankchart;
+package GUI.Component.Chart.BarChart.BlankChart;
 
 import java.awt.Graphics2D;
 

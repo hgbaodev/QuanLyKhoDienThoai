@@ -6,16 +6,12 @@ import java.awt.*;
 import java.util.HashMap;
 import javax.swing.*;
 
-public class MainFunction extends JToolBar {
+public final class MainFunction extends JToolBar {
 
     public ButtonToolBar btnAdd, btnDelete, btnEdit, btnDetail, btnNhapExcel, btnXuatExcel, btnHuyPhieu;
     public JSeparator separator1;
     public HashMap<String, ButtonToolBar> btn = new HashMap<>();
-    private NhomQuyenBUS nhomquyenBus = new NhomQuyenBUS();
-
-    public MainFunction() {
-        initComponent();
-    }
+    private final NhomQuyenBUS nhomquyenBus = new NhomQuyenBUS();
 
     public MainFunction(int manhomquyen, String chucnang, String[] listBtn) {
         initData();
@@ -43,28 +39,5 @@ public class MainFunction extends JToolBar {
                 btn.get(btnn).setEnabled(false);
             }
         }
-    }
-
-    private void initComponent() {
-        this.setBackground(Color.WHITE);
-        this.setRollover(true);
-
-        btnAdd = new ButtonToolBar("THÊM", new FlatSVGIcon("./icon/add.svg"));
-        this.add(btnAdd);
-
-        btnDelete = new ButtonToolBar("XÓA", new FlatSVGIcon("./icon/delete.svg"));
-        this.add(btnDelete);
-
-        btnEdit = new ButtonToolBar("SỬA", new FlatSVGIcon("./icon/edit.svg"));
-        this.add(btnEdit);
-
-        btnDetail = new ButtonToolBar("CHI TIẾT", new FlatSVGIcon("./icon/detail.svg"));
-        this.add(btnDetail);
-
-        btnXuatExcel = new ButtonToolBar("XUẤT EXCEL", new FlatSVGIcon("./icon/import_excel.svg"));
-
-        btnNhapExcel = new ButtonToolBar("NHẬP EXCEL", new FlatSVGIcon("./icon/export_excel.svg"));
-        this.add(btnXuatExcel);
-        this.add(btnNhapExcel);
     }
 }

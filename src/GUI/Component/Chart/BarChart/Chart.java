@@ -1,8 +1,8 @@
-package chart1;
+package GUI.Component.Chart.BarChart;
 
-import chart1.blankchart.BlankPlotChart;
-import chart1.blankchart.BlankPlotChatRender;
-import chart1.blankchart.SeriesSize;
+import GUI.Component.Chart.BarChart.BlankChart.BlankPlotChart;
+import GUI.Component.Chart.BarChart.BlankChart.BlankPlotChatRender;
+import GUI.Component.Chart.BarChart.BlankChart.SeriesSize;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
@@ -61,7 +61,7 @@ public class Chart extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        blankPlotChart = new chart1.blankchart.BlankPlotChart();
+        blankPlotChart = new GUI.Component.Chart.BarChart.BlankChart.BlankPlotChart();
         panelLegend = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -92,7 +92,7 @@ public class Chart extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private chart1.blankchart.BlankPlotChart blankPlotChart;
+    private GUI.Component.Chart.BarChart.BlankChart.BlankPlotChart blankPlotChart;
     private javax.swing.JPanel panelLegend;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,4 +1,4 @@
-package chart1;
+package GUI.Component.Chart.BarChart;
 
 import java.awt.Color;
 
