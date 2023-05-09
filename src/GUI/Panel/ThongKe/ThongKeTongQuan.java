@@ -88,7 +88,7 @@ public class ThongKeTongQuan extends JPanel {
         JPanel jp_center_top = new JPanel(new FlowLayout());
         jp_center_top.setBorder(new EmptyBorder(10, 0, 0, 10));
         jp_center_top.setOpaque(false);
-        JLabel txtChartName = new JLabel("Thống kê doanh thu 7 ngày gần nhất");
+        JLabel txtChartName = new JLabel("Thống kê doanh thu 8 ngày gần nhất");
         txtChartName.putClientProperty("FlatLaf.style", "font: 150% $medium.font");
         jp_center_top.add(txtChartName);
 
