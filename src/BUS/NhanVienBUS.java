@@ -257,26 +257,6 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                     }
                 }
             }
-            case "Đang làm" -> {
-                for (NhanVienDTO i : this.listNv) {
-                    if(i.getTrangthai()==1){
-                        if (i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
-                            || i.getSdt().toLowerCase().contains(text)) {
-                        result.add(i);
-                    }
-                    }
-                }
-            }
-            case "Nghỉ việc" -> {
-                for (NhanVienDTO i : this.listNv) {
-                    if(i.getTrangthai()==0){
-                        if (i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
-                            || i.getSdt().toLowerCase().contains(text)) {
-                        result.add(i);
-                    }
-                    }
-                }
-            }
             default ->
                 throw new AssertionError();
         }

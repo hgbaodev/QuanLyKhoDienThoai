@@ -73,7 +73,7 @@ public final class NhanVien extends JPanel {
             mainFunction.btn.get(ac).addActionListener(nvBus);
         }
         functionBar.add(mainFunction);
-        search = new IntegratedSearch(new String[]{"Tất cả", "Họ tên", "Email","Đang làm","Nghỉ việc"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Họ tên", "Email"});
         functionBar.add(search);
         search.btnReset.addActionListener(nvBus);
         search.cbxChoose.addActionListener(nvBus);
@@ -90,7 +90,7 @@ public final class NhanVien extends JPanel {
         scrollTableSanPham = new JScrollPane();
         tableNhanVien = new JTable();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MNV", "Họ tên", "Giới tính", "Ngày Sinh", "SDT", "Email","Trạng thái"};
+        String[] header = new String[]{"MNV", "Họ tên", "Giới tính", "Ngày Sinh", "SDT", "Email"};
 
         tblModel.setColumnIdentifiers(header);
         tableNhanVien.setModel(tblModel);
@@ -104,7 +104,6 @@ public final class NhanVien extends JPanel {
         tableNhanVien.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         tableNhanVien.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         tableNhanVien.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
-        tableNhanVien.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
         scrollTableSanPham.setViewportView(tableNhanVien);
         main.add(scrollTableSanPham);
     }
@@ -131,7 +130,7 @@ public final class NhanVien extends JPanel {
         tblModel.setRowCount(0);
         for (DTO.NhanVienDTO nhanVien : listnv) {
             tblModel.addRow(new Object[]{
-                nhanVien.getManv(), nhanVien.getHoten(), nhanVien.getGioitinh() == 1 ? "Nam" : "Nữ", nhanVien.getNgaysinh(), nhanVien.getSdt(), nhanVien.getEmail(),nhanVien.getTrangthai()==1?"Hoạt động":"Đã khóa"
+                nhanVien.getManv(), nhanVien.getHoten(), nhanVien.getGioitinh() == 1 ? "Nam" : "Nữ", nhanVien.getNgaysinh(), nhanVien.getSdt(), nhanVien.getEmail()
             });
         }
     }
