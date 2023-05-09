@@ -63,7 +63,7 @@ public final class TaoPhieuXuat extends JPanel {
     JScrollPane scrollTablePhieuNhap, scrollTableSanPham;
     DefaultTableModel tblModel, tblModelSP;
     ButtonCustom btnAddSp, btnEditSP, btnDelete, btnImport, btnNhapHang;
-    InputForm txtMaphieu, txtNhanVien, txtMaSp, txtTenSp;
+    InputForm txtMaphieu, txtNhanVien, txtMaSp, txtTenSp, txtSoluongTon;
     SelectForm cbxPhienBan;
     JTextField txtTimKiem;
     Color BackgroundColor = new Color(240, 247, 250);
@@ -198,7 +198,7 @@ public final class TaoPhieuXuat extends JPanel {
         txtTimKiem.putClientProperty("JTextField.placeholderText", "Tên sản phẩm, mã sản phẩm...");
         txtTimKiem.putClientProperty("JTextField.showClearButton", true);
         txtTimKiem.putClientProperty("JTextField.leadingIcon", new FlatSVGIcon("./icon/search.svg"));
-        
+
         txtTimKiem.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -221,12 +221,15 @@ public final class TaoPhieuXuat extends JPanel {
         txtTenSp = new InputForm("Tên sản phẩm");
         txtTenSp.setEditable(false);
         String[] arrCauhinh = {"Chọn sản phẩm"};
-        JPanel panlePXGX = new JPanel(new GridLayout(1, 2));
+        JPanel panlePXGX = new JPanel(new GridLayout(1, 3));
         panlePXGX.setPreferredSize(new Dimension(100, 90));
         cbxPhienBan = new SelectForm("Cấu hình", arrCauhinh);
         txtGiaXuat = new InputForm("Giá xuất");
+        txtSoluongTon = new InputForm("Số lượng tồn");
+        txtSoluongTon.setEditable(false);
         panlePXGX.add(cbxPhienBan);
         panlePXGX.add(txtGiaXuat);
+        panlePXGX.add(txtSoluongTon);
         content_right_top.add(txtMaSp, BorderLayout.WEST);
         content_right_top.add(txtTenSp, BorderLayout.CENTER);
         content_right_top.add(panlePXGX, BorderLayout.SOUTH);
@@ -268,7 +271,7 @@ public final class TaoPhieuXuat extends JPanel {
         });
         JPanel jPanelChonImei = new JPanel(new GridLayout(1, 2));
         jPanelChonImei.setPreferredSize(new Dimension(200, 0));
-        jPanelChonImei.setOpaque(true);
+        jPanelChonImei.setOpaque(false);
         jPanelChonImei.add(chonImei);
         jPanelChonImei.add(scanImei);
 
@@ -287,14 +290,14 @@ public final class TaoPhieuXuat extends JPanel {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 String[] arrimei = textAreaImei.getText().split("\n");
-                for (int i=0;i<arrimei.length;i++){
+                for (int i = 0; i < arrimei.length; i++) {
                     boolean check = false;
                     for (ChiTietSanPhamDTO chiTietSanPhamDTO : ctpb) {
-                        if(arrimei[i].equals(chiTietSanPhamDTO.getImei())){
+                        if (arrimei[i].equals(chiTietSanPhamDTO.getImei())) {
                             check = true;
                         }
                     }
-                    if(!check){
+                    if (!check) {
                         String txt = textAreaImei.getText().replaceAll("(" + arrimei[i] + ")\n", "");
                         textAreaImei.setText(txt);
                     }
@@ -629,7 +632,9 @@ public final class TaoPhieuXuat extends JPanel {
 
     public void setImeiByPb(int mapb) {
         ctpb = ChiTietSanPhamDAO.getInstance().selectAllbyPb(mapb);
-        txtGiaXuat.setText(phienBanBus.getByMaPhienBan(mapb).getGiaxuat() + "");
+        PhienBanSanPhamDTO pbsp = phienBanBus.getByMaPhienBan(mapb);
+        txtGiaXuat.setText(pbsp.getGiaxuat() + "");
+        txtSoluongTon.setText(pbsp.getSoluongton()+"");
         textAreaImei.setText("");
         for (int i = 0; i < ctpb.size(); i++) {
             for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {

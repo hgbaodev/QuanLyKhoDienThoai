@@ -16,6 +16,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -60,13 +61,14 @@ public class HeDieuHanhDialog extends JDialog implements MouseListener {
         this.qltt = qltt;
         this.setSize(new Dimension(425, 500));
         this.setLayout(new BorderLayout(0, 0));
+        this.setResizable(false);
         headTite = new HeaderTitle("HỆ ĐIỀU HÀNH");
         this.setBackground(Color.white);
         top = new JPanel();
         main = new JPanel();
         bottom = new JPanel();
 
-        top.setLayout(new FlowLayout(0));
+        top.setLayout(new GridLayout(1,1));
         top.setBackground(Color.WHITE);
         top.setPreferredSize(new Dimension(0, 70));
         top.add(headTite);

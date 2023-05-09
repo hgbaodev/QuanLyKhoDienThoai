@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -55,15 +57,16 @@ public class DungLuongRamDialog extends JDialog implements MouseListener{
     public void initComponent(QuanLyThuocTinhSP qltt) {
         this.qltt=qltt;
         this.setSize(new Dimension(425, 500));
-        this.setLayout(new BorderLayout(0, 0));        
-        headTite = new HeaderTitle("Quản lý RAM");
+        this.setLayout(new BorderLayout(0, 0));       
+        this.setResizable(false);
+        headTite = new HeaderTitle("DUNG LƯỢNG RAM");
         this.setBackground(Color.white);
         top = new JPanel();
         main = new JPanel();
         bottom = new JPanel();
         
         
-        top.setLayout(new FlowLayout(0));
+        top.setLayout(new GridLayout(1,1));
         top.setBackground(Color.WHITE);
         top.setPreferredSize(new Dimension(0, 70));
         top.add(headTite);
