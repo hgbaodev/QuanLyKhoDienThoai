@@ -198,7 +198,11 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cbxRam = new SelectForm("RAM", ramBus.getArrKichThuoc());
         cbxMausac = new SelectForm("Màu sắc", mausacBus.getArrTenMauSac());
         txtgianhap = new InputForm("Giá nhập");
+        PlainDocument nhap = (PlainDocument)txtgianhap.getTxtForm().getDocument();
+        nhap.setDocumentFilter((new NumericDocumentFilter()));
         txtgiaxuat = new InputForm("Giá xuất");
+        PlainDocument xuat = (PlainDocument)txtgiaxuat.getTxtForm().getDocument();
+        xuat.setDocumentFilter((new NumericDocumentFilter()));
         cauhinhtop.add(cbxRom);
         cauhinhtop.add(cbxRam);
         cauhinhtop.add(cbxMausac);
@@ -278,7 +282,13 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cauhinhbottom.setBorder(new EmptyBorder(0, 0, 10, 0));
 
         switch (type) {
-            case "view" -> loadDataToTableCauHinh(listch);
+            case "view" -> {
+                loadDataToTableCauHinh(listch);
+                btnAddCauHinh.setVisible(false);
+                btnEditCTCauHinh.setVisible(false);
+                btnDeleteCauHinh.setVisible(false);
+                btnResetCauHinh.setVisible(false);
+            }
             case "update" -> loadDataToTableCauHinh(listch);
             case "create" -> {
                 btnAddSanPham = new ButtonCustom("Thêm sản phẩm", "success", 14);

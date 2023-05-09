@@ -49,6 +49,7 @@ import java.util.Set;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -301,6 +302,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         scanImei.addActionListener(this);
         importImei.addActionListener(this);
         textAreaImei = new JTextArea(6, 4);
+        //textAreaImei.setDocument((Document) new NumericDocumentFilter());
         textAreaImei.setBorder(BorderFactory.createLineBorder(new Color(153, 153, 153)));
         card_content_two_model.setSize(new Dimension(0, 100));
         card_content_two_model.setBackground(Color.white);
