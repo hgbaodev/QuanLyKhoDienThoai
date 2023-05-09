@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI.Dialog.ThuocTinhSanPham;
 
 import BUS.NhomQuyenBUS;
@@ -14,7 +10,6 @@ import GUI.Component.InputForm;
 import GUI.Panel.QuanLyThuocTinhSP;
 import helper.Validation;
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -22,7 +17,6 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -58,15 +52,15 @@ public final class ThuongHieuDialog extends JDialog implements MouseListener {
         loadQuyen(nhomquyen);
         loadDataTable(list);
     }
-    
-    public void loadQuyen(int nhomquyen){
-        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "create")){
+
+    public void loadQuyen(int nhomquyen) {
+        if (!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "create")) {
             add.setVisible(false);
         }
-        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "delete")){
+        if (!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "delete")) {
             del.setVisible(false);
         }
-        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "update")){
+        if (!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "update")) {
             update.setVisible(false);
         }
     }
@@ -82,7 +76,7 @@ public final class ThuongHieuDialog extends JDialog implements MouseListener {
         main = new JPanel();
         bottom = new JPanel();
 
-        top.setLayout(new GridLayout(1,1));
+        top.setLayout(new GridLayout(1, 1));
         top.setBackground(Color.WHITE);
         top.setPreferredSize(new Dimension(0, 70));
         top.add(headTite);
@@ -103,10 +97,10 @@ public final class ThuongHieuDialog extends JDialog implements MouseListener {
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setCellRenderer(centerRenderer);
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
-         JScrollPane scrollTable = new JScrollPane(table);
+        JScrollPane scrollTable = new JScrollPane(table);
         scrollTable.setBorder(new EmptyBorder(0, 0, 0, 0));
         scrollTable.setViewportView(table);
-        scrollTable.setPreferredSize(new Dimension(420,250));
+        scrollTable.setPreferredSize(new Dimension(420, 250));
         main.add(ms);
         main.add(scrollTable);
 
@@ -144,11 +138,15 @@ public final class ThuongHieuDialog extends JDialog implements MouseListener {
             if (Validation.isEmpty(ms.getText())) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập tên thương hiệu mới");
             } else {
-                int id = ThuongHieuDAO.getInstance().getAutoIncrement();
                 String tenthuonghieu = ms.getText();
-                thBUS.add(tenthuonghieu);
-                loadDataTable(list);
-                ms.setText("");
+                if (thBUS.checkDup(tenthuonghieu)) {
+                    int id = ThuongHieuDAO.getInstance().getAutoIncrement();
+                    thBUS.add(tenthuonghieu);
+                    loadDataTable(list);
+                    ms.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thương hiệu đã tồn tại !");
+                }
             }
         } else if (e.getSource() == del) {
             int index = getRowSelected();
@@ -164,9 +162,13 @@ public final class ThuongHieuDialog extends JDialog implements MouseListener {
                     JOptionPane.showMessageDialog(this, "Vui lòng nhập tên thương hiệu mới");
                 } else {
                     String tenthuonghieu = ms.getText();
-                    thBUS.update(new ThuongHieuDTO(list.get(index).getMathuonghieu(), tenthuonghieu));
-                    loadDataTable(list);
-                    ms.setText("");
+                    if (thBUS.checkDup(tenthuonghieu)) {
+                        thBUS.update(new ThuongHieuDTO(list.get(index).getMathuonghieu(), tenthuonghieu));
+                        loadDataTable(list);
+                        ms.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Thương hiệu đã tồn tại !");
+                    }
                 }
             }
         } else if (e.getSource() == table) {

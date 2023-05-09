@@ -379,32 +379,31 @@ public final class TaoPhieuXuat extends JPanel {
                 }
             }
         });
-
-        btnEditSP.addActionListener(new ActionListener() {
+        
+        btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (textAreaImei.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng thêm mã imei");
+                int index = tablePhieuXuat.getSelectedRow();
+                if (index < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn cấu hình cần xóa");
                 } else {
-                    ArrayList<ChiTietSanPhamDTO> ctspnew = new ArrayList<>();
+                    ChiTietPhieuDTO ctPhieuDel = chitietphieu.get(index);
+                    int maphienban = ctPhieuDel.getMaphienbansp();
+                    ArrayList<ChiTietSanPhamDTO> ctSpDel = new ArrayList<>();
                     for (ChiTietSanPhamDTO chiTietSanPhamDTO : chitietsanpham) {
-                        if (chiTietSanPhamDTO.getMaphienbansp() != mapb) {
-                            ctspnew.add(chiTietSanPhamDTO);
+                        if (chiTietSanPhamDTO.getMaphienbansp() != maphienban) {
+                            ctSpDel.add(chiTietSanPhamDTO);
                         }
                     }
-                    chitietsanpham = ctspnew;
-                    int soluongnew = getChiTietSp();
-                    int index = -1;
-                    for (int i = 0; i < chitietphieu.size(); i++) {
-                        if (chitietphieu.get(i).getMaphienbansp() == mapb) {
-                            index = i;
-                        }
-                    }
-                    chitietphieu.get(index).setSoluong(soluongnew);
+                    chitietphieu.remove(index);
+                    chitietsanpham = ctSpDel;
                     loadDataTableChiTietPhieu(chitietphieu);
                 }
-
             }
+        });
+
+        btnImport.addActionListener((ActionEvent e) -> {
+            JOptionPane.showMessageDialog(this, "Chức năng không khả dụng !", "Thông báo", JOptionPane.WARNING_MESSAGE);
         });
 
         left_top.add(content_top, BorderLayout.CENTER);

@@ -60,15 +60,15 @@ public class XuatXuDialog extends JDialog implements MouseListener {
         loadQuyen(nhomquyen);
         loadDataTable(list);
     }
-    
-    public void loadQuyen(int nhomquyen){
-        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "create")){
+
+    public void loadQuyen(int nhomquyen) {
+        if (!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "create")) {
             add.setVisible(false);
         }
-        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "delete")){
+        if (!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "delete")) {
             del.setVisible(false);
         }
-        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "update")){
+        if (!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "update")) {
             update.setVisible(false);
         }
     }
@@ -85,7 +85,7 @@ public class XuatXuDialog extends JDialog implements MouseListener {
         main = new JPanel();
         bottom = new JPanel();
 
-        top.setLayout(new GridLayout(1,1));
+        top.setLayout(new GridLayout(1, 1));
         top.setBackground(Color.WHITE);
         top.setPreferredSize(new Dimension(0, 70));
         top.add(headTite);
@@ -104,7 +104,7 @@ public class XuatXuDialog extends JDialog implements MouseListener {
         tblModel.setColumnIdentifiers(header);
         table.setModel(tblModel);
         scrollTable.setViewportView(table);
-        scrollTable.setPreferredSize(new Dimension(420,250));
+        scrollTable.setPreferredSize(new Dimension(420, 250));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         TableColumnModel columnModel = table.getColumnModel();
@@ -147,11 +147,15 @@ public class XuatXuDialog extends JDialog implements MouseListener {
             if (Validation.isEmpty(ms.getText())) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập nơi xuất xứ mới");
             } else {
-                int id = XuatXuDAO.getInstance().getAutoIncrement();
                 String tenmau = ms.getText();
-                msBUS.add(new XuatXuDTO(id, tenmau));
-                loadDataTable(list);
-                ms.setText("");
+                if (msBUS.checkDup(tenmau)) {
+                    int id = XuatXuDAO.getInstance().getAutoIncrement();
+                    msBUS.add(new XuatXuDTO(id, tenmau));
+                    loadDataTable(list);
+                    ms.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Xuất xứ đã tồn tại !");
+                }
             }
         } else if (e.getSource() == del) {
             int index = getRowSelected();
@@ -167,9 +171,13 @@ public class XuatXuDialog extends JDialog implements MouseListener {
                     JOptionPane.showMessageDialog(this, "Vui lòng nhập nơi xuất xứ mới");
                 } else {
                     String tenmau = ms.getText();
-                    msBUS.update(new XuatXuDTO(list.get(index).getMaxuatxu(), tenmau));
-                    loadDataTable(list);
-                    ms.setText("");
+                    if (msBUS.checkDup(tenmau)) {
+                        msBUS.update(new XuatXuDTO(list.get(index).getMaxuatxu(), tenmau));
+                        loadDataTable(list);
+                        ms.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Xuất xứ đã tồn tại !");
+                    }
                 }
             }
         } else if (e.getSource() == table) {

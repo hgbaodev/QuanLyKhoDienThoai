@@ -86,8 +86,21 @@ public class ThuongHieuBUS {
         }
         return result;
     }
-    
+
     public String getTenThuongHieu(int mathuonghieu) {
         return this.listLH.get(this.getIndexByMaLH(mathuonghieu)).getTenthuonghieu();
+    }
+
+    public boolean checkDup(String name) {
+        boolean check = true;
+        int i = 0;
+        while (i <= this.listLH.size() && check == true) {
+            if (this.listLH.get(i).getTenthuonghieu().toLowerCase().contains(name.toLowerCase())) {
+                check = false;
+            } else {
+                i++;
+            }
+        }
+        return check;
     }
 }

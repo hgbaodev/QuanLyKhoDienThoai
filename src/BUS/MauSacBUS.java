@@ -57,8 +57,11 @@ public class MauSacBUS {
         int i = 0;
         int vitri = -1;
         while (i < this.listMauSac.size() && vitri == -1) {
-            if (listMauSac.get(i).getMamau() == mamau) vitri = i;
-            else i++;
+            if (listMauSac.get(i).getMamau() == mamau) {
+                vitri = i;
+            } else {
+                i++;
+            }
         }
         return vitri;
     }
@@ -73,6 +76,19 @@ public class MauSacBUS {
         boolean check = mausacDAO.update(msac) != 0;
         if (check) {
             this.listMauSac.set(getIndexByMaMau(msac.getMamau()), msac);
+        }
+        return check;
+    }
+
+    public boolean checkDup(String name) {
+        boolean check = true;
+        int i = 0;
+        while (i <= this.listMauSac.size() && check == true) {
+            if (this.listMauSac.get(i).getTenmau().toLowerCase().contains(name.toLowerCase())) {
+                check = false;
+            } else {
+                i++;
+            }
         }
         return check;
     }

@@ -159,7 +159,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModelSP = new DefaultTableModel();
-        String[] headerSP = new String[]{"Mã SP", "Tên sản phẩm"};
+        String[] headerSP = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng tồn"};
         tblModelSP.setColumnIdentifiers(headerSP);
         tableSanPham.setModel(tblModelSP);
         scrollTableSanPham.setViewportView(tableSanPham);
@@ -401,7 +401,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
     public void loadDataTalbeSanPham(ArrayList<DTO.SanPhamDTO> result) {
         tblModelSP.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
-            tblModelSP.addRow(new Object[]{sp.getMasp(), sp.getTensp()});
+            tblModelSP.addRow(new Object[]{sp.getMasp(), sp.getTensp(), sp.getSoluongton()});
         }
     }
 
@@ -661,6 +661,8 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
             for (String i : listmaimei) {
                 textAreaImei.append(i + "\n");
             }
+        } else if(source == btnImport) {
+            JOptionPane.showMessageDialog(this, "Chức năng không khả dụng !", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
     }
 

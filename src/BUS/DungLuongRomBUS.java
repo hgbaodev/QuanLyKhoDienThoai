@@ -13,13 +13,14 @@ import java.util.ArrayList;
  * @author Tran Nhat Sinh
  */
 public class DungLuongRomBUS {
+
     private final DungLuongRomDAO dlromDAO = new DungLuongRomDAO();
     private ArrayList<DungLuongRomDTO> listDLRom = new ArrayList<>();
 
     public DungLuongRomBUS getInstance() {
         return new DungLuongRomBUS();
     }
-    
+
     public DungLuongRomBUS() {
         listDLRom = dlromDAO.selectAll();
     }
@@ -36,7 +37,7 @@ public class DungLuongRomBUS {
         int i = 0;
         int vitri = -1;
         while (i < this.listDLRom.size() && vitri == -1) {
-            if (listDLRom.get(i).getMadungluongrom()== marom) {
+            if (listDLRom.get(i).getMadungluongrom() == marom) {
                 vitri = i;
             } else {
                 i++;
@@ -73,22 +74,37 @@ public class DungLuongRomBUS {
         int i = 0;
         int vitri = -1;
         while (i < this.listDLRom.size() && vitri == -1) {
-            if (listDLRom.get(i).getMadungluongrom()== madlrom) {
+            if (listDLRom.get(i).getMadungluongrom() == madlrom) {
                 vitri = i;
-            } else i++;
+            } else {
+                i++;
+            }
         }
         return vitri;
     }
-    
+
     public int getKichThuocById(int madlrom) {
         return this.listDLRom.get(this.getIndexById(madlrom)).getDungluongrom();
     }
-    
+
     public String[] getArrKichThuoc() {
         String[] result = new String[listDLRom.size()];
-        for(int i = 0; i < listDLRom.size(); i++) {
-            result[i] = Integer.toString(listDLRom.get(i).getDungluongrom())+"GB";
+        for (int i = 0; i < listDLRom.size(); i++) {
+            result[i] = Integer.toString(listDLRom.get(i).getDungluongrom()) + "GB";
         }
         return result;
+    }
+
+    public boolean checkDup(int dl) {
+        boolean check = true;
+        int i = 0;
+        while (i <= this.listDLRom.size() && check == true) {
+            if (this.listDLRom.get(i).getDungluongrom()== dl) {
+                check = false;
+            } else {
+                i++;
+            }
+        }
+        return check;
     }
 }

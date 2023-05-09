@@ -80,6 +80,17 @@ public class DungLuongRamBUS {
         return vitri;
     }
     
+    public boolean checkDup(int dl) {
+        boolean check = true;
+        int i = 0;
+        while(i <= this.listDLRam.size() && check == true) {
+            if(this.listDLRam.get(i).getDungluongram()==dl) {
+                check = false;
+            } else i++;
+        }
+        return check;
+    }
+    
     public int getKichThuocById(int madlram) {
         return this.listDLRam.get(this.getIndexById(madlram)).getDungluongram();
     }

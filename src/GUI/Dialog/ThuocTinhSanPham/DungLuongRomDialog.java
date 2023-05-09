@@ -18,7 +18,6 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -55,15 +54,15 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
         loadQuyen(nhomquyen);
         loadDataTable(list);
     }
-    
-    public void loadQuyen(int nhomquyen){
-        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "create")){
+
+    public void loadQuyen(int nhomquyen) {
+        if (!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "create")) {
             add.setVisible(false);
         }
-        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "delete")){
+        if (!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "delete")) {
             del.setVisible(false);
         }
-        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "update")){
+        if (!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "update")) {
             update.setVisible(false);
         }
     }
@@ -79,7 +78,7 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
         main = new JPanel();
         bottom = new JPanel();
 
-        top.setLayout(new GridLayout(1,1));
+        top.setLayout(new GridLayout(1, 1));
         top.setBackground(Color.WHITE);
         top.setPreferredSize(new Dimension(0, 70));
         top.add(headTite);
@@ -87,7 +86,7 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
         main.setBackground(Color.WHITE);
         main.setPreferredSize(new Dimension(420, 200));
         ms = new InputForm("Dung lượng ROM");
-        PlainDocument m = (PlainDocument)ms.getTxtForm().getDocument();
+        PlainDocument m = (PlainDocument) ms.getTxtForm().getDocument();
         m.setDocumentFilter(new NumericDocumentFilter());
         ms.setPreferredSize(new Dimension(250, 70));
         table = new JTable();
@@ -99,7 +98,7 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
         tblModel.setColumnIdentifiers(header);
         table.setModel(tblModel);
         scrollTable.setViewportView(table);
-        scrollTable.setPreferredSize(new Dimension(420,250));
+        scrollTable.setPreferredSize(new Dimension(420, 250));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         TableColumnModel columnModel = table.getColumnModel();
@@ -141,11 +140,15 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
             if (Validation.isEmpty(ms.getText())) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập dung lượng Rom mới");
             } else {
-                int id = DungLuongRomDAO.getInstance().getAutoIncrement();
-                String kichthuoc = ms.getText();
-                dlrBUS.add(new DungLuongRomDTO(id, Integer.parseInt(kichthuoc)));
-                loadDataTable(list);
-                ms.setText("");
+                int kichthuoc = Integer.parseInt(ms.getText());
+                if (dlrBUS.checkDup(kichthuoc)) {
+                    int id = DungLuongRomDAO.getInstance().getAutoIncrement();
+                    dlrBUS.add(new DungLuongRomDTO(id, kichthuoc));
+                    loadDataTable(list);
+                    ms.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Dung lượng ROM đã tồn tại !");
+                }
             }
         } else if (e.getSource() == del) {
             int index = getRowSelected();
@@ -161,10 +164,14 @@ public class DungLuongRomDialog extends JDialog implements MouseListener {
                     if (Validation.isEmpty(ms.getText())) {
                         JOptionPane.showMessageDialog(this, "Vui lòng nhập dung lượng Rom");
                     } else {
-                        String kichthuoc = ms.getText();
-                        dlrBUS.update(new DungLuongRomDTO(list.get(index).getMadungluongrom(), Integer.parseInt(kichthuoc)));
-                        loadDataTable(list);
-                        ms.setText("");
+                        int kichthuoc = Integer.parseInt(ms.getText());
+                        if (dlrBUS.checkDup(kichthuoc)) {
+                            dlrBUS.update(new DungLuongRomDTO(list.get(index).getMadungluongrom(), kichthuoc));
+                            loadDataTable(list);
+                            ms.setText("");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Dung lượng ROM đã tồn tại !");
+                        }
                     }
                 }
             }

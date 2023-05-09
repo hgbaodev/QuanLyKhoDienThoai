@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * @author 84907
  */
 public class HeDieuHanhBUS {
+
     private HeDieuHanhDAO hdhDAO = new HeDieuHanhDAO();
     private ArrayList<HeDieuHanhDTO> listHeDieuHanh = new ArrayList<>();
 
@@ -52,8 +53,11 @@ public class HeDieuHanhBUS {
         int i = 0;
         int vitri = -1;
         while (i < this.listHeDieuHanh.size() && vitri == -1) {
-            if (listHeDieuHanh.get(i).getMahdh()== mamau) vitri = i;
-            else i++;
+            if (listHeDieuHanh.get(i).getMahdh() == mamau) {
+                vitri = i;
+            } else {
+                i++;
+            }
         }
         return vitri;
     }
@@ -67,6 +71,19 @@ public class HeDieuHanhBUS {
         boolean check = hdhDAO.update(hdh) != 0;
         if (check) {
             this.listHeDieuHanh.set(getIndexByMaMau(hdh.getMahdh()), hdh);
+        }
+        return check;
+    }
+
+    public boolean checkDup(String name) {
+        boolean check = true;
+        int i = 0;
+        while (i <= this.listHeDieuHanh.size() && check == true) {
+            if (this.listHeDieuHanh.get(i).getTenhdh().toLowerCase().contains(name.toLowerCase())) {
+                check = false;
+            } else {
+                i++;
+            }
         }
         return check;
     }
