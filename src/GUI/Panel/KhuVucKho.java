@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -58,6 +59,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
     public SanPhamBUS spBUS = new SanPhamBUS();
 
     public ArrayList<KhuVucKhoDTO> listKVK = kvkBUS.getAll();
+    public ArrayList<SanPhamDTO> listSP = spBUS.getAll();
 
     private void initComponent() {
         tableKhuvuc = new JTable();
@@ -82,7 +84,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
             public void mousePressed(MouseEvent e) {
                 int index = tableKhuvuc.getSelectedRow();
                 if (index != -1) {
-                    ArrayList<SanPhamDTO> listSP = spBUS.getByMakhuvuc(listKVK.get(index).getMakhuvuckho());
+                    ArrayList<SanPhamDTO> listSP = spBUS.getByMakhuvuc(listKVK.get(index).getMakhuvuc());
                     ListCustomersInDePot(listSP);
                 }
             }
@@ -161,7 +163,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         tblModel.setRowCount(0);
         for (KhuVucKhoDTO kvk : result) {
             tblModel.addRow(new Object[]{
-                kvk.getMakhuvuckho(), kvk.getTenkhuvuc(), kvk.getGhichu()
+                kvk.getMakhuvuc(), kvk.getTenkhuvuc(), kvk.getGhichu()
             });
         }
     }
@@ -192,6 +194,7 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
                     tblModel.setRowCount(0);
                     loadDataTable(listKVK);
                 }
+                JOptionPane.showMessageDialog(this, "Nhập thành công");
             } catch (FileNotFoundException ex) {
                 System.out.println("Lỗi đọc file");
             } catch (IOException ex) {
@@ -202,6 +205,22 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
         loadDataTable(listKVK);
     }
 
+//    void Import() throws IOException, SQLException, Exception{
+//        File excelFile;
+//        FileInputStream excelFIS = null;
+//        BufferedInputStream excelBIS = null;
+//        XSSFWorkbook excelJTableImport = null;
+//        ArrayList<KhuVucKhoDTO> listExcel = new ArrayList<KhuVucKhoDTO>();
+//        JFileChooser jf = new JFileChooser();
+//        int result = jf.showOpenDialog(null);
+//        jf.setDialogTitle("Open file");
+//        Workbook workbook = null;
+//        if (result == JFileChooser.APPROVE_OPTION) {
+//            excelFile = jf.getSelectedFile();
+//            ArrayList<KhuVucKhoDTO> excel = ExcelImport.readDataFromExcel(excelFile, KhuVucKhoDTO.class);
+//            System.out.println(excel.size());
+//        }
+//    }
     public void ListCustomersInDePot(ArrayList<SanPhamDTO> result) {
         right.removeAll();
         JLabel tit = new JLabel("Danh sách sản phẩm đang có ở khu vực");
@@ -255,8 +274,20 @@ public class KhuVucKho extends JPanel implements ActionListener, ItemListener {
                         "Bạn có chắc chắn muốn xóa khu vực!", "Xóa khu vực kho",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    kvkBUS.delete(listKVK.get(index), index);
-                    loadDataTable(listKVK);
+                    int check = 0;
+                    for (SanPhamDTO i : listSP) {
+                        if (listKVK.get(index).getMakhuvuc() == i.getKhuvuckho()) {
+                            check++;
+                            break;
+                        }
+                    }
+                    if (check == 0) {
+                        kvkBUS.delete(listKVK.get(index), index);
+                        loadDataTable(listKVK);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(this, "Không thể xóa kho vì vẫn còn sản phẩm trong kho.");
+                    }
                 }
             }
         } else if (e.getSource() == search.btnReset) {

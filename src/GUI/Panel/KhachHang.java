@@ -2,6 +2,8 @@ package GUI.Panel;
 
 import DTO.KhachHangDTO;
 import BUS.KhachHangBUS;
+import DAO.KhachHangDAO;
+import DTO.KhuVucKhoDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -11,38 +13,31 @@ import GUI.Component.PanelBorderRadius;
 import GUI.Component.TableSorter;
 import GUI.Dialog.KhachHangDialog;
 import GUI.Main;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import helper.JTableExporter;
+import helper.Validation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;;
-import java.io.IOException;
-import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.table.DefaultTableCellRenderer;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Date;
 import javax.swing.table.DefaultTableCellRenderer;
-import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.table.DefaultTableCellRenderer;
-import java.io.IOException;
-import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.table.DefaultTableCellRenderer;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class KhachHang extends JPanel implements ActionListener {
+public class KhachHang extends JPanel implements ActionListener, ItemListener {
 
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
@@ -56,7 +51,6 @@ public class KhachHang extends JPanel implements ActionListener {
     public ArrayList<KhachHangDTO> listkh = khachhangBUS.getAll();
     KhachHangDTO kh = new KhachHangDTO();
     Main m;
-
     Color BackgroundColor = new Color(240, 247, 250);
 
     private void initComponent() {
@@ -82,7 +76,7 @@ public class KhachHang extends JPanel implements ActionListener {
 
         tableKhachHang.setAutoCreateRowSorter(true);
         TableSorter.configureTableColumnSorter(tableKhachHang, 0, TableSorter.INTEGER_COMPARATOR);
-        
+
         // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
         pnlBorder1 = new JPanel();
         pnlBorder1.setPreferredSize(new Dimension(0, 10));
@@ -123,12 +117,14 @@ public class KhachHang extends JPanel implements ActionListener {
         }
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại"});
+        search.cbxChoose.addItemListener(this);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
+                String type = (String) search.cbxChoose.getSelectedItem();
                 String txt = search.txtSearchForm.getText();
-                listkh = khachhangBUS.search(txt);
+                listkh = khachhangBUS.search(txt, type);
                 loadDataTable(listkh);
             }
         });
@@ -176,10 +172,74 @@ public class KhachHang extends JPanel implements ActionListener {
         return index;
     }
 
+    public void importExcel() {
+        File excelFile;
+        FileInputStream excelFIS = null;
+        BufferedInputStream excelBIS = null;
+        XSSFWorkbook excelJTableImport = null;
+        ArrayList<KhachHangDTO> listExcel = new ArrayList<KhachHangDTO>();
+        JFileChooser jf = new JFileChooser();
+        int result = jf.showOpenDialog(null);
+        jf.setDialogTitle("Open file");
+        Workbook workbook = null;
+        int k = 0;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                excelFile = jf.getSelectedFile();
+                excelFIS = new FileInputStream(excelFile);
+                excelBIS = new BufferedInputStream(excelFIS);
+                excelJTableImport = new XSSFWorkbook(excelBIS);
+                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
+                    int check = 1;
+                    XSSFRow excelRow = excelSheet.getRow(row);
+                    int id = KhachHangDAO.getInstance().getAutoIncrement();
+                    String tenkh = excelRow.getCell(0).getStringCellValue();
+                    String sdt = excelRow.getCell(1).getStringCellValue();
+                    String diachi = excelRow.getCell(2).getStringCellValue();
+                    if (Validation.isEmpty(tenkh) || Validation.isEmpty(sdt)
+                            || !isPhoneNumber(sdt) || sdt.length() != 10 || Validation.isEmpty(diachi)) {
+                        check = 0;
+                    }
+                    if (check == 1) {
+                        khachhangBUS.add(new KhachHangDTO(id, tenkh, sdt, diachi));
+                    } else {
+                        k += 1;
+                    }
+                }
+                JOptionPane.showMessageDialog(this, "Nhập thành công");
+            } catch (FileNotFoundException ex) {
+                System.out.println("Lỗi đọc file");
+            } catch (IOException ex) {
+                System.out.println("Lỗi đọc file");
+            }
+        }
+        if (k != 0) {
+            JOptionPane.showMessageDialog(this, "Vài dữ liệu không hợp lệ không được thêm vào");
+        }
+        loadDataTable(listkh);
+    }
+
+    public static boolean isPhoneNumber(String str) {
+        // Loại bỏ khoảng trắng và dấu ngoặc đơn nếu có
+        str = str.replaceAll("\\s+", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\-", "");
+
+        // Kiểm tra xem chuỗi có phải là một số điện thoại hợp lệ hay không
+        if (str.matches("\\d{10}")) { // Kiểm tra số điện thoại 10 chữ số
+            return true;
+        } else if (str.matches("\\d{3}-\\d{3}-\\d{4}")) { // Kiểm tra số điện thoại có dấu gạch ngang
+            return true;
+        } else if (str.matches("\\(\\d{3}\\)\\d{3}-\\d{4}")) { // Kiểm tra số điện thoại có dấu ngoặc đơn
+            return true;
+        } else {
+            return false; // Trả về false nếu chuỗi không phải là số điện thoại hợp lệ
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btn.get("create")) {
-                        System.out.println("ok");
+            System.out.println("ok");
 
             KhachHangDialog khDialog = new KhachHangDialog(this, owner, "Thêm khách hàng", true, "create");
         } else if (e.getSource() == mainFunction.btn.get("update")) {
@@ -203,6 +263,8 @@ public class KhachHang extends JPanel implements ActionListener {
             if (index != -1) {
                 KhachHangDialog khDialog = new KhachHangDialog(this, owner, "Xem khách hàng", true, "view", listkh.get(index));
             }
+        } else if (e.getSource() == mainFunction.btn.get("import")) {
+            importExcel();
         } else if (e.getSource() == mainFunction.btn.get("export")) {
             try {
                 JTableExporter.exportJTableToExcel(tableKhachHang);
@@ -210,5 +272,13 @@ public class KhachHang extends JPanel implements ActionListener {
                 Logger.getLogger(KhachHang.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        String type = (String) search.cbxChoose.getSelectedItem();
+        String txt = search.txtSearchForm.getText();
+        listkh = khachhangBUS.search(txt, type);
+        loadDataTable(listkh);
     }
 }

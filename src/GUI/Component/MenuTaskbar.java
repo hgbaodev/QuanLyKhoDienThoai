@@ -61,7 +61,8 @@ public class MenuTaskbar extends JPanel {
         {"Tài khoản", "account_32px.svg", "taikhoan"},
         {"Thống kê", "inventory_32px.svg", "thongke"},
         {"Phân quyền", "permission_32px.svg", "nhomquyen"},
-        {"Đăng xuất", "log_out_32px.svg", "dangxuat"},};
+        {"Đăng xuất", "log_out_32px.svg", "dangxuat"},
+    };
 
     Main main;
     TaiKhoanDTO user;

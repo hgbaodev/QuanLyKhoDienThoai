@@ -27,7 +27,7 @@ public class KhuVucKhoDAO implements DAOinterface<KhuVucKhoDTO> {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "INSERT INTO `khuvuckho`(`makhuvuc`, `tenkhuvuc`,`ghichu`,`trangthai`) VALUES (?,?,?,1)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setInt(1, t.getMakhuvuckho());
+            pst.setInt(1, t.getMakhuvuc());
             pst.setString(2, t.getTenkhuvuc());
             pst.setString(3, t.getGhichu());
             result = pst.executeUpdate();
@@ -47,7 +47,7 @@ public class KhuVucKhoDAO implements DAOinterface<KhuVucKhoDTO> {
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getTenkhuvuc());
             pst.setString(2, t.getGhichu());
-            pst.setInt(3, t.getMakhuvuckho());
+            pst.setInt(3, t.getMakhuvuc());
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
@@ -61,8 +61,9 @@ public class KhuVucKhoDAO implements DAOinterface<KhuVucKhoDTO> {
         int result = 0;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `khuvuckho` SET `trangthai` = 0 WHERE  makhuvuc = ?";
+            String sql = "UPDATE khuvuckho SET trangthai = 0 WHERE  makhuvuc = ? ";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, t);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {

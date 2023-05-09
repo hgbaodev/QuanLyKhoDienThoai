@@ -199,6 +199,7 @@ public final class TaoPhieuXuat extends JPanel {
         txtTimKiem.putClientProperty("JTextField.placeholderText", "Tên sản phẩm, mã sản phẩm...");
         txtTimKiem.putClientProperty("JTextField.showClearButton", true);
         txtTimKiem.putClientProperty("JTextField.leadingIcon", new FlatSVGIcon("./icon/search.svg"));
+        
         txtTimKiem.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(java.awt.event.KeyEvent evt) {

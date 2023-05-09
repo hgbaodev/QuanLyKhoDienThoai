@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Main;
 import helper.JTableExporter;
+import helper.Validation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -174,6 +175,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         int result = jf.showOpenDialog(null);
         jf.setDialogTitle("Open file");
         Workbook workbook = null;
+        int k = 0;
         if (result == JFileChooser.APPROVE_OPTION) {
             try {
                 excelFile = jf.getSelectedFile();
@@ -181,22 +183,36 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
                 excelBIS = new BufferedInputStream(excelFIS);
                 excelJTableImport = new XSSFWorkbook(excelBIS);
                 XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+
                 for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
+                    int check = 1;
                     XSSFRow excelRow = excelSheet.getRow(row);
                     int id = NhaCungCapDAO.getInstance().getAutoIncrement();
                     String tenNCC = excelRow.getCell(0).getStringCellValue();
                     String diachi = excelRow.getCell(1).getStringCellValue();
                     String email = excelRow.getCell(2).getStringCellValue();
                     String sdt = excelRow.getCell(3).getStringCellValue();
-                    nccBUS.add(new NhaCungCapDTO(id, tenNCC, diachi, email, sdt));
-                    tblModel.setRowCount(0);
-                    loadDataTable(listncc);
+                    if (Validation.isEmpty(tenNCC) || Validation.isEmpty(email) ||
+                            !Validation.isEmail(email) ||Validation.isEmpty(sdt) ||!isPhoneNumber(sdt)
+                            || sdt.length() != 10 || Validation.isEmpty(diachi)) {
+                        check = 0;
+                    }
+                    if (check == 0) {
+                        k += 1;
+                    } else {
+                        nccBUS.add(new NhaCungCapDTO(id, tenNCC, diachi, email, sdt));
+                    }
                 }
             } catch (FileNotFoundException ex) {
                 System.out.println("Lỗi đọc file");
             } catch (IOException ex) {
                 System.out.println("Lỗi đọc file");
             }
+        }
+        if (k != 0) {
+            JOptionPane.showMessageDialog(this, "Vài dữ liệu không chuẩn không được thêm vào");
+        } else {
+            JOptionPane.showMessageDialog(this, "Nhập dữ liệu thành công");
         }
 //        for (NhaCungCapDTO ncc : listExcel) {
 //            NhaCungCapDAO.getInstance().insert(ncc);
@@ -251,7 +267,21 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
             }
         }
     }
+    public static boolean isPhoneNumber(String str) {
+        // Loại bỏ khoảng trắng và dấu ngoặc đơn nếu có
+        str = str.replaceAll("\\s+", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\-", "");
 
+        // Kiểm tra xem chuỗi có phải là một số điện thoại hợp lệ hay không
+        if (str.matches("\\d{10}")) { // Kiểm tra số điện thoại 10 chữ số
+            return true;
+        } else if (str.matches("\\d{3}-\\d{3}-\\d{4}")) { // Kiểm tra số điện thoại có dấu gạch ngang
+            return true;
+        } else if (str.matches("\\(\\d{3}\\)\\d{3}-\\d{4}")) { // Kiểm tra số điện thoại có dấu ngoặc đơn
+            return true;
+        } else {
+            return false; // Trả về false nếu chuỗi không phải là số điện thoại hợp lệ
+        }
+    }
     @Override
     public void itemStateChanged(ItemEvent e) {
         String type = (String) search.cbxChoose.getSelectedItem();

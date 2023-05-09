@@ -19,6 +19,7 @@ import DTO.PhieuXuatDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
+import com.itextpdf.text.DocumentException;
 import helper.Formater;
 import helper.writePDF;
 import java.awt.BorderLayout;
@@ -30,8 +31,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -225,10 +229,10 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
         if (source == btnPdf) {
             writePDF w = new writePDF();
             if (this.phieuxuat != null) {
-                w.writePhieuXuat(phieuxuat.getMaphieu());
+                w.writePX(phieuxuat.getMaphieu());
             }
             if (this.phieunhap != null) {
-                w.writePhieuNhap(phieunhap.getMaphieu());
+                w.writePN(phieunhap.getMaphieu());
             }
         }
     }

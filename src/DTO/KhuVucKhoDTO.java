@@ -8,25 +8,25 @@ import java.util.Objects;
 
 public class KhuVucKhoDTO {
 
-    private int makhuvuckho;
+    private int makhuvuc;
     private String tenkhuvuc;
     private String ghichu;
 
     public KhuVucKhoDTO() {
     }
 
-    public KhuVucKhoDTO(int makhuvuckho, String tenkhuvuc, String ghichu) {
-        this.makhuvuckho = makhuvuckho;
+    public KhuVucKhoDTO(int makhuvuc, String tenkhuvuc, String ghichu) {
+        this.makhuvuc = makhuvuc;
         this.tenkhuvuc = tenkhuvuc;
         this.ghichu = ghichu;
     }
 
-    public int getMakhuvuckho() {
-        return makhuvuckho;
+    public int getMakhuvuc() {
+        return makhuvuc;
     }
 
-    public void setMakhuvuckho(int makhuvuckho) {
-        this.makhuvuckho = makhuvuckho;
+    public void setMakhuvuc(int makhuvuc) {
+        this.makhuvuc = makhuvuc;
     }
 
     public String getTenkhuvuc() {
@@ -49,7 +49,7 @@ public class KhuVucKhoDTO {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + this.makhuvuckho;
+        hash = 97 * hash + this.makhuvuc;
         hash = 97 * hash + Objects.hashCode(this.tenkhuvuc);
         hash = 97 * hash + Objects.hashCode(this.ghichu);
         return hash;
@@ -72,7 +72,7 @@ public class KhuVucKhoDTO {
 
     @Override
     public String toString() {
-        return "KhuVucKho{" + "makhuvuckho=" + makhuvuckho + ", tenkhuvuc=" + tenkhuvuc + ", ghichu=" + ghichu + '}';
+        return "KhuVucKho{" + "makhuvuc=" + makhuvuc + ", tenkhuvuc=" + tenkhuvuc + ", ghichu=" + ghichu + '}';
     }
     
 }

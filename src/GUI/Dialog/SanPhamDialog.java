@@ -14,6 +14,7 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
 import GUI.Component.InputImage;
+import GUI.Component.NumericDocumentFilter;
 import GUI.Component.SelectForm;
 import GUI.Panel.SanPham;
 import helper.Formater;
@@ -46,6 +47,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.PlainDocument;
 
 /**
  *
@@ -128,9 +130,15 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         xuatxu = new SelectForm("Xuất xứ", arrXX);
         chipxuly = new InputForm("Chip xử lý");
         dungluongpin = new InputForm("Dung lượng pin");
+        PlainDocument pin = (PlainDocument)dungluongpin.getTxtForm().getDocument();
+        pin.setDocumentFilter((new NumericDocumentFilter()));
         kichthuocman = new InputForm("Kích thước màn");
         phienbanhdh = new InputForm("Phiên bản hđh");
+        PlainDocument pbhdh = (PlainDocument)phienbanhdh.getTxtForm().getDocument();
+        pbhdh.setDocumentFilter((new NumericDocumentFilter()));
         thoigianbaohanh = new InputForm("Thời gian bảo hành");
+        PlainDocument baohanh = (PlainDocument)thoigianbaohanh.getTxtForm().getDocument();
+        baohanh.setDocumentFilter((new NumericDocumentFilter()));
         camerasau = new InputForm("Camera sau");
         cameratruoc = new InputForm("Camera trước");
 //        String[] arrhdh = arrhHDH;
@@ -475,7 +483,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         int tgbh = Integer.parseInt(thoigianbaohanh.getText());
         int pb = Integer.parseInt(phienbanhdh.getText());
         int vthuonghieu = jpSP.thuonghieuBus.getAll().get(this.thuonghieu.getSelectedIndex()).getMathuonghieu();
-        int khuvuckho = jpSP.kvkhoBus.getAll().get(this.khuvuc.getSelectedIndex()).getMakhuvuckho();
+        int khuvuckho = jpSP.kvkhoBus.getAll().get(this.khuvuc.getSelectedIndex()).getMakhuvuc();
         SanPhamDTO result = new SanPhamDTO(masp, vtensp, hinhanh, vxuatxu, vchipxuly, vdungluongpin, ktman, hdh, pb, camsau, camtruoc, tgbh, vthuonghieu, khuvuckho, 0);
         return result;
     }

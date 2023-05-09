@@ -8,13 +8,18 @@ import DAO.NhanVienDAO;
 import DTO.NhanVienDTO;
 import GUI.Panel.NhanVien;
 import GUI.Dialog.NhanVienDialog;
+import helper.Validation;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -30,6 +35,8 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
@@ -57,7 +64,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     public ArrayList<DTO.NhanVienDTO> getAll() {
         return this.listNv;
     }
-    
+
     public NhanVienDTO getByIndex(int index) {
         return this.listNv.get(index);
     }
@@ -120,14 +127,14 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                 }
             }
             case "NHẬP EXCEL" -> {
-
+                importExcel();
             }
             case "XUẤT EXCEL" -> {
                 String[] header = new String[]{"MãNV", "Tên nhân viên", "Email nhân viên", "Số điên thoại", "Giới tính", "Ngày sinh"};
                 exportExcel(listNv, header);
             }
-
         }
+        nv.loadDataTalbe(listNv);
     }
 
     @Override
@@ -293,5 +300,81 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
             }
         }
         return result;
+    }
+
+    public void importExcel() {
+        File excelFile;
+        FileInputStream excelFIS = null;
+        BufferedInputStream excelBIS = null;
+        XSSFWorkbook excelJTableImport = null;
+        JFileChooser jf = new JFileChooser();
+        int result = jf.showOpenDialog(null);
+        jf.setDialogTitle("Open file");
+        Workbook workbook = null;
+        int k = 0;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                excelFile = jf.getSelectedFile();
+                excelFIS = new FileInputStream(excelFile);
+                excelBIS = new BufferedInputStream(excelFIS);
+                excelJTableImport = new XSSFWorkbook(excelBIS);
+                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+
+                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
+                    int check = 1;
+                    int gt;
+                    XSSFRow excelRow = excelSheet.getRow(row);
+                    int id = NhanVienDAO.getInstance().getAutoIncrement();
+                    String tennv = excelRow.getCell(0).getStringCellValue();
+                    String gioitinh = excelRow.getCell(1).getStringCellValue();
+                    if (gioitinh.equals("Nam") || gioitinh.equals("nam")) {
+                        gt = 1;
+                    } else {
+                        gt = 0;
+                    }
+                    String sdt = excelRow.getCell(3).getStringCellValue();
+                    Date ngaysinh = (Date) excelRow.getCell(2).getDateCellValue();
+                    java.sql.Date birth = new java.sql.Date(ngaysinh.getTime());
+                    String email = excelRow.getCell(4).getStringCellValue();
+                    if (Validation.isEmpty(tennv) || Validation.isEmpty(email)
+                            || !Validation.isEmail(email) || Validation.isEmpty(sdt)
+                            || Validation.isEmpty(sdt) || !isPhoneNumber(sdt)
+                            || sdt.length() != 10 || Validation.isEmpty(gioitinh)) {
+                        check = 0;
+                    }
+                    if (check == 0) {
+                        k += 1;
+                    } else {
+                        NhanVienDTO nvdto = new NhanVienDTO(id, tennv, gt, birth, sdt, 1, email);
+                        NhanVienDAO.getInstance().insert(nvdto);
+                    }
+                    JOptionPane.showMessageDialog(null, "Nhập thành công");
+                }
+                
+            } catch (FileNotFoundException ex) {
+                System.out.println("Lỗi đọc file");
+            } catch (IOException ex) {
+                System.out.println("Lỗi đọc file");
+            }
+        }
+        if (k != 0) {
+            JOptionPane.showMessageDialog(null, "Vài dữ liệu không chuẩn không được thêm vào");
+        }
+    }
+
+    public static boolean isPhoneNumber(String str) {
+        // Loại bỏ khoảng trắng và dấu ngoặc đơn nếu có
+        str = str.replaceAll("\\s+", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\-", "");
+
+        // Kiểm tra xem chuỗi có phải là một số điện thoại hợp lệ hay không
+        if (str.matches("\\d{10}")) { // Kiểm tra số điện thoại 10 chữ số
+            return true;
+        } else if (str.matches("\\d{3}-\\d{3}-\\d{4}")) { // Kiểm tra số điện thoại có dấu gạch ngang
+            return true;
+        } else if (str.matches("\\(\\d{3}\\)\\d{3}-\\d{4}")) { // Kiểm tra số điện thoại có dấu ngoặc đơn
+            return true;
+        } else {
+            return false; // Trả về false nếu chuỗi không phải là số điện thoại hợp lệ
+        }
     }
 }
