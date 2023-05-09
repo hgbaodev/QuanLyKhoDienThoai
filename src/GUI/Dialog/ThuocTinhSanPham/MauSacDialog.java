@@ -5,6 +5,7 @@
 package GUI.Dialog.ThuocTinhSanPham;
 
 import BUS.MauSacBUS;
+import BUS.NhomQuyenBUS;
 import DAO.MauSacDAO;
 import DTO.ThuocTinhSanPham.MauSacDTO;
 import GUI.Component.ButtonCustom;
@@ -43,11 +44,25 @@ public class MauSacDialog extends JDialog implements MouseListener {
     ButtonCustom add, del, update;
     MauSacBUS msBUS = new MauSacBUS();
     ArrayList<MauSacDTO> list = msBUS.getAll();
+    private final NhomQuyenBUS nhomquyenBus = new NhomQuyenBUS();
 
-    public MauSacDialog(JFrame onwer, QuanLyThuocTinhSP qltt, String title, boolean modal) {
+    public MauSacDialog(JFrame onwer, QuanLyThuocTinhSP qltt, String title, boolean modal, int nhomquyen) {
         super(onwer, title, modal);
         initComponent(qltt);
+        loadQuyen(nhomquyen);
         loadDataTable(list);
+    }
+    
+    public void loadQuyen(int nhomquyen){
+        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "create")){
+            add.setVisible(false);
+        }
+        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "delete")){
+            del.setVisible(false);
+        }
+        if(!nhomquyenBus.checkPermisson(nhomquyen, "thuoctinh", "update")){
+            update.setVisible(false);
+        }
     }
 
     public void initComponent(QuanLyThuocTinhSP qlttsp) {
