@@ -191,8 +191,8 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
                     String diachi = excelRow.getCell(1).getStringCellValue();
                     String email = excelRow.getCell(2).getStringCellValue();
                     String sdt = excelRow.getCell(3).getStringCellValue();
-                    if (Validation.isEmpty(tenNCC) || Validation.isEmpty(email) ||
-                            !Validation.isEmail(email) ||Validation.isEmpty(sdt) ||!isPhoneNumber(sdt)
+                    if (Validation.isEmpty(tenNCC) || Validation.isEmpty(email)
+                            || !Validation.isEmail(email) || Validation.isEmpty(sdt) || !isPhoneNumber(sdt)
                             || sdt.length() != 10 || Validation.isEmpty(diachi)) {
                         check = 0;
                     }
@@ -202,17 +202,18 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
                         nccBUS.add(new NhaCungCapDTO(id, tenNCC, diachi, email, sdt));
                     }
                 }
+                if (k != 0) {
+                    JOptionPane.showMessageDialog(this, "Những dữ liệu không chuẩn không được thêm vào");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Nhập dữ liệu thành công");
+                }
             } catch (FileNotFoundException ex) {
                 System.out.println("Lỗi đọc file");
             } catch (IOException ex) {
                 System.out.println("Lỗi đọc file");
             }
         }
-        if (k != 0) {
-            JOptionPane.showMessageDialog(this, "Những dữ liệu không chuẩn không được thêm vào");
-        } else {
-            JOptionPane.showMessageDialog(this, "Nhập dữ liệu thành công");
-        }
+
         loadDataTable(listncc);
     }
 
@@ -263,6 +264,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
             }
         }
     }
+
     public static boolean isPhoneNumber(String str) {
         // Loại bỏ khoảng trắng và dấu ngoặc đơn nếu có
         str = str.replaceAll("\\s+", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\-", "");
@@ -278,6 +280,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
             return false; // Trả về false nếu chuỗi không phải là số điện thoại hợp lệ
         }
     }
+
     @Override
     public void itemStateChanged(ItemEvent e) {
         String type = (String) search.cbxChoose.getSelectedItem();
