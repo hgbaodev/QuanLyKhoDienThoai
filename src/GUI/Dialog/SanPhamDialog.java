@@ -282,7 +282,13 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cauhinhbottom.setBorder(new EmptyBorder(0, 0, 10, 0));
 
         switch (type) {
-            case "view" -> loadDataToTableCauHinh(listch);
+            case "view" -> {
+                loadDataToTableCauHinh(listch);
+                btnAddCauHinh.setVisible(false);
+                btnEditCTCauHinh.setVisible(false);
+                btnDeleteCauHinh.setVisible(false);
+                btnResetCauHinh.setVisible(false);
+            }
             case "update" -> loadDataToTableCauHinh(listch);
             case "create" -> {
                 btnAddSanPham = new ButtonCustom("Thêm sản phẩm", "success", 14);
