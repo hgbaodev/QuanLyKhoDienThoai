@@ -123,13 +123,19 @@ public class Log_In extends JFrame implements KeyListener {
             if (tk == null) {
                 JOptionPane.showMessageDialog(this, "Tài khoản của bạn không tồn tại trên hệ thống", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
             } else {
-                if (BCrypt.checkpw(passwordCheck, tk.getMatkhau())) {
-                    this.dispose();
-                    Main main = new Main(tk);
-                    main.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Mật khẩu không khớp", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+                if (tk.getTrangthai() == 0) {
+                    JOptionPane.showMessageDialog(this, "Tài khoản của bạn đang bị khóa", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
                 }
+                else {
+                    if (BCrypt.checkpw(passwordCheck, tk.getMatkhau())) {
+                        this.dispose();
+                        Main main = new Main(tk);
+                        main.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Mật khẩu không khớp", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+                    }    
+                }
+
 
             }
         }

@@ -261,7 +261,7 @@ public class NhanVienDialog extends JDialog {
         } else if(jcBd.getDate()==null){
             JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày sinh!");
             return false;
-        } else if(!male.isSelected() && !male.isSelected()){
+        } else if(!male.isSelected() && !female.isSelected()){
             JOptionPane.showMessageDialog(this, "Vui lòng chọn giới tính!");
             return false;
         }

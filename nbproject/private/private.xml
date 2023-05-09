@@ -3,14 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/BUS/ThongKeBUS.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/BUS/SanPhamBUS.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/ThongKe/ThongKeTongQuan.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/KhuVucKho.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/GUI/Panel/ThongKe/ThongKeKhachHang.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/BUS/PhieuNhapBUS.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/DAO/PhieuNhapDAO.java</file>
-            <file>file:/C:/Users/Tran%20Nhat%20Sinh/Documents/NetBeansProjects/quanlikhohang/src/BUS/PhieuXuatBUS.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Component/MenuTaskbar.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/GUI/Component/ButtonToolBar.java</file>
+            <file>file:/H:/Java/quanlikhohang/src/DAO/TaikhoanDAO.java</file>
         </group>
     </open-files>
 </project-private>
