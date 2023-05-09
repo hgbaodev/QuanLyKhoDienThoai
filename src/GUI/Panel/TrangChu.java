@@ -3,6 +3,7 @@ package GUI.Panel;
 import java.awt.*;
 import javax.swing.*;
 import GUI.Component.PanelShadow;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 
 public class TrangChu extends JPanel {
 
@@ -96,6 +97,8 @@ public class TrangChu extends JPanel {
 
     public TrangChu() {
         initComponent();
+        FlatIntelliJLaf.registerCustomDefaultsSource("style");
+        FlatIntelliJLaf.setup();
     }
 
 

@@ -203,7 +203,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                         "Bạn có chắc chắn muốn xóa tài khoản :)!", "Xóa xóa tài khoản",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    TaiKhoanDAO.getInstance().delete(index + "");
+                    TaiKhoanDAO.getInstance().delete(listTk.get(index).getManv() + "");
                     TaiKhoanDTO tkDelete = listTk.get(index);
                     tkDelete.setTrangthai(-1);
                     taiKhoanBus.updateAcc(index, tkDelete);
