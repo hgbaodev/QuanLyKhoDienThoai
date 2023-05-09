@@ -89,7 +89,7 @@ public class ChiTietSanPhamDialog extends JDialog implements KeyListener, ItemLi
         cbxTinhTrang.cbb.addItemListener(this);
         
         txtSoluong = new InputForm("Số lượng");
-        //txtSoluong.setDisable();
+        txtSoluong.setEditable(false);
         
         pnmain_top_left.add(cbxPhienBan);
         pnmain_top_left.add(cbxTinhTrang);

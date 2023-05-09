@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package helper;
 
 import BUS.DungLuongRamBUS;
@@ -9,7 +5,6 @@ import BUS.DungLuongRomBUS;
 import BUS.MauSacBUS;
 import DAO.ChiTietPhieuNhapDAO;
 import DAO.ChiTietPhieuXuatDAO;
-import DAO.ChiTietSanPhamDAO;
 import DAO.KhachHangDAO;
 import DAO.NhaCungCapDAO;
 import DAO.NhanVienDAO;
@@ -17,10 +12,7 @@ import DAO.PhienBanSanPhamDAO;
 import DAO.PhieuNhapDAO;
 import DAO.PhieuXuatDAO;
 import DAO.SanPhamDAO;
-import DAO.TaiKhoanDAO;
 import DTO.ChiTietPhieuDTO;
-import DTO.ChiTietPhieuNhapDTO;
-import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.PhieuNhapDTO;
 import DTO.PhieuXuatDTO;
@@ -49,11 +41,8 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPRow;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.VerticalPositionMark;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class writePDF {
@@ -75,10 +64,10 @@ public class writePDF {
 
     public writePDF() {
         try {
-              fontNormal10 = new Font(BaseFont.createFont("lib/TimesNewRoman/SVN-Times New Roman.ttf",BaseFont.IDENTITY_H,BaseFont.EMBEDDED),12,Font.NORMAL);
-              fontBold25 = new Font(BaseFont.createFont("lib/TimesNewRoman/SVN-Times New Roman Bold.ttf",BaseFont.IDENTITY_H,BaseFont.EMBEDDED),25,Font.NORMAL);
-              fontBold15 = new Font(BaseFont.createFont("lib/TimesNewRoman/SVN-Times New Roman Bold.ttf",BaseFont.IDENTITY_H,BaseFont.EMBEDDED),15,Font.NORMAL);
-              fontBoldItalic15 = new Font(BaseFont.createFont("lib/TimesNewRoman/SVN-Times New Roman Bold Italic.ttf",BaseFont.IDENTITY_H,BaseFont.EMBEDDED),15,Font.NORMAL);
+            fontNormal10 = new Font(BaseFont.createFont("lib/TimesNewRoman/SVN-Times New Roman.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 12, Font.NORMAL);
+            fontBold25 = new Font(BaseFont.createFont("lib/TimesNewRoman/SVN-Times New Roman Bold.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 25, Font.NORMAL);
+            fontBold15 = new Font(BaseFont.createFont("lib/TimesNewRoman/SVN-Times New Roman Bold.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 15, Font.NORMAL);
+            fontBoldItalic15 = new Font(BaseFont.createFont("lib/TimesNewRoman/SVN-Times New Roman Bold Italic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 15, Font.NORMAL);
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException ex) {
@@ -140,7 +129,8 @@ public class writePDF {
             System.out.println(e);
         }
     }
-        public static Chunk createWhiteSpace(int length) {
+
+    public static Chunk createWhiteSpace(int length) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < length; i++) {
             builder.append(" ");

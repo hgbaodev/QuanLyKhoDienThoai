@@ -42,11 +42,12 @@ public class NhomQuyenBUS {
         return check;
     }
 
-    public boolean update(NhomQuyenDTO nhomquyen, ArrayList<ChiTietQuyenDTO> chitietquyen) {
+    public boolean update(NhomQuyenDTO nhomquyen, ArrayList<ChiTietQuyenDTO> chitietquyen,int index) {
         boolean check = nhomquyenDAO.update(nhomquyen) != 0;
         if (check) {
             this.removeChiTietQuyen(Integer.toString(nhomquyen.getManhomquyen()));
             this.addChiTietQuyen(chitietquyen);
+            this.listNhomQuyen.set(index, nhomquyen);
         }
         return check;
     }
@@ -85,5 +86,15 @@ public class NhomQuyenBUS {
             }
         }
         return check;
+    }
+    
+    public ArrayList<NhomQuyenDTO> search(String text) {
+        ArrayList<NhomQuyenDTO> result = new ArrayList<>();
+        for(NhomQuyenDTO i : this.listNhomQuyen) {
+            if(Integer.toString(i.getManhomquyen()).contains(text) || i.getTennhomquyen().toLowerCase().contains(text.toLowerCase())) {
+                result.add(i);
+            }
+        }
+        return result;
     }
 }

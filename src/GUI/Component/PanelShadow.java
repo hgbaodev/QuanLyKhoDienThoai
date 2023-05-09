@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.*;
 import java.awt.*;
@@ -26,13 +27,15 @@ public class PanelShadow extends JPanel {
 
     public PanelShadow(String linkIcon, String title, String content) {
         this.setPreferredSize(new Dimension(300, 450));
-        this.setBackground(MainColor);
+        this.setBackground(Color.WHITE);
+        this.putClientProperty( FlatClientProperties.STYLE, "arc: 30" );
         this.setLayout(new FlowLayout(1, 0, 10));
         this.setBorder(new EmptyBorder(10,0,0,0));
 
         iconBackground = new JPanel();
         iconBackground.setPreferredSize(new Dimension(250, 150));
         iconBackground.setBackground(BackgroundColor);
+        iconBackground.putClientProperty( FlatClientProperties.STYLE, "arc: 30" );
         iconBackground.setLayout(new FlowLayout(1,20,10));
 
         lblIcon = new JLabel();
@@ -53,30 +56,30 @@ public class PanelShadow extends JPanel {
         
     }
 
-    @Override
-    protected void paintComponent(Graphics grphcs) {
-        createShadow(grphcs);
-    }
-
-    private void createShadow(Graphics grphcs) {
-        Graphics2D g2 = (Graphics2D) grphcs;
-        int size = shadowSize * 2;
-        int x = 0;
-        int y = 0;
-        int width = getWidth() - size;
-        int height = getHeight() - size;
-        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = img.createGraphics();
-        g2.setBackground(HowerBackgroundColor);
-
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.fillRoundRect(0, 0, width, height, 30, 30);
-
-        //Create Shadow
-        ShadowRenderer render = new ShadowRenderer(size, shadowOpacity, shadowColor);
-        g2.drawImage(render.createShadow(img), 0, 0, null);
-        g2.setPaint(shadowColor);
-
-        g2.drawImage(img, x, y, null);
-    }
+//    @Override
+//    protected void paintComponent(Graphics grphcs) {
+////        createShadow(grphcs);
+//    }
+//
+//    private void createShadow(Graphics grphcs) {
+//        Graphics2D g2 = (Graphics2D) grphcs;
+//        int size = shadowSize * 2;
+//        int x = 0;
+//        int y = 0;
+//        int width = getWidth() - size;
+//        int height = getHeight() - size;
+//        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+//        Graphics2D g = img.createGraphics();
+//        g2.setBackground(HowerBackgroundColor);
+//
+//        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//        g.fillRoundRect(0, 0, width, height, 30, 30);
+//
+//        //Create Shadow
+//        ShadowRenderer render = new ShadowRenderer(size, shadowOpacity, shadowColor);
+//        g2.drawImage(render.createShadow(img), 0, 0, null);
+//        g2.setPaint(shadowColor);
+//
+//        g2.drawImage(img, x, y, null);
+//    }
 }

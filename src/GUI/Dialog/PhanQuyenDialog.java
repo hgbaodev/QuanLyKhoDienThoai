@@ -36,7 +36,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Tran Nhat Sinh
  */
-public class PhanQuyenDialog extends JDialog implements ActionListener {
+public final class PhanQuyenDialog extends JDialog implements ActionListener {
 
     private JLabel lblTennhomquyen;
     private JTextField txtTennhomquyen;
@@ -49,7 +49,8 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
     String[] mahanhdong = {"view", "create", "update", "delete"};
     private ArrayList<ChiTietQuyenDTO> ctQuyen;
     private NhomQuyenDTO nhomquyenDTO;
-    private NhomQuyenBUS nhomquyenBUS = new NhomQuyenBUS();
+    private NhomQuyenBUS nhomquyenBUS;
+    int index;
 
     public void initComponents(String type) {
         dmcn = DanhMucChucNangDAO.getInstance().selectAll();
@@ -136,16 +137,19 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
         this.setVisible(true);
     }
 
-    public PhanQuyenDialog(PhanQuyen jpPhanQuyen, JFrame owner, String title, boolean modal, String type) {
+    public PhanQuyenDialog(NhomQuyenBUS buss,PhanQuyen jpPhanQuyen, JFrame owner, String title, boolean modal, String type) {
         super(owner, title, modal);
+        this.nhomquyenBUS = buss;
         this.jpPhanQuyen = jpPhanQuyen;
         initComponents(type);
     }
     
-    public PhanQuyenDialog(PhanQuyen jpPhanQuyen, JFrame owner, String title, boolean modal, String type, NhomQuyenDTO nhomquyendto) {
+    public PhanQuyenDialog(NhomQuyenBUS buss,PhanQuyen jpPhanQuyen, JFrame owner, String title, boolean modal, String type, NhomQuyenDTO nhomquyendto) {
         super(owner, title, modal);
+        this.nhomquyenBUS = buss;
         this.jpPhanQuyen = jpPhanQuyen;
         this.nhomquyenDTO = nhomquyendto;
+        this.index = this.nhomquyenBUS.getAll().indexOf(this.nhomquyenDTO);
         this.ctQuyen = ChiTietQuyenDAO.getInstance().selectAll(Integer.toString(nhomquyendto.getManhomquyen()));
         initComponents(type);
     }
@@ -160,9 +164,8 @@ public class PhanQuyenDialog extends JDialog implements ActionListener {
         } else if(e.getSource() == btnUpdateNhomQuyen){
             ctQuyen = this.getListChiTietQuyen(this.nhomquyenDTO.getManhomquyen());
             NhomQuyenDTO nhomquyen = new NhomQuyenDTO(this.nhomquyenDTO.getManhomquyen(),txtTennhomquyen.getText());
-            nhomquyenBUS.update(nhomquyen,ctQuyen);
+            nhomquyenBUS.update(nhomquyen,ctQuyen,index);
             this.jpPhanQuyen.loadDataTalbe(nhomquyenBUS.getAll());
-            dispose();
             dispose();
         } else if (e.getSource() == btnHuybo) {
             dispose();

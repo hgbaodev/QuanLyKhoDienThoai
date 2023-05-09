@@ -16,7 +16,6 @@ public class IntegratedSearch extends JPanel {
     private void initComponent(String str[]) {
 
         this.setBackground(Color.WHITE);
-//        this.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
         BoxLayout bx = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(bx);
 
@@ -32,7 +31,7 @@ public class IntegratedSearch extends JPanel {
 
         txtSearchForm = new JTextField();
         txtSearchForm.setFont(new Font(FlatRobotoFont.FAMILY, 0, 13));
-        txtSearchForm.putClientProperty("JTextField.placeholderText", "Tìm kiếm gì đi...");
+        txtSearchForm.putClientProperty("JTextField.placeholderText", "Nhập nội dung tìm kiếm...");
         txtSearchForm.putClientProperty("JTextField.showClearButton", true);
         jpSearch.add(txtSearchForm);
 
