@@ -12,15 +12,14 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
+import GUI.Component.TableSorter;
 import GUI.Dialog.ChiTietSanPhamDialog;
 import GUI.Dialog.SanPhamDialog;
-import com.formdev.flatlaf.FlatClientProperties;
 import helper.JTableExporter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,7 +29,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 public final class SanPham extends JPanel implements ActionListener {
-
     PanelBorderRadius main, functionBar;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -71,6 +69,8 @@ public final class SanPham extends JPanel implements ActionListener {
         }
         tableSanPham.getColumnModel().getColumn(1).setPreferredWidth(180);
         tableSanPham.setFocusable(false);
+        tableSanPham.setAutoCreateRowSorter(true);
+        TableSorter.configureTableColumnSorter(tableSanPham, 2, TableSorter.INTEGER_COMPARATOR);
         tableSanPham.setDefaultEditor(Object.class, null);
         initPadding();
 

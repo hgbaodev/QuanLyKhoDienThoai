@@ -2,6 +2,7 @@ package GUI.Panel;
 
 import BUS.NhomQuyenBUS;
 import DTO.NhomQuyenDTO;
+import DTO.SanPhamDTO;
 import GUI.Dialog.PhanQuyenDialog;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
@@ -13,6 +14,7 @@ import GUI.Main;
 import helper.JTableExporter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -24,8 +26,8 @@ import javax.swing.table.TableColumnModel;
 public class PhanQuyen extends JPanel implements ActionListener {
 
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
-    PanelBorderRadius box1, box2, main, functionBar;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
+    PanelBorderRadius main, functionBar;
+    JPanel contentCenter;
     JTable tblNhomQuyen;
     JScrollPane scrollTable;
     MainFunction mainFunction;
@@ -39,35 +41,15 @@ public class PhanQuyen extends JPanel implements ActionListener {
 
     private void initComponent() {
         this.setBackground(BackgroundColor);
-        this.setLayout(new BorderLayout(0, 0));
+        this.setLayout(new GridLayout(1,1));
+        this.setBorder(new EmptyBorder(10,10,10,10));
         this.setOpaque(true);
-
-        // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
-        pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 10));
-        pnlBorder1.setBackground(BackgroundColor);
-        this.add(pnlBorder1, BorderLayout.NORTH);
-
-        pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 10));
-        pnlBorder2.setBackground(BackgroundColor);
-        this.add(pnlBorder2, BorderLayout.SOUTH);
-
-        pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(10, 0));
-        pnlBorder3.setBackground(BackgroundColor);
-        this.add(pnlBorder3, BorderLayout.EAST);
-
-        pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(10, 0));
-        pnlBorder4.setBackground(BackgroundColor);
-        this.add(pnlBorder4, BorderLayout.WEST);
 
         contentCenter = new JPanel();
         contentCenter.setPreferredSize(new Dimension(1100, 600));
         contentCenter.setBackground(BackgroundColor);
         contentCenter.setLayout(new BorderLayout(10, 20));
-        this.add(contentCenter, BorderLayout.CENTER);
+        this.add(contentCenter);
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new PanelBorderRadius();
@@ -83,6 +65,13 @@ public class PhanQuyen extends JPanel implements ActionListener {
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
+        search.txtSearchForm.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ArrayList<NhomQuyenDTO> rs = nhomquyenBUS.search(search.txtSearchForm.getText());
+                loadDataTalbe(rs);
+            }
+        });
         functionBar.add(search);
 
         contentCenter.add(functionBar, BorderLayout.NORTH);
@@ -91,7 +80,6 @@ public class PhanQuyen extends JPanel implements ActionListener {
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-//        main.setBorder(new EmptyBorder(10, 10, 10, 10));
         contentCenter.add(main, BorderLayout.CENTER);
 
         tblNhomQuyen = new JTable();
@@ -131,23 +119,22 @@ public class PhanQuyen extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btn.get("create")) {
-            PhanQuyenDialog pq = new PhanQuyenDialog(this, owner, "Thêm nhóm quyền", true, "create");
+            PhanQuyenDialog pq = new PhanQuyenDialog(nhomquyenBUS,this, owner, "Thêm nhóm quyền", true, "create");
         } else if (e.getSource() == mainFunction.btn.get("update")) {
             int index = this.getRowSelected();
             if (index >= 0) {
-                PhanQuyenDialog nccDialog = new PhanQuyenDialog(this, owner, "Chỉnh sửa nhóm quyền", true, "update", listnhomquyen.get(index));
+                PhanQuyenDialog nccDialog = new PhanQuyenDialog(nhomquyenBUS,this, owner, "Chỉnh sửa nhóm quyền", true, "update", listnhomquyen.get(index));
             }
         } else if (e.getSource() == mainFunction.btn.get("detail")) {
             int index = this.getRowSelected();
             if (index >= 0) {
-                PhanQuyenDialog nccDialog = new PhanQuyenDialog(this, owner, "Chi tiết nhóm quyền", true, "view", listnhomquyen.get(index));
+                PhanQuyenDialog nccDialog = new PhanQuyenDialog(nhomquyenBUS,this, owner, "Chi tiết nhóm quyền", true, "view", listnhomquyen.get(index));
             }
         } else if (e.getSource() == mainFunction.btn.get("delete")) {
             int index = this.getRowSelected();
             if (index >= 0) {
                 int input = JOptionPane.showConfirmDialog(null,"Bạn có chắc chắn muốn xóa nhà cung cấp!", "Xóa nhà cung cấp",JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    System.out.println(listnhomquyen.get(index));
                     nhomquyenBUS.delete(listnhomquyen.get(index));
                     loadDataTalbe(listnhomquyen);
                 }
@@ -158,6 +145,8 @@ public class PhanQuyen extends JPanel implements ActionListener {
             } catch (IOException ex) {
                 Logger.getLogger(PhanQuyen.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else if(e.getSource() == this.search.btnReset) {
+            loadDataTalbe(listnhomquyen);
         }
     }
 

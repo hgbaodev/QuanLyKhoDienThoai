@@ -26,9 +26,9 @@ public class itemTaskbar extends JPanel implements MouseListener {
 
     public itemTaskbar(String linkIcon, String content) {
         this.setLayout(new FlowLayout(1, 10, 7));
-        this.setPreferredSize(new Dimension(220, 45));
+        this.setPreferredSize(new Dimension(225, 45));
         this.setBackground(DefaultColor);
-        this.putClientProperty( FlatClientProperties.STYLE, "arc: 20" );
+        this.putClientProperty( FlatClientProperties.STYLE, "arc: 15" );
         this.addMouseListener(this);
         lblIcon = new JLabel();
         lblIcon.setBorder(new EmptyBorder(0, 10, 0, 0));
