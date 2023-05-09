@@ -38,7 +38,6 @@ public class MenuTaskbar extends JPanel {
     SanPham sanPham;
     QuanLyThuocTinhSP quanLyThuocTinhSP;
     KhuVucKho quanLyKho;
-    ChuyenKho chuyenKho;
     PhieuNhap phieuNhap;
     PhieuXuat phieuXuat;
     KhachHang khachHang;

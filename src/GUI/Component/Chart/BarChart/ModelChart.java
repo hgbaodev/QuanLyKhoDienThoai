@@ -1,6 +1,6 @@
-package chart2;
+package GUI.Component.Chart.BarChart;
 
-public class ModelChart2 {
+public class ModelChart {
 
     public String getLabel() {
         return label;
@@ -18,12 +18,12 @@ public class ModelChart2 {
         this.values = values;
     }
 
-    public ModelChart2(String label, double[] values) {
+    public ModelChart(String label, double[] values) {
         this.label = label;
         this.values = values;
     }
 
-    public ModelChart2() {
+    public ModelChart() {
     }
 
     private String label;

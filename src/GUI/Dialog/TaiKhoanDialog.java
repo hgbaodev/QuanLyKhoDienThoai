@@ -154,8 +154,8 @@ public class TaiKhoanDialog extends JDialog {
             }
             case "view" -> {
                 pnmain.remove(password);
-                username.setDisable();
-                password.setDisablePass();
+                username.setEditable(false);
+//                password.setEditable(false);
                 maNhomQuyen.setDisable();
                 trangthai.setDisable();
                 this.setSize(new Dimension(500, 550));

@@ -16,17 +16,6 @@ import javax.swing.JButton;
  */
 public class ButtonToolBar extends JButton{
     String permisson;
-    public ButtonToolBar(String text, FlatSVGIcon icon) {
-        this.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 1, 14));
-        this.setForeground(new Color(1, 88, 155));
-        this.setIcon(icon);
-        this.setText(text);
-        this.setFocusable(false);
-        this.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        this.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        this.putClientProperty("JButton.buttonType", "toolBarButton");
-    }
     
     public ButtonToolBar(String text, String icon, String permisson) {
         this.permisson = permisson;

@@ -1,8 +1,8 @@
-package chart2;
+package GUI.Component.Chart.CurveChart;
 
-import chart2.blankchart.BlankPlotChart;
-import chart2.blankchart.BlankPlotChatRender;
-import chart2.blankchart.SeriesSize;
+import GUI.Component.Chart.CurveChart.BlankChart.BlankPlotChart;
+import GUI.Component.Chart.CurveChart.BlankChart.BlankPlotChatRender;
+import GUI.Component.Chart.CurveChart.BlankChart.SeriesSize;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -141,7 +141,7 @@ public class CurveChart extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        blankPlotChart = new chart2.blankchart.BlankPlotChart();
+        blankPlotChart = new GUI.Component.Chart.CurveChart.BlankChart.BlankPlotChart();
         panelLegend = new javax.swing.JPanel();
 
         panelLegend.setOpaque(false);
@@ -170,7 +170,7 @@ public class CurveChart extends javax.swing.JPanel {
     }// </editor-fold>                        
 
     // Variables declaration - do not modify                     
-    private chart2.blankchart.BlankPlotChart blankPlotChart;
+    private GUI.Component.Chart.CurveChart.BlankChart.BlankPlotChart blankPlotChart;
     private javax.swing.JPanel panelLegend;
     // End of variables declaration                   
 }

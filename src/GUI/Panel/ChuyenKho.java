@@ -80,7 +80,7 @@ public class ChuyenKho extends JPanel {
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        mainFunction = new MainFunction();
+//        mainFunction = new MainFunction();
         functionBar.add(mainFunction);
 
         search = new IntegratedSearch(new String[]{"Tất cả"});

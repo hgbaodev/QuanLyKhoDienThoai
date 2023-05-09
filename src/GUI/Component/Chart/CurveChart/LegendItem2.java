@@ -1,4 +1,4 @@
-package chart2;
+package GUI.Component.Chart.CurveChart;
 
 public class LegendItem2 extends javax.swing.JPanel {
 
@@ -14,7 +14,7 @@ public class LegendItem2 extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        lbColor = new chart2.LabelColor2();
+        lbColor = new GUI.Component.Chart.CurveChart.LabelColor2();
         lbName = new javax.swing.JLabel();
 
         lbColor.setText("labelColor1");
@@ -48,7 +48,7 @@ public class LegendItem2 extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify                     
-    private chart2.LabelColor2 lbColor;
+    private GUI.Component.Chart.CurveChart.LabelColor2 lbColor;
     private javax.swing.JLabel lbName;
     // End of variables declaration                   
 }
