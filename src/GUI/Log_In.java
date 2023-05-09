@@ -15,6 +15,8 @@ import java.awt.event.KeyListener;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.border.EmptyBorder;
 
 public class Log_In extends JFrame implements KeyListener {
@@ -125,17 +127,19 @@ public class Log_In extends JFrame implements KeyListener {
             } else {
                 if (tk.getTrangthai() == 0) {
                     JOptionPane.showMessageDialog(this, "Tài khoản của bạn đang bị khóa", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
-                }
-                else {
+                } else {
                     if (BCrypt.checkpw(passwordCheck, tk.getMatkhau())) {
-                        this.dispose();
-                        Main main = new Main(tk);
-                        main.setVisible(true);
+                        try {
+                            this.dispose();
+                            Main main = new Main(tk);
+                            main.setVisible(true);
+                        } catch (UnsupportedLookAndFeelException ex) {
+                            Logger.getLogger(Log_In.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     } else {
                         JOptionPane.showMessageDialog(this, "Mật khẩu không khớp", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
-                    }    
+                    }
                 }
-
 
             }
         }
