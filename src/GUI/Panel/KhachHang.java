@@ -215,7 +215,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
             }
         }
         if (k != 0) {
-            JOptionPane.showMessageDialog(this, "Vài dữ liệu không hợp lệ không được thêm vào");
+            JOptionPane.showMessageDialog(this, "Những dữ liệu không hợp lệ không được thêm vào");
         }
         loadDataTable(listkh);
     }

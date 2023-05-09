@@ -198,7 +198,11 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cbxRam = new SelectForm("RAM", ramBus.getArrKichThuoc());
         cbxMausac = new SelectForm("Màu sắc", mausacBus.getArrTenMauSac());
         txtgianhap = new InputForm("Giá nhập");
+        PlainDocument nhap = (PlainDocument)txtgianhap.getTxtForm().getDocument();
+        nhap.setDocumentFilter((new NumericDocumentFilter()));
         txtgiaxuat = new InputForm("Giá xuất");
+        PlainDocument xuat = (PlainDocument)txtgiaxuat.getTxtForm().getDocument();
+        xuat.setDocumentFilter((new NumericDocumentFilter()));
         cauhinhtop.add(cbxRom);
         cauhinhtop.add(cbxRam);
         cauhinhtop.add(cbxMausac);

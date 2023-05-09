@@ -183,7 +183,6 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
                 excelBIS = new BufferedInputStream(excelFIS);
                 excelJTableImport = new XSSFWorkbook(excelBIS);
                 XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
-
                 for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
                     int check = 1;
                     XSSFRow excelRow = excelSheet.getRow(row);
@@ -210,13 +209,10 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
             }
         }
         if (k != 0) {
-            JOptionPane.showMessageDialog(this, "Vài dữ liệu không chuẩn không được thêm vào");
+            JOptionPane.showMessageDialog(this, "Những dữ liệu không chuẩn không được thêm vào");
         } else {
             JOptionPane.showMessageDialog(this, "Nhập dữ liệu thành công");
         }
-//        for (NhaCungCapDTO ncc : listExcel) {
-//            NhaCungCapDAO.getInstance().insert(ncc);
-//        }
         loadDataTable(listncc);
     }
 

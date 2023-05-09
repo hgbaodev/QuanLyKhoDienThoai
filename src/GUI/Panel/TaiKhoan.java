@@ -1,7 +1,12 @@
 package GUI.Panel;
 
+import BUS.NhaCungCapBUS;
+import BUS.NhanVienBUS;
+import BUS.NhomQuyenBUS;
 import BUS.TaiKhoanBUS;
 import DAO.TaiKhoanDAO;
+import DTO.NhanVienDTO;
+import DTO.NhomQuyenDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Main;
 import GUI.Component.IntegratedSearch;
@@ -12,20 +17,30 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Dialog.ListNhanVien;
 import GUI.Dialog.TaiKhoanDialog;
+import helper.BCrypt;
 import helper.JTableExporter;
+import helper.Validation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
 
@@ -206,7 +221,97 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
             } catch (IOException ex) {
                 Logger.getLogger(TaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else if (e.getSource() == mainFunction.btn.get("import")) {
+            importExcel();
         }
+    }
+
+    public void importExcel() {
+        File excelFile;
+        FileInputStream excelFIS = null;
+        BufferedInputStream excelBIS = null;
+        XSSFWorkbook excelJTableImport = null;
+        JFileChooser jf = new JFileChooser();
+        int result = jf.showOpenDialog(null);
+        jf.setDialogTitle("Open file");
+        Workbook workbook = null;
+        int k = 0;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                excelFile = jf.getSelectedFile();
+                excelFIS = new FileInputStream(excelFile);
+                excelBIS = new BufferedInputStream(excelFIS);
+                excelJTableImport = new XSSFWorkbook(excelBIS);
+                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
+                    XSSFRow excelRow = excelSheet.getRow(row);
+                    Cell cell0=excelRow.getCell(0);
+                    int manv = (int)excelRow.getCell(0).getNumericCellValue();
+                    String tendangnhap = excelRow.getCell(1).getStringCellValue();
+                    String matkhau = excelRow.getCell(2).getStringCellValue();
+                    String nhomquyen = excelRow.getCell(3).getStringCellValue();
+                    int check1 = 0, check2 = 0, check3 = 0, check4 = 0;
+                    if (Validation.isEmpty(String.valueOf(manv)) || Validation.isEmpty(tendangnhap)
+                            || Validation.isEmpty(matkhau)
+                            || Validation.isEmpty(nhomquyen)) {
+                        check1 = 1;
+                    }
+                    int manhomquyen = 0;
+                    NhanVienBUS nvbus = new NhanVienBUS();
+                    ArrayList<NhanVienDTO> nvlist = nvbus.getAll();
+                    for (NhanVienDTO nv : nvlist) {
+                        if (nv.getManv() == manv) {
+                            check2 = 0;
+                            break;
+                        } else {
+                            check2 = 1;
+                        }
+                    }
+                    ArrayList<TaiKhoanDTO> curlist = taiKhoanBus.getTaiKhoanAll();
+                    for (TaiKhoanDTO tk : curlist) {
+                        if (tk.getUsername().equals(tendangnhap)) {
+                            check3 = 1;
+                            break;
+                        } else {
+                            check3 = 0;
+                        }
+                    }
+                    NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
+                    ArrayList<NhomQuyenDTO> quyenlist = nhomquyenbus.getAll();
+                    for (NhomQuyenDTO quyen : quyenlist) {
+                        if (quyen.getTennhomquyen().trim().equals(nhomquyen.trim())) {
+                            check4 = 0;
+                            manhomquyen = quyen.getManhomquyen();
+                            break;
+                        } else {
+                            check4 = 1;
+                        }
+                    }
+                    System.out.println(manv + ":" + tendangnhap + ":" + matkhau + ":" + manhomquyen);
+                    System.out.println(check1 + " " + check2 + " " + check3 + " " + check4);
+                    if (check1 != 0 || check2 != 0 || check3 != 0 || check4 != 0) {
+                        k += 1;
+                    } else {
+                        System.out.println(manv + ":" + tendangnhap + ":" + matkhau + ":" + manhomquyen);
+                        String pass = BCrypt.hashpw(matkhau, BCrypt.gensalt(12));
+                        TaiKhoanDTO newaccount = new TaiKhoanDTO(manv, tendangnhap, pass, manhomquyen, 1);
+                        TaiKhoanDAO.getInstance().insert(newaccount);
+                        listTk.add(newaccount);
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                System.out.println("Lỗi đọc file");
+            } catch (IOException ex) {
+                System.out.println("Lỗi đọc file");
+            }
+        }
+        if (k != 0) {
+            JOptionPane.showMessageDialog(this, "Những dữ liệu không chuẩn không được thêm vào");
+        } else {
+            JOptionPane.showMessageDialog(this, "Nhập dữ liệu thành công");
+        }
+
+        loadTable(listTk);
     }
 
     @Override

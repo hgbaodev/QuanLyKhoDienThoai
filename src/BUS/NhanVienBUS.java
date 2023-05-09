@@ -358,7 +358,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
             }
         }
         if (k != 0) {
-            JOptionPane.showMessageDialog(null, "Vài dữ liệu không chuẩn không được thêm vào");
+            JOptionPane.showMessageDialog(null, "Những dữ liệu không chuẩn không được thêm vào");
         }
     }
 
