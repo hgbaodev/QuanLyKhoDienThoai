@@ -84,7 +84,7 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO>{
         ArrayList<NhanVienDTO> result = new ArrayList<NhanVienDTO>();
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM nhanvien";
+            String sql = "SELECT * FROM nhanvien WHERE trangthai = '1'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
