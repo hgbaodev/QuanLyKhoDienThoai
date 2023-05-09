@@ -5,6 +5,7 @@
 package BUS;
 
 import DAO.NhanVienDAO;
+import DAO.TaiKhoanDAO;
 import DTO.NhanVienDTO;
 import GUI.Panel.NhanVien;
 import GUI.Dialog.NhanVienDialog;
@@ -115,7 +116,6 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                 if (nv.getRow() < 0) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần xóa");
                 } else {
-                    System.out.println(nv.getNhanVien());
                     deleteNv(nv.getNhanVien());
                 }
             }
@@ -177,8 +177,8 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     }
 
     public void deleteNv(NhanVienDTO nv) {
-        System.out.println("Vi trí của nhân viên: " + listNv.indexOf(nv));
         NhanVienDAO.getInstance().delete(nv.getManv() + "");
+        TaiKhoanDAO.getInstance().delete(nv.getManv() + "");
         listNv.removeIf(n -> (n.getManv() == nv.getManv()));
         loadTable();
     }
@@ -227,6 +227,61 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<NhanVienDTO> search(String text) {
+        String luachon = (String) nv.search.cbxChoose.getSelectedItem();
+        text = text.toLowerCase();
+        ArrayList<NhanVienDTO> result = new ArrayList<>();
+        switch (luachon) {
+            case "Tất cả" -> {
+                for (NhanVienDTO i : this.listNv) {
+                    if (i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
+                            || i.getSdt().toLowerCase().contains(text)) {
+                        result.add(i);
+                    }
+                }
+            }
+            case "Họ tên" -> {
+                for (NhanVienDTO i : this.listNv) {
+                    if (i.getHoten().toLowerCase().contains(text)) {
+                        result.add(i);
+                    }
+                }
+            }
+            case "Email" -> {
+                for (NhanVienDTO i : this.listNv) {
+                    if (i.getEmail().toLowerCase().contains(text)
+                           ) {
+                        result.add(i);
+                    }
+                }
+            }
+            case "Đang làm" -> {
+                for (NhanVienDTO i : this.listNv) {
+                    if(i.getTrangthai()==1){
+                        if (i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
+                            || i.getSdt().toLowerCase().contains(text)) {
+                        result.add(i);
+                    }
+                    }
+                }
+            }
+            case "Nghỉ việc" -> {
+                for (NhanVienDTO i : this.listNv) {
+                    if(i.getTrangthai()==0){
+                        if (i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
+                            || i.getSdt().toLowerCase().contains(text)) {
+                        result.add(i);
+                    }
+                    }
+                }
+            }
+            default ->
+                throw new AssertionError();
+        }
+
+        return result;
     }
 
     private static void writeHeader(String[] list, Sheet sheet, int rowIndex) {
@@ -290,18 +345,6 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         cell.setCellValue("" + nv.getNgaysinh());
     }
 
-    public ArrayList<NhanVienDTO> search(String text) {
-        text = text.toLowerCase();
-        ArrayList<NhanVienDTO> result = new ArrayList<>();
-        for (NhanVienDTO i : this.listNv) {
-            if (i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
-                    || i.getSdt().toLowerCase().contains(text)) {
-                result.add(i);
-            }
-        }
-        return result;
-    }
-
     public void importExcel() {
         File excelFile;
         FileInputStream excelFIS = null;
@@ -350,7 +393,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                     }
                     JOptionPane.showMessageDialog(null, "Nhập thành công");
                 }
-                
+
             } catch (FileNotFoundException ex) {
                 System.out.println("Lỗi đọc file");
             } catch (IOException ex) {
@@ -371,10 +414,9 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
             return true;
         } else if (str.matches("\\d{3}-\\d{3}-\\d{4}")) { // Kiểm tra số điện thoại có dấu gạch ngang
             return true;
-        } else if (str.matches("\\(\\d{3}\\)\\d{3}-\\d{4}")) { // Kiểm tra số điện thoại có dấu ngoặc đơn
-            return true;
         } else {
-            return false; // Trả về false nếu chuỗi không phải là số điện thoại hợp lệ
-        }
+            return str.matches("\\(\\d{3}\\)\\d{3}-\\d{4}"); // Kiểm tra số điện thoại có dấu ngoặc đơn
+        }        // Trả về false nếu chuỗi không phải là số điện thoại hợp lệ
+
     }
 }

@@ -1,8 +1,6 @@
 package GUI.Panel;
 
 import BUS.NhanVienBUS;
-import DAO.NhanVienDAO;
-import DTO.NhanVienDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import java.awt.*;
@@ -10,20 +8,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Main;
-import helper.Validation;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public final class NhanVien extends JPanel {
 
@@ -34,7 +21,7 @@ public final class NhanVien extends JPanel {
     JTable tableNhanVien;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
-    IntegratedSearch search;
+    public IntegratedSearch search;
     Main m;
     ArrayList<DTO.NhanVienDTO> listnv = nvBus.getAll();
 

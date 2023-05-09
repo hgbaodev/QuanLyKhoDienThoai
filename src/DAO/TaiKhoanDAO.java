@@ -138,7 +138,7 @@ public class TaiKhoanDAO implements DAOinterface<TaiKhoanDTO>{
          int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "UPDATE `taikhoan` SET `trangthai`='-1' where manv = ?";
+            String sql = "UPDATE `taikhoan` SET `trangthai`='0' where manv = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1, Integer.parseInt(t));
             result = pst.executeUpdate();
