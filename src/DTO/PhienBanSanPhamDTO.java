@@ -133,28 +133,13 @@ public class PhienBanSanPhamDTO {
             return false;
         }
         final PhienBanSanPhamDTO other = (PhienBanSanPhamDTO) obj;
-        if (this.maphienbansp != other.maphienbansp) {
-            return false;
-        }
-        if (this.masp != other.masp) {
-            return false;
-        }
         if (this.ram != other.ram) {
             return false;
         }
         if (this.rom != other.rom) {
             return false;
         }
-        if (this.mausac != other.mausac) {
-            return false;
-        }
-        if (this.gianhap != other.gianhap) {
-            return false;
-        }
-        if (this.giaxuat != other.giaxuat) {
-            return false;
-        }
-        return this.soluongton == other.soluongton;
+        return this.mausac == other.mausac;
     }
 
     @Override

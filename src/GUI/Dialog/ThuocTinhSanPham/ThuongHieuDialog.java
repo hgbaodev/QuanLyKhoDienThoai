@@ -39,7 +39,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author 84907
  */
-public class ThuongHieuDialog extends JDialog implements MouseListener {
+public final class ThuongHieuDialog extends JDialog implements MouseListener {
 
     HeaderTitle headTite;
     JPanel top, main, bottom;

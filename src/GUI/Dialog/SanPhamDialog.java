@@ -434,7 +434,6 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
             loadDataToTableCauHinh(this.listch);
             resetFormCauHinh();
             }
-            
         }
         if(source == btnResetCauHinhEdit){
             resetFormCauHinh();
