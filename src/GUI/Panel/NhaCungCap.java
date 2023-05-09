@@ -249,7 +249,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
                 }
             }
         } else if (e.getSource() == mainFunction.btn.get("detail")) {
-            int index = tableNhaCungCap.getSelectedRow();
+            int index = getRowSelected();
             if (index != -1) {
                 NhaCungCapDialog nccDialog = new NhaCungCapDialog(this, owner, "Chi tiết nhà cung cấp", true, "view", listncc.get(index));
             }
