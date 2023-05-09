@@ -160,9 +160,6 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                 case 0 -> {
                     trangthaiString = "Ngưng hoạt động";
                 }
-                case -1 -> {
-                    trangthaiString = "Đã xóa";
-                }
             }
             tblModel.addRow(new Object[]{
                 taiKhoanDTO.getManv(), taiKhoanDTO.getUsername(), taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getManhomquyen()).getTennhomquyen(), trangthaiString

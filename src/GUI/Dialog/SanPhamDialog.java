@@ -288,6 +288,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
                 btnEditCTCauHinh.setVisible(false);
                 btnDeleteCauHinh.setVisible(false);
                 btnResetCauHinh.setVisible(false);
+                cauhinhcenter.remove(cauhinhcenter_right);
             }
             case "update" -> loadDataToTableCauHinh(listch);
             case "create" -> {
