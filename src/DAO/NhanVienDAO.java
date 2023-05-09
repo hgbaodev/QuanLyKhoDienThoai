@@ -70,7 +70,7 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO>{
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "Update nhanvien set `trangthai` = 0 WHERE manv = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setString(2, t);
+            pst.setString(1, t);
             result = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException ex) {
