@@ -68,7 +68,7 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO>{
         int result = 0 ;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "Update nhanvien set `trangthai` = 0 WHERE manv = ?";
+            String sql = "Update nhanvien set `trangthai` = -1 WHERE manv = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -85,6 +85,32 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO>{
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
             String sql = "SELECT * FROM nhanvien WHERE trangthai = '1'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                int manv = rs.getInt("manv");
+                String hoten = rs.getString("hoten");
+                int gioitinh = rs.getInt("gioitinh");
+                Date ngaysinh = rs.getDate("ngaysinh");
+                String sdt = rs.getString("sdt");
+                int trangthai = rs.getInt("trangthai");
+                String email = rs.getString("email");
+                NhanVienDTO nv = new NhanVienDTO(manv,hoten,gioitinh,ngaysinh,sdt,trangthai,email);
+                result.add(nv);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    
+    public ArrayList<NhanVienDTO> selectAlll() {
+        ArrayList<NhanVienDTO> result = new ArrayList<NhanVienDTO>();
+        try {
+            Connection con = (Connection) JDBCUtil.getConnection();
+            String sql = "SELECT * FROM nhanvien";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
