@@ -1,5 +1,5 @@
 # Đồ án môn Phân tích thiết kế hệ thống thông tin
- Đề tài: Quản lý kho hàng điện thoại thông minh
+ Đề tài: Quản lý kho hàng điện thoại thông minh theo mã imei
  ### 
  File báo cáo vào slide PowerPoint nằm trong thư mục BaoCaoPTTKHTTT
  ### Thành viên trong nhóm
@@ -24,4 +24,9 @@
 ![Giao diện nhà cung cấp](./img/nhacungcap.png)
 ![Giao diện nhân viên](./img/nhanvien.png)
 ![Giao diện phân quyền](./img/phanquyen.png)
-![Giao diện chi tiết quyền](./img/phanquyen.png)
+![Giao diện chi tiết quyền](./img/chitietquyen.png)
+![Giao diện thống kê tổng quan](./img/thongketongquan.png)
+![Giao diện thống kê tồn kho](./img/thongketonkho.png)
+![Giao diện thống kê doanh thu theo năm](./img/doanhthunam.png)
+![Giao diện thống kê doanh thu tháng](./img/doanhthuthang.png)
+![Giao diện thống kê doanh thu từng ngày trong tháng](./img/doanhthuchitietthang.png)
