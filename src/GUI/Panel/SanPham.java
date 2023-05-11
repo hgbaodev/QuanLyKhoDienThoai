@@ -1,10 +1,10 @@
 package GUI.Panel;
 
-import BUS.HeDieuHanhBUS;
-import BUS.KhuVucKhoBUS;
 import BUS.SanPhamBUS;
-import BUS.ThuongHieuBUS;
-import BUS.XuatXuBUS;
+import DAO.HeDieuHanhDAO;
+import DAO.KhuVucKhoDAO;
+import DAO.ThuongHieuDAO;
+import DAO.XuatXuDAO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
 import GUI.Main;
@@ -39,11 +39,7 @@ public final class SanPham extends JPanel implements ActionListener {
     DefaultTableModel tblModel;
     Main m;
     public SanPhamBUS spBUS = new SanPhamBUS();
-
-    public KhuVucKhoBUS kvkhoBus = new KhuVucKhoBUS();
-    public ThuongHieuBUS thuonghieuBus = new ThuongHieuBUS();
-    public HeDieuHanhBUS heDieuHanhBUS = new HeDieuHanhBUS();
-    public XuatXuBUS xuatXuBUS = new XuatXuBUS();
+    
     public ArrayList<DTO.SanPhamDTO> listSP = spBUS.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
@@ -130,8 +126,13 @@ public final class SanPham extends JPanel implements ActionListener {
     public void loadDataTalbe(ArrayList<DTO.SanPhamDTO> result) {
         tblModel.setRowCount(0);
         for (DTO.SanPhamDTO sp : result) {
-            tblModel.addRow(new Object[]{sp.getMasp(), sp.getTensp(), sp.getSoluongton(), thuonghieuBus.getTenThuongHieu(sp.getThuonghieu()), heDieuHanhBUS.getTenHdh(sp.getHedieuhanh()),sp.getKichthuocman() + " inch", 
-                sp.getChipxuly(),sp.getDungluongpin() +"mAh",xuatXuBUS.getTenXuatXu(sp.getXuatxu()), kvkhoBus.getTenKhuVuc(sp.getKhuvuckho())
+            tblModel.addRow(new Object[]{sp.getMasp(), sp.getTensp(), 
+                sp.getSoluongton(), ThuongHieuDAO.getInstance().selectById(sp.getThuonghieu()+"").getTenthuonghieu(), 
+                HeDieuHanhDAO.getInstance().selectById(sp.getHedieuhanh()+"").getTenhdh(),
+                sp.getKichthuocman() + " inch", 
+                sp.getChipxuly(),sp.getDungluongpin() +"mAh",
+                XuatXuDAO.getInstance().selectById(sp.getXuatxu()+"").getTenxuatxu(), 
+                KhuVucKhoDAO.getInstance().selectById(sp.getKhuvuckho()+"").getTenkhuvuc()
             });
         }
     }

@@ -97,7 +97,7 @@ public class XuatXuDAO implements DAOinterface<XuatXuDTO>{
         XuatXuDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM xuatxu WHERE maxuatxu='?'";
+            String sql = "SELECT * FROM xuatxu WHERE maxuatxu=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();

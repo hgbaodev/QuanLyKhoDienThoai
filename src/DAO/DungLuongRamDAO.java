@@ -95,7 +95,7 @@ public class DungLuongRamDAO implements DAOinterface<DungLuongRamDTO> {
         DungLuongRamDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM dungluongram WHERE madlram='?'";
+            String sql = "SELECT * FROM dungluongram WHERE madlram=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();

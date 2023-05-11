@@ -4,7 +4,9 @@ import BUS.PhienBanSanPhamBUS;
 import BUS.DungLuongRamBUS;
 import BUS.DungLuongRomBUS;
 import BUS.HeDieuHanhBUS;
+import BUS.KhuVucKhoBUS;
 import BUS.MauSacBUS;
+import BUS.ThuongHieuBUS;
 import BUS.XuatXuBUS;
 import DAO.PhienBanSanPhamDAO;
 import DAO.SanPhamDAO;
@@ -73,6 +75,10 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
     DungLuongRomBUS romBus = new DungLuongRomBUS();
     MauSacBUS mausacBus = new MauSacBUS();
+    KhuVucKhoBUS kvkhoBus = new KhuVucKhoBUS();
+    ThuongHieuBUS thuonghieuBus = new ThuongHieuBUS();
+    HeDieuHanhBUS heDieuHanhBUS = new HeDieuHanhBUS();
+    XuatXuBUS xuatXuBUS = new XuatXuBUS();
 
     ArrayList<PhienBanSanPhamDTO> listch = new ArrayList<>();
     SanPhamDTO sp;
@@ -93,10 +99,10 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         this.jpSP = jpSP;
         masp = jpSP.spBUS.spDAO.getAutoIncrement();
         mach = PhienBanSanPhamDAO.getInstance().getAutoIncrement();
-        arrkhuvuc = jpSP.kvkhoBus.getArrTenKhuVuc();
-        arrthuonghieu = jpSP.thuonghieuBus.getArrTenThuongHieu();
-        arrhHDH = jpSP.heDieuHanhBUS.getArrTenHeDieuHanh();
-        arrXX = jpSP.xuatXuBUS.getArrTenXuatXu();
+        arrkhuvuc = kvkhoBus.getArrTenKhuVuc();
+        arrthuonghieu = thuonghieuBus.getArrTenThuongHieu();
+        arrhHDH = heDieuHanhBUS.getArrTenHeDieuHanh();
+        arrXX = xuatXuBUS.getArrTenXuatXu();
         
     }
 
@@ -483,17 +489,17 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     public SanPhamDTO getInfo() {
         String hinhanh = this.hinhanh.getUrl_img();
         String vtensp = tenSP.getText();
-        int vxuatxu = jpSP.xuatXuBUS.getAll().get(this.xuatxu.getSelectedIndex()).getMaxuatxu();
+        int vxuatxu = xuatXuBUS.getAll().get(this.xuatxu.getSelectedIndex()).getMaxuatxu();
         String vchipxuly = chipxuly.getText();
         int vdungluongpin = Integer.parseInt(dungluongpin.getText());
         double ktman = Double.parseDouble(kichthuocman.getText());
-        int hdh = jpSP.heDieuHanhBUS.getAll().get(this.hedieuhanh.getSelectedIndex()).getMahdh();
+        int hdh = heDieuHanhBUS.getAll().get(this.hedieuhanh.getSelectedIndex()).getMahdh();
         String camsau = camerasau.getText();
         String camtruoc = cameratruoc.getText();
         int tgbh = Integer.parseInt(thoigianbaohanh.getText());
         int pb = Integer.parseInt(phienbanhdh.getText());
-        int vthuonghieu = jpSP.thuonghieuBus.getAll().get(this.thuonghieu.getSelectedIndex()).getMathuonghieu();
-        int khuvuckho = jpSP.kvkhoBus.getAll().get(this.khuvuc.getSelectedIndex()).getMakhuvuc();
+        int vthuonghieu = thuonghieuBus.getAll().get(this.thuonghieu.getSelectedIndex()).getMathuonghieu();
+        int khuvuckho = kvkhoBus.getAll().get(this.khuvuc.getSelectedIndex()).getMakhuvuc();
         SanPhamDTO result = new SanPhamDTO(masp, vtensp, hinhanh, vxuatxu, vchipxuly, vdungluongpin, ktman, hdh, pb, camsau, camtruoc, tgbh, vthuonghieu, khuvuckho, 0);
         return result;
     }
@@ -510,7 +516,7 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
         cameratruoc.setText(sp.getCameratruoc());
         thoigianbaohanh.setText(Integer.toString(sp.getThoigianbaohanh()));
         phienbanhdh.setText(Integer.toString(sp.getPhienbanhdh()));
-        thuonghieu.setSelectedIndex(jpSP.thuonghieuBus.getIndexByMaLH(sp.getThuonghieu()));
+        thuonghieu.setSelectedIndex(thuonghieuBus.getIndexByMaLH(sp.getThuonghieu()));
         khuvuc.setSelectedIndex(jpSP.spBUS.getIndexByMaSP(sp.getKhuvuckho()));
     }
 

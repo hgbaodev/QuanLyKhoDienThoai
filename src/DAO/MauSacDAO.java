@@ -114,7 +114,7 @@ public class MauSacDAO implements DAOinterface<MauSacDTO> {
         MauSacDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM mausac WHERE mamau='?'";
+            String sql = "SELECT * FROM mausac WHERE mamau=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();

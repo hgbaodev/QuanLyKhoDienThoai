@@ -98,7 +98,7 @@ public class HeDieuHanhDAO implements DAOinterface<HeDieuHanhDTO>{
         HeDieuHanhDTO result = null;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT * FROM hedieuhanh WHERE mahedieuhanh='?'";
+            String sql = "SELECT * FROM hedieuhanh WHERE mahedieuhanh=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();

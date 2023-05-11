@@ -8,9 +8,13 @@ import BUS.PhienBanSanPhamBUS;
 import BUS.PhieuNhapBUS;
 import BUS.PhieuXuatBUS;
 import BUS.SanPhamBUS;
+import DAO.DungLuongRamDAO;
+import DAO.DungLuongRomDAO;
 import DAO.KhachHangDAO;
+import DAO.MauSacDAO;
 import DAO.NhaCungCapDAO;
 import DAO.NhanVienDAO;
+import DAO.SanPhamDAO;
 import DTO.ChiTietPhieuDTO;
 import DTO.ChiTietSanPhamDTO;
 import DTO.PhienBanSanPhamDTO;
@@ -19,7 +23,6 @@ import DTO.PhieuXuatDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
 import GUI.Component.InputForm;
-import com.itextpdf.text.DocumentException;
 import helper.Formater;
 import helper.writePDF;
 import java.awt.BorderLayout;
@@ -31,11 +34,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -61,10 +61,6 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
     ChiTietSanPhamBUS ctspBus = new ChiTietSanPhamBUS();
     PhieuNhapBUS phieunhapBus;
     PhieuXuatBUS phieuxuatBus;
-    DungLuongRamBUS ramBus = new DungLuongRamBUS();
-    DungLuongRomBUS romBus = new DungLuongRomBUS();
-    MauSacBUS mausacBus = new MauSacBUS();
-    SanPhamBUS sanPhamBUS = new SanPhamBUS();
 
     ButtonCustom btnPdf, btnHuyBo;
 
@@ -117,8 +113,10 @@ public final class ChiTietPhieuDialog extends JDialog implements ActionListener 
         for (int i = 0; i < size; i++) {
             PhienBanSanPhamDTO pb = phienbanBus.getByMaPhienBan(ctPhieu.get(i).getMaphienbansp());
             tblModel.addRow(new Object[]{
-                i + 1, pb.getMasp(), sanPhamBUS.getByMaSP(pb.getMasp()).getTensp(), ramBus.getKichThuocById(pb.getRam()) + "GB",
-                romBus.getKichThuocById(pb.getRom()) + "GB", mausacBus.getTenMau(pb.getMausac()),
+                i + 1, pb.getMasp(), SanPhamDAO.getInstance().selectById(pb.getMasp()+"").getTensp(), 
+                DungLuongRamDAO.getInstance().selectById(pb.getRam()+"").getDungluongram() + "GB",
+                DungLuongRomDAO.getInstance().selectById(pb.getRom()+"").getDungluongrom() + "GB", 
+                MauSacDAO.getInstance().selectById(pb.getMausac()+"").getTenmau(),
                 Formater.FormatVND(ctPhieu.get(i).getDongia()), ctPhieu.get(i).getSoluong()
             });
         }
