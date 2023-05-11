@@ -13,7 +13,7 @@
  ### Giao diện
  ![Giao diện đăng nhập](./img/login.png)
 ![Giao diện trang chủ](./img/homepage.png)
-![Giao diện sản phẩm](./img/product.png)
+![Giao diện sản phẩm](./img/products.png)
 ![Giao diện thêm sản phẩm](./img/add_product.png)
 ![Giao diện thuộc tính](./img/properties.png)
 ![Giao diện khu vực kho](./img/area.png)
