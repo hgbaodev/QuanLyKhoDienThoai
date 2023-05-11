@@ -10,7 +10,10 @@
 |3    |3121410091  |Đỗ Nam Công Chính|
 |4    |3121410202  |Vũ Trung Hiếu|
 |5    |3121410422  |Trần Nhật Sinh|
- ### Giao diện
+### Tài khoản Admin
+- Username: admin
+- Password: 123456
+### Giao diện
  ![Giao diện đăng nhập](./img/login.png)
 ![Giao diện trang chủ](./img/homepage.png)
 ![Giao diện sản phẩm](./img/products.png)
