@@ -1,0 +1,12 @@
+Sinh viên nhóm:
+3121410062 Đinh Ngọc Ân 
+3121410091 Đỗ Nam Công Chính 
+3121410422 Trần Nhật Sinh
+3121410069 Hoàng Gia Bảo
+
+Tài khoản trong hệ thống :
+Full quyền : admin - 123456
+Nhân viên nhập : chinh - 123456
+Nhân viên xuất: sinh - 123456
+
+
