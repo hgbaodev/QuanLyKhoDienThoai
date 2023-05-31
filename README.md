@@ -3,7 +3,7 @@
  ### 
  File báo cáo vào slide PowerPoint nằm trong thư mục BaoCaoPTTKHTTT
  ### Thành viên trong nhóm
- |STT  |MSSV        |Họ và tên         |Điểm PTTKHT||Điểm JAVA|  
+ |STT  |MSSV        |Họ và tên         |Điểm PTTKHT|Điểm JAVA|  
 |:---:|:----------:|-------------------:|---------:|----------|
 |1    |3121410062  |Đinh Ngọc Ân       |10         |09        |
 |2    |3121410069  |Hoàng Gia Bảo      |10         |10        |
