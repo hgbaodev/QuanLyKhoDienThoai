@@ -163,7 +163,7 @@ public final class PhieuNhap extends JPanel implements ActionListener, KeyListen
         box.setBorder(new EmptyBorder(0, 5, 150, 5));
         contentCenter.add(box, BorderLayout.WEST);
 
-        // Handel
+        // Handle
         String[] listNcc = nccBUS.getArrTenNhaCungCap();
         listNcc = Stream.concat(Stream.of("Tất cả"), Arrays.stream(listNcc)).toArray(String[]::new);
         String[] listNv = nvBUS.getArrTenNhanVien();

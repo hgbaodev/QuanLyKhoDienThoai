@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI.Dialog.ThuocTinhSanPham;
 
 import BUS.MauSacBUS;
 import BUS.NhomQuyenBUS;
 import DAO.MauSacDAO;
-import DTO.ThuocTinhSanPham.HeDieuHanhDTO;
 import DTO.ThuocTinhSanPham.MauSacDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Component.HeaderTitle;
@@ -22,7 +17,6 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
