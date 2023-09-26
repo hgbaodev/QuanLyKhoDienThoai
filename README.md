@@ -10,6 +10,17 @@
 |3    |3121410091  |Đỗ Nam Công Chính  |10         |09        |
 |4    |3121410202  |Vũ Trung Hiếu      |10         |0         |
 |5    |3121410422  |Trần Nhật Sinh     |10         |10        |
+
+## Getting Started
+
+1. Tải source code về:
+
+   ```bash
+   git clone https://github.com/hgbaodev/QuanLyKhoDienThoai.git
+   ```
+2. Mở xampp và vào trang http://localhost/phpmyadmin/ tạo 1 database mới có tên là quanlikhohang và import cơ sở dữ liệu trong folder database -> file quanlikhohang.sql trong source code.
+
+3. Sử dụng netbeans để chạy source code.
 ### Tài khoản Admin
 - Username: admin
 - Password: 123456
