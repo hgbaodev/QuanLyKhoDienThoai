@@ -3,14 +3,6 @@
  Đề tài: Quản lý kho hàng điện thoại thông minh theo mã imei
  ### 
  File báo cáo vào slide PowerPoint nằm trong thư mục BaoCaoPTTKHTTT
- ### Thành viên trong nhóm
- |STT  |MSSV        |Họ và tên         |Điểm PTTKHT|Điểm JAVA|  
-|:---:|:----------:|-------------------:|---------:|----------|
-|1    |3121410062  |Đinh Ngọc Ân       |10         |09        |
-|2    |3121410069  |Hoàng Gia Bảo      |10         |10        |
-|3    |3121410091  |Đỗ Nam Công Chính  |10         |09        |
-|4    |3121410202  |Vũ Trung Hiếu      |10         |0         |
-|5    |3121410422  |Trần Nhật Sinh     |10         |10        |
 
 ## Getting Started
 
